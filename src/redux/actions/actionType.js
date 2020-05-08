@@ -1,0 +1,20 @@
+// admin setting action type.
+export const GET_SELECTED_ASSET = "GET_SELECTED_ASSET";
+
+// Employee action type.
+export const GET_EMP_LIST = "GET_EMP_LIST";
+export const GET_EMP_LIST_SUCCESS = "GET_EMP_LIST_SUCCESS";
+export const ADD_EMP = "ADD_EMP";
+export const ADD_EMP_SUCCESS = "ADD_EMP_SUCCESS";
+export const GET_SELECT_EMP = "SELECT_EMP";
+export const GET_SELECT_EMP_SUCCESS = "SELECT_EMP_SUCCESS";
+export const DEL_EMP_CERTIFICATE = "DEL_EMP_CERTIFICATE";
+export const DEL_EMP_CERTIFICATE_SUCCESS = "DEL_EMP_CERTIFICATE_SUCCESS";
+export const ADD_EMP_SKILL = "ADD_EMP_SKILL";
+export const ADD_EMP_SKILL_SUCCESS = "ADD_EMP_SKILL_SUCCESS";
+
+// Projects action type.
+export const GET_PROJECT_LIST = "GET_PROJECT_LIST";
+export const GET_PROJECT_LIST_SUCCES = "GET_PROJECT_LIST_SUCCES";
+export const GET_SELECT_PROJECT = "GET_SELECT_PROJECT";
+export const GET_SELECT_PROJECT_SUCCESS = "GET_SELECT_PROJECT_SUCCESS";

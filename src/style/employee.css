@@ -1,0 +1,537 @@
+/* ----------Employee card style--------- */
+
+.m-t-10 {
+  margin-top: 10px !important;
+}
+.mb-0,
+.my-0 {
+  margin-bottom: 0 !important;
+}
+.profile-widget {
+  background-color: #fff;
+  border: 1px solid #ededed;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.profile-img {
+  cursor: pointer;
+  height: 80px;
+  margin: 0 auto;
+  position: relative;
+  width: 80px;
+}
+
+.profile-img i {
+  margin-top: 30px;
+}
+
+.profile-img img {
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-widget .user-name {
+  color: #333;
+}
+
+.profile-widget .text-ellipsis {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-widget h4,
+.h4 {
+  font-size: 1.125rem;
+}
+.profile-widget .small,
+small {
+  font-size: 60%;
+  font-weight: 600;
+}
+.profile-widget .dropdown.profile-action {
+  position: absolute;
+  right: 14px;
+  text-align: right;
+  top: 10px;
+}
+
+/* in tableview in employeeList */
+
+.profile-img-table {
+  cursor: pointer;
+  height: 40px;
+  margin: 0 auto;
+  position: relative;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.table-avatar {
+  align-items: center;
+  display: inline-flex;
+  font-size: inherit;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+h2 span {
+  color: #888;
+  display: block;
+  font-size: 12px;
+  /* margin-top: 3px; */
+}
+
+/* ----------Employee profile --------- */
+.profile-view {
+  position: relative;
+}
+.profile-view .profile-img {
+  width: 120px;
+  height: 120px;
+}
+.profile-view .profile-img-wrap {
+  height: 120px;
+  width: 120px;
+}
+.profile-img-wrap {
+  height: 120px;
+  position: absolute;
+  width: 120px;
+  background: #fff;
+  overflow: hidden;
+}
+@media only screen and (max-width: 575.98px) {
+  .profile-img-wrap {
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
+.profile-view .profile-basic {
+  margin-left: 140px;
+  padding-right: 50px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  .profile-view .profile-basic {
+    margin-left: 0;
+    padding-right: 0;
+  }
+}
+
+.profile-info-left {
+  border-right: 2px dashed #ccc;
+}
+.staff-id {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  .profile-info-left {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 767.98px) {
+  .profile-info-left {
+    border-right: none;
+    border-bottom: 2px dashed #ccc;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 991.98px) {
+  .profile-info-left {
+    border-right: none;
+    border-bottom: 2px dashed #ccc;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.personal-info {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.personal-info li {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  /* mobile */
+  .personal-info li {
+    margin-bottom: 25px;
+  }
+}
+@media only screen and (max-width: 991.98px) {
+  /* tablet */
+  .personal-info li {
+    margin-bottom: 25px;
+  }
+}
+
+.personal-info li .title {
+  color: #4f4f4f;
+  float: left;
+  font-weight: 500;
+  margin-right: 10px;
+  width: 25%;
+}
+
+.personal-info li .text {
+  color: #8e8e8e;
+  display: block;
+  overflow: hidden;
+}
+
+.personal-info li .link-text {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.avatar-box {
+  float: left;
+}
+.avatar {
+  background-color: #aaa;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  font-weight: 500;
+  height: 38px;
+  line-height: 38px;
+  margin: 0 10px 0 0;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+  width: 38px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.avatar.avatar-xs {
+  width: 24px;
+  height: 24px;
+}
+
+.avatar > img {
+  border-radius: 50%;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+
+.profile-view .pro-edit {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.edit-icon {
+  background-color: #eee;
+  border: 1px solid #e3e3e3;
+  border-radius: 24px;
+  color: #bbb;
+  float: right;
+  font-size: 12px;
+  line-height: 24px;
+  min-height: 26px;
+  text-align: center;
+  width: 26px;
+}
+
+/* profile tab ------------------------------------------------ */
+.profile-box .card {
+  min-height: 350px;
+}
+.profile-box .card {
+  border: 1px solid #ededed;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+.profile-box .card-body {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+.profile-box .card-title h3 {
+  color: #1f1f1f;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.profile-box .personal-info li .title {
+  width: 50%;
+}
+.experience-box {
+  position: relative;
+}
+.experience-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.experience-list::before {
+  background: #ddd;
+  bottom: 0;
+  content: "";
+  left: 4px;
+  position: absolute;
+  top: 8px;
+  width: 2px;
+}
+.experience-list > li .experience-user {
+  background: #fff;
+  height: 10px;
+  left: 4px;
+  margin: 0;
+  padding: 0;
+  /* position: absolute; */
+  top: 4px;
+  width: 10px;
+}
+.before-circle {
+  background-color: #ddd;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+}
+.experience-list > li .experience-content {
+  background-color: #fff;
+  margin: 0 0 20px 40px;
+  padding: 0;
+  position: relative;
+}
+.experience-list > li .experience-content .timeline-content {
+  color: #9e9e9e;
+}
+.experience-list > li .experience-content .timeline-content a.name {
+  color: #616161;
+  font-weight: bold;
+}
+.experience-list > li .time {
+  color: #bdbdbd;
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+/* project tab --------------------------------------------*/
+.project-card {
+  position: relative;
+}
+
+.project-box .card-title {
+  margin: 0 0 -8px;
+}
+.project-box .card h4 {
+  font-size: 0.985rem;
+}
+.project-box .project-description {
+  font-size: 0.855rem;
+}
+.project-box .team-members {
+  display: inline-flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.project-box .team-members > li:first-child a {
+  margin-left: 0;
+}
+.project-box .team-members > li > a {
+  border: 2px solid #fff;
+  border-radius: 100%;
+  display: block;
+  height: 30px;
+  overflow: hidden;
+  width: 30px;
+}
+.project-box .team-members img {
+  width: 100%;
+}
+
+/* skill tab ------------------------------- */
+
+.skill-box .card {
+  min-height: 150px;
+}
+.skill-box .card {
+  border: 1px solid #ededed;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+.skill-box .card-title h3 {
+  color: #1f1f1f;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.add-skill-closeBtn {
+  padding-left: 0px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  /* mobile */
+  .add-skill-form {
+    margin-top: -10px;
+  }
+  .add-skill-form button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (max-width: 991.98px) {
+  /* tablet */
+  .add-skill-form .add-skill-inptut {
+    margin-right: -10px;
+  }
+
+  .add-skill-closeBtn {
+    padding-left: 10px;
+  }
+}
+
+/* certication tab ------------------------- */
+
+.certication-box .card {
+  border-radius: 5px 0px 50px 0px;
+}
+
+.certication-box .dropDown-action {
+  top: -10px;
+  font-size: 1.01rem;
+}
+.certication-box h5 {
+  font-size: 1rem;
+  margin-bottom: 0px;
+  padding: 0px 0px 0px 10px;
+  /* text-align: center; */
+}
+.certication-box .update-fields {
+  padding: 0px 0px 0px 25px;
+}
+.certication-box small {
+  padding: 0px 0px 0px 10px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  /* mobile */
+  .certication-box .update-fields {
+    padding: 0px 0px 0px 5px;
+  }
+  .certication-box small {
+    padding: 0px 0px 0px 20px;
+  }
+}
+@media only screen and (max-width: 991.98px) {
+  /* tablet */
+  .certication-box h5 {
+    font-size: 1rem;
+    margin-bottom: 0px;
+    padding: 0px 0px 0px 20px;
+  }
+  .certication-box .update-fields {
+    padding: 0px 0px 0px 35px;
+  }
+  .certication-box small {
+    padding: 0px 0px 0px 20px;
+  }
+}
+
+.certication-box .fa-check,
+.fa-times {
+  cursor: pointer;
+  position: relative;
+  top: 0;
+  transition: top ease 0.5s;
+}
+.certication-box .fa-times:hover,
+.fa-check:hover {
+  top: -2px;
+}
+
+/* Rewards tab ----------------------------- */
+
+.reward-box .card {
+  min-height: 150px;
+}
+.reward-box .card {
+  border: 1px solid #ededed;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+.reward-box .card-title h3 {
+  color: #1f1f1f;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.reward-box .personal-info li .title {
+  width: 50%;
+  text-align: center;
+}
+
+.reward-box li .text {
+  color: #8e8e8e;
+  display: block;
+  overflow: hidden;
+  font-size: 1.3rem;
+}
+.reward-box li .text a {
+  color: #336cc0;
+  font-size: 0.8rem;
+}
+
+@media only screen and (max-width: 575.98px) {
+  /* mobile */
+}
+
+@media only screen and (max-width: 991.98px) {
+  /* tablet */
+}
+
+/* Reward page ------------------------------ */
+
+.reward-info .personal-info li .title {
+  color: #4f4f4f;
+  float: left;
+  font-weight: 500;
+  margin-right: 10px;
+  width: 60%;
+}
+
+.reward-help {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
