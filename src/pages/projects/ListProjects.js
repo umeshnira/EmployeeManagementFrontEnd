@@ -20,7 +20,7 @@ const ListProjects = (props) => {
   const [searchArr, setSearchArr] = useState(projectList);
   const searched = useRef(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(false);
+  const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(!false);
   const [isOpenProjectCardView, setIsOpenProjectCardView] = useState(true);
   const [isOpenProjectGridView, setIsOpenProjectGridView] = useState(false);
   const [isOpenSerachBox, setIsOpenSerachBox] = useState(false);
@@ -132,6 +132,7 @@ const ListProjects = (props) => {
           isOpenSerachBox={isOpenSerachBox}
           isOpenEmpGridView={isOpenProjectGridView}
           isOpenEmpListCard={isOpenProjectCardView}
+          handleOpenAddForm={handleOpenAddForm}
           showEmpCard={showProjectCard}
           showGridView={showGridView}
           searchBox={searchBox}
@@ -140,14 +141,6 @@ const ListProjects = (props) => {
         {/* Project Card list.--------------------------- */}
         <Collapse isOpen={isOpenProjectCardView} className="mt-3">
           <Row className="project-box">
-            <Col md={4} sm={6} xl={3} onClick={handleOpenAddForm}>
-              <Card
-                className="project-crad text-center mb-4"
-                style={{ height: "95%" }}
-              >
-                <i className="fas fa-3x fa-plus" style={{ margin: "auto" }}></i>
-              </Card>
-            </Col>
             {/* Project Card list comp.--------------------------- */}
             <CardViewProjects
               projectList={searched.current ? searchArr : projectList}

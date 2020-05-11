@@ -28,7 +28,10 @@ import {
   EmployeeProfileView,
   EmployeeRewards,
 } from "./pages/employee/index";
+// Projects
 import { ListProjects, ViewProject } from "./pages/projects/index";
+// Tasks
+import { TaskManagment } from "./pages/tasks/index";
 
 // const Designation = React.lazy(() =>
 //   import("./pages/adminSettings/designation/Designation")
@@ -94,6 +97,7 @@ function App() {
                 path="/viewProject/:projectId"
                 component={ViewProject}
               />
+              <Route exact path="/taskManagment" component={TaskManagment} />
             </React.Suspense>
           </MainLayout>
         </Switch>

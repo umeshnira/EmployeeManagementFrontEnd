@@ -11,3 +11,4 @@ export { default as TaskTabsProject } from "./viewProject/TaskTabsProject";
 export { default as DetailsProject } from "./viewProject/DetailsProject";
 export { default as LeadersPoject } from "./viewProject/LeadersPoject";
 export { default as TeamProject } from "./viewProject/TeamProject";
+export { default as TechnologiesProject } from "./viewProject/TechnologiesProject";

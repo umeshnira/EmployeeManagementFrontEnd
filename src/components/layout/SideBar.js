@@ -159,13 +159,13 @@ export default function SideBar(props) {
                   </li>
                   <li
                     className={classnames({
-                      active: activeSideBar === "/",
+                      active: activeSideBar === "/taskManagment",
                     })}
                   >
                     <a
-                      href="/listProjects"
+                      href="/taskManagment"
                       onClick={() => {
-                        toggle("/listProjects");
+                        toggle("/taskManagment");
                       }}
                     >
                       <i className="fas fa-comment-alt"></i>

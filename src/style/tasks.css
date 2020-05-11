@@ -1,0 +1,123 @@
+.fixed-header {
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  padding: 10px 15px;
+}
+
+.task-chat-view {
+  border-left: 2px solid #eaeaea;
+}
+
+.task-details {
+  background-color: #fff;
+  min-height: 100%;
+}
+
+.chat-wrap-inner {
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  right: 0;
+  top: 0;
+  max-height: 75vh;
+}
+
+.chats {
+  padding: 15px 15px 30px;
+}
+
+.chats h4,
+.h4 {
+  font-size: 1.125rem;
+}
+.task-header {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 15px 15px 5px;
+}
+.task-header {
+  display: flex;
+}
+.task-header .assignee-info {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  display: inline-flex;
+  flex: 0 1 180px;
+  padding: 5px 10px 5px 5px;
+  position: relative;
+}
+
+.task-header .assignee-info .avatar {
+  display: inline-flex;
+}
+
+.task-due-date {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  display: flex;
+  flex: 0 0 160px;
+  margin-left: 10px;
+  padding: 5px 10px 5px 5px;
+  position: relative;
+}
+
+.task-due-date .due-icon {
+  border: 1px solid grey;
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 10px;
+}
+.task-due-date .due-icon i {
+  font-size: 20px;
+}
+
+.task-details .personal-info {
+  padding: 10px 0px 0px 95px;
+}
+.task-details li .title {
+  width: 130px;
+  font-size: 18px;
+}
+.task-details li .text {
+  /* width: 130px; */
+  font-size: 30px;
+}
+.task-details li .status {
+  width: 70px;
+  /* font-size: 30px; */
+  /* text-align: right; */
+}
+.task-details .description-title {
+  /* font-size: 30px; */
+  color: #4f4f4f;
+  float: left;
+  font-weight: 500;
+  margin-right: 10px;
+  width: 60%;
+  font-size: 18px;
+}
+.task-details .description {
+  /* font-size: 30px; */
+  color: #4f4f4f;
+  float: left;
+  margin-left: 14px;
+  font-size: 12px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  /* mobile */
+}
+
+@media only screen and (max-width: 991.98px) {
+  /* tablet */
+
+  .task-details .personal-info {
+    padding: 0px 0px 0px 40px;
+  }
+  .task-details li .text {
+    font-size: 24px;
+    /* text-align: right; */
+  }
+}

@@ -10,11 +10,13 @@ import {
   DetailsProject,
   LeadersPoject,
   TeamProject,
+  TechnologiesProject,
   AddEditFormProject,
 } from "../../components/projects/index";
 
 const ViewProject = (props) => {
   const { selectProject } = props.selectProject;
+  const { empList } = props.empList;
   const [isOpenEditForm, setIsOpenEditForm] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const ViewProject = (props) => {
     props.getEmpList();
   }, []);
 
-  const toggleEditForm = React.useCallback(() => {
+  const toggleForm = React.useCallback(() => {
     setIsOpenEditForm((prevState) => !prevState);
   }, [setIsOpenEditForm]);
 
@@ -37,7 +39,7 @@ const ViewProject = (props) => {
           <Button
             color=""
             className="btn-admin-settings w-100"
-            onClick={toggleEditForm}
+            onClick={toggleForm}
           >
             Edit Project
           </Button>{" "}
@@ -45,7 +47,11 @@ const ViewProject = (props) => {
       </Row>
 
       <Collapse isOpen={isOpenEditForm}>
-        <AddEditFormProject selectProject={selectProject}></AddEditFormProject>
+        <AddEditFormProject
+          selectProject={selectProject}
+          empList={empList}
+          toggleForm={toggleForm}
+        ></AddEditFormProject>
       </Collapse>
       <Collapse isOpen={!isOpenEditForm}>
         <Row className="project-box">
@@ -58,10 +64,17 @@ const ViewProject = (props) => {
           </Col>
           <Col xs={12} sm={3} md={3} lg={3}>
             <DetailsProject></DetailsProject>
+            <TechnologiesProject
+              technologies={selectProject.technology}
+            ></TechnologiesProject>
             <LeadersPoject
               leaders={selectProject.projectLeaders}
+              empList={empList}
             ></LeadersPoject>
-            <TeamProject team={selectProject.projectTeam}></TeamProject>
+            <TeamProject
+              team={selectProject.projectTeam}
+              empList={empList}
+            ></TeamProject>
           </Col>
         </Row>
       </Collapse>
@@ -71,7 +84,7 @@ const ViewProject = (props) => {
 
 const mapStateToProps = (state) => ({
   selectProject: state.projectReducer,
-  empList: state.employeeReducer,
+  empList: state.empReducer,
 });
 
 export default connect(mapStateToProps, { getSelectProject, getEmpList })(

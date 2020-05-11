@@ -75,7 +75,7 @@ const useProjectsTableEle = (projectList) => {
                 },
                 {
                   icon: <i className="far fa-dot-circle text-warning"></i>,
-                  option: "In Progress",
+                  option: "Inprogress",
                 },
                 {
                   icon: <i className="far fa-dot-circle text-success"></i>,

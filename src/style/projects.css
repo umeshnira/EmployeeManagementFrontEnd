@@ -99,7 +99,6 @@ table .project-name {
   position: absolute;
   width: 48px;
 }
-
 .list-body {
   padding: 0 0 0 50px;
 }
@@ -217,4 +216,68 @@ table .project-name {
     position: absolute;
     right: -10px;
   }
+}
+
+/* ------------- Add Edit project Form */
+
+.project-form {
+  padding: 0px 80px;
+}
+
+.padding-r-20 {
+  padding-right: 20px;
+}
+.padding-l-20 {
+  padding-left: 20px;
+}
+.form-avatar {
+  display: inline;
+}
+.form-avatar .avatar img {
+  height: 45px;
+  width: 45px;
+  position: relative;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #161718b9;
+}
+.user-del-icon {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.form-avatar .avatar:hover .overlay {
+  opacity: 1;
+}
+
+@media only screen and (max-width: 575.98px) {
+  /* mobile */
+  .project-form {
+    padding: 0px;
+  }
+  .padding-r-20 {
+    padding-right: 0px;
+  }
+  .padding-l-20 {
+    padding-left: 0px;
+  }
+}
+@media only screen and (max-width: 991.98px) {
+  /* tablet */
 }

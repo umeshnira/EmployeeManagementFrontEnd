@@ -16,7 +16,18 @@ const ProjectsTopRow = React.memo((props) => {
       <Row>
         {/* {console.log("Emp to row")} */}
         <Col>
-          <h3>Projects</h3>
+          <h3>
+            Projects
+            <Button
+              size="sm"
+              outline
+              color=""
+              className="btn-admin-settings ml-2"
+              onClick={props.handleOpenAddForm}
+            >
+              <i className="fas fa-plus"></i>{" "}
+            </Button>
+          </h3>
         </Col>
         <Col>
           {props.isOpenEmpGridView ? (

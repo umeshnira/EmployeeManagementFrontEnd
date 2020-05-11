@@ -1,5 +1,3 @@
-import uuid from "react-uuid";
-
 // -----------Employee List-------------------------
 const empList = [
   {
