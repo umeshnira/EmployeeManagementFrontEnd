@@ -10,7 +10,7 @@
 
 .task-details {
   background-color: #fff;
-  min-height: 100%;
+  min-height: 78vh;
 }
 
 .chat-wrap-inner {
@@ -73,23 +73,20 @@
   font-size: 20px;
 }
 
-.task-details .personal-info {
+.task-data .personal-info {
   padding: 10px 0px 0px 95px;
 }
-.task-details li .title {
+.task-data li .title {
   width: 130px;
   font-size: 18px;
 }
-.task-details li .text {
-  /* width: 130px; */
-  font-size: 30px;
+.task-data li .text {
+  font-size: 18px;
 }
-.task-details li .status {
-  width: 70px;
-  /* font-size: 30px; */
-  /* text-align: right; */
+.task-data li .status {
+  /* width: 70px; */
 }
-.task-details .description-title {
+.task-data .description-title {
   /* font-size: 30px; */
   color: #4f4f4f;
   float: left;
@@ -98,7 +95,7 @@
   width: 60%;
   font-size: 18px;
 }
-.task-details .description {
+.task-data .description {
   /* font-size: 30px; */
   color: #4f4f4f;
   float: left;
@@ -113,10 +110,10 @@
 @media only screen and (max-width: 991.98px) {
   /* tablet */
 
-  .task-details .personal-info {
+  .task-data .personal-info {
     padding: 0px 0px 0px 40px;
   }
-  .task-details li .text {
+  .task-data li .text {
     font-size: 24px;
     /* text-align: right; */
   }

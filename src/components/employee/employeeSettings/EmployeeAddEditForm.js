@@ -54,7 +54,7 @@ const EmployeeEditForm = React.memo((props) => {
       bloodGrp,
       mobileNo,
       alternativeNo,
-      doj: `${doj.getDate()}-${doj.getMonth()}-${doj.getFullYear()}`,
+      doj: `${doj.getDate()}-${doj.getMonth() + 1}-${doj.getFullYear()}`,
       dob: `${dob.getDate()}-${dob.getMonth()}-${dob.getFullYear()}`,
       profileImg: profileImg === "" ? "avatar-06.png" : profileImg.name,
       address,

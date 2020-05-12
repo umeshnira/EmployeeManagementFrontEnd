@@ -1,7 +1,8 @@
+// <- TaskManagment.js
 import React, { Fragment } from "react";
 import { Button } from "reactstrap";
 
-const DetailsOfTask = React.memo(() => {
+const DetailsOfTask = React.memo(({ selectedTask, handleAddEditTaskForm }) => {
   console.log("Details of Task");
 
   return (
@@ -12,14 +13,16 @@ const DetailsOfTask = React.memo(() => {
             <i className="fas fa-check"></i> Mark Completed
           </Button>
           <div className="d-inline float-right ">
-            <i className="fas fa-ellipsis-v text-muted"></i>
+            <Button color="" onClick={() => handleAddEditTaskForm("edit")}>
+              <i className="fas fa-edit text-muted"></i>
+            </Button>
           </div>
         </div>
       </div>
-      <div className="task-details">
+      <div className="task-details ">
         <div className="chat-wrap-inner">
-          <div className="chats">
-            <h4>Employe Managment</h4>
+          <div className="chats ">
+            <h4>{selectedTask.taskTitle}</h4>
             <div className="task-header">
               <div className="assignee-info">
                 <div className="avatar">
@@ -41,52 +44,31 @@ const DetailsOfTask = React.memo(() => {
                 </div>
                 <div className="due-info">
                   <div className="task-head-title">Created</div>
-                  <div className="due-date">Mar 26, 2019</div>
+                  <div className="due-date">{selectedTask.createdDate}</div>
                 </div>
               </div>
             </div>
             <hr></hr>
-            <div className="task-details ">
+            <div className="task-data ">
               <ul className="personal-info">
                 <li>
                   <div className="title">Hours Spent</div>
-                  <div className="text">12 hr</div>
+                  <div className="text">{selectedTask.hourSpent} hr</div>
                 </li>
                 <li>
                   <div className="title">Hours Billable </div>
-                  <div className="text text-left">8 hr</div>
+                  <div className="text ">{selectedTask.hourBillable} hr</div>
                 </li>
                 <li>
                   <div className="title status">Status </div>
-                  <div className="text text-left">In Progress</div>
+                  <div className="text">{selectedTask.status}</div>
                 </li>
               </ul>
               <div className="p-2 ">
                 <span className="description-title">Description</span>
-                <span className="description">
-                  Renowned for its dynamic handling, XE’s performance has been
-                  enhanced even further. With upgrades to the suspension and
-                  revised JaguarDrive Control, be prepared for a thrilling ride.
-                  Renowned for its dynamic handling, XE’s performance has been
-                  enhanced even further. With upgrades to the suspension and
-                  revised JaguarDrive Control, be prepared for a thrilling ride.
-                </span>
+                <span className="description">{selectedTask.description}</span>
               </div>
             </div>
-            {/* <div className="task-details d-flex ">
-                  <div className="hours-box bg-info">
-                    <span className="title">Hours Spent</span>
-                    <span className="hour">
-                      <h4>12</h4>
-                    </span>
-                  </div>
-                  <div className="hours-box bg-info ml-60">
-                    <span className="title"> Hours Billable</span>
-                    <span className="hour">
-                      <h4> 12 </h4>
-                    </span>
-                  </div>
-                </div> */}
           </div>
         </div>
       </div>

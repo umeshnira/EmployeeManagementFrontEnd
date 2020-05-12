@@ -4,6 +4,9 @@ import classnames from "classnames";
 
 // admin sidebar to show on click of admin settings.
 import AdminSideBar from "./AdminSideBar";
+// task sidebar to show on click of tasks.
+import TaskSideBar from "./TaskSideBar";
+
 const adminSettingPaths = [
   "/companylocation",
   "/department",
@@ -18,11 +21,12 @@ const adminSettingPaths = [
   "/assets",
 ];
 const empSettingsPaths = ["/emplist"];
-
 const projectsPaths = ["/listProjects", "/viewProject"];
+const taskPaths = ["/taskManagment"];
 
 export default function SideBar(props) {
   const [activeSideBar, setActiveSideBar] = useState(window.location.pathname); // take the path name then make that as then tab name.
+  const [sideBar, setSideBar] = useState();
   const [isOpenEmpDropDown, setIsOpenEmpDropDown] = useState(false);
   const [isOpenProjectsDropDown, setIsOpenProjectsDropDown] = useState(false);
   // Function ---------------------------
@@ -33,12 +37,24 @@ export default function SideBar(props) {
   };
 
   useEffect(() => {
+    let sideBar = null;
     if (empSettingsPaths.includes(window.location.pathname)) {
       setIsOpenEmpDropDown(true);
     }
     if (projectsPaths.includes(window.location.pathname)) {
       setIsOpenProjectsDropDown(true);
     }
+
+    adminSettingPaths.includes(window.location.pathname) &&
+      (sideBar = (
+        <AdminSideBar
+          toggle={(toggleTab) => toggle(toggleTab)}
+          activeTab={activeSideBar}
+        />
+      ));
+    taskPaths.includes(window.location.pathname) &&
+      (sideBar = <TaskSideBar></TaskSideBar>);
+    setSideBar(sideBar);
   }, []);
 
   const handleAdminSettingClick = () => {
@@ -72,11 +88,8 @@ export default function SideBar(props) {
             ></img>
           </strong>
         </div>
-        {adminSettingPaths.includes(window.location.pathname) ? (
-          <AdminSideBar
-            toggle={(toggleTab) => toggle(toggleTab)}
-            activeTab={activeSideBar}
-          />
+        {sideBar ? (
+          sideBar
         ) : (
           <ul className="list-unstyled components">
             <li className="">
