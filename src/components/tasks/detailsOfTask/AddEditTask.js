@@ -9,6 +9,7 @@ const AddEditTask = React.memo(
     handleClsAddEditTaskForm,
     handleAddUpdateTask,
     selectedTask,
+    taskProjectInfo,
     addOrEdit,
   }) => {
     console.log("Add Edit Task");
@@ -48,12 +49,18 @@ const AddEditTask = React.memo(
     const handleSubmitForm = (e) => {
       e.preventDefault();
       let formDate = {
-        taskId: selectedTask.taskId,
+        empId: 29,
+        empName: "waston",
+        projectId: taskProjectInfo.projectId,
+        projectName: taskProjectInfo.projectName,
+        taskId: selectedTask
+          ? selectedTask.taskId
+          : Math.floor(Math.random() * 10) + 1,
         taskTitle: taskTitle,
         createdBy: "User",
-        createdDate: `${createdDate.getDate()}-${
+        createdDate: `${
           createdDate.getMonth() + 1
-        }-${createdDate.getFullYear()}`,
+        }-${createdDate.getDate()}-${createdDate.getFullYear()}`,
         hourSpent: hourSpent,
         hourBillable: hourBillable,
         status: status,

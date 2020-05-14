@@ -7,7 +7,10 @@ import history from "./history";
 import GAListener from "./components/GAListener";
 import { MainLayout } from "./components/layout";
 import PageSpinner from "./components/common/PageSpinner";
-import { Test } from "./pages/test/Test";
+import Test from "./pages/test/Test";
+import Test2 from "./pages/test/Test2";
+import Calendar3 from "./pages/test/Calendar3";
+
 // Admin settings
 import {
   CompanyLocation,
@@ -32,6 +35,7 @@ import {
 import { ListProjects, ViewProject } from "./pages/projects/index";
 // Tasks
 import { TaskManagment } from "./pages/tasks/index";
+import { Calendar } from "@mobiscroll/react";
 
 // const Designation = React.lazy(() =>
 //   import("./pages/adminSettings/designation/Designation")
@@ -79,7 +83,6 @@ function App() {
                 component={RolesNdPermissions}
               ></Route>
               {/* ----------Employee Settings Routes----------------- */}
-              <Route exact path="/test" component={Test} />
               <Route exact path="/emplist" component={EmployeeSettings} />
               <Route
                 exact
@@ -98,6 +101,9 @@ function App() {
                 component={ViewProject}
               />
               <Route exact path="/taskManagment" component={TaskManagment} />
+              <Route exact path="/test" component={Test} />
+              <Route exact path="/test2" component={Test2} />
+              <Route exact path="/test3" component={Calendar3} />
             </React.Suspense>
           </MainLayout>
         </Switch>

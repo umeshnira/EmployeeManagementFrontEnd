@@ -4,67 +4,116 @@ import {
   ADD_TASK_SUCCESS,
   UPDATE_TASK_SUCCESS,
   DEL_TASK_SUCCESS,
+  ON_CHANGE_TASK_DATE,
+  ADD_PROJECT_FROM_TASK,
 } from "../../actions/actionType";
 
-// on add change the empTask data and re-renders.
-function handleAddTask(formData, taskProjectId, empTask) {
-  let empTaskCopy = empTask;
-  let taskArr = empTaskCopy.filter((el) => el.projectId === taskProjectId)[0]
-    .tasks;
-  taskArr.push(formData);
-  return empTaskCopy;
-}
+const filterEmpTaskByDate = (incomingDate, fullTaskArr) => {
+  let filterArr = fullTaskArr.filter((el) => {
+    let arrDates = `${new Date(el.createdDate).getMonth()}/${new Date(
+      el.createdDate
+    ).getDate()}/${new Date(el.createdDate).getFullYear()}`;
+
+    let incoomDate = `${incomingDate.getMonth()}/${incomingDate.getDate()}/${incomingDate.getFullYear()}`;
+
+    if (arrDates === incoomDate) {
+      return el;
+    }
+  });
+  return filterArr;
+};
+
+// get project name, no repeatations.
+const getProjectNames = (fullTaskArr) => {
+  let projectNameArr = Array.from(
+    new Set(fullTaskArr.map((tasks) => tasks.projectId))
+  ).map((id) => {
+    return {
+      projectId: id,
+      projectName: fullTaskArr.find((el) => el.projectId === id).projectName,
+    };
+  });
+  console.log(projectNameArr);
+  return projectNameArr;
+};
 
 const initialState = {
+  fullTaskArr: [],
   empTask: [],
   taskProjectId: "",
-  taskList: [],
+  projectNames: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_EMP_TASK_SUCCESS:
+      let filterEmpByDate = filterEmpTaskByDate(new Date(), action.payload);
+      let projectNamesArr = getProjectNames(action.payload);
       return {
         // ...state,
-        empTask: action.payload,
-        taskProjectId: action.payload[0].projectId,
-        taskList: action.payload[0].tasks,
+        fullTaskArr: action.payload,
+        empTask: filterEmpByDate,
+        projectNames: projectNamesArr,
+        taskProjectInfo: {
+          projectId:
+            filterEmpByDate.length > 0 ? filterEmpByDate[0].projectId : "",
+          projectName:
+            filterEmpByDate.length > 0 ? filterEmpByDate[0].projectName : "",
+        },
       };
     case GET_PROJECT_ID_TASK:
       return {
         ...state,
-        taskProjectId: action.payload,
-        taskList: state.empTask.filter(
-          (el) => el.projectId === action.payload
-        )[0].tasks,
+        taskProjectInfo: {
+          projectId: action.payload.projectId,
+          projectName: action.payload.projectName,
+        },
       };
     case ADD_TASK_SUCCESS:
-      const newTask = handleAddTask(
-        action.formData,
-        action.taskProjectId,
-        state.empTask
-      );
       return {
         ...state,
-        // taskList: [...state.taskList, action.formData],
-        empTask: [...state.empTask],
-        // empTask: newTask,
-        // empTask: newTask,
+        fullTaskArr: [...state.fullTaskArr, action.formData],
+        empTask: [...state.empTask, action.formData],
       };
-
+    case ADD_PROJECT_FROM_TASK:
+      return {
+        ...state,
+        projectNames: [...state.projectNames, action.payload],
+      };
     case UPDATE_TASK_SUCCESS:
       return {
         ...state,
-        taskList: state.taskList.map((task) =>
-          task.taskId === 1 ? action.formData : task
+        fullTaskArr: state.fullTaskArr.map((task) =>
+          task.taskId === action.taskId ? action.formData : task
+        ),
+        empTask: state.empTask.map((task) =>
+          task.taskId === action.taskId ? action.formData : task
         ),
       };
-
     case DEL_TASK_SUCCESS:
       return {
         ...state,
-        taskList: state.taskList.filter((task) => task.taskId !== 1),
-        // empTask: [...state.empTask],
+        fullTaskArr: state.fullTaskArr.filter(
+          (task) => task.taskId !== action.payload
+        ),
+        empTask: state.empTask.filter((task) => task.taskId !== action.payload),
+      };
+
+    case ON_CHANGE_TASK_DATE:
+      let filterEmpTask = filterEmpTaskByDate(
+        action.payload,
+        state.fullTaskArr
+      );
+
+      return {
+        ...state,
+        empTask: filterEmpTask,
+        taskProjectInfo: {
+          projectId: filterEmpTask.length > 0 ? filterEmpTask[0].projectId : "",
+          projectName:
+            filterEmpTask.length > 0 ? filterEmpTask[0].projectName : "",
+        },
+        projectNames: getProjectNames(filterEmpTask),
       };
 
     default:

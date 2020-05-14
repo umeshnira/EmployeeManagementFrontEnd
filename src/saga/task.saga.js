@@ -57,11 +57,11 @@ export function* handleAddTask({ payload }) {
 // update task
 export function* handleUpdateTask({ payload }) {
   try {
-    yield call(updateTaskApi, payload.formData, payload.taskProjectId);
+    yield call(updateTaskApi, payload.formData, payload.taskId);
     yield put({
       type: UPDATE_TASK_SUCCESS,
       formData: payload.formData,
-      taskProjectId: payload.taskProjectId,
+      taskId: payload.taskId,
     });
   } catch (error) {
     console.log(error);
@@ -69,10 +69,10 @@ export function* handleUpdateTask({ payload }) {
 }
 
 //  delete task.
-export function* handleDelTask({ payload }) {
+export function* handleDelTask(delId) {
   try {
-    yield call(delTaskApi, payload.delId);
-    yield put({ type: DEL_TASK_SUCCESS, payload: payload.delId });
+    yield call(delTaskApi, delId.payload);
+    yield put({ type: DEL_TASK_SUCCESS, payload: delId.payload });
   } catch (error) {
     console.log(error);
   }

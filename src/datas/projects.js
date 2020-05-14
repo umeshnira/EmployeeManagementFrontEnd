@@ -79,4 +79,15 @@ const projectsList = [
   },
 ];
 
-export { projectsList };
+let projectNamesOnly = [];
+projectsList.map((project) =>
+  projectNamesOnly.push({
+    value: {
+      projectId: project.projectId,
+      projectName: project.projectName,
+    },
+    label: project.projectName,
+  })
+);
+
+export { projectsList, projectNamesOnly };
