@@ -1,41 +1,59 @@
 import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import Timeline from "react-calendar-timeline";
+// make sure you include the timeline stylesheet or the timeline will not be styled
+import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 
-const localizer = momentLocalizer(moment);
-const dummyEvents = [
+const groups = [
   {
-    allDay: false,
-    end: new Date("May 10, 2020 11:13:00"),
-    start: new Date("December 09, 2017 11:13:00"),
-    title: "hi",
-    resource: "project 1",
-    titleAccessor: "test",
+    id: 1,
+    title: "Project 1",
+    height: 60,
+  },
+  {
+    id: 2,
+    title: "Project 2",
+    height: 60,
   },
 ];
+
+const items = [
+  {
+    id: 1,
+    group: 1,
+    title: "Task 1",
+    start_time: moment("05-15-2020"),
+    end_time: moment("05-15-2020").add(1, "day").toDate(),
+  },
+  {
+    id: 2,
+    group: 2,
+    title: "Task 1",
+    start_time: moment("05-14-2020"),
+    end_time: moment("05-14-2020").add(1, "day").toDate(),
+  },
+  {
+    id: 3,
+    group: 1,
+    title: "Task 2",
+    start_time: moment("05-16-2020"),
+    end_time: moment("05-16-2020").add(1, "day").toDate(),
+  },
+];
+
 const Calendar3 = (props) => {
   return (
-    <div>
-      <Calendar
-        localizer={localizer}
-        events={[
-          {
-            title: "My event",
-            allDay: false,
-            start: new Date(2018, 0, 1, 10, 0), // 10.00 AM
-            end: new Date(2018, 0, 1, 14, 0), // 2.00 PM
-          },
-        ]}
-        step={60}
-        view="week"
-        // views={["week"]}
-        min={new Date(2008, 0, 1, 9, 0)} // 8.00 AM
-        max={new Date(2008, 0, 1, 17, 0)} // Max will be 6.00 PM!
-        date={new Date(2018, 0, 1)}
-        hideTimeIndicator={false}
-        hideGutter={false}
-        style={{ height: 500 }}
+    <div style={{ width: "80vw" }}>
+      Rendered by react!
+      <Timeline
+        groups={groups}
+        items={items}
+        // timeSteps={{ day: 1 }}
+        // unit="day"
+        defaultTimeStart={moment().add(-12, "hour")}
+        defaultTimeEnd={moment().add(12, "hour")}
+        // visibleTimeStart={moment().add(-12, "hour")}
+        // visibleTimeEnd={moment().add(12, "hour")}
       />
     </div>
   );

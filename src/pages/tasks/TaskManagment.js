@@ -6,6 +6,7 @@ import {
   DetailsOfTask,
   ListTask,
   AddEditTask,
+  AllTaskCalender,
 } from "../../components/tasks/index";
 import {
   addTask,
@@ -109,18 +110,19 @@ const TaskManagment = (props) => {
     <Row style={{ marginTop: "-20px" }}>
       <Col xs={12} sm={7} md={7} lg={7} className="pr-0 ">
         <Collapse isOpen={isOpenListTask}>
-          <ListTask
+          {/* <ListTask
             handleAddEditTaskForm={handleAddEditTaskForm}
             handleSelectedTask={handleSelectedTask}
             handleDelTask={handleDelTask}
             handleOpenCalendar={handleOpenCalendar}
             empTask={empTask}
             taskProjectInfo={taskProjectInfo}
-          ></ListTask>
+          ></ListTask> */}
+          <AllTaskCalender></AllTaskCalender>
         </Collapse>
       </Col>
 
-      <Col xs={12} sm={5} md={5} lg={5} className="pl-0 task-chat-view ">
+      {/* <Col xs={12} sm={5} md={5} lg={5} className="pl-0 task-chat-view ">
         <Fragment>
           <Collapse isOpen={isOpenDetailsOfTask}>
             <DetailsOfTask
@@ -158,7 +160,7 @@ const TaskManagment = (props) => {
             </div>
           </Collapse>
         </Fragment>
-      </Col>
+      </Col> */}
     </Row>
   );
 };

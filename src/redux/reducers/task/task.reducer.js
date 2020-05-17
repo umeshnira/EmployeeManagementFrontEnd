@@ -33,7 +33,6 @@ const getProjectNames = (fullTaskArr) => {
       projectName: fullTaskArr.find((el) => el.projectId === id).projectName,
     };
   });
-  console.log(projectNameArr);
   return projectNameArr;
 };
 
@@ -48,7 +47,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case GET_EMP_TASK_SUCCESS:
       let filterEmpByDate = filterEmpTaskByDate(new Date(), action.payload);
-      let projectNamesArr = getProjectNames(action.payload);
+      let projectNamesArr = getProjectNames(filterEmpByDate); // get the unique project nawem from that day.
       return {
         // ...state,
         fullTaskArr: action.payload,
