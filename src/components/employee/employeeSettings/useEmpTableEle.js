@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
-import { Row, Col } from "reactstrap";
+import React from "react";
+// import { Row, Col } from "reactstrap";
 import { useEffect, useState } from "react";
 
 const useEmpTableEle = (empList) => {
   const [trow, setTrow] = useState([]);
-  const [thead, setThead] = useState([
+  const [thead] = useState([
     "name",
     "employee id",
     "email",

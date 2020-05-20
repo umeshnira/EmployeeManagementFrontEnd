@@ -20,6 +20,7 @@ let empSkill;
 // api functions
 function getEmpListApi() {
   // made this structure to have seacrh in select box.
+
   return empList;
 }
 function addEmpApi(empData) {
@@ -38,9 +39,10 @@ function delEmpCertificateApi(delId) {
 function addEmpNewSkillApi(empNewSkill, skillId, empId) {
   // api call.
   let newEmpSkillList = empSkill[0].skill; //to replace, take only skill key
-  newEmpSkillList.filter((el) => {
-    if (el.skillId === skillId) el.skillName.push(empNewSkill);
-  });
+  newEmpSkillList.filter(
+    (el) => (el.skillId === skillId ? el.skillName.push(empNewSkill) : null)
+    // if (el.skillId === skillId) el.skillName.push(empNewSkill)
+  );
   console.log(newEmpSkillList);
   return { newEmpSkillList };
 }

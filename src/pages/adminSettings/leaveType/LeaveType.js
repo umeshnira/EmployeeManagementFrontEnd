@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
@@ -40,7 +40,7 @@ const thead = [
 ];
 
 export default function LeaveType() {
-  const [dataArr, setDataArr] = useState(leaveTypeArr);
+  const [dataArr, setDataArr] = useState([]);
   const [leaveType, setLeaveType] = useState("");
   const [leavePerYear, setLeavePerYear] = useState("");
   const [leaveCarryForwarded, setLeaveCarryForwarded] = useState("");
@@ -52,7 +52,7 @@ export default function LeaveType() {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
   // input fileds.
-  const [employeeTypeInpuFields, setEmployeeTypeInpuFields] = useState([
+  const [employeeTypeInpuFields] = useState([
     {
       label: "Leave Type",
       type: "text",
@@ -91,6 +91,9 @@ export default function LeaveType() {
     },
   ]);
 
+  useEffect(() => {
+    setDataArr(leaveTypeArr);
+  }, []);
   // Function -------------------
   // on change in text field for updating, then from FormField component
   // onChange call this func and replace the value in selectedData by the key name

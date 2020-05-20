@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import { Content, Footer, Header, SideBar } from "./index";
+import {
+  Content,
+  // Footer,
+  Header,
+  SideBar,
+} from "./index";
 // import Sidebar from "./SideBar";
 
 const MainLayout = (props) => {

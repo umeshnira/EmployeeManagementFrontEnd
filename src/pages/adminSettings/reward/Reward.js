@@ -30,7 +30,7 @@ const rewardArr = [
 const thead = ["Reward Desc", "Reward Point"];
 
 export default function Reward() {
-  const [dataArr, setDataArr] = useState(rewardArr);
+  const [dataArr] = useState(rewardArr);
   const [rewardDescription, setRewardDescription] = useState("");
   const [rewardPoint, setRewardPoint] = useState("");
 
@@ -40,7 +40,7 @@ export default function Reward() {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
   // input fileds.
-  const [employeeTypeInpuFields, setEmployeeTypeInpuFields] = useState([
+  const [employeeTypeInpuFields] = useState([
     {
       label: "Reward Description",
       type: "text",

@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect, useCallback } from "react";
 import uuid from "react-uuid";
 import { connect } from "react-redux";
 import { getEmpList } from "../../../redux/actions/employee/employee.action";
-import { Button, Row, Col, Collapse } from "reactstrap";
+import { Button, Row, Col } from "reactstrap";
 
 import {
   ListAssetItem,
@@ -87,19 +87,22 @@ const assetArr = [
 ];
 
 // Data for  list view.
-const thead = [
-  "Item",
-  "Item No",
-  "Item Description",
-  "Unique ID",
-  "Model No",
-  "Assignee",
-];
+// const thead = [
+//   "Item",
+//   "Item No",
+//   "Item Description",
+//   "Unique ID",
+//   "Model No",
+//   "Assignee",
+// ];
 
 const Assets = (props) => {
+  const { getEmpList } = props;
+
   const { assetSelected } = props.selectedAsset; // from reducer.
   const { empList } = props.empList; // user list.
-  const [dataArr, setDataArr] = useState(assetArr);
+
+  const [dataArr, setDataArr] = useState([]);
   const [assetName, setAssetName] = useState("");
   const [itemNo, setItemNo] = useState("");
   const [itemDescription, setItemDescription] = useState("");
@@ -114,7 +117,7 @@ const Assets = (props) => {
   const [isOpenAssetItems, setIsOpenAssetItems] = useState(false);
   const [isOpenFormAssetAddItems, setIsOpenFormAssetAddItems] = useState(false);
   // --------------------------------------------------------------------
-  const [assetInpuFields, setAssetInpuFields] = useState([
+  const [assetInpuFields] = useState([
     {
       label: "Asset Name",
       type: "text",
@@ -127,25 +130,27 @@ const Assets = (props) => {
     },
   ]);
 
+  useEffect(() => {
+    setDataArr(assetArr);
+  }, []);
   // Function -------------------
 
   const toggleFromGridViews = useCallback(() => {
     // setIsOpenListView(!isOpenListView);
-    setIsOpenGridView(!isOpenGridView);
-    setIsOpenAssetItems(!isOpenAssetItems);
+    setIsOpenGridView((prevState) => !prevState);
+    setIsOpenAssetItems((prevState) => !prevState);
     // setIsOpenForm(false);
-  }, [isOpenGridView]);
+  }, [setIsOpenGridView, setIsOpenAssetItems]);
 
   const toggleFromGridViewsAddBtn = useCallback(() => {
     console.log("toggleFromForm");
     // setIsOpenListView(!isOpenListView);
-    setIsOpenGridView(!isOpenGridView);
-    setIsOpenForm(!isOpenForm);
-  }, [isOpenGridView]);
+    setIsOpenGridView((prevState) => !prevState);
+    setIsOpenForm((prevState) => !prevState);
+  }, [setIsOpenGridView, setIsOpenForm]);
 
   //  on click the tile ,open the listAssetItem with data filed.
   const handleSelectedAsset = useCallback((val, id) => {
-    console.log(val);
     setSelectedAsset(val);
     // props.getSelectedAsset(val);
     //   setSelectedData("yoyo");
@@ -185,8 +190,8 @@ const Assets = (props) => {
 
   useEffect(() => {
     // to get the user list.
-    props.getEmpList();
-  }, []);
+    getEmpList();
+  }, [getEmpList]);
 
   return (
     <div>

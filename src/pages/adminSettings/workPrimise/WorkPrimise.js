@@ -24,9 +24,9 @@ const workPrimiseArr = [
 const thead = ["Work Primise"];
 
 export default function WorkPrimise() {
-  const [dataArr, setDataArr] = useState(workPrimiseArr);
+  const [dataArr] = useState(workPrimiseArr);
   const [workPrimise, setWorkPrimise] = useState("");
-  const [description, setDescription] = useState("");
+  // const [description, setDescription] = useState("");
 
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
 
@@ -34,7 +34,7 @@ export default function WorkPrimise() {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [workPrimiseInpuFields, setWorkprimiseInpuFields] = useState([
+  const [workPrimiseInpuFields] = useState([
     {
       label: "Work Primise",
       type: "text",

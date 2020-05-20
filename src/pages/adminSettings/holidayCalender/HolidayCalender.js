@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Collapse, Row, Col, Button, Label, Input } from "reactstrap";
+import { Collapse, Row, Col, Button, Input } from "reactstrap";
 import {
   ListView,
   FormAddHolidayCalender,
@@ -50,7 +50,7 @@ export default function HolidayCalender() {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [isOpenListView, setIsOpenListView] = useState(true);
   // input fileds.
-  const [holidayCalenderInpuFields, setHolidayCalenderInpuFields] = useState([
+  const [holidayCalenderInpuFields] = useState([
     {
       label: "Event/Title",
       type: "text",
@@ -78,9 +78,8 @@ export default function HolidayCalender() {
     if (year !== "") {
       let filterArr = holidayCalenderArr.filter((ele) => {
         let date = new Date(ele.type2);
-        console.log(date.getFullYear());
 
-        return date.getFullYear() == year;
+        return String(date.getFullYear()) === year;
       });
 
       console.log(filterArr);

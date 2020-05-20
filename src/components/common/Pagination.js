@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 let first = 1;
 let second = 2;

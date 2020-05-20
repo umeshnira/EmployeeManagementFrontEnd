@@ -15,15 +15,17 @@ import {
 } from "../../components/projects/index";
 
 const ViewProject = (props) => {
+  let projectId = props.match.params.projectId;
+
+  const { getSelectProject, getEmpList } = props;
   const { selectProject } = props.selectProject;
   const { empList } = props.empList;
   const [isOpenEditForm, setIsOpenEditForm] = useState(false);
 
   useEffect(() => {
-    let projectId = props.match.params.projectId;
-    props.getSelectProject(projectId);
-    props.getEmpList();
-  }, []);
+    getSelectProject(projectId);
+    getEmpList();
+  }, [getSelectProject, getEmpList, projectId]);
 
   const toggleForm = React.useCallback(() => {
     setIsOpenEditForm((prevState) => !prevState);

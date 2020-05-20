@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Collapse } from "reactstrap";
+import //  Collapse
+"reactstrap";
 import classnames from "classnames";
 
 // admin sidebar to show on click of admin settings.
@@ -30,11 +31,14 @@ export default function SideBar(props) {
   const [isOpenEmpDropDown, setIsOpenEmpDropDown] = useState(false);
   const [isOpenProjectsDropDown, setIsOpenProjectsDropDown] = useState(false);
   // Function ---------------------------
-  const toggle = (tab, newTab) => {
-    if (activeSideBar !== tab) {
-      setActiveSideBar(tab);
-    }
-  };
+  const toggle = React.useCallback(
+    (tab, newTab) => {
+      if (activeSideBar !== tab) {
+        setActiveSideBar(tab);
+      }
+    },
+    [activeSideBar]
+  );
 
   useEffect(() => {
     let sideBar = null;
@@ -55,7 +59,7 @@ export default function SideBar(props) {
     taskPaths.includes(window.location.pathname) &&
       (sideBar = <TaskSideBar></TaskSideBar>);
     setSideBar(sideBar);
-  }, []);
+  }, [activeSideBar, toggle]);
 
   const handleAdminSettingClick = () => {
     props.history.push("/adminsettings");
@@ -112,7 +116,7 @@ export default function SideBar(props) {
             </li>
             <li>
               <a
-                href="#"
+                href="#null"
                 onClick={() => setIsOpenEmpDropDown(!isOpenEmpDropDown)}
                 data-toggle="collapse"
                 aria-expanded="false"
@@ -121,7 +125,8 @@ export default function SideBar(props) {
                 <i className="fas fa-user-tie"></i>
                 <span> Employee Settings</span>
               </a>
-              <Collapse isOpen={isOpenEmpDropDown} className="pl-4">
+              {/* <Collapse isOpen={isOpenEmpDropDown} className="pl-4"> */}
+              {isOpenEmpDropDown && (
                 <ul className="list-unstyled components">
                   <li
                     className={classnames({
@@ -139,11 +144,13 @@ export default function SideBar(props) {
                     </a>
                   </li>
                 </ul>
-              </Collapse>
+              )}
+
+              {/* </Collapse> */}
             </li>
             <li>
               <a
-                href="#"
+                href="#null"
                 onClick={() =>
                   setIsOpenProjectsDropDown(!isOpenProjectsDropDown)
                 }
@@ -153,7 +160,8 @@ export default function SideBar(props) {
                 <i className="fab fa-product-hunt"></i>
                 <span>Projects</span>
               </a>
-              <Collapse isOpen={isOpenProjectsDropDown} className="pl-4">
+              {/* <Collapse isOpen={isOpenProjectsDropDown} className="pl-4"> */}
+              {isOpenProjectsDropDown && (
                 <ul className="list-unstyled components">
                   <li
                     className={classnames({
@@ -186,7 +194,9 @@ export default function SideBar(props) {
                     </a>
                   </li>
                 </ul>
-              </Collapse>
+              )}
+
+              {/* </Collapse> */}
             </li>
           </ul>
         )}

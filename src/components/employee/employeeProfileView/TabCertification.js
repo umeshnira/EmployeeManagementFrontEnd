@@ -78,9 +78,9 @@ export const TabCertification = React.memo((props) => {
     setCertificateDate("");
   };
   // --------------------Delete Certificate.
-  const handleDelCertificate = (delId) => {
-    props.delCertificate(delId);
-  };
+  // const handleDelCertificate = (delId) => {
+  //   props.delCertificate(delId);
+  // };
 
   return (
     <Fragment>

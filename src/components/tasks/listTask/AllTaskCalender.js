@@ -4,14 +4,24 @@ import React, { Component } from "react";
 import Scheduler, {
   SchedulerData,
   ViewTypes,
-  DATE_FORMAT,
+  // DATE_FORMAT,
 } from "react-big-scheduler";
-import { DemoData } from "../../../pages/test/DemoData";
+// import { DemoData } from "../../../pages/test/DemoData";
 import withDragDropContext from "../../../withDnDContext";
 import { connect } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 import "react-big-scheduler/lib/css/style.css";
+import { Button } from "reactstrap";
 
+let schedulerData = new SchedulerData(
+  new Date(),
+  ViewTypes.Week,
+  false,
+  false,
+  {
+    // minuteStep: 15
+  }
+);
 class Basic extends Component {
   constructor(props) {
     super(props);
@@ -41,17 +51,23 @@ class Basic extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(prevProps.fullTaskArr.fullTaskArr.length);
+    const { fullTaskArr } = this.props.fullTaskArr;
+    console.log(fullTaskArr.length);
+
+    if (prevProps.fullTaskArr.fullTaskArr.length !== fullTaskArr.length) {
+      this.dataPopulationReactScheduler(fullTaskArr);
+    }
+  }
+
   componentDidMount() {
     const { fullTaskArr } = this.props.fullTaskArr;
-    let schedulerData = new SchedulerData(
-      new Date(),
-      ViewTypes.Week,
-      false,
-      false,
-      {
-        // minuteStep: 15
-      }
-    );
+    this.dataPopulationReactScheduler(fullTaskArr);
+  }
+
+  // func to handle data population in react-big-schedular, for componentDidMout & componentDidUpdate.
+  dataPopulationReactScheduler = (fullTaskArr) => {
     // get the unique name.
     let resources = this.getProjectNames(fullTaskArr);
     let events = this.getEvents(fullTaskArr);
@@ -64,7 +80,7 @@ class Basic extends Component {
       calendarShedularData: schedulerData,
       calendarData: calendarData,
     });
-  }
+  };
 
   // get project name, no repeatations.
   getProjectNames = (fullTaskArr) => {
@@ -83,13 +99,18 @@ class Basic extends Component {
   getEvents = (fullTaskArr) => {
     let taskColor = ["#FA9E95", "#6a7d15", "#6a7d15", "#a6120d"];
     let allEvents = fullTaskArr.map((el) => {
-      let taskEndDate = new Date(el.createdDate);
-      taskEndDate.setDate(taskEndDate.getDate() + 1);
-
+      // // add a date to
+      // let taskEndDate = new Date(el.createdDate);
+      // taskEndDate.setDate(taskEndDate.getDate() + 1);
+      // // convert the end date to string to resolve console err.
+      // let endDate = `${
+      //   taskEndDate.getMonth() + 1
+      // }-${taskEndDate.getDate()}-${taskEndDate.getFullYear()}`;
+      // console.log(el.createdDate + " 23:30:00");
       return {
         id: el.taskId,
         start: el.createdDate,
-        end: taskEndDate,
+        end: el.createdDate + " 23:30:00",
         resourceId: el.projectId,
         title: el.taskTitle,
         bgColor: taskColor[Math.floor(Math.random() * taskColor.length)],
@@ -101,11 +122,19 @@ class Basic extends Component {
 
   render() {
     const { calendarShedularData } = this.state;
+    const { handleToggleAllTaskCalendar } = this.props;
     // console.log(viewModel);
     // console.log(calendarData);
 
     return (
       <div>
+        <Button
+          outline
+          className="primary mt-2"
+          onClick={handleToggleAllTaskCalendar}
+        >
+          <i className="fas fa-arrow-left"></i> Back
+        </Button>
         {Object.keys(calendarShedularData).length > 0 ? (
           <Scheduler
             schedulerData={calendarShedularData}
@@ -148,7 +177,6 @@ class Basic extends Component {
 
   prevClick = (schedulerData) => {
     schedulerData.prev();
-    console.log(this.state.calendarData);
     schedulerData.setEvents(this.state.calendarData.events);
     this.setState({
       calendarShedularData: schedulerData,

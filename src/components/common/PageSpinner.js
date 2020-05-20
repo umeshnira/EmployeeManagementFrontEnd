@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Spinner } from "reactstrap";
 
 const PageSpinner = ({ color = "primary" }) => {
   return (

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Container, Collapse } from "reactstrap";
 import {
@@ -15,6 +15,8 @@ import TableWithSortPagtn from "../../components/common/TableWithSortPagtn";
 // require("bootstrap/less/bootstrap.less");
 
 const EmployeeList = (props) => {
+  const { addEmp, getEmpList } = props;
+
   const { empList } = props.empList;
   const [searchArr, setSearchArr] = useState(empList);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -30,15 +32,18 @@ const EmployeeList = (props) => {
   );
 
   useEffect(() => {
-    props.getEmpList();
-  }, []);
+    getEmpList();
+  }, [getEmpList]);
 
   // -------------Functions
   // handle click in EmployeeAddForm.js 'add'.
-  const handleAddEmp = React.useCallback((empData) => {
-    console.log(empData);
-    props.addEmp(empData);
-  }, []);
+  const handleAddEmp = React.useCallback(
+    (empData) => {
+      console.log(empData);
+      addEmp(empData);
+    },
+    [addEmp]
+  );
 
   // handle click in EmployeeEditForm.js 'update'.
   const handleUpdateEmp = React.useCallback((empData) => {

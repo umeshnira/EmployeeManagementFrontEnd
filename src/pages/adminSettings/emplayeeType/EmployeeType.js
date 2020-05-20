@@ -27,7 +27,7 @@ const employeeArr = [
 const thead = [" Employee Type"];
 
 export default function EmployeeType() {
-  const [dataArr, setDataArr] = useState(employeeArr);
+  const [dataArr] = useState(employeeArr);
   const [employeeType, setEmployeeType] = useState("");
 
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
@@ -36,7 +36,7 @@ export default function EmployeeType() {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [employeeTypeInpuFields, setEmployeeTypeInpuFields] = useState([
+  const [employeeTypeInpuFields] = useState([
     {
       label: "Employee Type",
       type: "text",

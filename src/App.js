@@ -4,12 +4,11 @@ import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import history from "./history";
 
-import GAListener from "./components/GAListener";
+// import GAListener from "./components/GAListener";
 import { MainLayout } from "./components/layout";
 import PageSpinner from "./components/common/PageSpinner";
-import Test from "./pages/test/Test";
-import Test2 from "./pages/test/Test2";
-import Calendar3 from "./pages/test/Calendar3";
+// import Test from "./pages/test/Test";
+// import Test2 from "./pages/test/Test2";
 
 // Admin settings
 import {
@@ -35,79 +34,74 @@ import {
 import { ListProjects, ViewProject } from "./pages/projects/index";
 // Tasks
 import { TaskManagment } from "./pages/tasks/index";
-import { Calendar } from "@mobiscroll/react";
 
 // const Designation = React.lazy(() =>
 //   import("./pages/adminSettings/designation/Designation")
 // );
 
+import Test3 from "./pages/test/Test3";
+
 function App() {
   return (
     <Router history={history}>
-      <GAListener>
-        <Switch>
-          <MainLayout>
-            <React.Suspense fallback={<PageSpinner />}>
-              {/* home routes */}
-              <Route exact path="/" component={""}></Route>
-              {/* ----------Admin Settings Routes----------------- */}
-              <Route exact path="/department" component={Department}></Route>
-              <Route exact path="/designation" component={Designation}></Route>
-              <Route exact path="/workprimise" component={WorkPrimise}></Route>
-              <Route exact path="/reward" component={Reward}></Route>
-              <Route exact path="/leavetype" component={LeaveType}></Route>
-              <Route exact path="/assets" component={Assets}></Route>
-              <Route
-                exact
-                path="/companylocation"
-                component={CompanyLocation}
-              ></Route>
-              <Route
-                exact
-                path="/employeetype"
-                component={EmployeeType}
-              ></Route>
-              <Route
-                exact
-                path="/holidaycalender"
-                component={HolidayCalender}
-              ></Route>
-              <Route
-                exact
-                path="/companypolicy"
-                component={CompanyPolicy}
-              ></Route>
-              <Route
-                exact
-                path="/rolesndpermission"
-                component={RolesNdPermissions}
-              ></Route>
-              {/* ----------Employee Settings Routes----------------- */}
-              <Route exact path="/emplist" component={EmployeeSettings} />
-              <Route
-                exact
-                path="/empProfile/:empId"
-                component={EmployeeProfileView}
-              />
-              <Route
-                exact
-                path="/empRewards/:empId"
-                component={EmployeeRewards}
-              />
-              <Route exact path="/listProjects" component={ListProjects} />
-              <Route
-                exact
-                path="/viewProject/:projectId"
-                component={ViewProject}
-              />
-              <Route exact path="/taskManagment" component={TaskManagment} />
-              <Route exact path="/test" component={Test} />
-              <Route exact path="/test2" component={Test2} />
-              <Route exact path="/test3" component={Calendar3} />
-            </React.Suspense>
-          </MainLayout>
-        </Switch>
-      </GAListener>
+      {/* <GAListener> */}
+      <Switch>
+        <MainLayout>
+          <React.Suspense fallback={<PageSpinner />}>
+            {/* home routes */}
+            <Route exact path="/" component={""}></Route>
+            {/* ----------Admin Settings Routes----------------- */}
+            <Route exact path="/department" component={Department}></Route>
+            <Route exact path="/designation" component={Designation}></Route>
+            <Route exact path="/workprimise" component={WorkPrimise}></Route>
+            <Route exact path="/reward" component={Reward}></Route>
+            <Route exact path="/leavetype" component={LeaveType}></Route>
+            <Route exact path="/assets" component={Assets}></Route>
+            <Route
+              exact
+              path="/companylocation"
+              component={CompanyLocation}
+            ></Route>
+            <Route exact path="/employeetype" component={EmployeeType}></Route>
+            <Route
+              exact
+              path="/holidaycalender"
+              component={HolidayCalender}
+            ></Route>
+            <Route
+              exact
+              path="/companypolicy"
+              component={CompanyPolicy}
+            ></Route>
+            <Route
+              exact
+              path="/rolesndpermission"
+              component={RolesNdPermissions}
+            ></Route>
+            {/* ----------Employee Settings Routes----------------- */}
+            <Route exact path="/emplist" component={EmployeeSettings} />
+            <Route
+              exact
+              path="/empProfile/:empId"
+              component={EmployeeProfileView}
+            />
+            <Route
+              exact
+              path="/empRewards/:empId"
+              component={EmployeeRewards}
+            />
+            <Route exact path="/listProjects" component={ListProjects} />
+            <Route
+              exact
+              path="/viewProject/:projectId"
+              component={ViewProject}
+            />
+            <Route exact path="/taskManagment" component={TaskManagment} />
+            <Route exact path="/test3" component={Test3} />
+          </React.Suspense>
+        </MainLayout>
+      </Switch>
+      {/* </GAListener> */}
     </Router>
   );
 }

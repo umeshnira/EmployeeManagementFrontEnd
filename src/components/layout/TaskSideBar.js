@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { projectNamesOnly } from "../../datas/projects";
@@ -27,7 +27,10 @@ const TaskSideBar = (props) => {
   const [projectName, setProjectName] = useState("");
   const [modal, setModal] = useState(false);
 
-  const toggle = () => setModal(!modal);
+  const toggle = React.useCallback(
+    () => setModal((prevState) => !prevState),
+    []
+  );
 
   useEffect(() => {
     let empId = 29;
@@ -71,7 +74,7 @@ const TaskSideBar = (props) => {
         {/* <hr></hr> */}
 
         <li className="">
-          <a href={"#"} onClick={toggle}>
+          <a href={"#project"} onClick={toggle}>
             <i className="fa fa-plus"></i>
             <span>
               Project
@@ -81,13 +84,14 @@ const TaskSideBar = (props) => {
         </li>
         {projectNames.map((projects, i) => (
           <li
+            key={i}
             style={{ padding: "-10px" }}
             onClick={() =>
               handleSelectProject(projects.projectId, projects.projectName, i)
             }
             className={classnames({ active: activeProject === i })}
           >
-            <a href="#">
+            <a href="#projectName">
               <span>- {projects.projectName}</span>
             </a>
           </li>
@@ -117,10 +121,6 @@ const TaskSideBar = (props) => {
       </div>
     </Fragment>
   );
-};
-
-TaskSideBar.propTypes = {
-  empTask: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({

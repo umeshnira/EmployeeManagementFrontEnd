@@ -13,13 +13,15 @@ import {
 import { getProjectList } from "../../redux/actions/projects/projects.action";
 
 const EmployeeProfileView = (props) => {
-  const { selectEmp, empCertificate, empSkill } = props.selectEmp;
+  let empId = props.match.params.empId;
+
+  const { getSelectedEmp, getProjectList } = props;
+  const { selectEmp } = props.selectEmp;
 
   useEffect(() => {
-    let empId = props.match.params.empId;
-    props.getSelectedEmp(empId);
-    props.getProjectList();
-  }, []);
+    getSelectedEmp(empId);
+    getProjectList();
+  }, [getSelectedEmp, getProjectList, empId]);
 
   return (
     <Container>

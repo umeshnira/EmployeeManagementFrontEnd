@@ -1,14 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Row,
-  Col,
-} from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 let dayArr = [
@@ -23,7 +14,7 @@ let dayArr = [
 
 const FormAddHolidayCalender = (props) => {
   const { inputFields } = props;
-  const [calenderDate, setCalenderDate] = useState(new Date());
+  const [calenderDate] = useState(new Date());
   const [date, setDate] = useState();
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");

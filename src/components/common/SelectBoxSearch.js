@@ -1,10 +1,10 @@
 import React from "react";
 import Select from "react-select";
 
-const options = [
-  { value: { id: 1, name: "roy" }, label: "Roy" },
-  { value: { id: 2, name: "Tom" }, label: "Tom" },
-];
+// const options = [
+//   { value: { id: 1, name: "roy" }, label: "Roy" },
+//   { value: { id: 2, name: "Tom" }, label: "Tom" },
+// ];
 
 class SelectBoxSearch extends React.Component {
   state = {

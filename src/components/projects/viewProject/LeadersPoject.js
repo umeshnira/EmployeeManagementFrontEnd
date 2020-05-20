@@ -21,7 +21,7 @@ const LeadersPoject = React.memo(({ leaders, empList }) => {
 
   useEffect(() => {
     setLeadersArr(leaders);
-  }, []);
+  }, [leaders]);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 

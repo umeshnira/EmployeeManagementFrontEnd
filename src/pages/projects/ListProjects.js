@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
-import { Container, Collapse, Row, Col, Card, CardBody } from "reactstrap";
+import { Container, Collapse, Row, Col } from "reactstrap";
 
 import {
   ProjectsTopRow,
@@ -15,12 +15,14 @@ import { projectsList } from "../../datas/projects";
 // require("bootstrap/less/bootstrap.less");
 
 const ListProjects = (props) => {
+  const { getProjectList, getEmpList } = props;
   const { projectList } = props.projectList;
   const { empList } = props.empList;
-  const [searchArr, setSearchArr] = useState(projectList);
+
   const searched = useRef(false);
+  const [searchArr, setSearchArr] = useState(projectList);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(!false);
+  const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(false);
   const [isOpenProjectCardView, setIsOpenProjectCardView] = useState(true);
   const [isOpenProjectGridView, setIsOpenProjectGridView] = useState(false);
   const [isOpenSerachBox, setIsOpenSerachBox] = useState(false);
@@ -32,9 +34,9 @@ const ListProjects = (props) => {
   );
 
   useEffect(() => {
-    props.getProjectList();
-    props.getEmpList();
-  }, []);
+    getProjectList();
+    getEmpList();
+  }, [getProjectList, getEmpList]);
 
   // -------------Functions
 
@@ -77,11 +79,13 @@ const ListProjects = (props) => {
   const showGridView = React.useCallback(() => {
     setIsOpenProjectCardView(false);
     setIsOpenProjectGridView(true);
+    setIsOpenAddEditForm(false);
   }, [setIsOpenProjectCardView]);
 
   const showProjectCard = React.useCallback(() => {
     setIsOpenProjectGridView(false);
     setIsOpenProjectCardView(true);
+    setIsOpenAddEditForm(false);
   }, [setIsOpenProjectGridView]);
 
   // search texh box show.

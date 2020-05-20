@@ -1,21 +1,10 @@
 import React, { Fragment, useState } from "react";
-import {
-  Row,
-  Col,
-  Alert,
-  Container,
-  Card,
-  CardBody,
-  CardText,
-  CardTitle,
-  Button,
-  Collapse,
-} from "reactstrap";
+import { Row, Col, Container, Card, Collapse } from "reactstrap";
 import Form from "./Form";
 
 export default function Department() {
   const [dept, setDept] = useState(null);
-  const [formData, setFormData] = useState(null);
+  // const [formData, setFormData] = useState(null);
 
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [isOpenDeparmentTiles, setIsOpenDeparmentTiles] = useState(true);
@@ -50,19 +39,19 @@ export default function Department() {
   };
 
   // on edit the clicked department info should move to form.
-  const handleEditDepartment = (department, id) => {
-    let formData = (
-      <Form
-        department=""
-        handleOnchangeDepartment={(val) => setDept(val)}
-        handleSubmit={handlAddDepartment}
-        handleToggleForm={toggle}
-        button={"Update"}
-      />
-    );
+  // const handleEditDepartment = (department, id) => {
+  //   let formData = (
+  //     <Form
+  //       department=""
+  //       handleOnchangeDepartment={(val) => setDept(val)}
+  //       handleSubmit={handlAddDepartment}
+  //       handleToggleForm={toggle}
+  //       button={"Update"}
+  //     />
+  //   );
 
-    setFormData(formData);
-  };
+  //   setFormData(formData);
+  // };
 
   // add department.
   const handlAddDepartment = (e) => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import {
   Card,
   CardTitle,
@@ -10,7 +10,6 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
 } from "reactstrap";
 
 // style for the edit/update forms.
@@ -213,7 +212,7 @@ export const TabProfile = React.memo((props) => {
                   <li>
                     <div className="title">Tel</div>
                     <div className="text">
-                      <a href="">9876543210</a>
+                      <div className="text">9876543210</div>
                     </div>
                   </li>
                   <li>

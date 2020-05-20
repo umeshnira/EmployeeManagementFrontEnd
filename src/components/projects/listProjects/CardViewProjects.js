@@ -1,27 +1,10 @@
-import React, { Fragment, useState, useRef } from "react";
-import {
-  Row,
-  Col,
-  Card,
-  CardBody,
-  CardTitle,
-  Progress,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import React, { Fragment } from "react";
+import { Col, Card, CardBody, CardTitle, Progress } from "reactstrap";
 import DropDownActions from "../../common/DropDownActions";
 
 const CardViewProjects = React.memo((props) => {
   const { projectList, handleProjectEdit } = props;
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const setDropdownOpt = useRef(0); // to not to open othe dropdown opt, when 3dots clicked
 
-  const toggle = React.useCallback((whichProject) => {
-    setDropdownOpen((prevState) => !prevState);
-    setDropdownOpt.current = whichProject;
-  }, []);
   return (
     <Fragment>
       {console.log("card projects")}
@@ -107,7 +90,11 @@ const CardViewProjects = React.memo((props) => {
                 <ul className="team-members">
                   {project.projectLeaders.map((leader, i) => (
                     <li key={i}>
-                      <a href="#" data-toggle="tooltip" title="Jeffery Lalor">
+                      <a
+                        href="#null"
+                        data-toggle="tooltip"
+                        title="Jeffery Lalor"
+                      >
                         <img
                           alt=""
                           src={require(`../../../img/employee/${leader.leaderImg}`)}
@@ -122,7 +109,11 @@ const CardViewProjects = React.memo((props) => {
                 <ul className="team-members">
                   {project.projectTeam.map((member, i) => (
                     <li key={i}>
-                      <a href="#" data-toggle="tooltip" title="Jeffery Lalor">
+                      <a
+                        href="#null"
+                        data-toggle="tooltip"
+                        title="Jeffery Lalor"
+                      >
                         <img
                           alt=""
                           src={require(`../../../img/employee/${member.memberImg}`)}

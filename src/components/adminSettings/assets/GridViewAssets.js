@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Row, Col, Container, Card, Collapse } from "reactstrap";
+import { Row, Col, Container, Card } from "reactstrap";
 
 export default function GridView(props) {
   return (

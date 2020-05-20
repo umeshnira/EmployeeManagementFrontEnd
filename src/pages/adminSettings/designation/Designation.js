@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
@@ -62,7 +62,7 @@ const designationArr = [
 const thead = ["Designation", "Description"];
 
 export default function Designation() {
-  const [departmentArr, setDepartmentArray] = useState(designationArr);
+  const [departmentArr, setDepartmentArray] = useState([]);
   const [designation, setDesignation] = useState("");
   const [description, setDescription] = useState("");
 
@@ -72,7 +72,7 @@ export default function Designation() {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [desgnationInpuFields, setDesgnationInpuFields] = useState([
+  const [desgnationInpuFields] = useState([
     {
       label: "Designation",
       type: "text",
@@ -92,6 +92,10 @@ export default function Designation() {
       },
     },
   ]);
+
+  useEffect(() => {
+    setDepartmentArray(designationArr);
+  }, []);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -116,12 +120,12 @@ export default function Designation() {
 
   const handleDesignationAdd = (e) => {
     e.preventDefault();
-    console.log(designation);
     toggle();
+    console.log(description);
+    console.log(designation);
   };
   const handleDesignationUpdate = (e) => {
     e.preventDefault();
-    console.log(selectedDesg);
     setSelectedDesg({ id: "", val: "" });
     toggle();
   };

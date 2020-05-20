@@ -22,7 +22,7 @@ const TechnologiesProject = React.memo(({ technologies }) => {
 
   useEffect(() => {
     setTechnologiesArr(technologies);
-  }, []);
+  }, [technologies]);
 
   const toggle = () => setPopoverOpenAddForm(!popoverOpenAddFrom);
 

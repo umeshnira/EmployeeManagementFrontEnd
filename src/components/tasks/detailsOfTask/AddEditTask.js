@@ -156,19 +156,19 @@ const AddEditTask = React.memo(
                         >
                           <option
                             value="new"
-                            selected={status === "new" && true}
+                            selected={status === "new" ? true : null}
                           >
                             New
                           </option>
                           <option
                             value="inProgress"
-                            selected={status === "inProgress" && true}
+                            selected={status === "inProgress" ? true : null}
                           >
                             In progress
                           </option>
                           <option
                             value="completed"
-                            selected={status === "completed" && true}
+                            selected={status === "completed" ? true : null}
                           >
                             Completed
                           </option>

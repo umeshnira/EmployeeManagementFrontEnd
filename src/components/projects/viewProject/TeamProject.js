@@ -18,7 +18,7 @@ const TeamProject = React.memo(({ team, empList }) => {
 
   useEffect(() => {
     setMembers(team);
-  }, []);
+  }, [team]);
 
   // Functions. ---------
   const toggle = () => setPopoverOpenMember(!popoverOpenMember);

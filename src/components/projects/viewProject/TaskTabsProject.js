@@ -1,15 +1,11 @@
 //  <- ViewProjects.js
-import React, { useState, useRef, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import {
-  Card,
-  CardTitle,
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Button,
-  CardText,
   ListGroup,
   ListGroupItem,
   Row,

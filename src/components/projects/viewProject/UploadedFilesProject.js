@@ -42,12 +42,12 @@ const UploadedFilesProject = React.memo(() => {
                 </div>
                 <div className="files-info">
                   <span className="file-name text-ellipsis">
-                    <a href="#">
-                      AHA Selfcare Mobile Application Test-Cases.xls
-                    </a>
+                    {/* <a href="#"> */}
+                    AHA Selfcare Mobile Application Test-Cases.xls
+                    {/* </a> */}
                   </span>
                   <span className="file-author">
-                    <a href="#">John Doe</a>
+                    <a href="#John Doe">John Doe</a>
                   </span>
                   <span className="file-date">&nbsp;May 31st at 6:53 PM</span>
                   <div className="file-size">Size: 14.8Mb</div>

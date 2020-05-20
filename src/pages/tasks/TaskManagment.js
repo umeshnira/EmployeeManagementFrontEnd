@@ -17,7 +17,8 @@ import {
 import { Row, Col, Collapse, Button } from "reactstrap";
 
 const TaskManagment = (props) => {
-  const { onchangeTaskDate } = props;
+  const { onchangeTaskDate, delTask, addTask, updateTask } = props;
+
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 604px)" });
   //   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   const { empTask, taskProjectInfo } = props.empTask;
@@ -27,6 +28,7 @@ const TaskManagment = (props) => {
   const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(false);
   const [isOpenListTask, setIsOpenListTask] = useState(true);
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+  const [isOpenAllTaskCalendar, setIsOpenAllTaskCalendar] = useState(false);
   const [selectedTask, setSelectedTask] = useState("");
   const addOrEdit = useRef("");
 
@@ -70,24 +72,28 @@ const TaskManagment = (props) => {
   }, [handleAddEditTaskForm, isTabletOrMobile]);
 
   // handle submite form ADD UPDATE.
-  const handleAddUpdateTask = React.useCallback((formData) => {
-    if (addOrEdit.current === "add") {
-      props.addTask(formData);
-    } else {
-      console.log(selectedTask);
-      props.updateTask(formData, formData.taskId);
-    }
-  }, []);
+  const handleAddUpdateTask = React.useCallback(
+    (formData) => {
+      if (addOrEdit.current === "add") {
+        addTask(formData);
+      } else {
+        updateTask(formData, formData.taskId);
+      }
+    },
+    [addTask, updateTask]
+  );
 
   // handle task delete from ListTask.js
-  const handleDelTask = React.useCallback((delId) => {
-    props.delTask(delId);
-  }, []);
+  const handleDelTask = React.useCallback(
+    (delId) => {
+      delTask(delId);
+    },
+    [delTask]
+  );
 
   // onchange the date in calendar , take the date and pass to reducer.
   const handleOnChangeTaskDate = React.useCallback(
     (date) => {
-      console.log(date);
       onchangeTaskDate(date);
       handleClsCalendar();
     },
@@ -106,61 +112,84 @@ const TaskManagment = (props) => {
     setIsOpenDetailsOfTask(true);
   }, []);
 
+  // handle toggel AllTaskCalendar.
+  const handleToggleAllTaskCalendar = React.useCallback(() => {
+    setIsOpenAllTaskCalendar((prevstate) => !prevstate);
+  }, [setIsOpenAllTaskCalendar]);
+
   return (
     <Row style={{ marginTop: "-20px" }}>
-      <Col xs={12} sm={7} md={7} lg={7} className="pr-0 ">
-        <Collapse isOpen={isOpenListTask}>
-          {/* <ListTask
-            handleAddEditTaskForm={handleAddEditTaskForm}
-            handleSelectedTask={handleSelectedTask}
-            handleDelTask={handleDelTask}
-            handleOpenCalendar={handleOpenCalendar}
-            empTask={empTask}
-            taskProjectInfo={taskProjectInfo}
-          ></ListTask> */}
-          <AllTaskCalender></AllTaskCalender>
-        </Collapse>
-      </Col>
-
-      {/* <Col xs={12} sm={5} md={5} lg={5} className="pl-0 task-chat-view ">
+      {!isOpenAllTaskCalendar ? (
         <Fragment>
-          <Collapse isOpen={isOpenDetailsOfTask}>
-            <DetailsOfTask
-              handleAddEditTaskForm={handleAddEditTaskForm}
-              selectedTask={selectedTask}
-            ></DetailsOfTask>
-          </Collapse>
+          <Col xs={12} sm={7} md={7} lg={7} className="pr-0 ">
+            {/* list of all task in center */}
+            <Collapse isOpen={isOpenListTask}>
+              <ListTask
+                handleAddEditTaskForm={handleAddEditTaskForm}
+                handleSelectedTask={handleSelectedTask}
+                handleDelTask={handleDelTask}
+                handleOpenCalendar={handleOpenCalendar}
+                handleToggleAllTaskCalendar={handleToggleAllTaskCalendar}
+                empTask={empTask}
+                taskProjectInfo={taskProjectInfo}
+              ></ListTask>
+            </Collapse>
+          </Col>
 
-          <Collapse isOpen={isOpenAddEditForm}>
-            <AddEditTask
-              handleEditTaskForm={handleAddEditTaskForm}
-              handleAddUpdateTask={handleAddUpdateTask}
-              handleClsAddEditTaskForm={handleClsAddEditTaskForm}
-              selectedTask={selectedTask}
-              taskProjectInfo={taskProjectInfo}
-              addOrEdit={addOrEdit.current}
-            ></AddEditTask>
-          </Collapse>
+          <Col xs={12} sm={5} md={5} lg={5} className="pl-0 task-chat-view ">
+            <Fragment>
+              {/* right section, details of a particular task. */}
+              <Collapse isOpen={isOpenDetailsOfTask}>
+                <DetailsOfTask
+                  handleAddEditTaskForm={handleAddEditTaskForm}
+                  selectedTask={selectedTask}
+                ></DetailsOfTask>
+              </Collapse>
 
-          <Collapse isOpen={isOpenCalendar}>
-            <div className="fixed-header ">
-              <div>
-                <Button size="sm" color="" className="text-muted">
-                  Calender
-                </Button>
-                <div className="d-inline float-right ">
-                  <Button color="" onClick={handleClsCalendar}>
-                    <i className="fas fa-times text-muted"></i>
-                  </Button>
+              {/* add edit form */}
+              <Collapse isOpen={isOpenAddEditForm}>
+                <AddEditTask
+                  handleEditTaskForm={handleAddEditTaskForm}
+                  handleAddUpdateTask={handleAddUpdateTask}
+                  handleClsAddEditTaskForm={handleClsAddEditTaskForm}
+                  selectedTask={selectedTask}
+                  taskProjectInfo={taskProjectInfo}
+                  addOrEdit={addOrEdit.current}
+                ></AddEditTask>
+              </Collapse>
+
+              {/* day selection calendar. */}
+              <Collapse isOpen={isOpenCalendar}>
+                <div className="fixed-header ">
+                  <div>
+                    <Button size="sm" color="" className="text-muted">
+                      Calender
+                    </Button>
+                    <div className="d-inline float-right ">
+                      <Button color="" onClick={handleClsCalendar}>
+                        <i className="fas fa-times text-muted"></i>
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="task-details ">
-              <Calendar handleDateSelection={handleOnChangeTaskDate}></Calendar>
-            </div>
-          </Collapse>
+                <div className="task-details ">
+                  <Calendar
+                    handleDateSelection={handleOnChangeTaskDate}
+                  ></Calendar>
+                </div>
+              </Collapse>
+            </Fragment>
+          </Col>
         </Fragment>
-      </Col> */}
+      ) : (
+        <Col sm={12}>
+          <AllTaskCalender
+            handleToggleAllTaskCalendar={handleToggleAllTaskCalendar}
+          ></AllTaskCalender>
+        </Col>
+      )}
+
+      {/* Task Calender that shows all the tasks of that employee. */}
     </Row>
   );
 };

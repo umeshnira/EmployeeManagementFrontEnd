@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
@@ -32,7 +32,7 @@ const companypolicyArr = [
 const thead = ["Policy Name", "Description", "Department", "File"];
 
 export default function CompanyPolicy() {
-  const [dataArr, setDataArr] = useState(companypolicyArr);
+  const [dataArr, setDataArr] = useState([]);
   const [policyName, setPolicyName] = useState("");
   const [policyDescription, setPolicyDescription] = useState("");
   const [policyDepartment, setPolicyDepartment] = useState("");
@@ -44,7 +44,7 @@ export default function CompanyPolicy() {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [workPrimiseInpuFields, setWorkprimiseInpuFields] = useState([
+  const [workPrimiseInpuFields] = useState([
     {
       label: "Policy Name",
       type: "text",
@@ -86,6 +86,10 @@ export default function CompanyPolicy() {
       },
     },
   ]);
+
+  useEffect(() => {
+    setDataArr(companypolicyArr);
+  }, []);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Nav, NavItem, NavLink, Card, Row, Col, Collapse } from "reactstrap";
 import classnames from "classnames";
 import TabRolesNdPermissions from "../../../components/adminSettings/tabRolesNdPermission/TabRolesNdPermissions";
@@ -157,7 +157,7 @@ let roleInfofromApi = [
 
 export default function RolesNdPermissions() {
   const [activeTab, setActiveTab] = useState("Admin");
-  const [roleData, setRoleData] = useState(roleInfofromApi);
+  const [roleData, setRoleData] = useState([]);
   const [roleDataActive, setRoleDataActive] = useState(roleData[0]);
   const [collapse, setCollapse] = useState({});
   // form states
@@ -165,7 +165,7 @@ export default function RolesNdPermissions() {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
 
-  const [roleInpuFields, setWorkprimiseInpuFields] = useState([
+  const [roleInpuFields] = useState([
     {
       label: "Role Name",
       type: "text",
@@ -177,6 +177,10 @@ export default function RolesNdPermissions() {
       },
     },
   ]);
+
+  useEffect(() => {
+    setRoleData(roleInfofromApi);
+  }, []);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component

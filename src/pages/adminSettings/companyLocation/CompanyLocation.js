@@ -1,16 +1,5 @@
 import React, { Fragment, useState } from "react";
-import {
-  Row,
-  Col,
-  Alert,
-  Container,
-  Card,
-  CardBody,
-  CardText,
-  CardTitle,
-  Button,
-  Table,
-} from "reactstrap";
+import { Row, Col, Container, Button, Table } from "reactstrap";
 import Form from "./Form";
 
 const location = [
@@ -112,7 +101,7 @@ export default function CompanyLocation() {
               <tbody>
                 {location.map((val, i) => {
                   return (
-                    <tr>
+                    <tr key={i}>
                       <th scope="row">{i + 1}</th>
                       <td>
                         {val.address}, LandMark : {val.landMark}

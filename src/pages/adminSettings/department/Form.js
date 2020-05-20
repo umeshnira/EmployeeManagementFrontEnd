@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Row,
   Col,
@@ -7,7 +7,6 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
   Container,
 } from "reactstrap";
 

@@ -9,17 +9,27 @@ import {
 } from "../../actions/actionType";
 
 const filterEmpTaskByDate = (incomingDate, fullTaskArr) => {
-  let filterArr = fullTaskArr.filter((el) => {
-    let arrDates = `${new Date(el.createdDate).getMonth()}/${new Date(
-      el.createdDate
-    ).getDate()}/${new Date(el.createdDate).getFullYear()}`;
+  let incoomDate = `${incomingDate.getMonth()}/${incomingDate.getDate()}/${incomingDate.getFullYear()}`;
+  let filterArr = fullTaskArr.filter(
+    (el) =>
+      `${new Date(el.createdDate).getMonth()}/${new Date(
+        el.createdDate
+      ).getDate()}/${new Date(el.createdDate).getFullYear()}` === incoomDate
+        ? el
+        : null
 
-    let incoomDate = `${incomingDate.getMonth()}/${incomingDate.getDate()}/${incomingDate.getFullYear()}`;
+    // let filterArr = fullTaskArr.filter((el) =>
 
-    if (arrDates === incoomDate) {
-      return el;
-    }
-  });
+    // {
+    //   let arrDates = `${new Date(el.createdDate).getMonth()}/${new Date(
+    //     el.createdDate
+    //   ).getDate()}/${new Date(el.createdDate).getFullYear()}`;
+
+    //   if (arrDates === incoomDate) {
+    //     return el;
+    //   }
+    //  }
+  );
   return filterArr;
 };
 

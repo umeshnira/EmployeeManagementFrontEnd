@@ -7,8 +7,8 @@ import {
 } from "reactstrap";
 
 const DropDownBtn = (props) => {
+  // const {dropDownOption,selectedOpt} = props
   const [dropdownOpen, setOpen] = useState(false);
-
   const [selectedOpt, setSelectedOpt] = useState("");
 
   const toggle = () => setOpen(!dropdownOpen);
@@ -18,7 +18,7 @@ const DropDownBtn = (props) => {
       (ele) => ele.option.toLowerCase() === props.selectedOpt.toLowerCase()
     );
     setSelectedOpt(opt);
-  }, [props.selectedOpt]);
+  }, [props.dropDownOption, props.selectedOpt]);
 
   return (
     <ButtonDropdown

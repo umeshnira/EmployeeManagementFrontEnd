@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import { connect } from "react-redux";
 import {
@@ -15,6 +15,8 @@ import { TabSkill } from "./TabSkill";
 import { TabRewards } from "./TabRewards";
 
 const EmpProfileViewTabs = React.memo((props) => {
+  const { delCertificateEmp, addEmpSkill } = props;
+
   const { selectEmp, empCertificate, empSkill } = props.selectEmp;
   const { projectList } = props.projectList;
 
@@ -25,13 +27,20 @@ const EmpProfileViewTabs = React.memo((props) => {
   };
 
   // Functions.
-  const delCertificate = React.useCallback((delId) => {
-    props.delCertificateEmp(delId);
-  }, []);
 
-  const handleAddEmpSkill = React.useCallback((empNewSkill, skillId) => {
-    props.addEmpSkill(empNewSkill, skillId, 29);
-  }, []);
+  const delCertificate = React.useCallback(
+    (delId) => {
+      delCertificateEmp(delId);
+    },
+    [delCertificateEmp]
+  );
+
+  const handleAddEmpSkill = React.useCallback(
+    (empNewSkill, skillId) => {
+      addEmpSkill(empNewSkill, skillId, 29);
+    },
+    [addEmpSkill]
+  );
 
   return (
     <div>

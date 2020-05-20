@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Table, Row, Col, Button } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 import SelectSearchBox from "../../common/SelectBoxSearch";
 import TableWithSortPagtn from "../../common/TableWithSortPagtn";
 
 const EmployeeAssets = (props) => {
   const { empList } = props;
-  const [assetsArr, setAssetsArr] = useState(props.assets);
+  // const [assetsArr, setAssetsArr] = useState(props.assets);
   const [selectedUserForAssets, setSelectedUserForAssets] = useState("");
   const [trow, setTrow] = useState([]);
   const [thead, setThead] = useState([]);
@@ -36,28 +36,31 @@ const EmployeeAssets = (props) => {
     setTrow(trowArr);
   };
   // from TableWithSorPagtn.js, ie clicked on the row of user view more.
-  const handleTrowClick = (emp) => {
-    setSelectedUserForAssets(emp.label);
-    let thead = ["#", "item name", "item no", "item model"];
-    let arr = [];
-    props.assets.map((asset, i) => {
-      return asset.assetItems
-        .filter((ele) => {
-          return ele.user === emp.label;
-        })
-        .map((el, k) => {
-          return arr.push({
-            "#": i + 1,
-            "item name": el.itemDescription,
-            "item no": el.itemNo,
-            "item model": el.modelNo,
+  const handleTrowClick = React.useCallback(
+    (emp) => {
+      setSelectedUserForAssets(emp.label);
+      let thead = ["#", "item name", "item no", "item model"];
+      let arr = [];
+      props.assets.map((asset, i) => {
+        return asset.assetItems
+          .filter((ele) => {
+            return ele.user === emp.label;
+          })
+          .map((el, k) => {
+            return arr.push({
+              "#": i + 1,
+              "item name": el.itemDescription,
+              "item no": el.itemNo,
+              "item model": el.modelNo,
+            });
           });
-        });
-    });
-    console.log(arr);
-    setThead(thead);
-    setTrow(arr);
-  };
+      });
+      setThead(thead);
+      setTrow(arr);
+    },
+    [props.assets]
+  );
+
   useEffect(() => {
     tableValues();
   }, [empList]);
@@ -74,7 +77,7 @@ const EmployeeAssets = (props) => {
     });
     setThead(thead);
     setTrow(trowArr);
-  }, [empList]);
+  }, [empList, handleTrowClick]);
 
   return (
     <Fragment>

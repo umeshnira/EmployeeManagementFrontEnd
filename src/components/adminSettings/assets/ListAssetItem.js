@@ -14,7 +14,7 @@ import {
 import classnames from "classnames";
 
 export default function ListAssetItem(props) {
-  const { assetItems, asset } = props.assetData;
+  const { assetItems } = props.assetData;
   const [activeTab, setActiveTab] = useState("1");
 
   const toggle = (tab) => {

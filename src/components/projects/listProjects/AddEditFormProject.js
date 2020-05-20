@@ -136,6 +136,7 @@ const AddEditFormProject = React.memo(
 
     const handleSubmitForm = (e) => {
       e.preventDefault();
+      console.log(uploadFiles);
       if (selectProject) {
         // props.handleUpdateEmp(empFormData);
       } else {

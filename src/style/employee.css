@@ -124,7 +124,7 @@ h2 span {
 
 .profile-view .profile-basic {
   margin-left: 140px;
-  padding-right: 50px;
+  /* padding-right: 0px; */
 }
 
 @media only screen and (max-width: 575.98px) {
@@ -135,7 +135,7 @@ h2 span {
 }
 
 .profile-info-left {
-  border-right: 2px dashed #ccc;
+  border-left: 2px dashed #ccc;
 }
 .staff-id {
   font-size: 14px;
@@ -512,14 +512,6 @@ h2 span {
   font-size: 0.8rem;
 }
 
-@media only screen and (max-width: 575.98px) {
-  /* mobile */
-}
-
-@media only screen and (max-width: 991.98px) {
-  /* tablet */
-}
-
 /* Reward page ------------------------------ */
 
 .reward-info .personal-info li .title {
@@ -530,8 +522,86 @@ h2 span {
   width: 60%;
 }
 
+.reward-info {
+  padding-left: 40px;
+}
+
 .reward-help {
-  position: absolute;
+  /* position: absolute; */
+  margin-top: 5px;
   right: 0;
   bottom: 0;
+}
+
+.rounded-div {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 8px;
+  /* border: 5px solid rgb(13, 44, 129); */
+  border-radius: 50%;
+  font-size: 24px;
+  color: rgb(20, 40, 94);
+  line-height: 90px;
+  font-weight: 600;
+  text-align: center;
+  margin-left: 10px;
+  text-shadow: 2px 2px 3px #00000046;
+  /* background: #000; */
+}
+
+.rounded-div.one {
+  border: 5px solid #d6c719;
+}
+.rounded-div.two {
+  border: 5px solid #8419d6;
+}
+
+.rounded-div.three {
+  border: 5px solid rgb(65, 129, 13);
+}
+
+.reward-info .text {
+  color: #8e8e8e;
+  display: block;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 0.64rem;
+}
+
+/* in mobile */
+@media screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .profile-basic {
+    text-align: center;
+  }
+
+  .profile-info-left {
+    border: 0px;
+  }
+
+  .reward-info {
+    padding-left: 10px;
+  }
+  .rounded-div {
+    width: 70px;
+    height: 70px;
+    margin-left: 0px;
+    font-size: 18px;
+    line-height: 65px;
+    font-weight: 400;
+
+    /* background: #000; */
+  }
+
+  .reward-info .text {
+    color: #8e8e8e;
+    display: block;
+    overflow: hidden;
+    font-weight: 400;
+    font-size: 0.6rem;
+  }
+}
+
+/* in tablet */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 }

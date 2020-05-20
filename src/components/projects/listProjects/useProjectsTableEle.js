@@ -1,14 +1,7 @@
 // <- ListProjects.js
 
-import React, { useRef, Fragment } from "react";
-import {
-  Row,
-  Col,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
+import React from "react";
+
 import { useEffect, useState } from "react";
 import DropDownBtn from "../../common/DropDownBtn";
 import DropDownActions from "../../common/DropDownActions";
@@ -34,11 +27,7 @@ const useProjectsTableEle = (projectList) => {
       console.log("in usePRoject table ele hook");
 
       return {
-        Project: (
-          <a href="#" className="project-name">
-            {project.projectName}
-          </a>
-        ),
+        Project: <span className="project-name"> {project.projectName}</span>,
         "Project id": project.projectId,
         Leader: project.projectLeaders.map((leader, i) => (
           <h2 className="table-avatar">

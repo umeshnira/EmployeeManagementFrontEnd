@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   ButtonDropdown,
   DropdownToggle,
@@ -9,7 +9,7 @@ import {
 const DropDownActions = (props) => {
   const [dropdownOpen, setOpen] = useState(false);
 
-  const [selectedOpt, setSelectedOpt] = useState("");
+  // const [selectedOpt, setSelectedOpt] = useState("");
 
   const toggle = () => setOpen(!dropdownOpen);
 

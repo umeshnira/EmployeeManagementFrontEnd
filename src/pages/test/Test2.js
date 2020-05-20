@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import Scheduler, {
   SchedulerData,
   ViewTypes,
-  DATE_FORMAT,
+  // DATE_FORMAT,
 } from "react-big-scheduler";
 import { DemoData } from "./DemoData";
 import withDragDropContext from "../../withDnDContext";

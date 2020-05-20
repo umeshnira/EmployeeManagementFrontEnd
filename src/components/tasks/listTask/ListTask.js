@@ -1,13 +1,6 @@
 // <- TaskManagment.js
 import React, { useState, Fragment } from "react";
-import {
-  Button,
-  ListGroup,
-  ListGroupItem,
-  UncontrolledPopover,
-  PopoverHeader,
-  PopoverBody,
-} from "reactstrap";
+import { Button, ListGroup, ListGroupItem } from "reactstrap";
 
 const active = {
   background: "rgba(114, 111, 111, 0.048)",
@@ -20,14 +13,18 @@ const ListTask = React.memo(
     handleOpenCalendar,
     empTask,
     taskProjectInfo,
+    handleToggleAllTaskCalendar,
   }) => {
     console.log("List Task");
     const [activeTask, setActiveTask] = useState(0);
 
-    const handleOnclickSelectedTask = React.useCallback((task, i) => {
-      setActiveTask(i);
-      handleSelectedTask(task);
-    }, []);
+    const handleOnclickSelectedTask = React.useCallback(
+      (task, i) => {
+        setActiveTask(i);
+        handleSelectedTask(task);
+      },
+      [handleSelectedTask]
+    );
 
     return (
       <Fragment>
@@ -43,6 +40,9 @@ const ListTask = React.memo(
             </Button>
             <div className="d-inline float-right ">
               <Button color="" onClick={handleOpenCalendar}>
+                <i className="fas fa-calendar-day text-muted"></i>
+              </Button>
+              <Button color="" onClick={handleToggleAllTaskCalendar}>
                 <i className="fas fa-calendar-alt text-muted"></i>
               </Button>
             </div>

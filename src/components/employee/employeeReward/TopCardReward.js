@@ -26,29 +26,48 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                 <div className="profile-basic">
                   <div className="row">
                     <div className="col-md-5">
-                      <div className="profile-info-left">
-                        <h3 className="user-name m-t-0 mb-0">
-                          {selectEmp.value.empName}
-                        </h3>
-                        <h6 className="text-muted">
-                          {selectEmp.value.designation}
-                        </h6>
-                        <small className="text-muted">Web Designer</small>
-                        <div className="staff-id">
-                          Employee ID : {selectEmp.value.empId}
-                        </div>
-                        <div className="small doj text-muted">
-                          Date of Join : {selectEmp.value.doj}
-                        </div>
-                        <div className="staff-msg">
-                          <a className="btn btn-custom" href="chat.html">
-                            {/* Send Message */}
-                          </a>
-                        </div>
+                      <h3 className="user-name m-t-0 mb-0">
+                        {selectEmp.value.empName}
+                      </h3>
+                      <h6 className="text-muted">
+                        {selectEmp.value.designation}
+                      </h6>
+                      <small className="text-muted">Web Designer</small>
+                      <div className="staff-id">
+                        Employee ID : {selectEmp.value.empId}
+                      </div>
+                      <div className="small doj text-muted">
+                        Date of Join : {selectEmp.value.doj}
+                      </div>
+                      <div className="staff-msg">
+                        <a className="btn btn-custom" href="chat.html">
+                          {/* Send Message */}
+                        </a>
                       </div>
                     </div>
-                    <div className="col-md-7 reward-info">
-                      <ul className="personal-info">
+                    <div className="col-md-7 reward-info profile-info-left">
+                      <Row className="">
+                        <Col sm={4} xs={4}>
+                          <div className=" ">
+                            <div className="rounded-div one">4000</div>
+                            <span className="text">Total Points Achieved</span>
+                          </div>
+                        </Col>
+                        <Col sm={4} xs={4}>
+                          <div className=" ">
+                            <div className="rounded-div two">12000</div>
+                            <span className="text">Total Points Redeemed</span>
+                          </div>
+                        </Col>
+                        <Col sm={4} xs={4}>
+                          <div className=" ">
+                            <div className="rounded-div three">8000</div>
+                            <span className="text">Points Need to Redeem</span>
+                          </div>
+                        </Col>
+                      </Row>
+
+                      {/* <ul className="personal-info">
                         <li>
                           <div className="title">
                             Total Reward Points Achieved
@@ -73,19 +92,19 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                             <span className="link-text">8000</span>
                           </div>
                         </li>
-                      </ul>
+                      </ul> */}
                       <Collapse isOpen={isOpen}>
                         <hr></hr>
                         <span
                           className="text-muted"
-                          style={{ position: "aboslute" }}
+                          // style={{ position: "aboslute" }}
                         >
                           How to get reedm point, byt just give your 80% on
                           planing and 20% on your work.
                         </span>
                       </Collapse>
-                      <Row>
-                        <Col md={12}>
+                      <Row className="mt-4">
+                        <Col xs={10} md={10} sm={10} lg={10}>
                           <Button
                             outline
                             color="info"
@@ -94,17 +113,19 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                             Redeem
                           </Button>
                         </Col>
+                        <Col xs={2} md={2} sm={2} lg={2}>
+                          <div
+                            className="reward-help"
+                            onClick={toggleHowToGetRedeem}
+                          >
+                            <span className="edit-icon">
+                              <i className="fas fa-question"></i>
+                            </span>
+                          </div>
+                        </Col>
                       </Row>
                     </div>
                   </div>
-                </div>
-
-                <div className="reward-help" onClick={toggleHowToGetRedeem}>
-                  <span className="edit-icon">
-                    <i className="fas fa-question"></i>
-
-                    {/* <i className="fas fa-pencil-alt"></i> */}
-                  </span>
                 </div>
               </div>
             </Col>

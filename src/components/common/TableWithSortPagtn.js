@@ -1,48 +1,47 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import React from "react";
+// import styled from "styled-components";
 import { useTable, usePagination, useSortBy } from "react-table";
 import {
   Table,
   Row,
   Col,
-  Input,
   Pagination,
   PaginationItem,
   PaginationLink,
 } from "reactstrap";
 
-const Styles = styled.div`
-  padding: 1rem;
+// const Styles = styled.div`
+//   padding: 1rem;
 
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
+//   table {
+//     border-spacing: 0;
+//     border: 1px solid black;
 
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
+//     tr {
+//       :last-child {
+//         td {
+//           border-bottom: 0;
+//         }
+//       }
+//     }
 
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+//     th,
+//     td {
+//       margin: 0;
+//       padding: 0.5rem;
+//       border-bottom: 1px solid black;
+//       border-right: 1px solid black;
 
-      :last-child {
-        border-right: 0;
-      }
-    }
-  }
+//       :last-child {
+//         border-right: 0;
+//       }
+//     }
+//   }
 
-  .pagination {
-    padding: 0.5rem;
-  }
-`;
+//   .pagination {
+//     padding: 0.5rem;
+//   }
+// `;
 
 function TableView({ columns, data }) {
   // Use the state and functions returned from useTable to build your UI
@@ -113,8 +112,8 @@ function TableView({ columns, data }) {
 
       <Table {...getTableProps()} striped className="mt-2">
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+          {headerGroups.map((headerGroup, p) => (
+            <tr key={p} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render("Header")}
