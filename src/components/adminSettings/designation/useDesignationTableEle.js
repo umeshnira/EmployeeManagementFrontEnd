@@ -1,11 +1,10 @@
-import React from "react";
+// import React from "react";
 import { useState, useEffect } from "react";
 
 const useDesignationTableEle = (thead, data) => {
   const [trow, setTrow] = useState([]);
 
   useEffect(() => {
-    console.log(thead, data);
     let trow = {};
     let trowArr = [];
 

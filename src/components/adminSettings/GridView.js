@@ -25,18 +25,15 @@ export default function GridView(props) {
                 {props.pagaData.map((val, i) => {
                   return (
                     <Col lg={3} md={6} sm={6} xs={12} className="mb-3" key={i}>
-                      <Card
-                        body
-                        inverse
-                        className="card-tile text-center"
-                        onClick={() => {
-                          props.handleSelectedDesg(val, i);
-                          props.toggle();
-                          // handleEditDepartment(val.department, i);
-                        }}
-                      >
-                        {console.log(Object.keys(val)[0])}
-                        <span className="text-left">
+                      <Card body inverse className="card-tile text-center">
+                        <span
+                          className="text-left"
+                          onClick={() => {
+                            props.handleSelectedDesg(val, i);
+                            props.toggle();
+                            // handleEditDepartment(val.department, i);
+                          }}
+                        >
                           {val[Object.keys(val)[0]]}
                         </span>
                         <i
@@ -50,6 +47,7 @@ export default function GridView(props) {
                             bottom: 0,
                             cursor: "pointer",
                           }}
+                          onClick={() => props.handleDelDesignation(i)}
                         ></i>
                       </Card>
                     </Col>

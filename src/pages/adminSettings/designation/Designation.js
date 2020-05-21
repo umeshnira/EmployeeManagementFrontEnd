@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
 import {
@@ -7,62 +9,25 @@ import {
   FromEditFields,
   useDesignationTableEle,
 } from "../../../components/adminSettings/index";
-
-const designationDate = [
-  {
-    designation: "Ass. Software Engineer Trainee",
-    description: "manager",
-  },
-  {
-    designation: "Ass. Software Engineer",
-    description: "eng",
-  },
-  {
-    designation: "HR Executive-Trainee",
-    description: "trainee",
-  },
-  {
-    designation: " HR Executive",
-    description: "hr",
-  },
-  {
-    designation: "HR Manager",
-    description: "manager",
-  },
-  {
-    designation: "Lead Engineer",
-    description: "Lead",
-  },
-  {
-    designation: "Managing Director",
-    description: "Dirct",
-  },
-  {
-    designation: " Manager - Sales",
-    description: "sale",
-  },
-  {
-    designation: "Sales Executive",
-    description: "Exc",
-  },
-  {
-    designation: "Software Engineer",
-    description: "eng",
-  },
-  {
-    designation: "Sr. Software Engineer",
-    description: "sr",
-  },
-  {
-    designation: " Sr. Lead Engineer",
-    description: "sr lead",
-  },
-];
+import {
+  getDesignation,
+  addDesignation,
+  updateDesignation,
+  delDesignation,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
 
 // Data for  list view.
 const thead = ["Designation", "Description"];
 
-export default function Designation() {
+const Designation = (props) => {
+  const {
+    getDesignation,
+    updateDesignation,
+    addDesignation,
+    delDesignation,
+  } = props;
+  const { desiginations } = props.desiginations;
+
   const [designationArr, setDepartmentArray] = useState([]);
   const [designation, setDesignation] = useState("");
   const [description, setDescription] = useState("");
@@ -78,7 +43,7 @@ export default function Designation() {
       label: "Designation",
       type: "text",
       placeholder: "Enter Designation",
-      name: "designation", // this name should be equal to the designation array key's.
+      name: "designation", // this name should be equal to the data array key's.
       handleOnChange: (val) => {
         setDesignation(val);
       },
@@ -87,7 +52,7 @@ export default function Designation() {
       label: "description",
       type: "text",
       placeholder: "Enter description",
-      name: "designationDescp", // this name should be equal to the  array key's name.
+      name: "description", // this name should be equal to the data array key's name.
       handleOnChange: (val) => {
         setDescription(val);
       },
@@ -95,19 +60,27 @@ export default function Designation() {
   ]);
 
   // custome hooks.
-  const { trow } = useDesignationTableEle(thead, designationDate);
+  const { trow } = useDesignationTableEle(thead, desiginations);
 
+  // call the designation data
   useEffect(() => {
-    setDepartmentArray(designationDate);
-  }, []);
+    getDesignation();
+  }, [getDesignation]);
+
+  // to set the designation data from reducer.
+  useEffect(() => {
+    setDepartmentArray(desiginations);
+  }, [desiginations]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    selectedDesg.val[field] = val; // change a particular key in the selected designation.
-    // setSelectedDesg(selectedDesg);
+    let tempObj = selectedDesg; // for not mutating reducer state.
+    tempObj.val[field] = val;
+    setSelectedDesg(tempObj);
+    // change a particular key in the selected designation.
   };
   // toggle between the form a grid view and form .
 
@@ -124,15 +97,26 @@ export default function Designation() {
 
   const handleDesignationAdd = (e) => {
     e.preventDefault();
+    let formData = {
+      desigination: designation,
+      description: description,
+    };
+    addDesignation(formData);
     toggle();
-    console.log(description);
-    console.log(designation);
   };
   const handleDesignationUpdate = (e) => {
     e.preventDefault();
+    updateDesignation(selectedDesg);
     setSelectedDesg({ id: "", val: "" });
     toggle();
   };
+  // delete  designation.
+  const handleDelDesignation = React.useCallback(
+    (delId) => {
+      delDesignation(delId);
+    },
+    [delDesignation]
+  );
 
   return (
     <div>
@@ -195,6 +179,7 @@ export default function Designation() {
           pagaData={designationArr}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
+          handleDelDesignation={handleDelDesignation}
           toggle={toggle}
           handleSelectedDesg={(val, id) => handleEditDesgnation(val, id)}
         ></GridView>
@@ -204,4 +189,19 @@ export default function Designation() {
       </Collapse>
     </div>
   );
-}
+};
+
+Designation.prototype = {
+  getDesignation: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  desiginations: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, {
+  getDesignation,
+  addDesignation,
+  updateDesignation,
+  delDesignation,
+})(Designation);

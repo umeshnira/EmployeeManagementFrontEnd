@@ -298,7 +298,7 @@ const Assets = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  selectedAsset: state.assetReducer,
+  selectedAsset: state.adminSettingReducer,
   empList: state.empReducer,
 });
 
