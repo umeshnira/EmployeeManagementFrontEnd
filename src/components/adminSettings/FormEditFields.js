@@ -16,7 +16,6 @@ const FormEditFields = (props) => {
                   placeholder={val.placeholder}
                   onChange={(e) => {
                     val.handleOnChange(e.target.value);
-
                     props.handleOnchangeToSelectedData(
                       e.target.value,
                       val.name

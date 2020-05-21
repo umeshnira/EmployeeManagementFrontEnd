@@ -20,7 +20,6 @@ let empSkill;
 // api functions
 function getEmpListApi() {
   // made this structure to have seacrh in select box.
-
   return empList;
 }
 function addEmpApi(empData) {

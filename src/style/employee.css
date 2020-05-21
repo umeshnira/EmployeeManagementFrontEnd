@@ -512,6 +512,12 @@ h2 span {
   font-size: 0.8rem;
 }
 
+.reward-box .more-details {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #007bff;
+}
+
 /* Reward page ------------------------------ */
 
 .reward-info .personal-info li .title {
@@ -566,6 +572,7 @@ h2 span {
   overflow: hidden;
   font-weight: 600;
   font-size: 0.64rem;
+  text-align: center;
 }
 
 /* in mobile */

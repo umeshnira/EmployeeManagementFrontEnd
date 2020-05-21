@@ -24,7 +24,7 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
                 <div className="profile-basic">
                   <div className="row">
                     <div className="col-md-5">
-                      <div className="profile-info-left">
+                      <div className="">
                         <h3 className="user-name m-t-0 mb-0">
                           {selectEmp.value.empName}
                         </h3>
@@ -45,7 +45,7 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-7">
+                    <div className="col-md-7 profile-info-left">
                       <ul className="personal-info">
                         <li>
                           <div className="title">Phone:</div>

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import {
   Collapse,
   Row,
@@ -12,8 +12,14 @@ import {
 // let arr = [];
 export default function TabRolesNdPermissions(props) {
   const { collapse, roleDataActive } = props;
-  return (
+
+  // useEffect(() => {
+  //   console.log(roleDataActive.moduleAccess);
+  // }, [roleDataActive]);
+
+  return roleDataActive.role !== undefined ? (
     <Fragment>
+      {console.log(roleDataActive)}
       <Row>
         <Col>
           <h5>Module Access /{props.roleDataActive.role}</h5>
@@ -130,5 +136,5 @@ export default function TabRolesNdPermissions(props) {
         </Col>
       </Row>
     </Fragment>
-  );
+  ) : null;
 }

@@ -1,19 +1,8 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardBody,
-  Row,
-  Col,
-  Collapse,
-  Button,
-  Container,
-} from "reactstrap";
+import React from "react";
+import { Row, Col, Container } from "reactstrap";
 import "../../style/test.css";
 
 export const Test3 = React.memo(({ selectEmp }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleHowToGetRedeem = () => setIsOpen(!isOpen);
   return (
     /* check whether the props has the value */
     // {selectEmp.value ? (

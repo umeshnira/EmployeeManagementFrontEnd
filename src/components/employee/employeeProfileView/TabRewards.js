@@ -22,22 +22,75 @@ export const TabRewards = () => {
             <Card className="flex-fill">
               <CardBody>
                 <CardTitle>
-                  <h3>Rewards</h3>
+                  <h3>
+                    Rewards{" "}
+                    <span className="float-right more-details">
+                      <a href={`/empRewards/29`}> more details</a>
+                    </span>
+                  </h3>
                 </CardTitle>
 
-                <ul className="personal-info">
+                <Row className=" reward-info">
+                  <Col sm={4} xs={4}>
+                    <div className=" ">
+                      <div className="rounded-div one">4000</div>
+                      <span className="text">Total Points Achieved</span>
+                    </div>
+                  </Col>
+                  <Col sm={4} xs={4}>
+                    <div className=" ">
+                      <div className="rounded-div two">12000</div>
+                      <span className="text">Points Redeemed</span>
+                    </div>
+                  </Col>
+                  <Col sm={4} xs={4}>
+                    <div className=" ">
+                      <div className="rounded-div three">8000</div>
+                      <span className="text">Points to Redeem</span>
+                    </div>
+                  </Col>
+                </Row>
+
+                <Collapse isOpen={isOpen}>
+                  <hr></hr>
+                  <span
+                    className="text-muted"
+                    // style={{ position: "aboslute" }}
+                  >
+                    How to get reedm point, by just give your 80% on planing and
+                    20% on your work.
+                  </span>
+                </Collapse>
+                <Row className="mt-4">
+                  <Col xs={10} md={10} sm={10} lg={10}>
+                    <Button
+                      outline
+                      color="info"
+                      style={{ width: "100%", display: "block" }}
+                    >
+                      Redeem
+                    </Button>
+                  </Col>
+                  <Col xs={2} md={2} sm={2} lg={2}>
+                    <div className="reward-help" onClick={toggleHowToGetRedeem}>
+                      <span className="edit-icon">
+                        <i className="fas fa-question"></i>
+                      </span>
+                    </div>
+                  </Col>
+                </Row>
+
+                {/* <ul className="personal-info">
                   <li>
                     <div className="title">Total Reward Point </div>
-                    {/* <div className="sepration">:</div> */}
-
+ 
                     <div className="text">
                       1000 <a href={`/empRewards/29`}> more details</a>
                     </div>
                   </li>
                   <li>
                     <div className="title">Total points to Redeem </div>
-                    {/* <div className="sepration">:</div> */}
-                    <div className="text text-left">3000</div>
+                     <div className="text text-left">3000</div>
                   </li>
                   <Collapse isOpen={isOpen}>
                     <hr></hr>
@@ -69,7 +122,7 @@ export const TabRewards = () => {
                       Redeem
                     </Button>
                   </Col>
-                </Row>
+                </Row> */}
               </CardBody>
             </Card>
           </Col>

@@ -3,6 +3,7 @@ import { Table } from "reactstrap";
 import DropDownBtn from "../../components/common/DropDownBtn";
 
 const ListView = (props) => {
+  const { listData } = props;
   return (
     <Table hover>
       {console.log("LV assest")}
@@ -35,7 +36,7 @@ const ListView = (props) => {
       </thead>
       <tbody>
         {/* get the length of row from the length of the listData */}
-        {props.listData.map((row, i) => {
+        {listData.map((row, i) => {
           return (
             <tr key={i}>
               <th scope="row">{i + 1}</th>

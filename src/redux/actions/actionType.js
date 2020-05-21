@@ -1,4 +1,14 @@
 // admin setting action type.
+// designation action type.
+export const GET_DESGNATION = "GET_DESGNATION";
+export const GET_DESGNATION_SUCCESS = "GET_DESGNATION_SUCCESS";
+export const ADD_DESIGINATION = "ADD_DESIGINATION";
+export const ADD_DESIGINATION_SUCCESS = "ADD_DESIGINATION_SUCCESS";
+export const UPDATE_DESIGNATION_SUCCESS = "UPDATE_DESIGNATION_SUCCESS";
+export const DEL_DESIGNATION = "DEL_DESIGNATION";
+export const DEL_DESIGNATION_SUCCESS = "DEL_DESIGNATION_SUCCESS";
+
+// asset action type.
 export const GET_SELECTED_ASSET = "GET_SELECTED_ASSET";
 
 // Employee action type.

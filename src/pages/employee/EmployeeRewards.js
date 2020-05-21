@@ -1,7 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import { getSelectedEmp } from "../../redux/actions/employee/employee.action";
-import {} from "reactstrap";
 import { TopCardReward } from "../../components/employee/employeeReward/TopCardReward";
 import { RewardAchieved } from "../../components/employee/employeeReward/RewardAchieved";
 

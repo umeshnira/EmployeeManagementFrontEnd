@@ -1,60 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { Collapse, Row, Col, Button } from "reactstrap";
+import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
 import {
   GridView,
-  ListView,
   FromFields,
   FromEditFields,
+  useDesignationTableEle,
 } from "../../../components/adminSettings/index";
 
-const designationArr = [
+const designationDate = [
   {
-    type1: "Ass. Software Engineer Trainee",
-    type2: "manager",
+    designation: "Ass. Software Engineer Trainee",
+    description: "manager",
   },
   {
-    type1: "Ass. Software Engineer",
-    type2: "eng",
+    designation: "Ass. Software Engineer",
+    description: "eng",
   },
   {
-    type1: "HR Executive-Trainee",
-    type2: "trainee",
+    designation: "HR Executive-Trainee",
+    description: "trainee",
   },
   {
-    type1: " HR Executive",
-    type2: "hr",
+    designation: " HR Executive",
+    description: "hr",
   },
   {
-    type1: "HR Manager",
-    type2: "manager",
+    designation: "HR Manager",
+    description: "manager",
   },
   {
-    type1: "Lead Engineer",
-    type2: "Lead",
+    designation: "Lead Engineer",
+    description: "Lead",
   },
   {
-    type1: "Managing Director",
-    type2: "Dirct",
+    designation: "Managing Director",
+    description: "Dirct",
   },
   {
-    type1: " Manager - Sales",
-    type2: "sale",
+    designation: " Manager - Sales",
+    description: "sale",
   },
   {
-    type1: "Sales Executive",
-    type2: "Exc",
+    designation: "Sales Executive",
+    description: "Exc",
   },
   {
-    type1: "Software Engineer",
-    type2: "eng",
+    designation: "Software Engineer",
+    description: "eng",
   },
   {
-    type1: "Sr. Software Engineer",
-    type2: "sr",
+    designation: "Sr. Software Engineer",
+    description: "sr",
   },
   {
-    type1: " Sr. Lead Engineer",
-    type2: "sr lead",
+    designation: " Sr. Lead Engineer",
+    description: "sr lead",
   },
 ];
 
@@ -62,7 +63,7 @@ const designationArr = [
 const thead = ["Designation", "Description"];
 
 export default function Designation() {
-  const [departmentArr, setDepartmentArray] = useState([]);
+  const [designationArr, setDepartmentArray] = useState([]);
   const [designation, setDesignation] = useState("");
   const [description, setDescription] = useState("");
 
@@ -77,7 +78,7 @@ export default function Designation() {
       label: "Designation",
       type: "text",
       placeholder: "Enter Designation",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "designation", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
         setDesignation(val);
       },
@@ -86,15 +87,18 @@ export default function Designation() {
       label: "description",
       type: "text",
       placeholder: "Enter description",
-      name: "type2", // this name should be equal to the  array key's name.
+      name: "designationDescp", // this name should be equal to the  array key's name.
       handleOnChange: (val) => {
         setDescription(val);
       },
     },
   ]);
 
+  // custome hooks.
+  const { trow } = useDesignationTableEle(thead, designationDate);
+
   useEffect(() => {
-    setDepartmentArray(designationArr);
+    setDepartmentArray(designationDate);
   }, []);
 
   // Function -------------------
@@ -188,7 +192,7 @@ export default function Designation() {
       </Collapse>
       <Collapse isOpen={isOpenGridView}>
         <GridView
-          pagaData={departmentArr}
+          pagaData={designationArr}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
           toggle={toggle}
@@ -196,15 +200,7 @@ export default function Designation() {
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
-        <ListView
-          thead={thead}
-          listData={designationArr}
-          toggle={() => {
-            setIsOpenListView(!isOpenListView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditDesgnation(val, id)}
-        ></ListView>
+        <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
       </Collapse>
     </div>
   );

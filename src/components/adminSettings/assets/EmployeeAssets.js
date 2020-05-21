@@ -12,18 +12,6 @@ const EmployeeAssets = (props) => {
 
   //   Functiions ------------------
   const selectedUserFromSearch = (emp) => {
-    // let arr = [];
-    // props.assets.map((asset, i) => {
-    //   return asset.assetItems
-    //     .filter((ele) => {
-    //       return ele.user === user.label;
-    //     })
-    //     .map((el, i) => {
-
-    //       return arr.push({ asset: asset.asset, assetItems: [el] });
-    //     });
-    // });
-    // setAssetsArr(arr);
     let trowArr = empList
       .filter((ele) => ele.label === emp.label)
       .map((ele, i) => {
@@ -35,6 +23,7 @@ const EmployeeAssets = (props) => {
       });
     setTrow(trowArr);
   };
+
   // from TableWithSorPagtn.js, ie clicked on the row of user view more.
   const handleTrowClick = React.useCallback(
     (emp) => {

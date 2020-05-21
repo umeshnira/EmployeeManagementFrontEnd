@@ -99,7 +99,7 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                           className="text-muted"
                           // style={{ position: "aboslute" }}
                         >
-                          How to get reedm point, byt just give your 80% on
+                          How to get reedm point, by just give your 80% on
                           planing and 20% on your work.
                         </span>
                       </Collapse>

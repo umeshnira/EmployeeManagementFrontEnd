@@ -158,7 +158,7 @@ let roleInfofromApi = [
 export default function RolesNdPermissions() {
   const [activeTab, setActiveTab] = useState("Admin");
   const [roleData, setRoleData] = useState([]);
-  const [roleDataActive, setRoleDataActive] = useState(roleData[0]);
+  const [roleDataActive, setRoleDataActive] = useState([]);
   const [collapse, setCollapse] = useState({});
   // form states
   const [roleName, setRoleName] = useState("");
@@ -180,6 +180,7 @@ export default function RolesNdPermissions() {
 
   useEffect(() => {
     setRoleData(roleInfofromApi);
+    setRoleDataActive(roleInfofromApi[0]);
   }, []);
 
   // Function -------------------
