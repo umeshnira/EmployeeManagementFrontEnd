@@ -21,16 +21,24 @@ const projectsList = [
     sourceCodePath: "www.github.com",
     projectLeaders: [
       {
+        leaderId: 29,
         leaderName: "waston",
         leaderImg: "avatar-01.jpg",
       },
     ],
     projectTeam: [
       {
+        memberId: 29,
+        memberName: "waston",
+        memberImg: "avatar-01.jpg",
+      },
+      {
+        memberId: 13,
         memberName: "Dutch",
         memberImg: "nible.png",
       },
       {
+        memberId: 33,
         memberName: "Jerry",
         memberImg: "avatar-06.png",
       },
@@ -60,16 +68,24 @@ const projectsList = [
     sourceCodePath: "www.github.com",
     projectLeaders: [
       {
+        leaderId: 33,
         leaderName: "Jerry",
         leaderImg: "avatar-06.png",
       },
     ],
     projectTeam: [
       {
+        memberId: 33,
+        memberName: "Jerry",
+        memberImg: "avatar-06.png",
+      },
+      {
+        memberId: 29,
         memberName: "Waston",
         memberImg: "avatar-01.jpg",
       },
       {
+        memberId: 13,
         memberName: "Dutch",
         memberImg: "nible.png",
       },

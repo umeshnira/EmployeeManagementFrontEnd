@@ -4,11 +4,15 @@ import {
   GET_DESIGNATION_SUCCESS,
   UPDATE_DESIGNATION_SUCCESS,
   DEL_DESIGNATION_SUCCESS,
+  GET_WORKPRIMISE,
+  GET_REWARDS,
 } from "../../actions/actionType";
 
 const initialState = {
   assetSelected: null,
   desiginations: [],
+  workPrimises: [],
+  rewards: [],
   // user list.
 };
 
@@ -38,6 +42,16 @@ export default function (state = initialState, action) {
         desiginations: state.desiginations.filter(
           (el, i) => i !== action.payload
         ),
+      };
+    case GET_WORKPRIMISE:
+      return {
+        ...state,
+        workPrimises: action.payload,
+      };
+    case GET_REWARDS:
+      return {
+        ...state,
+        rewards: action.payload,
       };
     case GET_SELECTED_ASSET:
       return {

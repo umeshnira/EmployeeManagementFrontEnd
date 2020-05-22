@@ -612,3 +612,70 @@ h2 span {
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 }
+
+/* Assign Rewards */
+
+.emp-list {
+  max-height: 250px;
+}
+.selected-card {
+  border-left: 1px solid rgba(128, 128, 128, 0.253);
+  /* border-radius: 10px; */
+  padding: 10px;
+  margin-left: 10px;
+  /* min-height: 250px; */
+}
+.selected-emp {
+  max-height: 220px;
+  overflow-y: scroll;
+}
+.selected-emp-info {
+  border: 1px solid grey;
+  border-radius: 22px 22px 22px 22px;
+  margin-bottom: 10px;
+}
+.selected-emp-info .emp-img {
+  display: table-cell;
+  position: relative;
+  height: 40px;
+  width: 40px;
+}
+
+.selected-emp-info img {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin: 4px 0px 4px 6px;
+}
+
+.selected-emp-info .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  width: 40px;
+  margin: 4px 0px 0px 6px;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #090a0a63;
+}
+.selected-emp-info:hover .overlay {
+  opacity: 1;
+}
+.selected-emp-info .emp-name {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 4px;
+  display: table-cell;
+}
+
+/* in mobile */
+@media screen and (min-device-width: 320px) and (max-device-width: 480px) {
+}
+
+/* in tablet */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+}

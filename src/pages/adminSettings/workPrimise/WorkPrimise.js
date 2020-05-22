@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
@@ -6,27 +8,15 @@ import {
   FromFields,
   FromEditFields,
 } from "../../../components/adminSettings/index";
-
-const workPrimiseArr = [
-  {
-    type1: "On site", // work primise
-    // type2: "manager",
-  },
-  {
-    type1: "Off Shore", // work primise
-  },
-  {
-    type1: "Contract compnay", // work primise,
-  },
-];
+import { getWorkPrimise } from "../../../redux/actions/adminSettings/adminSettings.action";
 
 // Data for  list view.
-const thead = ["Work Primise"];
+const thead = ["work Primise"]; // thead element names should === data key value.
 
-export default function WorkPrimise() {
-  const [dataArr] = useState(workPrimiseArr);
+const WorkPrimise = (props) => {
+  const { getWorkPrimise } = props;
+  const { workPrimises } = props.workPrimises;
   const [workPrimise, setWorkPrimise] = useState("");
-  // const [description, setDescription] = useState("");
 
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
 
@@ -39,13 +29,16 @@ export default function WorkPrimise() {
       label: "Work Primise",
       type: "text",
       placeholder: "Enter Work Primise",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "workPrimise", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
-        console.log(val);
         setWorkPrimise(val);
       },
     },
   ]);
+
+  useEffect(() => {
+    getWorkPrimise();
+  }, [getWorkPrimise]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -136,7 +129,7 @@ export default function WorkPrimise() {
       </Collapse>
       <Collapse isOpen={isOpenGridView}>
         <GridView
-          pagaData={dataArr}
+          pagaData={workPrimises}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedData({ id: "", val: "" })}
           toggle={() => {
@@ -149,7 +142,7 @@ export default function WorkPrimise() {
       <Collapse isOpen={isOpenListView}>
         <ListView
           thead={thead}
-          listData={dataArr}
+          listData={workPrimises}
           toggle={() => {
             setIsOpenListView(!isOpenListView);
             setIsOpenForm(!isOpenForm);
@@ -159,4 +152,14 @@ export default function WorkPrimise() {
       </Collapse>
     </div>
   );
-}
+};
+
+WorkPrimise.prototype = {
+  getWorkPrimise: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  workPrimises: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, { getWorkPrimise })(WorkPrimise);

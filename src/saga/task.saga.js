@@ -10,12 +10,27 @@ import {
   DEL_TASK_SUCCESS,
 } from "../redux/actions/actionType";
 import { tasks } from "../datas/tasks";
+import { projectsList } from "../datas/projects";
 
 // Api Functions.
 function getEmpTaskApi(empId) {
-  // api call.
+  // api call all task .
+  // api call all projects .
+
   let empTask = tasks.filter((el) => el.empId === empId);
-  return { empTask };
+  let projectNames = [];
+  projectsList.map((project) =>
+    project.projectTeam.map((member) =>
+      member.memberId === empId
+        ? projectNames.push({
+            projectId: project.projectId,
+            projectName: project.projectName,
+          })
+        : null
+    )
+  );
+
+  return { empTask, projectNames };
 }
 
 function addTaskApi(formData, taskProjectId) {
@@ -33,8 +48,11 @@ function delTaskApi(delId) {
 // get all the task of a particular employee.
 export function* handleGetEmpTask(empId) {
   try {
-    const { empTask } = yield call(getEmpTaskApi, empId.payload);
-    yield put({ type: GET_EMP_TASK_SUCCESS, payload: empTask });
+    const { empTask, projectNames } = yield call(getEmpTaskApi, empId.payload);
+    yield put({
+      type: GET_EMP_TASK_SUCCESS,
+      payload: { empTask, projectNames },
+    });
   } catch (error) {
     console.log(error);
   }

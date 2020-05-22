@@ -101,7 +101,7 @@ export default function Reward() {
     <div>
       <Row>
         <Col>
-          <h3>Empolyee Type</h3>
+          <h3>Rewards</h3>
         </Col>
         <Col>
           {isOpenGridView ? (

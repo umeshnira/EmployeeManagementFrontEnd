@@ -193,6 +193,9 @@ const Designation = (props) => {
 
 Designation.prototype = {
   getDesignation: PropTypes.func,
+  addDesignation: PropTypes.func,
+  updateDesignation: PropTypes.func,
+  delDesignation: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

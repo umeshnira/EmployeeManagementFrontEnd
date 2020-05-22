@@ -29,6 +29,7 @@ import {
   EmployeeSettings,
   EmployeeProfileView,
   EmployeeRewards,
+  AssignRewards,
 } from "./pages/employee/index";
 // Projects
 import { ListProjects, ViewProject } from "./pages/projects/index";
@@ -90,6 +91,11 @@ function App() {
               path="/empRewards/:empId"
               component={EmployeeRewards}
             />
+            <Route
+              exact
+              path="/assignRewards"
+              component={AssignRewards}
+            ></Route>
             <Route exact path="/listProjects" component={ListProjects} />
             <Route
               exact

@@ -10,25 +10,12 @@ import {
 
 const filterEmpTaskByDate = (incomingDate, fullTaskArr) => {
   let incoomDate = `${incomingDate.getMonth()}/${incomingDate.getDate()}/${incomingDate.getFullYear()}`;
-  let filterArr = fullTaskArr.filter(
-    (el) =>
-      `${new Date(el.createdDate).getMonth()}/${new Date(
-        el.createdDate
-      ).getDate()}/${new Date(el.createdDate).getFullYear()}` === incoomDate
-        ? el
-        : null
-
-    // let filterArr = fullTaskArr.filter((el) =>
-
-    // {
-    //   let arrDates = `${new Date(el.createdDate).getMonth()}/${new Date(
-    //     el.createdDate
-    //   ).getDate()}/${new Date(el.createdDate).getFullYear()}`;
-
-    //   if (arrDates === incoomDate) {
-    //     return el;
-    //   }
-    //  }
+  let filterArr = fullTaskArr.filter((el) =>
+    `${new Date(el.createdDate).getMonth()}/${new Date(
+      el.createdDate
+    ).getDate()}/${new Date(el.createdDate).getFullYear()}` === incoomDate
+      ? el
+      : null
   );
   return filterArr;
 };
@@ -56,13 +43,17 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_EMP_TASK_SUCCESS:
-      let filterEmpByDate = filterEmpTaskByDate(new Date(), action.payload);
+      let filterEmpByDate = filterEmpTaskByDate(
+        new Date(),
+        action.payload.empTask
+      );
       let projectNamesArr = getProjectNames(filterEmpByDate); // get the unique project nawem from that day.
+
       return {
         // ...state,
         fullTaskArr: action.payload,
         empTask: filterEmpByDate,
-        projectNames: projectNamesArr,
+        projectNames: action.payload.projectNames,
         taskProjectInfo: {
           projectId:
             filterEmpByDate.length > 0 ? filterEmpByDate[0].projectId : "",
