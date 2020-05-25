@@ -614,17 +614,32 @@ h2 span {
 }
 
 /* Assign Rewards */
+.assign-rewards {
+  position: relative;
+}
+.assign-rewards #showPageCountInTable {
+  display: none;
+}
+.assign-rewards .table-with-pagination tr {
+  line-height: 10px;
+}
+.assign-rewards .table-pagination {
+  font-size: 10px;
+}
+.assign-rewards .table-goto-page {
+  display: none;
+}
+.assign-rewards .profile-img-table {
+  height: 30px;
+  width: 30px;
+}
 
 .emp-list {
   max-height: 250px;
 }
-.selected-card {
-  border-left: 1px solid rgba(128, 128, 128, 0.253);
-  /* border-radius: 10px; */
-  padding: 10px;
-  margin-left: 10px;
-  /* min-height: 250px; */
-}
+/* .selected-card {
+  position: relative;
+} */
 .selected-emp {
   max-height: 220px;
   overflow-y: scroll;
@@ -671,8 +686,44 @@ h2 span {
   display: table-cell;
 }
 
+.selected-card .del-reward-icon {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+}
+
+.assign-reward-btn-submit {
+  position: fixed;
+  /* width: 80%; */
+  bottom: 40px;
+  right: 40px;
+  background-color: #1f1e09;
+  border: 0px;
+}
+
+.selected-rewards .table-with-pagination .main-div {
+  width: 480px;
+  overflow: auto;
+}
+
+/* process rewards */
+.process-rewards .table-with-pagination .main-div {
+  width: 980px;
+  overflow: auto;
+}
+
 /* in mobile */
 @media screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .selected-rewards .table-with-pagination .main-div {
+    width: 280px;
+    overflow: auto;
+  }
+
+  /* process rewards */
+  .process-rewards .table-with-pagination .main-div {
+    width: 280px;
+    overflow: auto;
+  }
 }
 
 /* in tablet */

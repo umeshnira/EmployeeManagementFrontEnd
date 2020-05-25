@@ -11,7 +11,8 @@ export { default as EmpProfileViewTopCard } from "./employeeProfileView/EmpProfi
 export { default as EmpProfileViewTabs } from "./employeeProfileView/EmpProfileViewTabs";
 
 // assign rewards.
-export { default as EmpListAssignRewards } from "./assignRewards/EmpListAssignRewards";
+export { default as useEmpListAssignRewards } from "./assignRewards/useEmpListAssignRewards";
 export { default as RewardListAssignRewards } from "./assignRewards/RewardListAssignRewards";
 export { default as SelectedEmpAssignRewards } from "./assignRewards/SelectedEmpAssignRewards";
-export { default as SelectedRewardAssignRewards } from "./assignRewards/SelectedRewardAssignRewards";
+export { default as useSelectedReward } from "./assignRewards/useSelectedReward";
+export { default as useForTableValues } from "./assignRewards/useForTableValues";

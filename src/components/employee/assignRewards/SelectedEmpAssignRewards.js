@@ -5,7 +5,7 @@ const SelectedEmpAssignRewards = React.memo(
   ({ selectedEmp, delSelectedEmp }) => {
     return (
       <div className="selected-card">
-        <h5>Selected Employee</h5>
+        {/* <h5>Selected Employee</h5> */}
         <Row className="selected-emp">
           {selectedEmp.map((el, i) => (
             <Col

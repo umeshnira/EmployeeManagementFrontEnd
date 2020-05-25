@@ -21,7 +21,7 @@ const adminSettingPaths = [
   "/rolesndpermission",
   "/assets",
 ];
-const empSettingsPaths = ["/emplist", "/assignRewards"];
+const empSettingsPaths = ["/emplist", "/assignRewards", "/processRewards"];
 const projectsPaths = ["/listProjects", "/viewProject"];
 const taskPaths = ["/taskManagment"];
 
@@ -156,6 +156,21 @@ export default function SideBar(props) {
                     >
                       <i className="fas fa-briefcase"></i>
                       <span> Assign Rewards</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/processRewards",
+                    })}
+                  >
+                    <a
+                      href="/processRewards"
+                      onClick={() => {
+                        toggle("/processRewards");
+                      }}
+                    >
+                      <i className="fas fa-briefcase"></i>
+                      <span> Process Rewards</span>
                     </a>
                   </li>
                 </ul>

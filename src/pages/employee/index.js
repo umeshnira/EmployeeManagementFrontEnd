@@ -5,3 +5,4 @@ export const EmployeeProfileView = React.lazy(() =>
 );
 export const EmployeeRewards = React.lazy(() => import("./EmployeeRewards"));
 export const AssignRewards = React.lazy(() => import("./AssignRewards"));
+export const ProcessRewards = React.lazy(() => import("./ProcessRewards"));

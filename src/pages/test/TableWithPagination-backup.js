@@ -81,74 +81,54 @@ function TableView({ columns, data }) {
         </Col>
       </Row>
 
-      <table
-        className="table-with-pagination"
-        cellspacing="0"
-        cellpadding="0"
-        border="0"
-        // width="325"
-      >
-        {/* <tr>
-          <td> */}
-        {/* <div style={{ width: "500px", height: "180px", overflow: "auto" }}> */}
-        <div
-          className="main-div"
-          // style={{ width: "500px", height: "180px", overflow: "auto" }}
-        >
-          <Table hover {...getTableProps()}>
-            <thead>
-              {headerGroups.map((headerGroup, p) => (
-                <tr key={p} {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                    >
-                      {column.render("Header")}
-                      {/* Add a sort direction indicator */}
-                      <span className="">
-                        <i className="fas fa-exchange-alt fa-rotate-90 ml-3"></i>
-                        {/* {column.isSorted ? (
-                              column.isSortedDesc ? (
-                                " 🔽"
-                              ) : (
-                                " 🔼"
-                              )
-                            ) : (
-                              <i className="fas fa-exchange-alt fa-rotate-90"></i>
-                            )} */}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
+      <Table {...getTableProps()} striped className="mt-2">
+        <thead>
+          {headerGroups.map((headerGroup, p) => (
+            <tr key={p} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render("Header")}
+                  {/* Add a sort direction indicator */}
+                  <span className="">
+                    <i className="fas fa-exchange-alt fa-rotate-90 ml-3"></i>
+                    {/* {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        " 🔽"
+                      ) : (
+                        " 🔼"
+                      )
+                    ) : (
+                      <i className="fas fa-exchange-alt fa-rotate-90"></i>
+                    )} */}
+                  </span>
+                </th>
               ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {page.map((row, i) => {
-                prepareRow(row);
-                return (
-                  <tr key={i} {...row.getRowProps()}>
-                    {row.cells.map((cell, k) => {
-                      return (
-                        <td key={k} {...cell.getCellProps()}>
-                          {cell.render("Cell")}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        </div>
-        {/* </td>
-        </tr> */}
-      </table>
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {page.map((row, i) => {
+            prepareRow(row);
+            return (
+              <tr key={i} {...row.getRowProps()}>
+                {row.cells.map((cell, k) => {
+                  return (
+                    <td key={k} {...cell.getCellProps()}>
+                      {cell.render("Cell")}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
 
       {/* 
         Pagination can be built however you'd like. 
         This is just a very basic UI implementation:
       */}
-      <Row className="table-pagination">
+      <Row>
         <Col>
           <Pagination
             // size="sm"
@@ -215,7 +195,7 @@ function TableView({ columns, data }) {
           </div> */}
         </Col>
         <Col>
-          <Row className="table-goto-page">
+          <Row>
             <Col sm={12} xs={6} md={7} lg={12}>
               <div
                 className="input-group mb-3 float-right"

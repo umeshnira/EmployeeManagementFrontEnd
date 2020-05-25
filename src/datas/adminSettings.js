@@ -85,4 +85,25 @@ const rewardData = [
   },
 ];
 
-export { designationDate, workPrimiseData, rewardData };
+const toProcessRewards = [
+  {
+    empId: 29,
+    empName: "Waston",
+    empProfileImg: "avatar-01.jpg",
+    empDesignation: "Associate Software Engineer",
+    redeemPoints: 1000,
+    redeemDate: "05-25-2020",
+    status: "pending",
+  },
+  {
+    empId: 12,
+    empName: "Dutch",
+    empProfileImg: "nible.png",
+    empDesignation: "Associate Software Engineer",
+    redeemPoints: 8000,
+    redeemDate: "05-15-2020",
+    status: "pending",
+  },
+];
+
+export { designationDate, workPrimiseData, rewardData, toProcessRewards };
