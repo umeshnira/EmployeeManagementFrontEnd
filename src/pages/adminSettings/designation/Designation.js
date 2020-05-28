@@ -57,6 +57,15 @@ const Designation = (props) => {
         setDescription(val);
       },
     },
+    {
+      label: "description",
+      type: "select",
+      option: ["HR", "DEV", "CEO"],
+      name: "description", // this name should be equal to the data array key's name.
+      handleOnChange: (val) => {
+        setDescription(val);
+      },
+    },
   ]);
 
   // custome hooks.

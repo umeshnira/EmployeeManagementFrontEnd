@@ -1,31 +1,29 @@
-import React, { Fragment, useState } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import {
+  getOfficeLocation,
+  addOfficeLocation,
+  updateOfficeLocation,
+  delOfficeLoation,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
 import { Row, Col, Container, Button, Table } from "reactstrap";
 import Form from "./Form";
 
-const location = [
-  {
-    address: "Trivandrum",
-    phoneNo: "+9128282828",
-    pin: "655431",
-    landMark: "opp to lulu",
-  },
-  {
-    address: "kocki",
-    phoneNo: "+9168282828",
-    pin: "655431",
-    landMark: "opp to lulu",
-  },
-  {
-    address: "kozhikode",
-    phoneNo: "+9168282828",
-    pin: "655431",
-    landMark: "opp to lulu",
-  },
-];
-
-export default function CompanyLocation() {
+const CompanyLocation = (props) => {
+  const {
+    getOfficeLocation,
+    addOfficeLocation,
+    updateOfficeLocation,
+    delOfficeLoation,
+  } = props;
+  const { officeLocation } = props.officeLocation;
   const [isopenAddEditForm, setIsOpenAddEditForm] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
+
+  useEffect(() => {
+    getOfficeLocation();
+  }, [getOfficeLocation]);
 
   const handleEditLocation = React.useCallback(
     (companyLocation) => {
@@ -41,6 +39,16 @@ export default function CompanyLocation() {
     setIsOpenAddEditForm((prevState) => !prevState);
   }, [setIsOpenAddEditForm]);
 
+  // delete click function.
+
+  const handleDelete = React.useCallback(
+    (delId) => {
+      console.log(delId);
+      delOfficeLoation(delId);
+    },
+    [delOfficeLoation]
+  );
+
   // toogle form and card view from add/edit form.
   const toogleFromAddEdit = React.useCallback(() => {
     setIsOpenAddEditForm((prevState) => !prevState);
@@ -48,12 +56,16 @@ export default function CompanyLocation() {
   }, [setIsOpenAddEditForm]);
 
   // add location.
-  const handleAddCompanyLocation = (fromData) => {
-    console.log("add location", fromData);
+  const handleAddCompanyLocation = (formData) => {
+    // console.log("add location", fromData);
+    addOfficeLocation(formData);
+    setIsOpenAddEditForm((prevState) => !prevState);
   };
   // update location.
-  const handleUpdateCompanyLocation = (e) => {
-    console.log("update location");
+  const handleUpdateCompanyLocation = (formData) => {
+    console.log("add location", formData);
+    updateOfficeLocation(formData);
+    setIsOpenAddEditForm((prevState) => !prevState);
   };
 
   return (
@@ -99,7 +111,7 @@ export default function CompanyLocation() {
                 </tr>
               </thead>
               <tbody>
-                {location.map((val, i) => {
+                {officeLocation.map((val, i) => {
                   return (
                     <tr key={i}>
                       <th scope="row">{i + 1}</th>
@@ -114,7 +126,10 @@ export default function CompanyLocation() {
                           onClick={() => handleEditLocation(val)}
                         ></i>
                         &nbsp;
-                        <i className="fas fa-trash "></i>
+                        <i
+                          className="fas fa-trash "
+                          onClick={() => handleDelete(val.officeLocationId)}
+                        ></i>
                       </td>
                     </tr>
                   );
@@ -157,4 +172,20 @@ export default function CompanyLocation() {
       </Container>
     </Fragment>
   );
-}
+};
+
+CompanyLocation.prototype = {
+  getOfficeLocation: PropTypes.func,
+  addOfficeLocation: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  officeLocation: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, {
+  getOfficeLocation,
+  addOfficeLocation,
+  updateOfficeLocation,
+  delOfficeLoation,
+})(CompanyLocation);

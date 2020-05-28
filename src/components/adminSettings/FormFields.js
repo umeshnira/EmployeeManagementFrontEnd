@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const FormFields = (props) => {
@@ -21,7 +21,8 @@ const FormFields = (props) => {
                       val.handleOnChange(e.target.value);
                     }}
                   />
-                ) : (
+                ) : null}
+                {val.type === "file" ? (
                   <Input
                     type={val.type}
                     placeholder={val.placeholder}
@@ -31,7 +32,22 @@ const FormFields = (props) => {
                     }}
                     // value={props.formData ? props.formData.val[val.name] : null}
                   />
-                )}
+                ) : null}
+                {val.type === "select" ? (
+                  <Fragment>
+                    <Input
+                      type={val.type}
+                      placeholder={val.placeholder}
+                      onChange={(e) => {
+                        val.handleOnChange(e.target.files[0]);
+                      }}
+                    >
+                      {val.option.map((el, i) => (
+                        <option key={i}>{el}</option>
+                      ))}
+                    </Input>
+                  </Fragment>
+                ) : null}
               </FormGroup>
             );
           })

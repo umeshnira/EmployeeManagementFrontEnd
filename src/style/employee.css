@@ -706,6 +706,13 @@ h2 span {
   overflow: auto;
 }
 
+.assign-rewards .check-select-all {
+  position: absolute;
+  /* top: 300px; */
+  bottom: 20px;
+  right: 0;
+}
+
 /* process rewards */
 .process-rewards .table-with-pagination .main-div {
   width: 980px;

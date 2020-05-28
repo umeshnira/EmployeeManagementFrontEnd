@@ -31,26 +31,47 @@ const AssignRewards = (props) => {
     getProjectList();
   }, [getEmpList, getRewards, getProjectList]);
 
+  // custome hook.
+  const { empArr } = useForTableValues(empList, projectList);
+
   useEffect(() => {
-    setEmpData(empList);
+    setEmpData(empArr);
     setRewardData(rewards);
-  }, [empList, rewards]);
+  }, [empArr, rewards]);
 
   //   Function....
   // search employee by name.
   const searchEmployee = React.useCallback(
     (searchVal) => {
-      let searchArr = empList.filter(
-        (el) =>
-          el.value.empName.toLowerCase().indexOf(searchVal.toLowerCase()) !==
-            -1 ||
-          el.value.officeLocation
-            .toLowerCase()
-            .indexOf(searchVal.toLowerCase()) !== -1
-      );
-      setEmpData(searchArr);
+      let tempArr = [];
+      if (searchVal !== "") {
+        // employee name search..
+        empArr.filter((el) =>
+          el.emp.empName.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
+            ? tempArr.includes(el)
+              ? null
+              : tempArr.push(el)
+            : null
+        );
+        // project name search..
+        empArr.filter((el) =>
+          el.project.filter((project) =>
+            project.projectName
+              .toLowerCase()
+              .indexOf(searchVal.toLowerCase()) !== -1
+              ? tempArr.includes(el)
+                ? // console.log("equal", el)
+                  null
+                : tempArr.push(el)
+              : console.log("null")
+          )
+        );
+        setEmpData(tempArr);
+      } else {
+        setEmpData(empArr);
+      }
     },
-    [empList]
+    [empArr]
   );
   // search rewards by description.
   const searchRewards = React.useCallback(
@@ -96,17 +117,6 @@ const AssignRewards = (props) => {
     console.log(selectedReward);
   }, [selectedEmp, selectedReward]);
 
-  // custome hook.
-
-  const { empArr } = useForTableValues(empData, projectList);
-
-  const { thead, trow } = useEmpListAssignRewards(empArr, handleSelectedEmp);
-
-  const { theadSelectedReward, trowSelectedReward } = useSelectedReward(
-    selectedReward,
-    delSelectedReward
-  );
-
   // handle select all employee.
   const handleSelectAllEmp = React.useCallback(
     (e) => {
@@ -114,15 +124,21 @@ const AssignRewards = (props) => {
       let checkBox = e.target.checked;
       let tempArr = [];
       if (checkBox) {
-        empArr.map((employee) => tempArr.push(employee.emp));
+        empData.map((employee) => tempArr.push(employee.emp));
         setSelectedEmp(tempArr);
       } else {
         setSelectedEmp([]);
       }
     },
-    [empArr]
+    [empData]
   );
 
+  // custome hook.
+  const { thead, trow } = useEmpListAssignRewards(empData, handleSelectedEmp);
+  const { theadSelectedReward, trowSelectedReward } = useSelectedReward(
+    selectedReward,
+    delSelectedReward
+  );
   return (
     <Fragment>
       <Container className="assign-rewards">
@@ -145,12 +161,12 @@ const AssignRewards = (props) => {
                 />
               </Col>
             </Row>
-            <Label check>
+
+            <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
+            <Label check className="check-select-all">
               <Input type="checkbox" onChange={handleSelectAllEmp} />
               Select All
             </Label>
-            <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
-
             {/* <EmpListAssignRewards
               empList={empData}
               handleSelectedEmp={handleSelectedEmp}

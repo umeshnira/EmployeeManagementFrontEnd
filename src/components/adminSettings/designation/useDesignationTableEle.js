@@ -11,6 +11,7 @@ const useDesignationTableEle = (thead, data) => {
     data.map((data, i) => {
       thead.map((th) => (trow[th] = data[th.toLowerCase()]));
       trowArr.push(trow);
+      trow = {};
       return trowArr;
     });
     setTrow(trowArr);

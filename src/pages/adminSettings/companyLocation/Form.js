@@ -12,6 +12,7 @@ import {
 
 const FormFields = (props) => {
   // const { country, providene, pin, landMark } = props.selectedCompany;
+  const [officeLocationId, setOfficeLocationId] = useState(null);
   const [address, setAddress] = useState("");
   const [pin, setPin] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
@@ -20,7 +21,14 @@ const FormFields = (props) => {
   // Functions.
   useEffect(() => {
     if (props.selectedCompany) {
-      const { address, phoneNo, pin, landMark } = props.selectedCompany;
+      const {
+        officeLocationId,
+        address,
+        phoneNo,
+        pin,
+        landMark,
+      } = props.selectedCompany;
+      setOfficeLocationId(officeLocationId);
       setAddress(address);
       setPhoneNo(phoneNo);
       setPin(pin);
@@ -34,15 +42,22 @@ const FormFields = (props) => {
   }, [props.selectedCompany]);
 
   const handleSubmitForm = () => {
-    let formData = {
-      address,
-      phoneNo,
-      pin,
-      landMark,
-    };
     if (props.selectedCompany) {
+      let formData = {
+        officeLocationId,
+        address,
+        pin,
+        phoneNo,
+        landMark,
+      };
       props.handleUpdateCompanyLocation(formData);
     } else {
+      let formData = {
+        address,
+        pin,
+        phoneNo,
+        landMark,
+      };
       props.handleAddCompanyLocation(formData);
     }
   };

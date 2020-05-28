@@ -4,12 +4,43 @@ import {
   ADD_DESIGINATION,
   UPDATE_DESIGNATION,
   DEL_DESIGNATION,
+  // ---------------
   GET_WORKPRIMISE,
   GET_REWARDS,
+  // ---------------
+  GET_OFFICELOCATION,
+  ADD_OFFICELOCATION,
+  DEL_OFFICELOCATION,
+  ADD_WORKPRIMISE,
 } from "../actionType";
 import { workPrimiseData, rewardData } from "../../../datas/adminSettings";
 
-// --------------Designation
+// ------------Office Locaton.
+export const getOfficeLocation = () => {
+  return {
+    type: GET_OFFICELOCATION,
+  };
+};
+export const addOfficeLocation = (formData) => {
+  return {
+    type: ADD_OFFICELOCATION,
+    payload: formData,
+  };
+};
+export const updateOfficeLocation = (formData) => {
+  return {
+    type: UPDATE_DESIGNATION,
+    payload: formData,
+  };
+};
+export const delOfficeLoation = (delId) => {
+  return {
+    type: DEL_OFFICELOCATION,
+    payload: delId,
+  };
+};
+
+// --------------Designation.
 export const getDesignation = () => {
   return {
     type: GET_DESIGNATION,
@@ -27,7 +58,6 @@ export const updateDesignation = (formData) => {
     payload: formData,
   };
 };
-
 export const delDesignation = (delId) => {
   return {
     type: DEL_DESIGNATION,
@@ -37,10 +67,15 @@ export const delDesignation = (delId) => {
 
 // ----------------Work Primise.
 export const getWorkPrimise = () => {
-  // make the api call here.
   return {
     type: GET_WORKPRIMISE,
     payload: workPrimiseData,
+  };
+};
+export const addWOrkPrimise = (formData) => {
+  return {
+    type: ADD_WORKPRIMISE,
+    payload: formData,
   };
 };
 

@@ -44,7 +44,6 @@ const ListView = (props) => {
 
               {props.thead.map((th, k) => {
                 return (
-                  // display data from listData with row index and key name eg: type1, type2, type3...
                   <td key={k}> {props.listData[i][th.replace(/\s+/g, "")]}</td>
                 );
               })}
