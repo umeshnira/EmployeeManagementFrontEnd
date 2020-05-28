@@ -15,7 +15,10 @@ export default {
   workPrimise(url = baseUrl + "Admin/") {
     return {
       getAll: () => axios.get(url + "GetWorkingPremiseList"),
-      add: (formData) => axios.post(url + "AddEditWorkingPremise", formData),
+      addEdit: (formData) =>
+        axios.post(url + "AddEditWorkingPremise", formData),
+      del: (delId) =>
+        axios.post(url + `DeleteWorkingPremise?workingPremiseId=${delId}`),
     };
   },
 };

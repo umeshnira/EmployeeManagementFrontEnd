@@ -10,14 +10,21 @@ import {
 } from "../../../components/adminSettings/index";
 import {
   getWorkPrimise,
-  addWOrkPrimise,
+  addWorkPrimise,
+  updateWorkPrimise,
+  delWorkPrimise,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 
 // Data for  list view.
 const thead = ["work Premise"]; // thead element names should === data key value.
 
 const WorkPrimise = (props) => {
-  const { getWorkPrimise, addWOrkPrimise } = props;
+  const {
+    getWorkPrimise,
+    addWorkPrimise,
+    updateWorkPrimise,
+    delWorkPrimise,
+  } = props;
   const { workPrimisesList } = props.workPrimisesList;
   const [dataArr, setDataArr] = useState([]);
   const [workPrimise, setWorkPrimise] = useState("");
@@ -87,15 +94,29 @@ const WorkPrimise = (props) => {
       WorkingPremiseType: workPrimise,
       description: "",
     };
-    addWOrkPrimise(formData);
+    addWorkPrimise(formData);
     toggle();
   };
   const handleDataUpdate = (e) => {
     e.preventDefault();
-    console.log(workPrimise);
+    console.log(selectedData.val);
+    let formData = {
+      WorkingPremiseId: selectedData.val.id,
+      WorkingPremiseType: selectedData.val.workPremise,
+      description: selectedData.val.description,
+    };
+    updateWorkPrimise(formData);
     setSelectedData({ id: "", val: "" });
     toggle();
   };
+
+  // handle delete work primise.
+  const handleDelWorkPrimsie = React.useCallback(
+    (delId) => {
+      delWorkPrimise(delId);
+    },
+    [delWorkPrimise]
+  );
 
   return (
     <div>
@@ -161,6 +182,7 @@ const WorkPrimise = (props) => {
             setIsOpenForm(!isOpenForm);
           }}
           handleSelectedDesg={(val, id) => handleEditClick(val, id)}
+          handleDel={handleDelWorkPrimsie}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
@@ -180,13 +202,17 @@ const WorkPrimise = (props) => {
 
 WorkPrimise.prototype = {
   getWorkPrimise: PropTypes.func,
-  addWOrkPrimise: PropTypes.func,
+  addWorkPrimise: PropTypes.func,
+  updateWorkPrimise: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   workPrimisesList: state.adminSettingReducer,
 });
 
-export default connect(mapStateToProps, { getWorkPrimise, addWOrkPrimise })(
-  WorkPrimise
-);
+export default connect(mapStateToProps, {
+  getWorkPrimise,
+  addWorkPrimise,
+  updateWorkPrimise,
+  delWorkPrimise,
+})(WorkPrimise);

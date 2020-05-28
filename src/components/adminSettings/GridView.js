@@ -47,7 +47,7 @@ export default function GridView(props) {
                             bottom: 0,
                             cursor: "pointer",
                           }}
-                          onClick={() => props.handleDelDesignation(i)}
+                          onClick={() => props.handleDel(val.id)}
                         ></i>
                       </Card>
                     </Col>

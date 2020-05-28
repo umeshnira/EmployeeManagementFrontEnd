@@ -6,6 +6,10 @@ import {
   GET_WORKPRIMISE_SUCCESS,
   ADD_WORKPRIMISE,
   ADD_WORKPRIMISE_SUCCESS,
+  UPDATE_WORKPRIMISE,
+  UPDATE_WORKPRIMISE_SUCCESS,
+  DEL_WORKPRIMISE,
+  DEL_WORKPRIMISE_SUCCESS,
 } from "../../redux/actions/actionType";
 
 // Api function.
@@ -16,16 +20,19 @@ function* getWorkPrimiseApi() {
     const { data } = response;
     tempArr.push({
       workPremise: data[i].workingPremiseType,
-      workPremiseId: data[i].workingPremiseId,
+      id: data[i].workingPremiseId,
       description: data[i].description,
     });
   }
   console.log(response.data);
   return tempArr;
 }
-function* addWorkPrimise(formData) {
-  const response = yield api.workPrimise().add(formData);
+function* addEditWorkPrimise(formData) {
+  const response = yield api.workPrimise().addEdit(formData);
   console.log(response.data);
+}
+function delWorkPrimise(delId) {
+  api.workPrimise().del(delId);
 }
 
 // handle get all work primises.
@@ -40,8 +47,29 @@ export function* handleGetWorkPrimise() {
 // handle add work primise.
 export function* handleAddWorkPrimise({ payload }) {
   try {
-    const respone = yield call(addWorkPrimise, payload);
-    yield put({ type: ADD_WORKPRIMISE_SUCCESS, payload: payload });
+    let formData = payload;
+    const respone = yield call(addEditWorkPrimise, formData);
+    yield put({ type: ADD_WORKPRIMISE_SUCCESS, payload: formData });
+  } catch (error) {
+    console.log(error);
+  }
+}
+// handle update work primise.
+export function* handleUpdateWorkPrimise({ payload }) {
+  try {
+    let formData = payload;
+    const respone = yield call(addEditWorkPrimise, formData);
+    yield put({ type: UPDATE_WORKPRIMISE_SUCCESS, payload: formData });
+  } catch (error) {
+    console.log(error);
+  }
+}
+// handle work primise.
+export function* handleDelWorkPrimise({ payload }) {
+  try {
+    let delId = payload;
+    yield call(delWorkPrimise, delId);
+    yield put({ type: DEL_WORKPRIMISE_SUCCESS, payload: delId });
   } catch (error) {
     console.log(error);
   }
@@ -51,4 +79,6 @@ export function* handleAddWorkPrimise({ payload }) {
 export function* workPrimiseWatchFunc() {
   yield takeLatest(GET_WORKPRIMISE, handleGetWorkPrimise);
   yield takeLatest(ADD_WORKPRIMISE, handleAddWorkPrimise);
+  yield takeLatest(UPDATE_WORKPRIMISE, handleUpdateWorkPrimise);
+  yield takeLatest(DEL_WORKPRIMISE, handleDelWorkPrimise);
 }

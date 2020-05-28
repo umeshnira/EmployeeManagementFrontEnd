@@ -10,6 +10,8 @@ import {
   UPDATE_OFFICELOCATION_SUCCESS,
   DEL_OFFICELOCATION_SUCCESS,
   ADD_WORKPRIMISE_SUCCESS,
+  UPDATE_WORKPRIMISE_SUCCESS,
+  DEL_WORKPRIMISE_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -83,6 +85,20 @@ export default function (state = initialState, action) {
       return {
         ...state,
         workPrimisesList: [...state.workPrimisesList, action.payload],
+      };
+    case UPDATE_WORKPRIMISE_SUCCESS:
+      return {
+        ...state,
+        workPrimisesList: state.workPrimisesList.map((el) =>
+          el.id === action.payload.WorkingPremiseId ? action.payload : el
+        ),
+      };
+    case DEL_WORKPRIMISE_SUCCESS:
+      return {
+        ...state,
+        workPrimisesList: state.workPrimisesList.filter(
+          (el) => el.id !== action.payload
+        ),
       };
     case GET_REWARDS:
       return {

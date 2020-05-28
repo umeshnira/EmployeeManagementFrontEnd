@@ -12,6 +12,8 @@ import {
   ADD_OFFICELOCATION,
   DEL_OFFICELOCATION,
   ADD_WORKPRIMISE,
+  UPDATE_WORKPRIMISE,
+  DEL_WORKPRIMISE,
 } from "../actionType";
 import { workPrimiseData, rewardData } from "../../../datas/adminSettings";
 
@@ -72,10 +74,22 @@ export const getWorkPrimise = () => {
     payload: workPrimiseData,
   };
 };
-export const addWOrkPrimise = (formData) => {
+export const addWorkPrimise = (formData) => {
   return {
     type: ADD_WORKPRIMISE,
     payload: formData,
+  };
+};
+export const updateWorkPrimise = (formData) => {
+  return {
+    type: UPDATE_WORKPRIMISE,
+    payload: formData,
+  };
+};
+export const delWorkPrimise = (delId) => {
+  return {
+    type: DEL_WORKPRIMISE,
+    payload: delId,
   };
 };
 
