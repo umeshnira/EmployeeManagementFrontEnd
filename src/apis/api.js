@@ -1,23 +1,23 @@
- import axios from "axios";
+import axios from "axios";
 
 const baseUrl = "http://localhost:63306/api/";
 
 export default {
-
-  dbDesignation(url = baseUrl + "Designation/"){
+  dbDesignation(url = baseUrl + "Designation/") {
     return {
-        GetAllDesignations : () => axios.get(url+"GetAllDesignations"),
-        DeleteDesignation : id => axios.post(url+`DeleteDesignation?designationId=${id}`)
-    }   
-    }, 
-    
-    dbDepartment(url = baseUrl + "Department/"){
-        return {
-            GetAllDepartments : () => axios.get(url+"GetAllDepartments"),
-            DeleteDesignation : id => axios.post(url+`DeleteDepartment?departmentId=${id}`)
-        }
-       
-        },
+      GetAllDesignations: () => axios.get(url + "GetAllDesignations"),
+      DeleteDesignation: (id) =>
+        axios.post(url + `DeleteDesignation?designationId=${id}`),
+    };
+  },
+
+  dbDepartment(url = baseUrl + "Department/") {
+    return {
+      GetAllDepartments: () => axios.get(url + "GetAllDepartments"),
+      DeleteDesignation: (id) =>
+        axios.post(url + `DeleteDepartment?departmentId=${id}`),
+    };
+  },
 
   officeLocation(url = baseUrl + "Admin/") {
     return {
@@ -35,6 +35,13 @@ export default {
         axios.post(url + "AddEditWorkingPremise", formData),
       del: (delId) =>
         axios.post(url + `DeleteWorkingPremise?workingPremiseId=${delId}`),
+    };
+  },
+  rewards(url = baseUrl + "Admin/") {
+    return {
+      getAll: () => axios.get(url + "GetAllRewards"),
+      addEdit: (formData) => axios.post(url + "AddEditRewards", formData),
+      del: (delId) => axios.post(url + `DeleteRewards?RewardId=${delId}`),
     };
   },
 };

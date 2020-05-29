@@ -12,7 +12,7 @@ const FormFields = (props) => {
                 {/* {console.log(props.formData.val[val.name])} */}
                 <Label>{val.label}</Label>
                 {/* if input field is a file then */}
-                {val.type === "text" ? (
+                {val.type === "text" || val.type === "number" ? (
                   <Input
                     type={val.type}
                     placeholder={val.placeholder}
@@ -22,6 +22,7 @@ const FormFields = (props) => {
                     }}
                   />
                 ) : null}
+
                 {val.type === "file" ? (
                   <Input
                     type={val.type}

@@ -1,4 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import {
+  getRewards,
+  addRewards,
+  updateRewards,
+  delRewards,
+  updateWorkPrimise,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
@@ -7,30 +16,13 @@ import {
   FromEditFields,
 } from "../../../components/adminSettings/index";
 
-const rewardArr = [
-  {
-    type1: "Reward 1 Description", // Reward Description data
-    type2: "10", //Reward point data
-  },
-  {
-    type1: "Reward 2 Description", // Reward Description data
-    type2: "20", //Reward point data
-  },
-  {
-    type1: "Reward 3 Description", // Reward Description data
-    type2: "30", //Reward point data
-  },
-  {
-    type1: "Reward 4 Description", // Reward Description data
-    type2: "40", //Reward point data
-  },
-];
-
 // Data for  list view.
-const thead = ["Reward Desc", "Reward Point"];
+const thead = ["reward Type", "reward Points"];
 
-export default function Reward() {
-  const [dataArr] = useState(rewardArr);
+const Reward = (props) => {
+  const { getRewards, addRewards, updateRewards, delRewards } = props;
+  const { rewards } = props.rewards;
+  const [dataArr, setDataArr] = useState([]);
   const [rewardDescription, setRewardDescription] = useState("");
   const [rewardPoint, setRewardPoint] = useState("");
 
@@ -42,32 +34,46 @@ export default function Reward() {
   // input fileds.
   const [employeeTypeInpuFields] = useState([
     {
-      label: "Reward Description",
+      label: "Reward Type",
       type: "text",
-      placeholder: "Enter Reward Description",
-      name: "type1", // this name should be equal to the designation array key's.
+      placeholder: "Enter Reward Type",
+      name: "rewardType", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
         setRewardDescription(val);
       },
     },
     {
       label: "Reward Point",
-      type: "text",
+      type: "number",
       placeholder: "Enter Reward Point",
-      name: "type2", // this name should be equal to the designation array key's.
+      name: "rewardPoints", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
         setRewardPoint(val);
       },
     },
   ]);
 
+  useEffect(() => {
+    getRewards();
+  }, [getRewards]);
+  useEffect(() => {
+    setDataArr(rewards);
+  }, [rewards]);
+
   // Function -------------------
   // on change in text field for updating, then from FormField component
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    selectedData.val[field] = val; // change a particular key in the selected designation.
+    // selectedData.val[field] = val; // change a particular key in the selected designation.
     // setSelectedDesg(selectedDesg);
+    let tempObj = { id: selectedData.id, val: {} };
+    Object.keys(selectedData.val).map((key) =>
+      key === field
+        ? (tempObj.val[key] = val)
+        : (tempObj.val[key] = selectedData.val[key])
+    );
+    setSelectedData(tempObj);
   };
   // toggle between the form a grid view and form .
 
@@ -84,18 +90,33 @@ export default function Reward() {
 
   const handleDataAdd = (e) => {
     e.preventDefault();
-    console.log(rewardDescription);
-    console.log(rewardPoint);
+
+    let formData = {
+      rewardType: rewardDescription,
+      rewardPoints: parseFloat(rewardPoint),
+    };
+    addRewards(formData);
 
     toggle();
   };
   const handleDataUpdate = (e) => {
     e.preventDefault();
-    console.log(rewardDescription);
-    console.log(rewardPoint);
+    console.log(selectedData);
+    // convcert the ponts from string to float.
+    selectedData.val["rewardPoints"] = parseFloat(
+      selectedData.val["rewardPoints"]
+    );
+    updateRewards(selectedData.val);
     setSelectedData({ id: "", val: "" });
     toggle();
   };
+  // handle delete rewards.
+  const handleDelRewards = React.useCallback(
+    (delId) => {
+      delRewards(delId);
+    },
+    [delRewards]
+  );
 
   return (
     <div>
@@ -156,6 +177,7 @@ export default function Reward() {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={dataArr}
+          displayData={{ heading: "rewardType", delId: "rewardId" }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedData({ id: "", val: "" })}
           toggle={() => {
@@ -163,6 +185,7 @@ export default function Reward() {
             setIsOpenForm(!isOpenForm);
           }}
           handleSelectedDesg={(val, id) => handleEditClick(val, id)}
+          handleDel={handleDelRewards}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
@@ -174,8 +197,27 @@ export default function Reward() {
             setIsOpenForm(!isOpenForm);
           }}
           handleSelectedDesg={(val, id) => handleEditClick(val, id)}
+          handleDel={handleDelRewards}
         ></ListView>
       </Collapse>
     </div>
   );
-}
+};
+
+Reward.propTypes = {
+  getRewards: PropTypes.func,
+  addRewards: PropTypes.func,
+  updateRewards: PropTypes.func,
+  delRewards: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  rewards: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, {
+  getRewards,
+  addRewards,
+  updateRewards,
+  delRewards,
+})(Reward);

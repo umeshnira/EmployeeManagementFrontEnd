@@ -1,18 +1,25 @@
 import {
   GET_SELECTED_ASSET,
-  ADD_DESIGINATION_SUCCESS,
+  // ---------------------
   GET_DESIGNATION_SUCCESS,
+  ADD_DESIGINATION_SUCCESS,
   UPDATE_DESIGNATION_SUCCESS,
   DEL_DESIGNATION_SUCCESS,
-  GET_REWARDS,
-  GET_OFFICELOCATION_SUCCESS,
-  ADD_OFFICELOCATION_SUCCESS,
+  // ---------------------
   GET_WORKPRIMISE_SUCCESS,
-  UPDATE_OFFICELOCATION_SUCCESS,
-  DEL_OFFICELOCATION_SUCCESS,
   ADD_WORKPRIMISE_SUCCESS,
   UPDATE_WORKPRIMISE_SUCCESS,
   DEL_WORKPRIMISE_SUCCESS,
+  // ---------------------
+  GET_OFFICELOCATION_SUCCESS,
+  ADD_OFFICELOCATION_SUCCESS,
+  UPDATE_OFFICELOCATION_SUCCESS,
+  DEL_OFFICELOCATION_SUCCESS,
+  // ---------------------
+  GET_REWARDS_SUCCESS,
+  ADD_REWARDS_SUCCESS,
+  UPDATE_REWARDS_SUCCESS,
+  DEL_REWADRDS_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -27,6 +34,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    // ----------------- Office Location.
     case GET_OFFICELOCATION_SUCCESS:
       return {
         ...state,
@@ -53,6 +61,7 @@ export default function (state = initialState, action) {
           (el) => el.officeLocationId !== action.payload
         ),
       };
+    // ----------------- Designation.
     case GET_DESIGNATION_SUCCESS:
       return {
         ...state,
@@ -63,21 +72,21 @@ export default function (state = initialState, action) {
         ...state,
         desiginations: [...state.desiginations, action.payload],
       };
-     case UPDATE_DESIGNATION_SUCCESS:
-       console.log(action.payload);
-       return {
-         ...state,
-         desiginations: state.desiginations.filter((el, i) =>
-           i === action.payload.id ? action.payload.val : el
-         ),
-       };
-     case DEL_DESIGNATION_SUCCESS:
+    case UPDATE_DESIGNATION_SUCCESS:
       return {
-         ...state,
-         desiginations: state.desiginations.filter(
-           (el) => el.deignationId !== action.payload
-         ),
-       };
+        ...state,
+        desiginations: state.desiginations.filter((el, i) =>
+          i === action.payload.id ? action.payload.val : el
+        ),
+      };
+    case DEL_DESIGNATION_SUCCESS:
+      return {
+        ...state,
+        desiginations: state.desiginations.filter(
+          (el) => el.deignationId !== action.payload
+        ),
+      };
+    // ----------------- Work Primise.
     case GET_WORKPRIMISE_SUCCESS:
       return {
         ...state,
@@ -92,21 +101,39 @@ export default function (state = initialState, action) {
       return {
         ...state,
         workPrimisesList: state.workPrimisesList.map((el) =>
-          el.id === action.payload.WorkingPremiseId ? action.payload : el
+          el.workingPremiseId === action.payload.workingPremiseId
+            ? action.payload
+            : el
         ),
       };
     case DEL_WORKPRIMISE_SUCCESS:
       return {
         ...state,
         workPrimisesList: state.workPrimisesList.filter(
-          (el) => el.id !== action.payload
+          (el) => el.workingPremiseId !== action.payload
         ),
       };
-    case GET_REWARDS:
+    // ------------------------Rewards.
+    case GET_REWARDS_SUCCESS:
       return {
         ...state,
         rewards: action.payload,
       };
+    case ADD_REWARDS_SUCCESS:
+      return {
+        rewards: [...state.rewards, action.payload],
+      };
+    case UPDATE_REWARDS_SUCCESS:
+      return {
+        rewards: state.rewards.map((el) =>
+          el.rewardId === action.payload.rewardId ? action.payload : el
+        ),
+      };
+    case DEL_REWADRDS_SUCCESS:
+      return {
+        rewards: state.rewards.filter((el) => el.rewardId !== action.payload),
+      };
+    // ----------------- Asset.
     case GET_SELECTED_ASSET:
       return {
         ...state,

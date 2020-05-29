@@ -37,10 +37,10 @@ const WorkPrimise = (props) => {
 
   const [workPrimiseInpuFields] = useState([
     {
-      label: "Work Premise",
+      label: "Work Premise Type",
       type: "text",
       placeholder: "Enter Work Premise",
-      name: "workPremise", // this name should be equal to the designation array key's.
+      name: "workingPremiseType", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
         setWorkPrimise(val);
       },
@@ -91,7 +91,7 @@ const WorkPrimise = (props) => {
     e.preventDefault();
     console.log(workPrimise);
     let formData = {
-      WorkingPremiseType: workPrimise,
+      workingPremiseType: workPrimise,
       description: "",
     };
     addWorkPrimise(formData);
@@ -100,11 +100,7 @@ const WorkPrimise = (props) => {
   const handleDataUpdate = (e) => {
     e.preventDefault();
     console.log(selectedData.val);
-    let formData = {
-      WorkingPremiseId: selectedData.val.id,
-      WorkingPremiseType: selectedData.val.workPremise,
-      description: selectedData.val.description,
-    };
+    let formData = selectedData.val;
     updateWorkPrimise(formData);
     setSelectedData({ id: "", val: "" });
     toggle();
@@ -175,6 +171,10 @@ const WorkPrimise = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={dataArr}
+          displayData={{
+            heading: "workingPremiseType",
+            id: "workingPremiseId",
+          }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedData({ id: "", val: "" })}
           toggle={() => {

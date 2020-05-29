@@ -18,9 +18,12 @@ import {
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 
 // Data for  list view.
-const thead = ["designationName","departmentName"];
+const thead = ["designationName", "departmentName"];
 
-//const dept = [{deptId: "4002", deptName: "hr" },{deptId: "2", deptName: "dev" }]
+const dept = [
+  { deptId: "4002", deptName: "hr" },
+  { deptId: "2", deptName: "dev" },
+];
 
 const Designation = (props) => {
   const {
@@ -30,7 +33,7 @@ const Designation = (props) => {
     delDesignation,
     getDepartment,
   } = props;
-  const { desiginations,departments } = props.desiginations;
+  const { desiginations, departments } = props.desiginations;
 
   const [designationArr, setDesignationArray] = useState([]);
   const [designation, setDesignation] = useState("");
@@ -44,7 +47,7 @@ const Designation = (props) => {
 
   const [departmentArray, setDepartmentArray] = useState([]);
 
-  const [desgnationInpuFields,setDesignationInputFields ] = useState([]);
+  const [desgnationInpuFields, setDesignationInputFields] = useState([]);
 
   // custome hooks.
   const { trow } = useDesignationTableEle(thead, designationArr);
@@ -53,7 +56,7 @@ const Designation = (props) => {
   useEffect(() => {
     getDesignation();
     getDepartment();
-  }, [getDesignation,getDepartment]);
+  }, [getDesignation, getDepartment]);
 
   // to set the designation data from reducer.
   useEffect(() => {
@@ -80,7 +83,7 @@ const Designation = (props) => {
         },
       },
     ]);
-  }, [desiginations,departments]);
+  }, [desiginations, departments]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -187,7 +190,7 @@ const Designation = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={designationArr}
-          displayData={{heading: "designationName", id: "departmentId"}}
+          displayData={{ heading: "designationName", id: "departmentId" }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
           handleDelDesignation={handleDelDesignation}
@@ -218,5 +221,5 @@ export default connect(mapStateToProps, {
   addDesignation,
   updateDesignation,
   delDesignation,
-  getDepartment
+  getDepartment,
 })(Designation);

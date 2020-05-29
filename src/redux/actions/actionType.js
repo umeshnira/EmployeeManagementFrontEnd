@@ -30,6 +30,13 @@ export const DEL_WORKPRIMISE = "DEL_WORKPRIMISE";
 export const DEL_WORKPRIMISE_SUCCESS = "DEL_WORKPRIMISE_SUCCESS";
 // reward.
 export const GET_REWARDS = "GET_REWARDS";
+export const GET_REWARDS_SUCCESS = "GET_REWARDS_SUCCESS";
+export const ADD_REWARDS = "ADD_REWARDS";
+export const ADD_REWARDS_SUCCESS = "ADD_REWARDS_SUCCESS";
+export const UPDATE_REWARDS = "UPDATE_REWARDS";
+export const UPDATE_REWARDS_SUCCESS = "UPDATE_REWARDS_SUCCESS";
+export const DEL_REWADRDS = "DEL_REWADRDS";
+export const DEL_REWADRDS_SUCCESS = "DEL_REWADRDS_SUCCESS";
 // asset action type.
 export const GET_SELECTED_ASSET = "GET_SELECTED_ASSET";
 // officeLocation action type.

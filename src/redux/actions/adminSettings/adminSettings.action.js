@@ -9,15 +9,19 @@ import {
   UPDATE_DEPARTMENT,
   DELETE_DEPARTMENT,
   // ---------------
-  GET_WORKPRIMISE,
-  GET_REWARDS,
-  // ---------------
   GET_OFFICELOCATION,
   ADD_OFFICELOCATION,
   DEL_OFFICELOCATION,
+  // ----------------
+  GET_WORKPRIMISE,
   ADD_WORKPRIMISE,
   UPDATE_WORKPRIMISE,
   DEL_WORKPRIMISE,
+  // ---------------
+  GET_REWARDS,
+  ADD_REWARDS,
+  UPDATE_REWARDS,
+  DEL_REWADRDS,
 } from "../actionType";
 import { workPrimiseData, rewardData } from "../../../datas/adminSettings";
 
@@ -131,11 +135,27 @@ export const getSelectedAsset = (assetData) => {
   };
 };
 
-// ----------------Rewards.
+// ----------------- Rwards.
 export const getRewards = () => {
-  // make the api call here.
   return {
     type: GET_REWARDS,
-    payload: rewardData,
+  };
+};
+export const addRewards = (formData) => {
+  return {
+    type: ADD_REWARDS,
+    payload: formData,
+  };
+};
+export const updateRewards = (formData) => {
+  return {
+    type: UPDATE_REWARDS,
+    payload: formData,
+  };
+};
+export const delRewards = (delId) => {
+  return {
+    type: DEL_REWADRDS,
+    payload: delId,
   };
 };

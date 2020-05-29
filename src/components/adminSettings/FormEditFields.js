@@ -11,18 +11,20 @@ const FormEditFields = (props) => {
               <FormGroup key={i}>
                 {/* {console.log(props.formData.val[val.name])} */}
                 <Label>{val.label}</Label>
-                <Input
-                  type={val.type}
-                  placeholder={val.placeholder}
-                  onChange={(e) => {
-                    val.handleOnChange(e.target.value);
-                    props.handleOnchangeToSelectedData(
-                      e.target.value,
-                      val.name
-                    );
-                  }}
-                  value={props.formData ? props.formData.val[val.name] : null}
-                />
+                {val.type === "text" || val.type === "number" ? (
+                  <Input
+                    type={val.type}
+                    placeholder={val.placeholder}
+                    onChange={(e) => {
+                      val.handleOnChange(e.target.value);
+                      props.handleOnchangeToSelectedData(
+                        e.target.value,
+                        val.name
+                      );
+                    }}
+                    value={props.formData ? props.formData.val[val.name] : null}
+                  />
+                ) : null}
               </FormGroup>
             );
           })

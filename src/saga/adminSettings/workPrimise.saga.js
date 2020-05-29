@@ -24,8 +24,8 @@ function* getWorkPrimiseApi() {
       description: data[i].description,
     });
   }
-  console.log(response.data);
-  return tempArr;
+  // return tempArr;
+  return response;
 }
 function* addEditWorkPrimise(formData) {
   const response = yield api.workPrimise().addEdit(formData);
@@ -39,7 +39,7 @@ function delWorkPrimise(delId) {
 export function* handleGetWorkPrimise() {
   try {
     const response = yield call(getWorkPrimiseApi);
-    yield put({ type: GET_WORKPRIMISE_SUCCESS, payload: response });
+    yield put({ type: GET_WORKPRIMISE_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
   }
