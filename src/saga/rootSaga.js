@@ -1,7 +1,8 @@
 import { all } from "redux-saga/effects";
 // admin setting saga.
 import { officeLocationWatchFun } from "./adminSettings/officeLocation.saga";
-import { desginationWatchFun } from "./adminSettings/designation.saga";
+import { designationWatchFun } from "./adminSettings/designation.saga";
+import { departmentWatchFun } from "./adminSettings/department.saga";
 import { workPrimiseWatchFunc } from "./adminSettings/workPrimise.saga";
 import { employeeWatchFun } from "./employee.saga";
 import { projectWatachFun } from "./project.saga";
@@ -11,7 +12,8 @@ import { processRewardsWatchFun } from "./processRewards.saga";
 export default function* rootSaga() {
   yield all([
     officeLocationWatchFun(),
-    desginationWatchFun(),
+    designationWatchFun(),
+    departmentWatchFun(),
     workPrimiseWatchFunc(),
     employeeWatchFun(),
     projectWatachFun(),

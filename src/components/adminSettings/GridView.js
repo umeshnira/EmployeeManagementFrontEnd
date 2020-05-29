@@ -19,7 +19,7 @@ export default function GridView(props) {
                       props.toggle();
                     }}
                   >
-                    <i className="fas fa-plus  text-center "></i>
+                  <i className="fas fa-plus text-center"></i>
                   </Card>
                 </Col>
                 {props.pagaData.map((val, i) => {
@@ -31,10 +31,11 @@ export default function GridView(props) {
                           onClick={() => {
                             props.handleSelectedDesg(val, i);
                             props.toggle();
-                            // handleEditDepartment(val.department, i);
+                            // handleEditDesignation(val.designation, i);
                           }}
                         >
-                          {val[Object.keys(val)[0]]}
+                          {val[props.displayData["heading"]]}
+                          {/* //{val[Object.keys(val)[0]]} */}
                         </span>
                         <i
                           className="fas fa-times "
@@ -47,7 +48,7 @@ export default function GridView(props) {
                             bottom: 0,
                             cursor: "pointer",
                           }}
-                          onClick={() => props.handleDel(val.id)}
+                          onClick={() => props.handleDel(val[props.displayData["id"]])}
                         ></i>
                       </Card>
                     </Col>

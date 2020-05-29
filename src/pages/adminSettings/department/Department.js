@@ -4,29 +4,14 @@ import Form from "./Form";
 
 export default function Department() {
   const [dept, setDept] = useState(null);
-  // const [formData, setFormData] = useState(null);
+  const [department, setDepartment] = useState("");
+  const [departmentName, setDepartmentName] = useState("");
 
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [isOpenDeparmentTiles, setIsOpenDeparmentTiles] = useState(true);
 
-  const [selectedDept, setSelectedDept] = useState("");
-  const [departmentArray, setDepartmentArray] = useState([
-    {
-      department: "Developing",
-    },
-    {
-      department: "Testing",
-    },
-    {
-      department: "Sales",
-    },
-    {
-      department: "HR & Adminsgtration",
-    },
-    {
-      department: "Finance",
-    },
-  ]);
+  const [selectedDept, setSelectedDept] = useState({ id: "", val: "" });
+  const [departmentArray, setDepartmentArray] = useState([]);
 
   // Functions ===============
 

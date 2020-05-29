@@ -5,11 +5,11 @@ import {
   ADD_OFFICELOCATION,
   ADD_OFFICELOCATION_SUCCESS,
   DEL_OFFICELOCATION,
-  UPDATE_DESIGNATION,
+  UPDATE_OFFICELOCATION,
   DEL_OFFICELOCATION_SUCCESS,
   UPDATE_OFFICELOCATION_SUCCESS,
 } from "../../redux/actions/actionType";
-import api from "../../api/api";
+import api from "../../apis/api";
 
 // Api Functions.
 function* getOfficeLocationApi() {
@@ -87,6 +87,6 @@ export function* handleDelOfficeLocation({ payload }) {
 export function* officeLocationWatchFun() {
   yield takeLatest(GET_OFFICELOCATION, handleGetOfficeLocation);
   yield takeLatest(ADD_OFFICELOCATION, handleAddOfficeLocation);
-  yield takeLatest(UPDATE_DESIGNATION, handleUpdateOfficeLocation);
+  yield takeLatest(UPDATE_OFFICELOCATION, handleUpdateOfficeLocation);
   yield takeLatest(DEL_OFFICELOCATION, handleDelOfficeLocation);
 }

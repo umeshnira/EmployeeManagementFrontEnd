@@ -2,6 +2,7 @@ import {
   GET_SELECTED_ASSET,
   ADD_DESIGINATION_SUCCESS,
   GET_DESIGNATION_SUCCESS,
+  UPDATE_DESIGNATION_SUCCESS,
   DEL_DESIGNATION_SUCCESS,
   GET_REWARDS,
   GET_OFFICELOCATION_SUCCESS,
@@ -16,6 +17,7 @@ import {
 
 const initialState = {
   assetSelected: null,
+  departments: [],
   desiginations: [],
   workPrimisesList: [],
   rewards: [],
@@ -61,21 +63,21 @@ export default function (state = initialState, action) {
         ...state,
         desiginations: [...state.desiginations, action.payload],
       };
-    // case UPDATE_DESIGNATION_SUCCESS:
-    //   console.log(action.payload);
-    //   return {
-    //     ...state,
-    //     desiginations: state.desiginations.filter((el, i) =>
-    //       i === action.payload.id ? action.payload.val : el
-    //     ),
-    //   };
-    // case DEL_DESIGNATION_SUCCESS:
-    //   return {
-    //     ...state,
-    //     desiginations: state.desiginations.filter(
-    //       (el) => el.deignationId !== action.payload
-    //     ),
-    //   };
+     case UPDATE_DESIGNATION_SUCCESS:
+       console.log(action.payload);
+       return {
+         ...state,
+         desiginations: state.desiginations.filter((el, i) =>
+           i === action.payload.id ? action.payload.val : el
+         ),
+       };
+     case DEL_DESIGNATION_SUCCESS:
+      return {
+         ...state,
+         desiginations: state.desiginations.filter(
+           (el) => el.deignationId !== action.payload
+         ),
+       };
     case GET_WORKPRIMISE_SUCCESS:
       return {
         ...state,

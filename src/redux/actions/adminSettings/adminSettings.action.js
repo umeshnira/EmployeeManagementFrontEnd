@@ -4,6 +4,10 @@ import {
   ADD_DESIGINATION,
   UPDATE_DESIGNATION,
   DEL_DESIGNATION,
+  GET_DEPARTMENT,
+  ADD_DEPARTMENT,
+  UPDATE_DEPARTMENT,
+  DELETE_DEPARTMENT,
   // ---------------
   GET_WORKPRIMISE,
   GET_REWARDS,
@@ -63,6 +67,32 @@ export const updateDesignation = (formData) => {
 export const delDesignation = (delId) => {
   return {
     type: DEL_DESIGNATION,
+    payload: delId,
+  };
+};
+
+// --------------Department----------//
+export const getDepartment = () => {
+  return {
+    type: GET_DEPARTMENT,
+  };
+};
+export const addDepartment = (formData) => {
+  return {
+    type: ADD_DEPARTMENT,
+    payload: formData,
+  };
+};
+export const updateDepartment = (formData) => {
+  return {
+    type: UPDATE_DEPARTMENT,
+    payload: formData,
+  };
+};
+
+export const delDepartment = (delId) => {
+  return {
+    type: DELETE_DEPARTMENT,
     payload: delId,
   };
 };

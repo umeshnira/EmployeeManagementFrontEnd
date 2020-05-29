@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
-import api from "../../api/api";
+import api from "../../apis/api";
 import {
   GET_WORKPRIMISE,
   GET_WORKPRIMISE_SUCCESS,

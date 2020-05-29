@@ -9,13 +9,27 @@ import {
   DEL_DESIGNATION,
   DEL_DESIGNATION_SUCCESS,
 } from "../../redux/actions/actionType";
-import { designationDate } from "../../datas/designation";
+import api from "../../apis/api";
 
 // api function.
-function getDesignationApi() {
-  // api for get designation.
-  return designationDate;
+function* getDesignationApi() {
+  // api for get designations
+  let tempArr = [];
+  const response =  yield api.dbDesignation().GetAllDesignations();
+  /*console.log(response.data.length);
+  for (let i = 0; i < response.data.length; i++) {
+    const { data } = response;
+    tempArr.push({
+      designationName: data[i].designationName,
+      designationIdid: data[i].designationId,
+      departmentId: data[i].departmentId,
+    });
+    console.log(tempArr);
+  }
+  return tempArr;*/
+  return response;
 }
+
 function addDesignation(designationData) {
   // api for add designation.
   console.log(designationData);
@@ -24,14 +38,17 @@ function updateDesignationApi(formData) {
   // api for update designation.
 }
 function delDesignationApi(delId) {
-  // api for delete designation.
+  // api for delete designation
+  const response = api.dbDesignation().DeleteDesignation(delId);
+  return response;
 }
 
 // get designation list.
 export function* handleGetDesignation() {
   try {
-    const designationDate = yield call(getDesignationApi);
-    yield put({ type: GET_DESIGNATION_SUCCESS, payload: designationDate });
+    const designationData = yield call(getDesignationApi);
+    console.log(designationData.data);
+    yield put({ type: GET_DESIGNATION_SUCCESS, payload: designationData.data });
   } catch (error) {
     console.log(error);
   }
@@ -52,7 +69,7 @@ export function* handleUpdateDesignation({ payload }) {
     console.log(error);
   }
 }
-export function* handleDelDesugantion({ payload }) {
+export function* handleDelDesigantion({ payload }) {
   try {
     yield call(delDesignationApi, payload);
     yield put({ type: DEL_DESIGNATION_SUCCESS, payload: payload });
@@ -61,10 +78,10 @@ export function* handleDelDesugantion({ payload }) {
   }
 }
 
-// watach function.
-export function* desginationWatchFun() {
+// watch function.
+export function* designationWatchFun() {
   yield takeLatest(GET_DESIGNATION, handleGetDesignation);
   yield takeLatest(ADD_DESIGINATION, handleAddDesignation);
   yield takeLatest(UPDATE_DESIGNATION, handleUpdateDesignation);
-  yield takeLatest(DEL_DESIGNATION, handleDelDesugantion);
+  yield takeLatest(DEL_DESIGNATION, handleDelDesigantion);
 }

@@ -14,10 +14,13 @@ import {
   addDesignation,
   updateDesignation,
   delDesignation,
+  getDepartment,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 
 // Data for  list view.
-const thead = ["Designation", "Description"];
+const thead = ["designationName","departmentName"];
+
+//const dept = [{deptId: "4002", deptName: "hr" },{deptId: "2", deptName: "dev" }]
 
 const Designation = (props) => {
   const {
@@ -25,10 +28,11 @@ const Designation = (props) => {
     updateDesignation,
     addDesignation,
     delDesignation,
+    getDepartment,
   } = props;
-  const { desiginations } = props.desiginations;
+  const { desiginations,departments } = props.desiginations;
 
-  const [designationArr, setDepartmentArray] = useState([]);
+  const [designationArr, setDesignationArray] = useState([]);
   const [designation, setDesignation] = useState("");
   const [description, setDescription] = useState("");
 
@@ -38,48 +42,45 @@ const Designation = (props) => {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [desgnationInpuFields] = useState([
-    {
-      label: "Designation",
-      type: "text",
-      placeholder: "Enter Designation",
-      name: "designation", // this name should be equal to the data array key's.
-      handleOnChange: (val) => {
-        setDesignation(val);
-      },
-    },
-    {
-      label: "description",
-      type: "text",
-      placeholder: "Enter description",
-      name: "description", // this name should be equal to the data array key's name.
-      handleOnChange: (val) => {
-        setDescription(val);
-      },
-    },
-    {
-      label: "description",
-      type: "select",
-      option: ["HR", "DEV", "CEO"],
-      name: "description", // this name should be equal to the data array key's name.
-      handleOnChange: (val) => {
-        setDescription(val);
-      },
-    },
-  ]);
+  const [departmentArray, setDepartmentArray] = useState([]);
+
+  const [desgnationInpuFields,setDesignationInputFields ] = useState([]);
 
   // custome hooks.
-  const { trow } = useDesignationTableEle(thead, desiginations);
+  const { trow } = useDesignationTableEle(thead, designationArr);
 
   // call the designation data
   useEffect(() => {
     getDesignation();
-  }, [getDesignation]);
+    getDepartment();
+  }, [getDesignation,getDepartment]);
 
   // to set the designation data from reducer.
   useEffect(() => {
-    setDepartmentArray(desiginations);
-  }, [desiginations]);
+    console.log(desiginations);
+    setDesignationArray(desiginations);
+    setDepartmentArray(dept);
+    setDesignationInputFields([
+      {
+        label: "Designation Name",
+        type: "text",
+        placeholder: "Enter Designation Name",
+        name: "designationName", // this name should be equal to the data array key's.
+        handleOnChange: (val) => {
+          setDesignation(val);
+        },
+      },
+      {
+        label: "Department Name",
+        type: "select",
+        option: departments,
+        name: "departmentName", // this name should be equal to the data array key's name.
+        handleOnChange: (val) => {
+          setDescription(val);
+        },
+      },
+    ]);
+  }, [desiginations,departments]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -131,7 +132,7 @@ const Designation = (props) => {
     <div>
       <Row>
         <Col>
-          <h3>Desigination</h3>
+          <h3>Designation</h3>
         </Col>
         <Col>
           {isOpenGridView ? (
@@ -186,6 +187,7 @@ const Designation = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={designationArr}
+          displayData={{heading: "designationName", id: "departmentId"}}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
           handleDelDesignation={handleDelDesignation}
@@ -216,4 +218,5 @@ export default connect(mapStateToProps, {
   addDesignation,
   updateDesignation,
   delDesignation,
+  getDepartment
 })(Designation);
