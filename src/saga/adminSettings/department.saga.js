@@ -36,7 +36,7 @@ function delDepartmentApi(delId) {
 export function* handleGetDepartment() {
   try {
     const response = yield call(getDepartmentApi);
-    yield put({ type: GET_DEPARTMENT_SUCCESS, payload: response });
+    yield put({ type: GET_DEPARTMENT_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
   }

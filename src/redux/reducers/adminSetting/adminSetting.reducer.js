@@ -5,6 +5,11 @@ import {
   ADD_DESIGINATION_SUCCESS,
   UPDATE_DESIGNATION_SUCCESS,
   DEL_DESIGNATION_SUCCESS,
+  //----------------------
+  GET_DEPARTMENT_SUCCESS,
+  ADD_DEPARTMENT_SUCCESS,
+  UPDATE_DEPARTMENT_SUCCESS,
+  DELETE_DEPARTMENT_SUCCESS,
   // ---------------------
   GET_WORKPRIMISE_SUCCESS,
   ADD_WORKPRIMISE_SUCCESS,
@@ -65,27 +70,53 @@ export default function (state = initialState, action) {
     case GET_DESIGNATION_SUCCESS:
       return {
         ...state,
-        desiginations: action.payload,
+        designations: action.payload,
       };
     case ADD_DESIGINATION_SUCCESS:
       return {
         ...state,
-        desiginations: [...state.desiginations, action.payload],
+        designations: [...state.designations, action.payload],
       };
     case UPDATE_DESIGNATION_SUCCESS:
       return {
         ...state,
-        desiginations: state.desiginations.filter((el, i) =>
+        designations: state.designations.filter((el, i) =>
           i === action.payload.id ? action.payload.val : el
         ),
       };
     case DEL_DESIGNATION_SUCCESS:
       return {
         ...state,
-        desiginations: state.desiginations.filter(
-          (el) => el.deignationId !== action.payload
+        designations: state.designations.filter(
+          (el) => el.designationId !== action.payload
         ),
       };
+    //--------------------Department
+    case   GET_DEPARTMENT_SUCCESS:
+        return {
+          ...state,
+          departments: action.payload,
+        };
+      case ADD_DEPARTMENT_SUCCESS:
+        return {
+          ...state,
+          departments: [...state.departments, action.payload],
+        };
+       case UPDATE_DEPARTMENT_SUCCESS:
+         console.log(action.payload);
+         return {
+           ...state,
+           departments: state.departments.filter((el, i) =>
+             i === action.payload.id ? action.payload.val : el
+           ),
+         };
+       case DELETE_DEPARTMENT_SUCCESS:
+        return {
+           ...state,
+           departments: state.departments.filter(
+             (el) => el.departmentId !== action.payload
+           ),
+         };  
     // ----------------- Work Primise.
     case GET_WORKPRIMISE_SUCCESS:
       return {
