@@ -1,5 +1,4 @@
 import {
-  GET_SELECTED_ASSET,
   // ---------------------
   GET_DESIGNATION_SUCCESS,
   ADD_DESIGINATION_SUCCESS,
@@ -25,6 +24,12 @@ import {
   ADD_REWARDS_SUCCESS,
   UPDATE_REWARDS_SUCCESS,
   DEL_REWADRDS_SUCCESS,
+  // ---------------------
+  GET_ASSET_SUCCESS,
+  ADD_ASSET_SUCCESS,
+  UPDATE_ASSET_SUCCESS,
+  DEL_ASSET_SUCCESS,
+  GET_SELECTED_ASSET,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -34,6 +39,7 @@ const initialState = {
   workPrimisesList: [],
   rewards: [],
   officeLocation: [],
+  assetList: [],
   // user list.
 };
 
@@ -92,31 +98,31 @@ export default function (state = initialState, action) {
         ),
       };
     //--------------------Department
-    case   GET_DEPARTMENT_SUCCESS:
-        return {
-          ...state,
-          departments: action.payload,
-        };
-      case ADD_DEPARTMENT_SUCCESS:
-        return {
-          ...state,
-          departments: [...state.departments, action.payload],
-        };
-       case UPDATE_DEPARTMENT_SUCCESS:
-         console.log(action.payload);
-         return {
-           ...state,
-           departments: state.departments.filter((el, i) =>
-             i === action.payload.id ? action.payload.val : el
-           ),
-         };
-       case DELETE_DEPARTMENT_SUCCESS:
-        return {
-           ...state,
-           departments: state.departments.filter(
-             (el) => el.departmentId !== action.payload
-           ),
-         };  
+    case GET_DEPARTMENT_SUCCESS:
+      return {
+        ...state,
+        departments: action.payload,
+      };
+    case ADD_DEPARTMENT_SUCCESS:
+      return {
+        ...state,
+        departments: [...state.departments, action.payload],
+      };
+    case UPDATE_DEPARTMENT_SUCCESS:
+      console.log(action.payload);
+      return {
+        ...state,
+        departments: state.departments.filter((el, i) =>
+          i === action.payload.id ? action.payload.val : el
+        ),
+      };
+    case DELETE_DEPARTMENT_SUCCESS:
+      return {
+        ...state,
+        departments: state.departments.filter(
+          (el) => el.departmentId !== action.payload
+        ),
+      };
     // ----------------- Work Primise.
     case GET_WORKPRIMISE_SUCCESS:
       return {
@@ -164,7 +170,13 @@ export default function (state = initialState, action) {
       return {
         rewards: state.rewards.filter((el) => el.rewardId !== action.payload),
       };
+
     // ----------------- Asset.
+    case GET_ASSET_SUCCESS:
+      return {
+        assetList: action.payload,
+      };
+
     case GET_SELECTED_ASSET:
       return {
         ...state,

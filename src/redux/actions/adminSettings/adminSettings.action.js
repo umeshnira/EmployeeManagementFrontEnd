@@ -1,5 +1,4 @@
 import {
-  GET_SELECTED_ASSET,
   GET_DESIGNATION,
   ADD_DESIGINATION,
   UPDATE_DESIGNATION,
@@ -22,8 +21,14 @@ import {
   ADD_REWARDS,
   UPDATE_REWARDS,
   DEL_REWADRDS,
+  // ---------------
+  GET_ASSET,
+  ADD_ASSET,
+  UPDATE_ASSET,
+  DEL_ASSET,
+  GET_SELECTED_ASSET,
 } from "../actionType";
-import { workPrimiseData, rewardData } from "../../../datas/adminSettings";
+import { workPrimiseData } from "../../../datas/adminSettings";
 
 // ------------Office Locaton.
 export const getOfficeLocation = () => {
@@ -105,7 +110,7 @@ export const delDepartment = (delId) => {
 export const getWorkPrimise = () => {
   return {
     type: GET_WORKPRIMISE,
-    payload: workPrimiseData,
+    // payload: workPrimiseData,
   };
 };
 export const addWorkPrimise = (formData) => {
@@ -124,14 +129,6 @@ export const delWorkPrimise = (delId) => {
   return {
     type: DEL_WORKPRIMISE,
     payload: delId,
-  };
-};
-
-// ----------------Asset.
-export const getSelectedAsset = (assetData) => {
-  return {
-    type: GET_SELECTED_ASSET,
-    payload: assetData,
   };
 };
 
@@ -157,5 +154,20 @@ export const delRewards = (delId) => {
   return {
     type: DEL_REWADRDS,
     payload: delId,
+  };
+};
+
+// ----------------Asset.
+
+export const getAllAsset = () => {
+  return {
+    type: GET_ASSET,
+  };
+};
+
+export const getSelectedAsset = (assetData) => {
+  return {
+    type: GET_SELECTED_ASSET,
+    payload: assetData,
   };
 };

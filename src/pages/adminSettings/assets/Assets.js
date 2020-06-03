@@ -2,8 +2,9 @@ import React, { useState, Fragment, useEffect, useCallback } from "react";
 import uuid from "react-uuid";
 import { connect } from "react-redux";
 import { getEmpList } from "../../../redux/actions/employee/employee.action";
+import { getItemsList } from "../../../redux/actions/items/items.action";
+import { getAllAsset } from "../../../redux/actions/adminSettings/adminSettings.action";
 import { Button, Row, Col } from "reactstrap";
-
 import {
   ListAssetItem,
   FormAddEditAssetItem,
@@ -86,23 +87,15 @@ const assetArr = [
   },
 ];
 
-// Data for  list view.
-// const thead = [
-//   "Item",
-//   "Item No",
-//   "Item Description",
-//   "Unique ID",
-//   "Model No",
-//   "Assignee",
-// ];
-
 const Assets = (props) => {
-  const { getEmpList } = props;
+  const { getEmpList, getItemsList, getAllAsset } = props;
 
-  const { assetSelected } = props.selectedAsset; // from reducer.
+  const { assetList } = props.assetList; // from reducer.
+  const { itemList } = props.itemList;
   const { empList } = props.empList; // user list.
-
   const [dataArr, setDataArr] = useState([]);
+  const [assets, setAssets] = useState([]);
+  const [items, setItems] = useState([]);
   const [assetName, setAssetName] = useState("");
   const [itemNo, setItemNo] = useState("");
   const [itemDescription, setItemDescription] = useState("");
@@ -124,15 +117,25 @@ const Assets = (props) => {
       placeholder: "Enter Asset Name",
       name: "type1", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
-        console.log(val);
         setAssetName(val);
       },
     },
   ]);
 
   useEffect(() => {
+    getItemsList();
+    getAllAsset();
+    getEmpList();
+  }, [getItemsList, getAllAsset, getEmpList]);
+
+  useEffect(() => {
     setDataArr(assetArr);
   }, []);
+
+  // when itemList chanegs
+  useEffect(() => {
+    setItems(itemList);
+  }, [itemList]);
   // Function -------------------
 
   const toggleFromGridViews = useCallback(() => {
@@ -143,22 +146,27 @@ const Assets = (props) => {
   }, [setIsOpenGridView, setIsOpenAssetItems]);
 
   const toggleFromGridViewsAddBtn = useCallback(() => {
-    console.log("toggleFromForm");
     // setIsOpenListView(!isOpenListView);
     setIsOpenGridView((prevState) => !prevState);
     setIsOpenForm((prevState) => !prevState);
   }, [setIsOpenGridView, setIsOpenForm]);
 
   //  on click the tile ,open the listAssetItem with data filed.
-  const handleSelectedAsset = useCallback((val, id) => {
-    setSelectedAsset(val);
-    // props.getSelectedAsset(val);
-    //   setSelectedData("yoyo");
-  }, []);
+  const handleSelectedAsset = useCallback(
+    (val, id) => {
+      console.log(val);
+      let assetArr = assetList.filter((el) => el.itemId === val.itemId);
+
+      console.log(assetArr);
+      setSelectedAsset(assetArr);
+
+      // setSelectedAsset(val);
+    },
+    [assetList]
+  );
 
   //   handle asset item edit click from listAssetItem.js
   const handleEditAssetItem = (assetItemInfo, i) => {
-    console.log(assetSelected);
     setAssetName(selectedAsset.asset);
     setItemNo(assetItemInfo.itemNo);
     setItemDescription(assetItemInfo.itemDescription);
@@ -188,21 +196,18 @@ const Assets = (props) => {
     console.log(itemUser);
   };
 
-  useEffect(() => {
-    // to get the user list.
-    getEmpList();
-  }, [getEmpList]);
-
   return (
     <div>
       {/* ------------------------ Top Row--------------------- */}
       <Row>
         <Col>
           {isOpenFormAssetAddItems ? (
-            <h3>Add Item to {selectedAsset.asset} </h3>
+            // <h3>Add Item to {selectedAsset.asset} </h3>
+            <h3>Add Item to </h3>
           ) : (
             <h3>
-              Assets {selectedAsset !== "" ? `-> ${selectedAsset.asset}` : ""}{" "}
+              {/* Assets {selectedAsset !== "" ? `-> ${selectedAsset.asset}` : ""}{" "} */}
+              Assets
             </h3>
           )}
         </Col>
@@ -238,10 +243,11 @@ const Assets = (props) => {
       {/* ------------------------ Top Row---------------------- */}
       <hr></hr>
 
-      {/* AssetsTabs had tab of All Assets and Employee Assets. */}
+      {/* AssetsTabs have tabs of All Assets and Employee Assets. */}
       {isOpenGridView ? (
         <AssetsTabs
           assets={dataArr}
+          itemList={items}
           openAssetItem={toggleFromGridViews}
           openAddForm={toggleFromGridViewsAddBtn}
           handleSelectedAsset={handleSelectedAsset}
@@ -254,6 +260,7 @@ const Assets = (props) => {
           assetData={selectedAsset}
           isOpen={isOpenAssetItems}
           handleEditAssetItem={handleEditAssetItem}
+          userList={empList}
         ></ListAssetItem>
       ) : null}
 
@@ -267,7 +274,7 @@ const Assets = (props) => {
         ></FormFields>
       ) : null}
 
-      {/* show add asset item form */}
+      {/* show edit and add asset item form */}
       {isOpenFormAssetAddItems ? (
         <FormAddEditAssetItem
           userList={empList}
@@ -298,8 +305,13 @@ const Assets = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  selectedAsset: state.adminSettingReducer,
+  assetList: state.adminSettingReducer,
   empList: state.empReducer,
+  itemList: state.itemReducer,
 });
 
-export default connect(mapStateToProps, { getEmpList })(Assets);
+export default connect(mapStateToProps, {
+  getEmpList,
+  getItemsList,
+  getAllAsset,
+})(Assets);

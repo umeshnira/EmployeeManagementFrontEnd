@@ -38,6 +38,7 @@ const AssetTabs = (props) => {
         <TabPane tabId="1">
           <GridViewAsset
             assets={props.assets}
+            itemList={props.itemList}
             openAssetItem={props.openAssetItem}
             openAddForm={props.openAddForm}
             handleSelectedAsset={props.handleSelectedAsset}

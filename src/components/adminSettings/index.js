@@ -5,3 +5,4 @@ export { default as FromEditFields } from "./FormEditFields";
 export { default as FormAddHolidayCalender } from "./FormAddHolidayCalender";
 export { default as FormEditHolidayCalender } from "./FormEditHolidayCalender";
 export { default as useDesignationTableEle } from "./designation/useDesignationTableEle";
+export { default as useTableWorkPrimise } from "./workPrimise/useTableWorkPrimise";

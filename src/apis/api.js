@@ -44,4 +44,16 @@ export default {
       del: (delId) => axios.post(url + `DeleteRewards?RewardId=${delId}`),
     };
   },
+  // asset api's.
+  asset(url = baseUrl + "Admin/") {
+    return {
+      getAll: () => axios.get(url + "GetAssetList"),
+    };
+  },
+  // items api's.
+  items(url = baseUrl + "Admin/") {
+    return {
+      getAll: () => axios.get(url + "GetItemsList"),
+    };
+  },
 };

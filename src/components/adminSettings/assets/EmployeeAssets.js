@@ -103,39 +103,7 @@ const EmployeeAssets = (props) => {
           ></SelectSearchBox>
         </Col>
       </Row>
-      {/* <Table striped className="mt-2">
-        <thead>
-          <tr>
-            <th style={{ width: "40px" }}>#</th>
-            <th className="text-center">Employee Name</th>
-             <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {empList.map((emp, i) => {
-            return (
-              <tr key={i}>
-                <td className="text-right">{i + 1}</td>
-                <td className="text-center">{emp.label}</td>
-                <td>View more</td>
-              </tr>
-            );
-          })}
-          {assetsArr.map((asset, i) => {
-            return asset.assetItems
-              .filter((ele) => ele.user !== "")
-              .map((assetItems, k) => {
-                return (
-                  <tr key={k}>
-                    <td>{assetItems.user}</td>
-                    <td>{assetItems.itemNo}</td>
-                    <td>{asset.asset}</td>
-                  </tr>
-                );
-              });
-          })}
-        </tbody>
-      </Table> */}
+
       <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
     </Fragment>
   );

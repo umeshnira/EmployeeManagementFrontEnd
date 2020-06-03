@@ -37,8 +37,6 @@ export const UPDATE_REWARDS = "UPDATE_REWARDS";
 export const UPDATE_REWARDS_SUCCESS = "UPDATE_REWARDS_SUCCESS";
 export const DEL_REWADRDS = "DEL_REWADRDS";
 export const DEL_REWADRDS_SUCCESS = "DEL_REWADRDS_SUCCESS";
-// asset action type.
-export const GET_SELECTED_ASSET = "GET_SELECTED_ASSET";
 // officeLocation action type.
 export const GET_OFFICELOCATION = "GET_OFFICELOCATION";
 export const GET_OFFICELOCATION_SUCCESS = "GET_OFFICELOCATION_SUCCESS";
@@ -48,6 +46,28 @@ export const UPDATE_OFFICELOCATION = "UPDATE_OFFICELOCATION";
 export const UPDATE_OFFICELOCATION_SUCCESS = "UPDATE_OFFICELOCATION_SUCCESS";
 export const DEL_OFFICELOCATION = "DEL_OFFICELOCATION";
 export const DEL_OFFICELOCATION_SUCCESS = "DEL_OFFICELOCATION_SUCCESS";
+// asset action type.
+export const GET_SELECTED_ASSET = "GET_SELECTED_ASSET";
+export const GET_ASSET = "GET_ASSET";
+export const GET_ASSET_SUCCESS = "GET_ASSET_SUCCESS";
+export const ADD_ASSET = "ADD_ASSET";
+export const ADD_ASSET_SUCCESS = "ADD_ASSET_SUCCESS";
+export const UPDATE_ASSET = "UPDATE_ASSET";
+export const UPDATE_ASSET_SUCCESS = "UPDATE_ASSET_SUCCESS";
+export const DEL_ASSET = "DEL_ASSET";
+export const DEL_ASSET_SUCCESS = "DEL_ASSET_SUCCESS";
+
+// admin setting action type  END.
+
+// Item action type.
+export const GET_ITEMS = "GET_ITEMS";
+export const GET_ITEMS_SUCCESS = "GET_ITEMS_SUCCESS";
+export const ADD_ITEM = "ADD_ITEM";
+export const ADD_ITEM_SUCCESS = "ADD_ITEM_SUCCESS";
+export const UPDATE_ITEM = "UPDATE_ITEM";
+export const UPDATE_ITEM_SUCCESS = "UPDATE_ITEM_SUCCESS";
+export const DEL_ITEM = "DEL_ITEM";
+export const DEL_ITEM_SUCCESS = "DEL_ITEM_SUCCESS";
 
 // Employee action type.
 export const GET_EMP_LIST = "GET_EMP_LIST";

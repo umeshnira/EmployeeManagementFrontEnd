@@ -21,7 +21,7 @@ export default function GridView(props) {
                   <i className="fas fa-plus text-center "></i>
                 </Card>
               </Col>
-              {props.assets.map((assetName, i) => {
+              {props.itemList.map((assetName, i) => {
                 return (
                   <Col lg={3} md={6} sm={6} xs={12} className="mb-3" key={i}>
                     <Card
@@ -34,7 +34,7 @@ export default function GridView(props) {
                         // handleEditDepartment(val.department, i);
                       }}
                     >
-                      <span className="text-left">{assetName.asset}</span>
+                      <span className="text-left">{assetName.itemType}</span>
                       <i
                         className="fas fa-times "
                         // onClick={() => handleEditLocation(val)}

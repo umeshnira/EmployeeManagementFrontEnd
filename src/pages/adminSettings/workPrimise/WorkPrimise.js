@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
-  ListView,
   FromFields,
   FromEditFields,
+  useTableWorkPrimise,
 } from "../../../components/adminSettings/index";
 import {
   getWorkPrimise,
@@ -14,9 +14,7 @@ import {
   updateWorkPrimise,
   delWorkPrimise,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
-
-// Data for  list view.
-const thead = ["work Premise"]; // thead element names should === data key value.
+import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
 
 const WorkPrimise = (props) => {
   const {
@@ -52,7 +50,6 @@ const WorkPrimise = (props) => {
   }, [getWorkPrimise]);
 
   useEffect(() => {
-    console.log("change");
     setDataArr(workPrimisesList);
   }, [workPrimisesList]);
 
@@ -82,10 +79,9 @@ const WorkPrimise = (props) => {
     // setSelectedData({})
   };
   //  on click the tile ,open the from with data filed.
-  const handleEditClick = (val, id) => {
+  const handleEditClick = React.useCallback((val, id) => {
     setSelectedData({ id: id, val: val });
-    // toggle();
-  };
+  }, []);
 
   const handleDataAdd = (e) => {
     e.preventDefault();
@@ -114,6 +110,24 @@ const WorkPrimise = (props) => {
     [delWorkPrimise]
   );
 
+  const toggleBtn = React.useCallback(() => {
+    setIsOpenGridView((prevState) => !prevState);
+    setIsOpenListView((prevState) => !prevState);
+  }, [setIsOpenGridView, setIsOpenListView]);
+
+  const onClickToggleFromTable = React.useCallback(() => {
+    setIsOpenListView((prevState) => !prevState);
+    setIsOpenForm((prevState) => !prevState);
+  }, [setIsOpenListView, setIsOpenForm]);
+
+  // customer hook.
+  const { thead, trow } = useTableWorkPrimise(
+    dataArr,
+    handleDelWorkPrimsie,
+    handleEditClick,
+    onClickToggleFromTable
+  );
+
   return (
     <div>
       <Row>
@@ -125,10 +139,7 @@ const WorkPrimise = (props) => {
             <Button
               color=""
               className="btn-admin-settings float-right"
-              onClick={() => {
-                setIsOpenGridView(!isOpenGridView);
-                setIsOpenListView(!isOpenListView);
-              }}
+              onClick={toggleBtn}
             >
               <i className="fas   fa-list "></i>
             </Button>
@@ -136,10 +147,7 @@ const WorkPrimise = (props) => {
             <Button
               color=""
               className="btn-admin-settings float-right"
-              onClick={() => {
-                setIsOpenGridView(!isOpenGridView);
-                setIsOpenListView(!isOpenListView);
-              }}
+              onClick={toggleBtn}
             >
               <i className="fas fa-th-large float-right "></i>
             </Button>
@@ -185,16 +193,9 @@ const WorkPrimise = (props) => {
           handleDel={handleDelWorkPrimsie}
         ></GridView>
       </Collapse>
+
       <Collapse isOpen={isOpenListView}>
-        <ListView
-          thead={thead}
-          listData={workPrimisesList}
-          toggle={() => {
-            setIsOpenListView(!isOpenListView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditClick(val, id)}
-        ></ListView>
+        <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
       </Collapse>
     </div>
   );

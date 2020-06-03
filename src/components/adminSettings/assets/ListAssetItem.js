@@ -14,7 +14,7 @@ import {
 import classnames from "classnames";
 
 export default function ListAssetItem(props) {
-  const { assetItems } = props.assetData;
+  // const { assetItems } = props.assetData;
   const [activeTab, setActiveTab] = useState("1");
 
   const toggle = (tab) => {
@@ -65,19 +65,27 @@ export default function ListAssetItem(props) {
                     </tr>
                   </thead>
                   <tbody>
+                    {console.log(props.assetData)}
                     {/* {assetItems.filter((ele) => ele.user === "")} */}
-                    {assetItems.map((itemData, i) => {
+                    {props.assetData.map((itemData, i) => {
                       return (
                         <tr key={i}>
                           <td>{i}</td>
                           <td>{i + 2}</td>
-                          <td>{itemData.itemDescription}</td>
+                          <td>{itemData.itemModel}</td>
                           <td>{itemData.modelNo}</td>
-                          <td>{itemData.uniqueId}</td>
+                          <td>{itemData.uniqueIdentificationNumber}</td>
                           <td>{itemData.purchaseDate}</td>
-                          <td>{itemData.vendor}</td>
                           <td>{itemData.warentyEndDate}</td>
-                          <td>{itemData.user}</td>
+                          <td>{itemData.vendor}</td>
+                          <td>
+                            {/* {itemData.employeeId} */}
+                            {
+                              props.userList.filter(
+                                (el) => el.value.empId === 29
+                              )[0].value.empName
+                            }
+                          </td>
                           <td>
                             <i className="fas fa-trash"></i>
                             &nbsp;
@@ -116,7 +124,7 @@ export default function ListAssetItem(props) {
                   </thead>
                   <tbody>
                     {/* {assetItems.filter((ele) => ele.user === "")} */}
-                    {assetItems
+                    {/* {assetItems
                       .filter((ele) => ele.user === "")
                       .map((itemData, i) => {
                         return (
@@ -143,7 +151,7 @@ export default function ListAssetItem(props) {
                             </td>
                           </tr>
                         );
-                      })}
+                      })} */}
                   </tbody>
                 </Table>
               </Col>
