@@ -245,7 +245,7 @@ const Assets = (props) => {
       {isOpenGridView ? (
         <AssetsTabs
           assets={dataArr}
-          itemList={items}
+          itemList={[]}
           openAssetItem={toggleFromGridViews}
           openAddForm={toggleFromGridViewsAddBtn}
           handleSelectedAsset={handleSelectedAsset}
