@@ -19,7 +19,7 @@ class SelectBoxSearch extends React.Component {
     const { options } = this.props;
     return (
       <Select
-        value={selectedOption}
+        value={"selectedOption"}
         onChange={this.handleChange}
         options={options}
       />

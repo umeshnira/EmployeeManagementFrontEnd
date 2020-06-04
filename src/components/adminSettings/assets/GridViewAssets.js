@@ -34,7 +34,7 @@ export default function GridView(props) {
                         // handleEditDepartment(val.department, i);
                       }}
                     >
-                      <span className="text-left">{assetName.itemType}</span>
+                      <span className="text-left">{assetName.itemName}</span>
                       <i
                         className="fas fa-times "
                         // onClick={() => handleEditLocation(val)}

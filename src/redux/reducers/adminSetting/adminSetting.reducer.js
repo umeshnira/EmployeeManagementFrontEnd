@@ -29,7 +29,6 @@ import {
   ADD_ASSET_SUCCESS,
   UPDATE_ASSET_SUCCESS,
   DEL_ASSET_SUCCESS,
-  GET_SELECTED_ASSET,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -177,11 +176,15 @@ export default function (state = initialState, action) {
         assetList: action.payload,
       };
 
-    case GET_SELECTED_ASSET:
+    case ADD_ASSET_SUCCESS:
       return {
-        ...state,
-        assetSelected: action.payload,
+        assetList: [...state.assetList, action.payload],
       };
+    case DEL_ASSET_SUCCESS:
+      return {
+        assetList: state.assetList.filter((el) => el.itemNo !== action.payload),
+      };
+
     default:
       return state;
   }

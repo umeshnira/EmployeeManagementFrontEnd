@@ -3,7 +3,11 @@ import uuid from "react-uuid";
 import { connect } from "react-redux";
 import { getEmpList } from "../../../redux/actions/employee/employee.action";
 import { getItemsList } from "../../../redux/actions/items/items.action";
-import { getAllAsset } from "../../../redux/actions/adminSettings/adminSettings.action";
+import {
+  getAllAsset,
+  addAsset,
+  delAsset,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
 import { Button, Row, Col } from "reactstrap";
 import {
   ListAssetItem,
@@ -88,7 +92,7 @@ const assetArr = [
 ];
 
 const Assets = (props) => {
-  const { getEmpList, getItemsList, getAllAsset } = props;
+  const { getEmpList, getItemsList, getAllAsset, addAsset, delAsset } = props;
 
   const { assetList } = props.assetList; // from reducer.
   const { itemList } = props.itemList;
@@ -97,11 +101,6 @@ const Assets = (props) => {
   const [assets, setAssets] = useState([]);
   const [items, setItems] = useState([]);
   const [assetName, setAssetName] = useState("");
-  const [itemNo, setItemNo] = useState("");
-  const [itemDescription, setItemDescription] = useState("");
-  const [itemUniqueId, setItemUniqueId] = useState("");
-  const [itemModelNo, setItemModelNo] = useState("");
-  const [itemUser, setItemUser] = useState("");
 
   const [selectedAsset, setSelectedAsset] = useState("");
 
@@ -165,14 +164,18 @@ const Assets = (props) => {
     [assetList]
   );
 
+  // handle Delete asset by itemNo.
+  const handleDelAsset = React.useCallback(
+    (delId) => {
+      delAsset(delId);
+    },
+    [delAsset]
+  );
+
   //   handle asset item edit click from listAssetItem.js
   const handleEditAssetItem = (assetItemInfo, i) => {
     setAssetName(selectedAsset.asset);
-    setItemNo(assetItemInfo.itemNo);
-    setItemDescription(assetItemInfo.itemDescription);
-    setItemUniqueId(assetItemInfo.uniqueId);
-    setItemModelNo(assetItemInfo.modelNo);
-    setItemUser(assetItemInfo.user);
+
     setIsOpenAssetItems(false);
     setIsOpenFormAssetAddItems(true);
   };
@@ -186,14 +189,9 @@ const Assets = (props) => {
   };
 
   //   handle asset item add.
-  const handleAddItemsToAsset = (e) => {
-    e.preventDefault();
-    console.log(selectedAsset.asset);
-    console.log(itemNo); // array length +1
-    console.log(itemDescription);
-    console.log(itemModelNo);
-    console.log(itemUniqueId);
-    console.log(itemUser);
+  const handleAddItemsToAsset = (formData) => {
+    console.log(formData);
+    addAsset(formData);
   };
 
   return (
@@ -259,8 +257,9 @@ const Assets = (props) => {
         <ListAssetItem
           assetData={selectedAsset}
           isOpen={isOpenAssetItems}
-          handleEditAssetItem={handleEditAssetItem}
           userList={empList}
+          handleEditAssetItem={handleEditAssetItem}
+          handleDelAsset={handleDelAsset}
         ></ListAssetItem>
       ) : null}
 
@@ -278,21 +277,6 @@ const Assets = (props) => {
       {isOpenFormAssetAddItems ? (
         <FormAddEditAssetItem
           userList={empList}
-          formData={{
-            itemNo,
-            itemDescription,
-            itemUniqueId,
-            itemModelNo,
-            itemUser,
-          }}
-          setAssetName={(val) => setAssetName(val)}
-          itemNo={selectedAsset.assetItems.length}
-          setItemDescription={(val) => setItemDescription(val)}
-          setItemModelNo={(val) => setItemModelNo(val)}
-          setItemUniqueId={(val) => setItemUniqueId(val)}
-          setItemUser={(val) => {
-            setItemUser(val);
-          }}
           handleSubmit={handleAddItemsToAsset}
           handleCancel={() => {
             setIsOpenFormAssetAddItems(false);
@@ -314,4 +298,6 @@ export default connect(mapStateToProps, {
   getEmpList,
   getItemsList,
   getAllAsset,
+  addAsset,
+  delAsset,
 })(Assets);

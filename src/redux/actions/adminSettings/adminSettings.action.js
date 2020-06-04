@@ -26,7 +26,6 @@ import {
   ADD_ASSET,
   UPDATE_ASSET,
   DEL_ASSET,
-  GET_SELECTED_ASSET,
 } from "../actionType";
 import { workPrimiseData } from "../../../datas/adminSettings";
 
@@ -158,16 +157,26 @@ export const delRewards = (delId) => {
 };
 
 // ----------------Asset.
-
 export const getAllAsset = () => {
   return {
     type: GET_ASSET,
   };
 };
-
-export const getSelectedAsset = (assetData) => {
+export const addAsset = (formData) => {
   return {
-    type: GET_SELECTED_ASSET,
-    payload: assetData,
+    type: ADD_ASSET,
+    payload: formData,
+  };
+};
+export const updateAsset = (formDate) => {
+  return {
+    type: UPDATE_ASSET,
+    payload: formDate,
+  };
+};
+export const delAsset = (delId) => {
+  return {
+    type: DEL_ASSET,
+    payload: delId,
   };
 };

@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 
-export default function ListAssetItem(props) {
+const ListAssetItem = React.memo((props) => {
   // const { assetItems } = props.assetData;
   const [activeTab, setActiveTab] = useState("1");
 
@@ -80,14 +80,17 @@ export default function ListAssetItem(props) {
                           <td>{itemData.vendor}</td>
                           <td>
                             {/* {itemData.employeeId} */}
-                            {
-                              props.userList.filter(
-                                (el) => el.value.empId === 29
-                              )[0].value.empName
-                            }
+                            {props.userList.filter(
+                              (el) => el.value.empId === itemData.employeeId
+                            )}
                           </td>
                           <td>
-                            <i className="fas fa-trash"></i>
+                            <i
+                              className="fas fa-trash"
+                              onClick={() =>
+                                props.handleDelAsset(itemData.itemNo)
+                              }
+                            ></i>
                             &nbsp;
                             <i
                               className="fas fa-edit"
@@ -113,31 +116,31 @@ export default function ListAssetItem(props) {
                     <tr>
                       <th>#</th>
                       <th>Item No</th>
-                      <th>Item Description</th>
+                      <th>Item Model</th>
                       <th>Model No</th>
                       <th>Unique ID</th>
                       <th>Purchase Date</th>
                       <th>Warenty End</th>
                       <th>Vendor</th>
-                      <th>User</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {/* {assetItems.filter((ele) => ele.user === "")} */}
-                    {/* {assetItems
-                      .filter((ele) => ele.user === "")
+
+                    {props.assetData
+                      .filter((ele) => ele.employeeId === 0)
                       .map((itemData, i) => {
                         return (
                           <tr key={i}>
                             <td>{i}</td>
                             <td>{i + 2}</td>
-                            <td>{itemData.itemDescription}</td>
+                            <td>{itemData.itemModel}</td>
                             <td>{itemData.modelNo}</td>
-                            <td>{itemData.uniqueId}</td>
+                            <td>{itemData.uniqueIdentificationNumber}</td>
                             <td>{itemData.purchaseDate}</td>
-                            <td>{itemData.vendor}</td>
                             <td>{itemData.warentyEndDate}</td>
-                            <td>{itemData.user}</td>
+                            <td>{itemData.vendor}</td>
                             <td>
                               <i className="fas fa-trash"></i>
                               &nbsp;
@@ -151,7 +154,7 @@ export default function ListAssetItem(props) {
                             </td>
                           </tr>
                         );
-                      })} */}
+                      })}
                   </tbody>
                 </Table>
               </Col>
@@ -161,4 +164,6 @@ export default function ListAssetItem(props) {
       </Container>
     </Fragment>
   );
-}
+});
+
+export default ListAssetItem;

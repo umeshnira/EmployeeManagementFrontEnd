@@ -48,6 +48,8 @@ export default {
   asset(url = baseUrl + "Admin/") {
     return {
       getAll: () => axios.get(url + "GetAssetList"),
+      addEdit: (formData) => axios.post(url + "AddEditAsset", formData),
+      del: (delId) => axios.post(url + `DeleteAsset?itemNo=${delId}`),
     };
   },
   // items api's.
