@@ -7,6 +7,7 @@ import {
   GridView,
   FromFields,
   FromEditFields,
+  ListView,
   useDesignationTableEle,
 } from "../../../components/adminSettings/index";
 import {
@@ -17,13 +18,6 @@ import {
   getDepartment,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 
-// Data for  list view.
-const thead = ["designationName", "departmentName"];
-
-const dept = [
-  { deptId: "4002", deptName: "hr" },
-  { deptId: "2", deptName: "dev" },
-];
 
 const Designation = (props) => {
   const {
@@ -33,11 +27,11 @@ const Designation = (props) => {
     delDesignation,
     getDepartment,
   } = props;
-  const { desiginations, departments } = props.desiginations;
+  const { desiginations,departments } = props.desiginations;
 
   const [designationArr, setDesignationArray] = useState([]);
   const [designation, setDesignation] = useState("");
-  const [description, setDescription] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
 
   const [selectedDesg, setSelectedDesg] = useState({ id: "", val: "" });
 
@@ -47,22 +41,18 @@ const Designation = (props) => {
 
   const [departmentArray, setDepartmentArray] = useState([]);
 
-  const [desgnationInpuFields, setDesignationInputFields] = useState([]);
-
-  // custome hooks.
-  const { trow } = useDesignationTableEle(thead, designationArr);
+  const [desgnationInpuFields,setDesignationInputFields ] = useState([]);
 
   // call the designation data
   useEffect(() => {
     getDesignation();
     getDepartment();
-  }, [getDesignation, getDepartment]);
+  }, [getDesignation,getDepartment]);
 
   // to set the designation data from reducer.
   useEffect(() => {
-    console.log(desiginations);
     setDesignationArray(desiginations);
-    setDepartmentArray(dept);
+    setDepartmentArray(departments);
     setDesignationInputFields([
       {
         label: "Designation Name",
@@ -77,13 +67,14 @@ const Designation = (props) => {
         label: "Department Name",
         type: "select",
         option: departments,
+        displayData: {selectedData:"departmentName", id:"departmentId"},
         name: "departmentName", // this name should be equal to the data array key's name.
         handleOnChange: (val) => {
-          setDescription(val);
+          setDepartmentId(val);
         },
       },
     ]);
-  }, [desiginations, departments]);
+  }, [desiginations,departments]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -103,23 +94,24 @@ const Designation = (props) => {
     setIsOpenForm(!isOpenForm);
   };
   //  on click the tile open the from with data filed.
-  const handleEditDesgnation = (val, id) => {
+  const handleEditDesgnation =  React.useCallback((val, id) => {
     setSelectedDesg({ id: id, val: val });
     // toggle();
-  };
+  },[]);
 
   const handleDesignationAdd = (e) => {
     e.preventDefault();
     let formData = {
-      desigination: designation,
-      description: description,
+      designationName: designation,
+      departmentId: parseInt(departmentId),
     };
+    console.log(formData);
     addDesignation(formData);
     toggle();
   };
   const handleDesignationUpdate = (e) => {
     e.preventDefault();
-    updateDesignation(selectedDesg);
+    updateDesignation(selectedDesg.val);
     setSelectedDesg({ id: "", val: "" });
     toggle();
   };
@@ -129,6 +121,20 @@ const Designation = (props) => {
       delDesignation(delId);
     },
     [delDesignation]
+  );
+  
+  const onClickToggleFromTable = React.useCallback(() => {
+    setIsOpenListView((prevState) => !prevState);
+    setIsOpenForm((prevState) => !prevState);
+  }, [setIsOpenListView, setIsOpenForm]);
+
+  // customer hook.
+  const { thead, trow } = useDesignationTableEle(
+    designationArr,
+    departmentArray,
+    handleDelDesignation,
+    handleEditDesgnation,
+    onClickToggleFromTable
   );
 
   return (
@@ -190,10 +196,10 @@ const Designation = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={designationArr}
-          displayData={{ heading: "designationName", id: "departmentId" }}
+          displayData={{heading: "designationName", id: "designationId"}}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
-          handleDelDesignation={handleDelDesignation}
+          handleDel={handleDelDesignation}
           toggle={toggle}
           handleSelectedDesg={(val, id) => handleEditDesgnation(val, id)}
         ></GridView>
@@ -221,5 +227,5 @@ export default connect(mapStateToProps, {
   addDesignation,
   updateDesignation,
   delDesignation,
-  getDepartment,
+  getDepartment
 })(Designation);

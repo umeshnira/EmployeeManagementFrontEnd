@@ -18,17 +18,17 @@ function getDepartmentApi()  {
  const response = api.dbDepartment().GetAllDepartments();
   return response;
 }
-function addDepartmentApi(DepartmentData) {
+function addDepartmentApi(formData) {
   // api for add designation.
-  console.log(DepartmentData);
+  api.dbDepartment().addEditDepartment(formData);
 }
 function updateDepartmentApi(formData) {
   // api for update designation.
+  api.dbDepartment().addEditDepartment(formData);
 }
 function delDepartmentApi(delId) {
   // api for delete designation.
   const response = api.dbDepartment().DeleteDepartment(delId);
-  console.log(response);
   return response;
 }
 
@@ -51,8 +51,9 @@ export function* handleAddDepartment({ payload }) {
 }
 export function* handleUpdateDepartment({ payload }) {
   try {
-    yield call(updateDepartmentApi, payload);
-    yield put({ type: UPDATE_DEPARTMENT_SUCCESS, payload: payload });
+    let formData = payload;
+    yield call(updateDepartmentApi, formData);
+    yield put({ type: UPDATE_DEPARTMENT_SUCCESS, payload: formData });
   } catch (error) {
     console.log(error);
   }

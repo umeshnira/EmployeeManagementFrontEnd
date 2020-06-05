@@ -19,7 +19,7 @@ export const WorkPrimise = React.lazy(() =>
 
 // export { default as EmployeeType } from "./emplayeeType/EmployeeType";
 export const EmployeeType = React.lazy(() =>
-  import("./emplayeeType/EmployeeType")
+  import("./employeeType/EmployeeType")
 );
 
 // export { default as Reward } from "./reward/Reward";

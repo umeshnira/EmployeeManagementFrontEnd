@@ -29,6 +29,12 @@ import {
   ADD_ASSET_SUCCESS,
   UPDATE_ASSET_SUCCESS,
   DEL_ASSET_SUCCESS,
+  //---employee types
+  GET_EMPLOYEETYPE_LIST_SUCCESS,
+  GET_EMPLOYEETYPES_BY_ID_SUCCESS,
+  ADD_EMPLOYEETYPE_SUCCESS,
+  UPDATE_EMPLOYEETYPE_SUCCESS,
+  DELETE_EMPLOYEETYPE_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -184,6 +190,38 @@ export default function (state = initialState, action) {
       return {
         assetList: state.assetList.filter((el) => el.itemNo !== action.payload),
       };
+      
+     //----Employee Types---// 
+     case   GET_EMPLOYEETYPE_LIST_SUCCESS:
+      return {
+        ...state,
+        employeetypes: action.payload,
+      };
+      case   GET_EMPLOYEETYPES_BY_ID_SUCCESS:
+        return {
+          ...state,
+          employeetypes: action.payload,
+        };
+    case ADD_EMPLOYEETYPE_SUCCESS:
+      return {
+        ...state,
+        employeetypes: [...state.employeetypes, action.payload],
+      };
+     case UPDATE_EMPLOYEETYPE_SUCCESS:
+       console.log(action.payload);
+       return {
+         ...state,
+         employeetypes: state.employeetypes.filter((el, i) =>
+           i === action.payload.id ? action.payload.val : el
+         ),
+       };
+     case DELETE_EMPLOYEETYPE_SUCCESS:
+      return {
+         ...state,
+         employeetypes: state.employeetypes.filter(
+           (el) => el.employeeTypeId !== action.payload
+         ),
+       };    
 
     default:
       return state;

@@ -58,4 +58,14 @@ export default {
       getAll: () => axios.get(url + "GetItemsList"),
     };
   },
+  //employee type api's
+  dbEmployeeTypes(url = baseUrl + "Admin/") {
+    return {
+      GetEmployeeTypeList: () => axios.get(url + "GetEmployeeTypeList"),
+      AddEditEmployeeType: (formData) =>
+        axios.post(url + "AddEditEmployeeType", formData),
+      DeleteEmployeeType: (delId) =>
+        axios.post(url + `DeleteEmployeeType?employeeTypeId=${delId}`),
+    };
+  },
 };

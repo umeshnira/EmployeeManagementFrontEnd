@@ -40,11 +40,12 @@ const FormFields = (props) => {
                       type={val.type}
                       placeholder={val.placeholder}
                       onChange={(e) => {
-                        val.handleOnChange(e.target.files[0]);
+                        val.handleOnChange(e.target.value);
                       }}
                     >
+                      <option value="">----Select Department----</option>
                       {val.option.map((el, i) => (
-                        <option key={i}>{el}</option>
+                        <option key={i} value={el[val.displayData["id"]]}>{el[val.displayData["selectedData"]]}</option>
                       ))}
                     </Input>
                   </Fragment>

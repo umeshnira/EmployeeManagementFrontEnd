@@ -14,28 +14,18 @@ import api from "../../apis/api";
 // api function.
 function* getDesignationApi() {
   // api for get designations
-  let tempArr = [];
   const response =  yield api.dbDesignation().GetAllDesignations();
-  /*console.log(response.data.length);
-  for (let i = 0; i < response.data.length; i++) {
-    const { data } = response;
-    tempArr.push({
-      designationName: data[i].designationName,
-      designationIdid: data[i].designationId,
-      departmentId: data[i].departmentId,
-    });
-    console.log(tempArr);
-  }
-  return tempArr;*/
   return response;
 }
 
-function addDesignation(designationData) {
+function addDesignation(formData) {
   // api for add designation.
-  console.log(designationData);
+  api.dbDesignation().addEditDesignation(formData);
+  console.log(formData);
 }
 function updateDesignationApi(formData) {
   // api for update designation.
+  api.dbDesignation().addEditDesignation(formData);
 }
 function delDesignationApi(delId) {
   // api for delete designation
@@ -47,7 +37,6 @@ function delDesignationApi(delId) {
 export function* handleGetDesignation() {
   try {
     const designationData = yield call(getDesignationApi);
-    console.log(designationData.data);
     yield put({ type: GET_DESIGNATION_SUCCESS, payload: designationData.data });
   } catch (error) {
     console.log(error);
@@ -56,6 +45,7 @@ export function* handleGetDesignation() {
 export function* handleAddDesignation({ payload }) {
   try {
     yield call(addDesignation, payload);
+    console.log(payload);
     yield put({ type: ADD_DESIGINATION_SUCCESS, payload: payload });
   } catch (error) {
     console.log(error);

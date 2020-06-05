@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Row, Col, Container, Card, Collapse, Button } from "reactstrap";
-import Form from "./Form";
+import { Row, Col, Container, Collapse, Button } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
@@ -14,11 +13,8 @@ import {
   GridView,
   FromFields,
   FromEditFields,
-  useDesignationTableEle,
+  useDepartmentTable,
 } from "../../../components/adminSettings/index";
-
-// Data for  list view.
-const thead = ["departmentName"];
 
 const Department = (props) => {
   const {
@@ -30,7 +26,6 @@ const Department = (props) => {
   const { departments } = props.departments;
 
   const [department, setDepartment] = useState("");
-  const [departmentName, setDepartmentName] = useState("");
 
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [isOpenGridView, setIsOpenGridView] = useState(true);
@@ -39,18 +34,15 @@ const Department = (props) => {
   const [selectedDept, setSelectedDept] = useState({ id: "", val: "" });
   const [departmentArray, setDepartmentArray] = useState([]);
   const [departmentInputFields,setDepartmentInputFields] = useState([]);
-
-    // custome hooks.
-    const { trow } = useDesignationTableEle(thead, departmentArray);
-
+   
  // call the department data
  useEffect(() => {
   getDepartment();
 }, [getDepartment]);
 
+
 // to set the designation data from reducer.
 useEffect(() => {
-  console.log(departments);
   setDepartmentArray(departments);
   setDepartmentInputFields([
     {
@@ -84,10 +76,10 @@ const toggle = () => {
 };
 
  //  on click the tile open the from with data filed.
- const handleEditDepartment = (val, id) => {
+ const handleEditDepartment = React.useCallback((val, id) => {
   setSelectedDept({ id: id, val: val });
   // toggle();
-};
+},[]);
 
   //   setFormData(formData);
   // };
@@ -95,7 +87,7 @@ const toggle = () => {
   const handleAddDepartment = (e) => {
     e.preventDefault();
     let formData = {
-      department: department,
+      departmentName: department,
     };
     addDepartment(formData);
     toggle();
@@ -103,17 +95,29 @@ const toggle = () => {
 
   const handleUpdateDepartment = (e) => {
     e.preventDefault();
-    updateDepartment(selectedDept);
+    updateDepartment(selectedDept.val);
     setSelectedDept({ id: "", val: "" });
     toggle();
   };
   // delete  designation.
   const handleDelDepartment = React.useCallback(
-    (departmentlId) => {
-      delDepartment(departmentlId);
-      console.log("del dept");
+    (departmentId) => {
+      delDepartment(departmentId);
     },
     [delDepartment]
+  );
+
+  const onClickToggleFromTable = React.useCallback(() => {
+    setIsOpenListView((prevState) => !prevState);
+    setIsOpenForm((prevState) => !prevState);
+  }, [setIsOpenListView, setIsOpenForm]);
+
+  // customer hook.
+  const { thead, trow } = useDepartmentTable(
+    departmentArray,
+    handleDelDepartment,
+    handleEditDepartment,
+    onClickToggleFromTable
   );
 
   return (
@@ -181,7 +185,7 @@ const toggle = () => {
           emptyFormField={() => setSelectedDept({ id: "", val: "" })}
           handleDel={handleDelDepartment}
           toggle={toggle}
-          handleSelectedDepartment={(val,id) => handleEditDepartment(val,id)}
+          handleSelectedDesg={(val,id) => handleEditDepartment(val,id)}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>

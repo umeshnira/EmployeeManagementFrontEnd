@@ -11,6 +11,7 @@ import { taskWatchFun } from "./task.saga";
 import { processRewardsWatchFun } from "./processRewards.saga";
 import { itemsWatchFunc } from "./items.saga";
 import { assetWatchFun } from "./adminSettings/asset.saga";
+import { employeetypeWatchFun } from "./adminSettings/employeetype.saga";
 
 export default function* rootSaga() {
   yield all([
@@ -25,5 +26,6 @@ export default function* rootSaga() {
     processRewardsWatchFun(),
     itemsWatchFunc(),
     assetWatchFun(),
+    employeetypeWatchFun(),
   ]);
 }
