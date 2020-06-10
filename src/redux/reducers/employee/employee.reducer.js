@@ -4,6 +4,7 @@ import {
   GET_SELECT_EMP_SUCCESS,
   DEL_EMP_CERTIFICATE_SUCCESS,
   ADD_EMP_SKILL_SUCCESS,
+  DEL_EMP_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -28,12 +29,19 @@ export default function (state = initialState, action) {
           { value: action.payload, label: action.payload.empName },
         ],
       };
+    case DEL_EMP_SUCCESS:
+      return {
+        ...state,
+        empList: state.empList.filter(
+          (emp) => emp.value.employeeId !== action.payload
+        ),
+      };
     case GET_SELECT_EMP_SUCCESS:
       return {
         ...state,
-        selectEmp: action.profileInfo[0], //we get as arr sot take the 1st ele. Ref data/employee
-        empCertificate: action.empCertificate[0].certificate, //we get emp id and certificate take only certificate.  Ref data/employee
-        empSkill: action.empSkill[0].skill, // we get emp id and skill as key value pair so take only skill key.  Ref data/employee
+        selectEmp: action.profileInfo, //we get as arr sot take the 1st ele. Ref data/employee
+        // empCertificate: action.empCertificate[0].certificate, //we get emp id and certificate take only certificate.  Ref data/employee
+        // empSkill: action.empSkill[0].skill, // we get emp id and skill as key value pair so take only skill key.  Ref data/employee
       };
     case DEL_EMP_CERTIFICATE_SUCCESS:
       return {

@@ -60,10 +60,10 @@ const EmployeeCard = React.memo((props) => {
             <Col md={3} sm={3} key={i}>
               <div className="profile-widget">
                 <div className="profile-img">
-                  <a href={`/empProfile/${emp.value.empId}`}>
+                  <a href={`/empProfile/${emp.value.employeeId}`}>
                     <img
                       width="100%"
-                      src={require(`../../../img/employee/${emp.value.profileImg}`)}
+                      src={require(`../../../img/employee/${emp.value.profilePicture}`)}
                       alt="Card cap"
                     />
                   </a>
@@ -99,15 +99,23 @@ const EmployeeCard = React.memo((props) => {
                       >
                         Edit
                       </DropdownItem>
-                      <DropdownItem>Delete</DropdownItem>
+                      <DropdownItem
+                        onClick={() =>
+                          props.handleOnclickDelete(emp.value.employeeId)
+                        }
+                      >
+                        Delete
+                      </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
-                <a href={`/empProfile/${emp.value.empId}`}>
+                <a href={`/empProfile/${emp.value.employeeId}`}>
                   <h4 class="user-name m-t-10 mb-0 text-ellipsis">
-                    {emp.value.empName}
+                    {emp.value.employeeName}
                   </h4>
-                  <div class="small text-muted">{emp.value.designation} </div>
+                  <div class="small text-muted">
+                    {emp.value.designationName}{" "}
+                  </div>
                 </a>
               </div>
             </Col>

@@ -4,7 +4,6 @@ import { Row, Col, Container, Card } from "reactstrap";
 export default function GridView(props) {
   return (
     <Fragment>
-      {console.log("GV asset rendering")}
       <Container>
         <Row className="admin-settings py-3">
           <Col sm={12} className="">

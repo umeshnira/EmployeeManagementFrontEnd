@@ -6,7 +6,6 @@ import {
   addRewards,
   updateRewards,
   delRewards,
-  updateWorkPrimise,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
@@ -57,7 +56,12 @@ const Reward = (props) => {
     getRewards();
   }, [getRewards]);
   useEffect(() => {
-    setDataArr(rewards);
+    console.log(rewards);
+    let rewardListOfNotDel = rewards.filter(
+      (rewards) => rewards.isActive === true
+    );
+
+    setDataArr(rewardListOfNotDel);
   }, [rewards]);
 
   // Function -------------------
@@ -177,7 +181,7 @@ const Reward = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={dataArr}
-          displayData={{ heading: "rewardType", delId: "rewardId" }}
+          displayData={{ heading: "rewardType", id: "rewardId" }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedData({ id: "", val: "" })}
           toggle={() => {

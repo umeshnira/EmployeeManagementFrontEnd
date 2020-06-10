@@ -16,7 +16,7 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
                     {/* <a href="#"> */}
                     <img
                       alt=""
-                      src={require(`../../../img/employee/${selectEmp.value.profileImg}`)}
+                      src={require(`../../../img/employee/${selectEmp.value.profilePicture}`)}
                     />
                     {/* </a> */}
                   </div>
@@ -26,17 +26,17 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
                     <div className="col-md-5">
                       <div className="">
                         <h3 className="user-name m-t-0 mb-0">
-                          {selectEmp.value.empName}
+                          {selectEmp.value.employeeName}
                         </h3>
                         <h6 className="text-muted">
-                          {selectEmp.value.designation}
+                          {selectEmp.value.designationName}
                         </h6>
                         <small className="text-muted">Web Designer</small>
                         <div className="staff-id">
-                          Employee ID : {selectEmp.value.empId}
+                          Employee ID : {selectEmp.value.employeeId}
                         </div>
                         <div className="small doj text-muted">
-                          Date of Join : {selectEmp.value.doj}
+                          Date of Join : {selectEmp.value.dateOfJoin}
                         </div>
                         <div className="staff-msg">
                           <a className="btn btn-custom" href="chat.html">
@@ -51,7 +51,7 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
                           <div className="title">Phone:</div>
                           <div className="text">
                             <span className="link-text">
-                              {selectEmp.value.mobileNo}
+                              {selectEmp.value.mobileNumber}
                             </span>
                           </div>
                         </li>
@@ -59,17 +59,21 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
                           <div className="title">Email:</div>
                           <div className="text">
                             <span className="link-text">
-                              {selectEmp.value.niraMailId}
+                              {selectEmp.value.primaryMailId}
                             </span>
                           </div>
                         </li>
                         <li>
                           <div className="title">Birthday:</div>
-                          <div className="text">{selectEmp.value.dob}</div>
+                          <div className="text">
+                            {selectEmp.value.dateOFBirth}
+                          </div>
                         </li>
                         <li>
                           <div className="title">Address:</div>
-                          <div className="text">{selectEmp.value.address}</div>
+                          <div className="text">
+                            {selectEmp.value.postalAddress}
+                          </div>
                         </li>
                         <li>
                           <div className="title">Gender:</div>

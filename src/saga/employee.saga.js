@@ -10,27 +10,51 @@ import {
   DEL_EMP_CERTIFICATE_SUCCESS,
   ADD_EMP_SKILL,
   ADD_EMP_SKILL_SUCCESS,
+  DEL_EMP,
+  DEL_EMP_SUCCESS,
 } from "../redux/actions/actionType";
 import { empList, empCertificates, empSkills } from "../datas/employee";
-
+import api from "../apis/api";
 let empCertificate;
 let profileInfo;
 let empSkill;
 
 // api functions
-function getEmpListApi() {
+function* getEmpListApi() {
+  let empArr = [];
   // made this structure to have seacrh in select box.
-  return empList;
+  const response = yield api.employee().getAll();
+  response.data
+    .filter((emp) => emp.isActive === true)
+    .forEach((element) => {
+      empArr.push({ value: element, label: element.employeeName });
+    });
+  console.log(empArr);
+  return empArr;
+  // return empList;
 }
-function addEmpApi(empData) {
-  return empData;
+function addEmpApi(formDate) {
+  api.employee().addEdit(formDate);
+  return formDate;
 }
-function getSelectEmpApi(empId) {
+function delEmpApi(delId) {
+  api.employee().del(delId);
+}
+function* getSelectEmpApi(empId) {
   // console.log(empList);
-  profileInfo = empList.filter((emp) => String(emp.value.empId) === empId);
-  empCertificate = empCertificates.filter((emp) => String(emp.empId) === empId);
-  empSkill = empSkills.filter((emp) => String(emp.empId) === empId);
-  return { profileInfo, empCertificate, empSkill };
+  // profileInfo = empList.filter((emp) => String(emp.value.empId) === empId);
+  // empCertificate = empCertificates.filter((emp) => String(emp.empId) === empId);
+  // empSkill = empSkills.filter((emp) => String(emp.empId) === empId);
+
+  const response = yield api.employee().getSleectedEmployee(empId);
+  //  get the employee details in {value : "", lable : ""} formate.
+  profileInfo = {
+    value: response.data[0],
+    label: response.data[0].employeeName,
+  };
+  return { profileInfo };
+
+  // return { profileInfo, empCertificate, empSkill };
 }
 function delEmpCertificateApi(delId) {
   // api call.
@@ -56,27 +80,36 @@ export function* handleGetEmpList() {
   }
 }
 // Add employee.
-export function* handleAddEmp(empData) {
+export function* handleAddEmp({ payload }) {
   try {
-    const resAddEmp = yield call(addEmpApi, empData.payload);
+    let formDate = payload;
+    const resAddEmp = yield call(addEmpApi, formDate);
     yield put({ type: ADD_EMP_SUCCESS, payload: resAddEmp });
   } catch (error) {
     console.log(error);
   }
 }
-// get single employee.
-export function* handleGetSelectEmp(empId) {
+// delete employee.
+export function* handleDelEmp({ payload }) {
   try {
-    const { profileInfo, empCertificate, empSkill } = yield call(
-      getSelectEmpApi,
-      empId.payload
-    );
+    let delId = payload;
+    yield call(delEmpApi, delId);
+    yield put({ type: DEL_EMP_SUCCESS, payload: delId });
+  } catch (error) {
+    console.log(error);
+  }
+}
+// get single employee.
+export function* handleGetSelectEmp({ payload }) {
+  try {
+    let empId = payload;
+    const { profileInfo } = yield call(getSelectEmpApi, empId);
     // return includes selected emp profileInfo, certificats, skill
     yield put({
       type: GET_SELECT_EMP_SUCCESS,
       profileInfo: profileInfo,
-      empCertificate: empCertificate,
-      empSkill: empSkill,
+      empCertificate: [],
+      empSkill: [],
     });
   } catch (error) {
     console.log(error);
@@ -118,6 +151,7 @@ export function* handleAddEmpNeSkill({ empNewSkill, skillId, empId }) {
 export function* employeeWatchFun() {
   yield takeEvery(GET_EMP_LIST, handleGetEmpList);
   yield takeLatest(ADD_EMP, handleAddEmp);
+  yield takeLatest(DEL_EMP, handleDelEmp);
   yield takeLatest(GET_SELECT_EMP, handleGetSelectEmp);
   yield takeLatest(DEL_EMP_CERTIFICATE, handleDelEmpCertificate);
   yield takeLatest(ADD_EMP_SKILL, handleAddEmpNeSkill);

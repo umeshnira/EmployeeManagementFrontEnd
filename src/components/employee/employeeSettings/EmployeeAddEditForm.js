@@ -5,69 +5,84 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Col, Row, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const EmployeeEditForm = React.memo((props) => {
-  const { selectedEmployee } = props;
-  const [empName, setEmpName] = useState("");
-  const [empId, setEmpId] = useState("");
-  const [empType, setEmpType] = useState("");
-  const [niraMailId, setNiraMailId] = useState("");
+  const {
+    selectedEmployee,
+    designations,
+    departments,
+    officeLocationList,
+    workPrimisesList,
+  } = props;
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
+  const [employeeType, setEmployeeType] = useState("");
+  const [primaryMailId, setPrimaryMailId] = useState("");
   const [altMailId, setAltMailId] = useState("");
   const [qualification, setQualification] = useState("");
-  const [designation, setDesignation] = useState("");
+  const [designationName, setDesignationName] = useState("");
   const [guardainName, setGuardainName] = useState("");
   const [bloodGrp, setBloodGrp] = useState("");
-  const [mobileNo, setModileNo] = useState("");
+  const [mobileNumber, setModileNumber] = useState("");
   const [alternativeNo, setAlternativeNo] = useState("");
-  const [doj, setDoj] = useState("");
-  const [dob, setDob] = useState("");
-  const [profileImg, setProfileImg] = useState("");
-  const [address, setAddress] = useState("");
+  const [dateOfJoin, setDateOfJoin] = useState(new Date());
+  const [dateOFBirth, setDateOfBirth] = useState(new Date());
+  const [profilePicture, setProfilePicture] = useState("");
+  const [postalAddress, setPostalAddress] = useState("");
   const [aadharNo, setAadharNo] = useState("");
   const [panNo, setPanNo] = useState("");
   const [esiNo, setEsiNo] = useState("");
   const [epfUan, setEpfUan] = useState("");
   const [accNo, setAccNo] = useState("");
   const [ifscCode, setIfscCode] = useState("");
-  const [department, setDepartment] = useState("");
+  const [departmentName, setDepartmentName] = useState("");
   const [skill, setSkill] = useState("");
   const [officeLocation, setOfficeLocation] = useState("");
   const [workPrimise, setWorkPrimise] = useState("");
 
-  //   handle change date in DOJ
-  const handleChangeDoj = (date) => {
-    setDoj(date);
-  };
-  //   handle change date inDOB
-  const handleChangeDob = (date) => {
-    setDob(date);
-  };
-
   const handleAddForm = () => {
     let empFormData = {
-      empName,
-      empId,
-      empType,
-      niraMailId,
-      altMailId,
-      qualification,
-      designation,
-      guardainName,
-      bloodGrp,
-      mobileNo,
-      alternativeNo,
-      doj: `${doj.getDate()}-${doj.getMonth() + 1}-${doj.getFullYear()}`,
-      dob: `${dob.getDate()}-${dob.getMonth()}-${dob.getFullYear()}`,
-      profileImg: profileImg === "" ? "avatar-06.png" : profileImg.name,
-      address,
-      aadharNo,
-      panNo,
-      esiNo,
-      epfUan,
-      accNo,
-      ifscCode,
-      department,
-      skill,
-      officeLocation,
-      workPrimise,
+      employeeId: parseInt(employeeId),
+      employeeCode: 46,
+      employeeType: 1,
+      employeeName: employeeName,
+      dateOfJoin: dateOfJoin,
+      dateOFBirth: "2020-06-09T07:25:27.612Z",
+      aadharNumber: aadharNo,
+      panNumber: panNo,
+      esiNumber: esiNo,
+      epfuan: epfUan,
+      qualificationId: 1,
+      qualificationName: "string",
+      // departmentId: 4012,
+      // designationId: 35,
+
+      departmentId: parseInt(departmentName),
+      designationId: parseInt(designationName),
+      guardianName: guardainName,
+      postalAddress: postalAddress,
+      mobileNumber: mobileNumber,
+      emergencyNumber: alternativeNo,
+      primaryMailId: primaryMailId,
+      secondaryMailId: altMailId,
+      ifscCode: ifscCode,
+      bankAccountNumber: accNo,
+      bloodGroup: bloodGrp,
+      // officeLocationId: 2,
+      // workingPremiseId: 19,
+      officeLocationId: parseInt(officeLocation),
+      workingPremiseId: parseInt(workPrimise),
+      profilePicture: profilePicture === "" ? "user.png" : profilePicture.name,
+      createdDate: new Date(),
+      createdBy: 1,
+      modifiedDate: "2020-06-09T07:25:27.612Z",
+      modifiedBy: 0,
+      isActive: true,
+      password: "hellothere",
+      roles: "string",
+      fileName: "string",
+      contentType: "string",
+      file: null,
+      isLatest: true,
+      encrptedPassword: "string",
     };
 
     if (selectedEmployee) {
@@ -79,29 +94,47 @@ const EmployeeEditForm = React.memo((props) => {
   };
 
   useEffect(() => {
-    console.log(selectedEmployee);
     if (selectedEmployee) {
       //if an employeee is clicked for edit , the assigns its value to state.
-      setEmpName(selectedEmployee.empName);
-      setEmpId(selectedEmployee.empId);
-      setEmpType(selectedEmployee.empType);
-      setNiraMailId(selectedEmployee.niraMailId);
-      setDoj(new Date(selectedEmployee.doj));
-      setDob(new Date(selectedEmployee.dob));
+      setEmployeeName(selectedEmployee.employeeName);
+      setEmployeeId(selectedEmployee.employeeId);
+      setEmployeeType(selectedEmployee.employeeType);
+      setPrimaryMailId(selectedEmployee.primaryMailId);
+      setAltMailId(selectedEmployee.secondaryMailId);
+      setGuardainName(selectedEmployee.guardianName);
+      setBloodGrp(selectedEmployee.bloodGroup);
+      setModileNumber(selectedEmployee.mobileNumber);
+      setAlternativeNo(selectedEmployee.emergencyNumber);
+      setPostalAddress(selectedEmployee.postalAddress);
+      setDateOfJoin(new Date(selectedEmployee.dateOfJoin));
+      setDateOfBirth(selectedEmployee.dateOFBirth);
+      setPostalAddress(selectedEmployee.postalAddress);
+      setAadharNo(selectedEmployee.aadharNumber);
+      setPanNo(selectedEmployee.panNumber);
+      setEsiNo(selectedEmployee.esiNumber);
+      setEpfUan(selectedEmployee.epfuan);
+      setAccNo(selectedEmployee.bankAccountNumber);
+      setIfscCode(selectedEmployee.ifscCode);
+
+      setDesignationName(selectedEmployee.designationName);
+      setDepartmentName(selectedEmployee.departmentName);
+      setOfficeLocation(selectedEmployee.officeLocationId);
+      setWorkPrimise(selectedEmployee.workPrimiseId);
     } else {
       //if add btn click then keep the state to null,
       //cuz when editClick and then addClicked then last value remains in state.
-      setEmpName("");
-      setEmpId("");
-      setEmpType("");
-      setNiraMailId("");
-      setDoj("");
-      setDob("");
+      setEmployeeName("");
+      setEmployeeId("");
+      setEmployeeType("");
+      setPrimaryMailId("");
+      setDateOfJoin(new Date());
+      setDateOfBirth(new Date());
     }
   }, [selectedEmployee]);
 
   return (
     <Form>
+      {console.log(dateOfJoin)}
       <Row form>
         <Col md={6}>
           <FormGroup>
@@ -109,8 +142,8 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="Text"
               name="EmployeeName"
-              onChange={(e) => setEmpName(e.target.value)}
-              value={empName}
+              onChange={(e) => setEmployeeName(e.target.value)}
+              value={employeeName}
             />
           </FormGroup>
         </Col>
@@ -120,8 +153,8 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="Text"
               name="EmployeeId"
-              onChange={(e) => setEmpId(e.target.value)}
-              value={empId}
+              onChange={(e) => setEmployeeId(e.target.value)}
+              value={employeeId}
             />
           </FormGroup>
         </Col>
@@ -131,8 +164,8 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="Text"
               name="EmployeeType"
-              onChange={(e) => setEmpType(e.target.value)}
-              value={empType}
+              onChange={(e) => setEmployeeType(e.target.value)}
+              value={employeeType}
             />
           </FormGroup>
         </Col>
@@ -140,12 +173,12 @@ const EmployeeEditForm = React.memo((props) => {
       <Row form>
         <Col md={6}>
           <FormGroup>
-            <Label> Nira Mail Id</Label>
+            <Label> Primary Mail Id</Label>
             <Input
               type="Text"
               name="doj"
-              onChange={(e) => setNiraMailId(e.target.value)}
-              value={niraMailId}
+              onChange={(e) => setPrimaryMailId(e.target.value)}
+              value={primaryMailId}
             />
           </FormGroup>
         </Col>
@@ -177,11 +210,23 @@ const EmployeeEditForm = React.memo((props) => {
           <FormGroup>
             <Label>Designation</Label>
             <Input
-              type="Text"
-              name="doj"
-              onChange={(e) => setDesignation(e.target.value)}
-              value={designation}
-            />
+              type="select"
+              onChange={(e) => setDesignationName(e.target.value)}
+            >
+              <option value="">{designationName}</option>
+              {designations.map((desigination, i) => (
+                <option
+                  value={desigination.designationId}
+                  selected={
+                    designationName === desigination.designationName
+                      ? true
+                      : false
+                  }
+                >
+                  {desigination.designationName}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
         </Col>
         <Col md={3}>
@@ -214,8 +259,8 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="Text"
               name="doj"
-              onChange={(e) => setModileNo(e.target.value)}
-              value={mobileNo}
+              onChange={(e) => setModileNumber(e.target.value)}
+              value={mobileNumber}
             />
           </FormGroup>
         </Col>
@@ -226,19 +271,33 @@ const EmployeeEditForm = React.memo((props) => {
               type="Text"
               name="dob"
               onChange={(e) => setAlternativeNo(e.target.value)}
+              value={alternativeNo}
             />
           </FormGroup>
         </Col>
         <Col md={3}>
           <FormGroup>
             <Label>Date of Joining</Label>
-            <DatePicker selected={doj} onChange={handleChangeDoj} />
+            <Input
+              type="date"
+              onChange={(e) => setDateOfJoin(e.target.value)}
+              // value={"2013-01-08"}
+
+              value={
+                dateOfJoin.getFullYear() -
+                dateOfJoin.getMonth() -
+                dateOfJoin.getDate()
+              }
+            />
           </FormGroup>
         </Col>
         <Col md={3}>
           <FormGroup>
             <Label>Date of Birth</Label>
-            <DatePicker selected={dob} onChange={handleChangeDob} />
+            <Input
+              type="date"
+              onChange={(e) => setDateOfBirth(e.target.value)}
+            />
 
             {/* <Input
               type="Text"
@@ -255,7 +314,7 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="file"
               name="file"
-              onChange={(e) => setProfileImg(e.target.files[0])}
+              onChange={(e) => setProfilePicture(e.target.files[0])}
             />
           </FormGroup>
         </Col>
@@ -265,7 +324,8 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="textarea"
               name="doj"
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => setPostalAddress(e.target.value)}
+              value={postalAddress}
             />
           </FormGroup>
         </Col>
@@ -280,6 +340,7 @@ const EmployeeEditForm = React.memo((props) => {
               type="Text"
               name="AadharNumber "
               onChange={(e) => setAadharNo(e.target.value)}
+              value={aadharNo}
             />
           </FormGroup>
         </Col>
@@ -290,6 +351,7 @@ const EmployeeEditForm = React.memo((props) => {
               type="Text"
               name="panNo"
               onChange={(e) => setPanNo(e.target.value)}
+              value={panNo}
             />
           </FormGroup>
         </Col>
@@ -302,6 +364,7 @@ const EmployeeEditForm = React.memo((props) => {
               type="Text"
               name="esiNo"
               onChange={(e) => setEsiNo(e.target.value)}
+              value={esiNo}
             />
           </FormGroup>
         </Col>
@@ -312,6 +375,7 @@ const EmployeeEditForm = React.memo((props) => {
               type="Text"
               name="epfUan"
               onChange={(e) => setEpfUan(e.target.value)}
+              value={epfUan}
             />
           </FormGroup>
         </Col>
@@ -323,8 +387,8 @@ const EmployeeEditForm = React.memo((props) => {
             <Label>Account Number </Label>
             <Input
               type="Text"
-              name="qualification "
               onChange={(e) => setAccNo(e.target.value)}
+              value={accNo}
             />
           </FormGroup>
         </Col>
@@ -335,6 +399,7 @@ const EmployeeEditForm = React.memo((props) => {
               type="Text"
               name="ifcs "
               onChange={(e) => setIfscCode(e.target.value)}
+              value={ifscCode}
             />
           </FormGroup>
         </Col>
@@ -346,9 +411,25 @@ const EmployeeEditForm = React.memo((props) => {
             <Label>Department </Label>
             <Input
               type="select"
+              onChange={(e) => setDepartmentName(e.target.value)}
+            >
+              <option value="">Select Department</option>
+              {departments.map((department, i) => (
+                <option
+                  value={department.departmentId}
+                  selected={
+                    departmentName === department.departmentName ? true : false
+                  }
+                >
+                  {department.departmentName}
+                </option>
+              ))}
+            </Input>
+            {/* <Input
+              type="select"
               name="qualification "
-              onChange={(e) => setDepartment(e.target.value)}
-            />
+              onChange={(e) => setDepartmentName(e.target.value)}
+            /> */}
           </FormGroup>
         </Col>
         <Col md={3}>
@@ -365,20 +446,48 @@ const EmployeeEditForm = React.memo((props) => {
           <FormGroup>
             <Label>Office Location </Label>
             <Input
-              type="text"
-              name="qualification "
+              type="select"
               onChange={(e) => setOfficeLocation(e.target.value)}
-            />
+            >
+              <option value="">select office location</option>
+              {officeLocationList.map((officeLocationEl, i) => (
+                <option
+                  key={officeLocationEl.officeLocationId}
+                  value={officeLocationEl.officeLocationId}
+                  selected={
+                    officeLocation === officeLocationEl.officeLocationId
+                      ? true
+                      : false
+                  }
+                >
+                  {officeLocationEl.address}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
         </Col>
         <Col md={3}>
           <FormGroup>
             <Label>Work Primise </Label>
             <Input
-              type="text"
-              name="qualification "
+              type="select"
               onChange={(e) => setWorkPrimise(e.target.value)}
-            />
+            >
+              <option value="">select work Premise</option>
+              {workPrimisesList.map((workPrimisesEl, i) => (
+                <option
+                  key={workPrimisesEl.workingPremiseId}
+                  value={workPrimisesEl.workingPremiseId}
+                  selected={
+                    workPrimise === workPrimisesEl.workingPremiseId
+                      ? true
+                      : false
+                  }
+                >
+                  {workPrimisesEl.workingPremiseType}
+                </option>
+              ))}
+            </Input>
           </FormGroup>
         </Col>
       </Row>

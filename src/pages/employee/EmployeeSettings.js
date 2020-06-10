@@ -10,14 +10,35 @@ import {
 import {
   getEmpList,
   addEmp,
+  delEmp,
 } from "../../redux/actions/employee/employee.action";
+import {
+  getDesignation,
+  getDepartment,
+  getOfficeLocation,
+  getWorkPrimise,
+} from "../../redux/actions/adminSettings/adminSettings.action";
 import TableWithSortPagtn from "../../components/common/TableWithSortPagtn";
 // require("bootstrap/less/bootstrap.less");
 
 const EmployeeList = (props) => {
-  const { addEmp, getEmpList } = props;
+  const {
+    getEmpList,
+    addEmp,
+    delEmp,
+    getDesignation,
+    getDepartment,
+    getOfficeLocation,
+    getWorkPrimise,
+  } = props;
 
   const { empList } = props.empList;
+  const {
+    designations,
+    departments,
+    officeLocation,
+    workPrimisesList,
+  } = props.designations;
   const [searchArr, setSearchArr] = useState(empList);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isOpenAddForm, setIsOpenAddForm] = useState(false);
@@ -33,13 +54,17 @@ const EmployeeList = (props) => {
 
   useEffect(() => {
     getEmpList();
-  }, [getEmpList]);
+    getDesignation();
+    getDepartment();
+    getOfficeLocation();
+    getWorkPrimise();
+  }, []);
 
   // -------------Functions
   // handle click in EmployeeAddForm.js 'add'.
   const handleAddEmp = React.useCallback(
     (empData) => {
-      console.log(empData);
+      // console.log(empData);
       addEmp(empData);
     },
     [addEmp]
@@ -62,6 +87,13 @@ const EmployeeList = (props) => {
     [setSelectedEmployee]
   );
 
+  // handle delete employee.
+  const handleDeleteEmployee = React.useCallback(
+    (delId) => {
+      delEmp(delId);
+    },
+    [delEmp]
+  );
   // open add form.
 
   const handleOpenAddForm = React.useCallback(() => {
@@ -136,6 +168,7 @@ const EmployeeList = (props) => {
             allEmpList={searchArr.length > 0 ? searchArr : empList}
             handleOpenAddForm={handleOpenAddForm}
             handleOnclickEdit={handleEmpEdit}
+            handleOnclickDelete={handleDeleteEmployee}
           />
         </Collapse>
 
@@ -151,6 +184,10 @@ const EmployeeList = (props) => {
             handleUpdateEmp={handleUpdateEmp}
             toggle={toogleFromEmployeeAddForm}
             selectedEmployee={selectedEmployee}
+            designations={designations}
+            departments={departments}
+            officeLocationList={officeLocation}
+            workPrimisesList={workPrimisesList}
           ></EmployeeAddEditForm>
         </Collapse>
         {/* Edit employee form.------------------------ */}
@@ -161,6 +198,15 @@ const EmployeeList = (props) => {
 
 const mapStateToProps = (state) => ({
   empList: state.empReducer,
+  designations: state.adminSettingReducer,
 });
 
-export default connect(mapStateToProps, { getEmpList, addEmp })(EmployeeList);
+export default connect(mapStateToProps, {
+  getEmpList,
+  addEmp,
+  delEmp,
+  getDepartment,
+  getDesignation,
+  getOfficeLocation,
+  getWorkPrimise,
+})(EmployeeList);

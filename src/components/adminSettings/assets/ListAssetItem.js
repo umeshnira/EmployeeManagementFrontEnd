@@ -70,8 +70,8 @@ const ListAssetItem = React.memo((props) => {
                     {props.assetData.map((itemData, i) => {
                       return (
                         <tr key={i}>
-                          <td>{i}</td>
-                          <td>{i + 2}</td>
+                          <td>{i + 1}</td>
+                          <td>{itemData.itemNo}</td>
                           <td>{itemData.itemModel}</td>
                           <td>{itemData.modelNo}</td>
                           <td>{itemData.uniqueIdentificationNumber}</td>
@@ -133,8 +133,8 @@ const ListAssetItem = React.memo((props) => {
                       .map((itemData, i) => {
                         return (
                           <tr key={i}>
-                            <td>{i}</td>
-                            <td>{i + 2}</td>
+                            <td>{i + 1}</td>
+                            <td>{itemData.itemNo}</td>
                             <td>{itemData.itemModel}</td>
                             <td>{itemData.modelNo}</td>
                             <td>{itemData.uniqueIdentificationNumber}</td>

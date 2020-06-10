@@ -4,6 +4,7 @@ import {
   GET_SELECT_EMP,
   DEL_EMP_CERTIFICATE,
   ADD_EMP_SKILL,
+  DEL_EMP,
 } from "../../actions/actionType";
 
 // saga call.
@@ -16,6 +17,12 @@ export const addEmp = (empData) => {
   return {
     type: ADD_EMP,
     payload: empData,
+  };
+};
+export const delEmp = (delId) => {
+  return {
+    type: DEL_EMP,
+    payload: delId,
   };
 };
 export const getSelectedEmp = (empId) => {

@@ -68,4 +68,15 @@ export default {
         axios.post(url + `DeleteEmployeeType?employeeTypeId=${delId}`),
     };
   },
+
+  // empoloyee api's.
+  employee(url = baseUrl + "Admin/") {
+    return {
+      getAll: () => axios.get(url + "GetAllEmployees"),
+      getSleectedEmployee: (empId) =>
+        axios.get(url + `GetAllEmployeeDetailsById?employeeID=${empId}`),
+      addEdit: (formData) => axios.post(url + "AddEditEmployees", formData),
+      del: (delId) => axios.post(url + `DeleteEmployees?employeeId=${delId}`),
+    };
+  },
 };
