@@ -12,7 +12,6 @@ import {
 } from "../../../components/adminSettings/index";
 import {
   getEmployeeTypeList,
-  getEmployeeTypeById,
   addEmployeeType,
   updateEmployeeType,
   delEmployeeType,
@@ -21,7 +20,6 @@ import {
 const EmployeeTypes = (props) => {
   const {
   getEmployeeTypeList,
-  getEmployeeTypeById,
   addEmployeeType,
   updateEmployeeType,
   delEmployeeType,
@@ -43,7 +41,7 @@ const EmployeeTypes = (props) => {
   getEmployeeTypeList();
 }, [getEmployeeTypeList]);
 
-// to set the designation data from reducer.
+// to set the employee type data from reducer.
 useEffect(() => {
   setEmpTypeArray(employeetypes);
   setEmployeeTypeInpuFields([
@@ -66,8 +64,7 @@ useEffect(() => {
   const handleOnchangeToSelectedData = (val, field) => {
     let tempObj = selectedEmptype; // for not mutating reducer state.
     tempObj.val[field] = val;
-    console.log(tempObj);
-    setSelectedEmptype(tempObj); // change a particular key in the selected designation.
+    setSelectedEmptype(tempObj); // change a particular key in the selected emptype.
   };
   // toggle between the form a grid view and form .
 
@@ -97,7 +94,7 @@ useEffect(() => {
     setSelectedEmptype({ id: "", val: "" });
     toggle();
   };
-    // delete  designation.
+    // delete  
     const handleDelEmployeeType = React.useCallback(
       (employeeTypeId) => {
         delEmployeeType(employeeTypeId);
@@ -205,7 +202,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getEmployeeTypeList,
-  getEmployeeTypeById,
   addEmployeeType,
   updateEmployeeType,
   delEmployeeType,

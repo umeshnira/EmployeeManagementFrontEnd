@@ -20,11 +20,11 @@ function getDepartmentApi()  {
 }
 function addDepartmentApi(formData) {
   // api for add designation.
-  api.dbDepartment().addEditDepartment(formData);
+  api.dbDepartment().AddEditDepartment(formData);
 }
 function updateDepartmentApi(formData) {
   // api for update designation.
-  api.dbDepartment().addEditDepartment(formData);
+  api.dbDepartment().AddEditDepartment(formData);
 }
 function delDepartmentApi(delId) {
   // api for delete designation.

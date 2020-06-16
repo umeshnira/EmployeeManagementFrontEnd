@@ -6,6 +6,8 @@ export default {
   dbDesignation(url = baseUrl + "Designation/") {
     return {
       GetAllDesignations: () => axios.get(url + "GetAllDesignations"),
+      AddEditDesignation: (formData) =>
+      axios.post(url + "AddEditDesignation", formData),
       DeleteDesignation: (id) =>
         axios.post(url + `DeleteDesignation?designationId=${id}`),
     };
@@ -14,6 +16,8 @@ export default {
   dbDepartment(url = baseUrl + "Department/") {
     return {
       GetAllDepartments: () => axios.get(url + "GetAllDepartments"),
+      AddEditDepartment: (formData) =>
+      axios.post(url + "AddEditDepartment", formData),
       DeleteDesignation: (id) =>
         axios.post(url + `DeleteDepartment?departmentId=${id}`),
     };
@@ -49,6 +53,7 @@ export default {
   dbEmployeeTypes(url = baseUrl + "Admin/") {
     return {
       GetEmployeeTypeList: () => axios.get(url + "GetEmployeeTypeList"),
+      GetEmployeeTypeById: (empTypeId) => axios.get(url + `GetEmployeeTypeById?employeeTypeId=${empTypeId}`),
       AddEditEmployeeType: (formData) =>
         axios.post(url + "AddEditEmployeeType", formData),
       DeleteEmployeeType: (delId) =>
@@ -88,6 +93,38 @@ export default {
         }),
 
       del: (delId) => axios.post(url + `DeleteAsset?itemNo=${delId}`),
+    };
+  },
+     //leave type api's
+    dbLeaveTypes(url = baseUrl + "Admin/") {
+      return {
+        GetLeaveTypes: () => axios.get(url + "GetLeaveTypes"),
+        AddEditLeaveTypes: (formData) =>
+          axios.post(url + "AddEditLeaveTypes", formData),
+        DeleteLeaveTypes: (leaveTypeId) =>
+          axios.post(url + `DeleteLeaveTypes?LeaveTypeId=${leaveTypeId}`),
+      };
+    },
+    
+   //company policy api's
+   dbcompanypolicies(url = baseUrl + "Admin/") {
+    return {
+      GetCompanyPoliciesList: () => axios.get(url + "GetCompanyPoliciesList"),
+      AddEditCompanyPolicies: (formData) =>
+        axios.post(url + "AddEditCompanyPolicies", formData),
+        DeleteCompanyPolicies: (companyPolicyId) =>
+        axios.post(url + `DeleteCompanyPolicies?companyPolicyId=${companyPolicyId}`),
+    };
+  },
+  
+   //holiday calendar api's
+   dbcalendar(url = baseUrl + "Admin/") {
+    return {
+      GetHolidayCalendarList: () => axios.get(url + "GetHolidayCalendarList"),
+      AddEditHolidayCalendar: (formData) =>
+        axios.post(url + "AddEditHolidayCalendar", formData),
+      DeleteHolidayCalendar: (year) =>
+        axios.post(url + `DeleteHolidayCalendar?year=${year}`),
     };
   },
 };

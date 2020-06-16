@@ -11,12 +11,11 @@ const useDesignationTableEle = (
   const [trow, setTrow] = useState([]);
 
   useEffect(() => {
-    console.log(designationList,departmentList);
    if (departmentList.length > 0){
     let trowArr = designationList.map((desiglist) => {
       return {
         "Designation Name": desiglist.designationName,
-        "Department Name":  departmentList.filter((deptlist) => deptlist.departmentId === desiglist.departmentId)[0].departmentName,
+        "Department Name":  departmentList.filter((deptlist) => deptlist.departmentId === parseInt(desiglist.departmentId))[0].departmentName,
         Action: (
           <Fragment>
             <i

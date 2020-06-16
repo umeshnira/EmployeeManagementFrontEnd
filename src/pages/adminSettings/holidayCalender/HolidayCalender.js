@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Collapse, Row, Col, Button, Input } from "reactstrap";
+import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
 import {
-  ListView,
-  FormAddHolidayCalender,
+  GridView,
   FormEditHolidayCalender,
+  FormAddHolidayCalender,
+  useHolidayCalendarTable,
 } from "../../../components/adminSettings/index";
+import {
+  getCalendar,
+  addCalendar,
+  updateCalendar,
+  delCalendar,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
+
 let dayArr = [
   "Sunday",
   "Monday",
@@ -14,69 +25,69 @@ let dayArr = [
   "Friday",
   "Saturday",
 ];
-const holidayCalenderArr = [
-  {
-    type1: "New Year", // Event ( this are the filed data in DB)
-    type2: "2019-jan-01", // Date
-    type3: "Thuesday", // Day
-    type4: "Optinal Holiday (OH)", // Type
-  },
-  {
-    type1: "Republic Day", // Event ( this are the filed data in DB)
-    type2: "2020-jan-26", // Date
-    type3: "Saturday", // Day
-    type4: "", // Type
-  },
-  {
-    type1: "Attukal Pongala", // Event ( this are the filed data in DB)
-    type2: "2018-Feb-20", // Date
-    type3: "Wednesday", // Day
-    type4: "Optinal Holiday (OH)", // Type
-  },
-];
 
-// Data for  list view.
-const thead = ["Event", "Date", "Day", "Type"];
+const HolidayCalendar = (props) => {
+  const {
+  getCalendar,
+  addCalendar,
+  updateCalendar,
+  delCalendar,
+  } = props;
+  const { holidayCalendar } = props.holidayCalendar;
 
-export default function HolidayCalender() {
-  const [dataArr, setDataArr] = useState(holidayCalenderArr);
-  const [selectedData, setSelectedData] = useState({ id: "", val: "" });
+const [holidayCalendarArray, setholidayCalendarArray] = useState([]);
+const [selectedCalendar, setSelectedCalendar] = useState({ id: "", val: "" });
+const [holidayCalenderInpuFields,setHolidayCalenderInpuFields] = useState([]);
 
-  const [event, setEvent] = useState("");
-  const [type, setType] = useState("");
+const [title, setTitle] = useState("");
+const [type, setType] = useState("");
+const [day, setDay] = useState("");
+const [year, setYear] =  useState("");
+const [date, setDate] = useState("");
 
-  const [calenderDate, setCalenderDate] = useState({});
+const [calenderDate, setCalenderDate] = useState({});
+const [dataArr, setDataArr] =  useState([]);
 
-  const [isOpenForm, setIsOpenForm] = useState(false);
-  const [isOpenListView, setIsOpenListView] = useState(true);
-  // input fileds.
-  const [holidayCalenderInpuFields] = useState([
+const [isOpenGridView, setIsOpenGridView] = useState(true);
+const [isOpenListView, setIsOpenListView] = useState(false);
+const [isOpenForm, setIsOpenForm] = useState(false);
+
+   // call the employee type data
+   useEffect(() => {
+    getCalendar();
+  }, [getCalendar]);
+
+ // input fileds.
+ useEffect(() => {
+  setholidayCalendarArray(holidayCalendar);
+  setHolidayCalenderInpuFields([
     {
       label: "Event/Title",
       type: "text",
       placeholder: "Enter Event",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "title", 
       handleOnChange: (val) => {
-        setEvent(val);
+        setTitle(val);
       },
     },
     {
       label: "Type",
       type: "text",
       placeholder: "Enter Type of holiday",
-      name: "type4", // this name should be equal to the designation array key's.
+      name: "type", 
       handleOnChange: (val) => {
         setType(val);
       },
     },
   ]);
+}, [holidayCalendar]);
 
   //   Fucntion --------------------------
   //   onchange the year on the select box.
   const handleYearChange = (year) => {
     // console.log(year);
     if (year !== "") {
-      let filterArr = holidayCalenderArr.filter((ele) => {
+      let filterArr = holidayCalendarArray.filter((ele) => {
         let date = new Date(ele.type2);
 
         return String(date.getFullYear()) === year;
@@ -85,35 +96,75 @@ export default function HolidayCalender() {
       console.log(filterArr);
       setDataArr(filterArr);
     } else {
-      setDataArr(holidayCalenderArr);
+      setDataArr(holidayCalendarArray);
     }
   };
   // onchange calender date.
   const handleOnchangeDate = (date) => {
+    setDate(date);
     setCalenderDate({
       date: date.getDate(),
       day: dayArr[date.getDay()],
       year: date.getFullYear(),
     });
   };
+  const handleOnchangeToSelectedData = (val, field) => {
+    let tempObj = selectedCalendar; // for not mutating reducer state.
+    tempObj.val[field] = val;
+    setSelectedCalendar(tempObj);
+  };
+  // toggle between the form a grid view and form .
 
+  const toggle = () => {
+    // setSelectedDesg({ id: "", val: "" });
+    setIsOpenGridView(!isOpenGridView);
+    setIsOpenForm(!isOpenForm);
+  };
   //  on click the tile ,open the from with data filed.
-  const handleEditClick = (val, id) => {
-    setSelectedData({ id: id, val: val });
+  const handleEditHolidayCalendar = React.useCallback((val, id) => {
+    setSelectedCalendar({ id: id, val: val });
+  },[]);
+
+  const handleAddHolidayCalendar = (e) => {
+    e.preventDefault();
+    let formData = {
+      year: parseInt(calenderDate.year),
+      title: title,
+      holidayDate: date,
+      day: calenderDate.day,
+      type: type,
+    };
+    addCalendar(formData);
+    toggle();
   };
 
-  const handleDataAdd = (e) => {
+  const handleUpdateHolidayCalendar = (e) => {
     e.preventDefault();
-    console.log(event);
-    console.log(type);
-    console.log(calenderDate);
-  };
-  const handleDataUpdate = (e) => {
-    e.preventDefault();
-    console.log(event);
-    console.log(type);
-    console.log(calenderDate);
-  };
+    updateCalendar(selectedCalendar.val);
+    setSelectedCalendar({ id: "", val: "" });
+    toggle();
+  }
+  
+  // delete  
+  const handleDelHolidayCalendar = React.useCallback(
+      (year) => {
+        delCalendar(year);
+      },
+      [delCalendar]
+    );
+  
+  const onClickToggleFromTable = React.useCallback(() => {
+      setIsOpenListView((prevState) => !prevState);
+      setIsOpenForm((prevState) => !prevState);
+    }, [setIsOpenListView, setIsOpenForm]);
+  
+  // customer hook.
+  const { thead, trow } =   useHolidayCalendarTable(
+    holidayCalendarArray,
+    handleDelHolidayCalendar,
+    handleEditHolidayCalendar,
+    onClickToggleFromTable
+  );
 
   return (
     <div>
@@ -122,6 +173,7 @@ export default function HolidayCalender() {
           <h3>Holiday Calender</h3>
         </Col>
         <Col sm={3} xs={4} className="">
+        {!isOpenForm?        
           <Input
             type="select"
             name="select"
@@ -133,6 +185,7 @@ export default function HolidayCalender() {
             <option value={"2019"}>2019</option>
             <option value={"2018"}>2018</option>
           </Input>
+        : null}
         </Col>
         <Col sm={1} xs={4}>
           <Button
@@ -140,55 +193,76 @@ export default function HolidayCalender() {
             className="btn-admin-settings float-right"
             onClick={() => {
               setIsOpenListView(!isOpenListView);
-              setIsOpenForm(!isOpenForm);
-              setSelectedData({ id: "", val: "" });
+              setIsOpenGridView(!isOpenGridView);
+              // setSelectedCalendar({ id: "", val: "" });
             }}
           >
-            <i class="fas fa-plus "></i>
+            <i class="fas fa-list "></i>
           </Button>
         </Col>
       </Row>
       <hr></hr>
       <Collapse isOpen={isOpenForm}>
-        {selectedData.id !== "" ? (
+        {selectedCalendar.id !== "" ? (
           <FormEditHolidayCalender
             inputFields={holidayCalenderInpuFields}
-            handleSubmit={handleDataUpdate}
+            handleOnchangeToSelectedData={(val, field) =>
+              handleOnchangeToSelectedData(val, field)
+            }
+            handleSubmit={handleUpdateHolidayCalendar}
             button={"Update"}
             calenderDate={calenderDate}
-            formData={selectedData}
-            toggle={() => {
-              setIsOpenListView(!isOpenListView);
-              setIsOpenForm(!isOpenForm);
-            }}
+            formData={selectedCalendar}
+            toggle={toggle}
             handleOnchangeDate={(date) => handleOnchangeDate(date)}
           ></FormEditHolidayCalender>
         ) : (
           <FormAddHolidayCalender
             inputFields={holidayCalenderInpuFields}
-            handleSubmit={handleDataAdd}
+            handleOnchangeToSelectedData={(val, field) =>
+              handleOnchangeToSelectedData(val, field)
+            }
+            handleSubmit={handleAddHolidayCalendar}
             button={"Add"}
             calenderDate={calenderDate}
-            toggle={() => {
-              setIsOpenListView(!isOpenListView);
-              setIsOpenForm(!isOpenForm);
-            }}
+            toggle={toggle}
             handleOnchangeDate={(date) => handleOnchangeDate(date)}
           ></FormAddHolidayCalender>
         )}
       </Collapse>
-
+      <Collapse isOpen={isOpenGridView}>
+        <GridView
+          pagaData={holidayCalendarArray}
+          displayData={{heading: "title", id: "holidayCalendarId"}}
+          isOpenGridView={isOpenGridView}
+          emptyFormField={() => setSelectedCalendar({ id: "", val: "" })}
+          handleDel={handleDelHolidayCalendar}
+          toggle={toggle}
+          handleSelectedDesg={(val, id) => handleEditHolidayCalendar(val, id)}
+        ></GridView>
+      </Collapse>
       <Collapse isOpen={isOpenListView}>
-        <ListView
-          thead={thead}
-          listData={dataArr}
-          toggle={() => {
-            setIsOpenListView(!isOpenListView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditClick(val, id)}
-        ></ListView>
+        <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
       </Collapse>
     </div>
   );
 }
+
+HolidayCalendar.prototype = {
+  getCalendar: PropTypes.func,
+  addCompanyPolicies: PropTypes.func,
+  updateCalendar: PropTypes.func,
+  delCalendar: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  holidayCalendar: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, {
+  getCalendar,
+  addCalendar,
+  updateCalendar,
+  delCalendar,
+})(HolidayCalendar);
+

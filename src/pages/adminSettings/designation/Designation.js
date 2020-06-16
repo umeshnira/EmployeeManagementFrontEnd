@@ -18,6 +18,7 @@ import {
   getDepartment,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 
+
 const Designation = (props) => {
   const {
     getDesignation,
@@ -26,7 +27,7 @@ const Designation = (props) => {
     delDesignation,
     getDepartment,
   } = props;
-  const { designations, departments } = props.designations;
+  const { designations,departments } = props.designations;
 
   const [designationArr, setDesignationArray] = useState([]);
   const [designation, setDesignation] = useState("");
@@ -40,13 +41,13 @@ const Designation = (props) => {
 
   const [departmentArray, setDepartmentArray] = useState([]);
 
-  const [desgnationInpuFields, setDesignationInputFields] = useState([]);
+  const [desgnationInpuFields,setDesignationInputFields ] = useState([]);
 
   // call the designation data
   useEffect(() => {
     getDesignation();
     getDepartment();
-  }, [getDesignation, getDepartment]);
+  }, [getDesignation,getDepartment]);
 
   // to set the designation data from reducer.
   useEffect(() => {
@@ -66,14 +67,14 @@ const Designation = (props) => {
         label: "Department Name",
         type: "select",
         option: departments,
-        displayData: { selectedData: "departmentName", id: "departmentId" },
-        name: "departmentName", // this name should be equal to the data array key's name.
+        displayData: {selectedData:"departmentName", id:"departmentId"},
+        name: "departmentId", // this name should be equal to the data array key's name.
         handleOnChange: (val) => {
           setDepartmentId(val);
         },
       },
     ]);
-  }, [designations, departments]);
+  }, [designations,departments]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -93,10 +94,10 @@ const Designation = (props) => {
     setIsOpenForm(!isOpenForm);
   };
   //  on click the tile open the from with data filed.
-  const handleEditDesgnation = React.useCallback((val, id) => {
+  const handleEditDesignation =  React.useCallback((val, id) => {
     setSelectedDesg({ id: id, val: val });
     // toggle();
-  }, []);
+  },[]);
 
   const handleDesignationAdd = (e) => {
     e.preventDefault();
@@ -104,24 +105,29 @@ const Designation = (props) => {
       designationName: designation,
       departmentId: parseInt(departmentId),
     };
-    console.log(formData);
     addDesignation(formData);
     toggle();
   };
   const handleDesignationUpdate = (e) => {
     e.preventDefault();
-    updateDesignation(selectedDesg.val);
+    let formData = {
+      designationId: selectedDesg.val.designationId,
+      designationName: selectedDesg.val.designationName,
+      departmentId: parseInt(selectedDesg.val.departmentId),
+      departmentList:[],
+    };
+    updateDesignation(formData);
     setSelectedDesg({ id: "", val: "" });
     toggle();
   };
   // delete  designation.
   const handleDelDesignation = React.useCallback(
     (delId) => {
-      delDesignation(delId);
+      delDesignation(parseInt(delId));
     },
     [delDesignation]
   );
-
+  
   const onClickToggleFromTable = React.useCallback(() => {
     setIsOpenListView((prevState) => !prevState);
     setIsOpenForm((prevState) => !prevState);
@@ -132,7 +138,7 @@ const Designation = (props) => {
     designationArr,
     departmentArray,
     handleDelDesignation,
-    handleEditDesgnation,
+    handleEditDesignation,
     onClickToggleFromTable
   );
 
@@ -195,12 +201,12 @@ const Designation = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={designationArr}
-          displayData={{ heading: "designationName", id: "designationId" }}
+          displayData={{heading: "designationName", id: "designationId"}}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
           handleDel={handleDelDesignation}
           toggle={toggle}
-          handleSelectedDesg={(val, id) => handleEditDesgnation(val, id)}
+          handleSelectedDesg={(val, id) => handleEditDesignation(val, id)}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
@@ -226,5 +232,5 @@ export default connect(mapStateToProps, {
   addDesignation,
   updateDesignation,
   delDesignation,
-  getDepartment,
+  getDepartment
 })(Designation);

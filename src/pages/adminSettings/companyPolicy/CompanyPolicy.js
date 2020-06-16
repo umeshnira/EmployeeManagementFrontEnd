@@ -1,57 +1,64 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
+import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
 import {
   GridView,
-  ListView,
   FromFields,
   FromEditFields,
+  ListView,
+  useComapnyPolicyTable,
 } from "../../../components/adminSettings/index";
+import {
+  getCompanyPolicies,
+  addCompanyPolicies,
+  updateCompanyPolicies,
+  delCompanyPolicies,
+  getDepartment,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
 
-const companypolicyArr = [
-  {
-    type1: "Company Licence", // Policy name
-    type2: "File about the company licence", // DEscription
-    type3: "All Company file", // Department
-    type4: "File", // file
-  },
-  {
-    type1: "offer letter Business Development", // Policy name
-    type2: "File about offer letter Business Development", // DEscription
-    type3: "Business Development", // Department
-    type4: "File",
-  }, // file
-  {
-    type1: "offer letter Software Developer", // Policy name
-    type2: "File about offer letter Software Developer", // DEscription
-    type3: "Software Developer", // Department
-    type4: "File", // file
-  },
-];
+const CompanyPolicies = (props) => {
+  const {
+  getCompanyPolicies,
+  addCompanyPolicies,
+  updateCompanyPolicies,
+  delCompanyPolicies,
+  getDepartment,
+  } = props;
+  const { companypolicies,departments } = props.companypolicies;
 
-// Data for  list view.
-const thead = ["Policy Name", "Description", "Department", "File"];
-
-export default function CompanyPolicy() {
-  const [dataArr, setDataArr] = useState([]);
+  const [companyPolicyArray, setcompanyPolicyArray] = useState([]);
   const [policyName, setPolicyName] = useState("");
   const [policyDescription, setPolicyDescription] = useState("");
   const [policyDepartment, setPolicyDepartment] = useState("");
   const [policyFile, setPolicyFile] = useState(null);
+  const [departmentId, setDepartmentId] = useState("");
 
-  const [selectedData, setSelectedData] = useState({ id: "", val: "" });
+  const [selectedCompanyPolicies, setselectedCompanyPolicies] = useState({ id: "", val: "" });
+  const [companyPolicyInputFields,setcompanyPolicyInputFields] = useState([]);
 
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [workPrimiseInpuFields] = useState([
+   // call the employee type data
+   useEffect(() => {
+    getCompanyPolicies();
+    getDepartment();
+  }, [getCompanyPolicies,getDepartment]);
+
+ // input fileds.
+ useEffect(() => {
+  setcompanyPolicyArray(companypolicies);
+  setPolicyDepartment(departments);
+  setcompanyPolicyInputFields([
     {
       label: "Policy Name",
       type: "text",
       placeholder: "Enter Policy Name",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "policyName", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
-        console.log(val);
         setPolicyName(val);
       },
     },
@@ -59,72 +66,95 @@ export default function CompanyPolicy() {
       label: "Description",
       type: "text",
       placeholder: "Enter Description",
-      name: "type2", // this name should be equal to the designation array key's.
+      name: "description", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
-        console.log(val);
         setPolicyDescription(val);
       },
     },
     {
       label: "Department",
-      type: "text",
-      placeholder: "Enter Department",
-      name: "type3", // this name should be equal to the designation array key's.
+      type: "select",
+      option: departments,
+      displayData: {selectedData:"departmentName", id:"departmentId"},
+      name: "departmentName", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
-        console.log(val);
-        setPolicyDepartment(val);
+        setDepartmentId(val);
       },
     },
     {
-      label: "File",
+      label: "Upload File",
       type: "file",
-      placeholder: "upload File",
-      name: "file", // this name should be equal to the designation array key's.
+      placeholder: "Upload File",
+      name: "uploadPolicy", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
-        console.log(val);
         setPolicyFile(val);
       },
     },
   ]);
-
-  useEffect(() => {
-    setDataArr(companypolicyArr);
-  }, []);
+}, [companypolicies,departments]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    selectedData.val[field] = val; // change a particular key in the selected designation.
-    // setSelectedDesg(selectedDesg);
+    let tempObj = selectedCompanyPolicies; // for not mutating reducer state.
+    tempObj.val[field] = val;
+    setselectedCompanyPolicies(tempObj);
   };
+  // toggle between the form a grid view and form .
 
+  const toggle = () => {
+    // setSelectedDesg({ id: "", val: "" });
+    setIsOpenGridView(!isOpenGridView);
+    setIsOpenForm(!isOpenForm);
+  };
   //  on click the tile ,open the from with data filed.
-  const handleEditClick = (val, id) => {
-    setSelectedData({ id: id, val: val });
+  const handleEditCompanyPolicies = React.useCallback((val, id) => {
+    setselectedCompanyPolicies({ id: id, val: val });
     // toggle();
+  },[]);
+
+  const handleAddCompanyPolicies = (e) => {
+    e.preventDefault();
+    let formData = {
+      policyName: policyName,
+      description: policyDescription,
+      departmentId: parseInt(departmentId),
+      uploadPolicy: policyFile,
+    };
+    addCompanyPolicies(formData);
+    toggle();
   };
 
-  const handleDataAdd = (e) => {
+  const handleUpdateComapanyPolicies = (e) => {
     e.preventDefault();
-    console.log(policyName);
-    console.log(policyDescription);
-    console.log(policyDepartment);
-    console.log(policyFile);
-    setIsOpenGridView(!isOpenGridView);
-    setIsOpenForm(!isOpenForm);
+    updateCompanyPolicies(selectedCompanyPolicies.val);
+    setselectedCompanyPolicies({ id: "", val: "" });
+    toggle();
   };
-  const handleDataUpdate = (e) => {
-    e.preventDefault();
-    console.log(policyName);
-    console.log(policyDescription);
-    console.log(policyDepartment);
-    console.log(policyFile);
-    setSelectedData({ id: "", val: "" });
-    setIsOpenGridView(!isOpenGridView);
-    setIsOpenForm(!isOpenForm);
-  };
+
+   // delete  
+   const handleDelCompanyPolicies = React.useCallback(
+    (companyPolicyId) => {
+      delCompanyPolicies(companyPolicyId);
+    },
+    [delCompanyPolicies]
+  );
+
+  const onClickToggleFromTable = React.useCallback(() => {
+    setIsOpenListView((prevState) => !prevState);
+    setIsOpenForm((prevState) => !prevState);
+  }, [setIsOpenListView, setIsOpenForm]);
+
+  // customer hook.
+  const { thead, trow } =   useComapnyPolicyTable(
+    companyPolicyArray,
+    policyDepartment,
+    handleDelCompanyPolicies,
+    handleEditCompanyPolicies,
+    onClickToggleFromTable
+  );
 
   return (
     <div>
@@ -162,55 +192,59 @@ export default function CompanyPolicy() {
       </Row>
       <hr></hr>
       <Collapse isOpen={isOpenForm}>
-        {selectedData.id !== "" ? (
+        {selectedCompanyPolicies.id !== "" ? (
           <FromEditFields
-            inputFields={workPrimiseInpuFields}
+            inputFields={companyPolicyInputFields}
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleDataUpdate}
-            formData={selectedData}
+            handleSubmit={handleUpdateComapanyPolicies}
+            formData={selectedCompanyPolicies}
             button={"Update"}
-            toggle={() => {
-              setIsOpenForm(!isOpenForm);
-              setIsOpenGridView(!isOpenGridView);
-            }}
+            toggle={toggle}
           ></FromEditFields>
         ) : (
           <FromFields
-            inputFields={workPrimiseInpuFields}
-            handleSubmit={handleDataAdd}
+            inputFields={companyPolicyInputFields}
+            handleSubmit={handleAddCompanyPolicies}
             button={"Add"}
-            toggle={() => {
-              setIsOpenForm(!isOpenForm);
-              setIsOpenGridView(!isOpenGridView);
-            }}
+            toggle={toggle}
           ></FromFields>
         )}
       </Collapse>
       <Collapse isOpen={isOpenGridView}>
         <GridView
-          pagaData={dataArr}
+          pagaData={companyPolicyArray}
+          displayData={{heading: "policyName", id: "companyPolicyId"}}
           isOpenGridView={isOpenGridView}
-          emptyFormField={() => setSelectedData({ id: "", val: "" })}
-          toggle={() => {
-            setIsOpenGridView(!isOpenGridView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditClick(val, id)}
+          emptyFormField={() => setselectedCompanyPolicies({ id: "", val: "" })}
+          handleDel={handleDelCompanyPolicies}
+          toggle={toggle}
+          handleSelectedDesg={(val, id) => handleEditCompanyPolicies(val, id)}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
-        <ListView
-          thead={thead}
-          listData={dataArr}
-          toggle={() => {
-            setIsOpenListView(!isOpenListView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditClick(val, id)}
-        ></ListView>
+        <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
       </Collapse>
     </div>
   );
 }
+
+CompanyPolicies.prototype = {
+  getCompanyPolicies: PropTypes.func,
+  addCompanyPolicies: PropTypes.func,
+  updateCompanyPolicies: PropTypes.func,
+  delCompanyPolicies: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  companypolicies: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, {
+  getCompanyPolicies,
+  addCompanyPolicies,
+  updateCompanyPolicies,
+  delCompanyPolicies,
+  getDepartment,
+})(CompanyPolicies);

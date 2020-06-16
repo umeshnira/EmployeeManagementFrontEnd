@@ -8,3 +8,6 @@ export { default as useDesignationTableEle } from "./designation/useDesignationT
 export { default as useTableWorkPrimise } from "./workPrimise/useTableWorkPrimise";
 export { default as useEmployeeTypeTable } from "./employeetype/useEmployeeTypeTable";
 export { default as useDepartmentTable } from "./department/useDepartmentTable";
+export { default as useLeaveTypeTable } from "./leavetype/useLeaveTypeTable";
+export { default as useComapnyPolicyTable } from "./companypolicy/useComapnyPolicyTable";
+export { default as useHolidayCalendarTable } from "./holidayCalendar/useHolidayCalendarTable";

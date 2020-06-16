@@ -38,6 +38,21 @@ import {
   // -----------items.
   GET_ITEMS_SUCCESS,
   ADD_ITEM_SUCCESS,
+    //-----leaves types
+    GET_LEAVETYPES_SUCCESS,
+    ADD_LEAVETYPES_SUCCESS,
+    UPDATE_LEAVETYPES_SUCCESS,
+    DELETE_LEAVETYPES_SUCCESS,
+    //-------Company Policies
+    GET_COMPANY_PLOICIES_SUCCESS,
+    ADD_COMPANY_PLOICIES_SUCCESS,
+    UPDATE_COMPANY_PLOICIES_SUCCESS,
+    DELETE_COMPANY_PLOICIES_SUCCESS,
+    //-----------Holiday Calendar
+    GET_HOLIDAY_CALENDAR_SUCCESS,
+    ADD_HOLIDAY_CALENDAR_SUCCESS,
+    UPDATE_HOLIDAY_CALENDAR_SUCCESS,
+    DELETE_HOLIDAY_CALENDAR_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -50,6 +65,9 @@ const initialState = {
   assetList: [],
   employeetypes: [],
   itemList: [],
+  leavetypes: [],
+  companypolicies: [],
+  holidayCalendar:[],
   // user list.
 };
 
@@ -97,7 +115,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         designations: state.designations.filter((el, i) =>
-          i === action.payload.id ? action.payload.val : el
+          i === action.payload.designationId ? action.payload.val : el
         ),
       };
     case DEL_DESIGNATION_SUCCESS:
@@ -122,7 +140,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         departments: state.departments.filter((el, i) =>
-          i === action.payload.id ? action.payload.val : el
+          i === action.payload.departmentId ? action.payload.val : el
         ),
       };
     case DELETE_DEPARTMENT_SUCCESS:
@@ -205,7 +223,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         employeetypes: state.employeetypes.filter((el, i) =>
-          i === action.payload.id ? action.payload.val : el
+          i === action.payload.employeeTypeId ? action.payload.val : el
         ),
       };
     case DELETE_EMPLOYEETYPE_SUCCESS:
@@ -248,7 +266,83 @@ export default function (state = initialState, action) {
       return {
         assetList: state.assetList.filter((el) => el.itemNo !== action.payload),
       };
+//----Leave Types---// 
+case   GET_LEAVETYPES_SUCCESS:
+  return {
+    ...state,
+    leavetypes: action.payload,
+  };
+case ADD_LEAVETYPES_SUCCESS:
+  return {
+    ...state,
+    leavetypes: [...state.leavetypes, action.payload],
+  };
+ case UPDATE_LEAVETYPES_SUCCESS:
+   return {
+     ...state,
+     leavetypes: state.leavetypes.filter((el, i) =>
+       i === action.payload.id ? action.payload.val : el
+     ),
+   };
+ case DELETE_LEAVETYPES_SUCCESS:
+  return {
+     ...state,
+     leavetypes: state.leavetypes.filter(
+       (el) => el.leaveTypeId !== action.payload
+     ),
+   };    
+   
+//----Company Policies---// 
+case   GET_COMPANY_PLOICIES_SUCCESS:
+  return {
+    ...state,
+    companypolicies: action.payload,
+  };
+case ADD_COMPANY_PLOICIES_SUCCESS:
+  return {
+    ...state,
+    companypolicies: [...state.companypolicies, action.payload],
+  };
+ case UPDATE_COMPANY_PLOICIES_SUCCESS:
+   return {
+     ...state,
+     companypolicies: state.companypolicies.filter((el, i) =>
+       i === action.payload.companyPolicyId ? action.payload.val : el
+     ),
+   };
+ case DELETE_COMPANY_PLOICIES_SUCCESS:
+  return {
+     ...state,
+     companypolicies: state.companypolicies.filter(
+       (el) => el.companyPolicyId !== action.payload
+     ),
+   };   
 
+  //----Holiday Calendar---// 
+case   GET_HOLIDAY_CALENDAR_SUCCESS:
+  return {
+    ...state,
+    holidayCalendar: action.payload,
+  };
+case ADD_HOLIDAY_CALENDAR_SUCCESS:
+  return {
+    ...state,
+    holidayCalendar: [...state.holidayCalendar, action.payload],
+  };
+ case UPDATE_HOLIDAY_CALENDAR_SUCCESS:
+   return {
+     ...state,
+     holidayCalendar: state.holidayCalendar.filter((el, i) =>
+       i === action.payload.holidayCalendarId ? action.payload.val : el
+     ),
+   };
+ case DELETE_HOLIDAY_CALENDAR_SUCCESS:
+  return {
+     ...state,
+     holidayCalendar: state.holidayCalendar.filter(
+       (el) => el.year !== action.payload
+     ),
+   };    
     default:
       return state;
   }

@@ -41,7 +41,7 @@ const Department = (props) => {
 }, [getDepartment]);
 
 
-// to set the designation data from reducer.
+// to set the department data from reducer.
 useEffect(() => {
   setDepartmentArray(departments);
   setDepartmentInputFields([
@@ -70,7 +70,7 @@ useEffect(() => {
 
 // toggle between the form a grid view and form .
 const toggle = () => {
-  // setSelectedDesg({ id: "", val: "" });
+ // setSelectedDept({ id: "", val: "" });
   setIsOpenGridView(!isOpenGridView);
   setIsOpenForm(!isOpenForm);
 };
@@ -99,7 +99,7 @@ const toggle = () => {
     setSelectedDept({ id: "", val: "" });
     toggle();
   };
-  // delete  designation.
+  // delete  department
   const handleDelDepartment = React.useCallback(
     (departmentId) => {
       delDepartment(departmentId);

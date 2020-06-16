@@ -1,106 +1,105 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
+import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
 import {
   GridView,
-  ListView,
   FromFields,
   FromEditFields,
+  ListView,
+  useLeaveTypeTable,
 } from "../../../components/adminSettings/index";
+import {
+  getLeaves,
+  addLeaves,
+  updateLeaves,
+  delLeaves,
+} from "../../../redux/actions/adminSettings/adminSettings.action";
 
-const leaveTypeArr = [
-  {
-    type1: "Casual Leave", // leave type
-    type2: "24", //No of Leaves Per year
-    type3: "10", //No of Leaves carry forwarded
-    type4: "18", //No of apply per year
-    type5: "active", // status
-  },
-  {
-    type1: "Medical Leave", // leave type
-    type2: "14", //No of Leaves Per year
-    type3: "0", //No of Leaves carry forwarded
-    type4: "10", //No of apply per year
-    type5: "active", // status
-  },
-  {
-    type1: "Loss of Pay", // leave type
-    type2: "30", //No of Leaves Per year
-    type3: "10", //No of Leaves carry forwarded
-    type4: "20", //No of apply per year
-    type5: "inactive", // status
-  },
-];
+const Leaves = (props) => {
+  const {
+  getLeaves,
+  addLeaves,
+  updateLeaves,
+  delLeaves,
+  } = props;
+  const { leavetypes } = props.leavetypes;
 
-// Data for  list view.
-const thead = [
-  "Leave Type",
-  "No of Leaves Per year",
-  "No of Leaves carry forwarded",
-  "No of Leave apply per year",
-];
-
-export default function LeaveType() {
-  const [dataArr, setDataArr] = useState([]);
+  const [leavesArr, setleavesArr] = useState([]);
+  const [leaveTypeArray, setLeaveTypeArray] = useState("");
   const [leaveType, setLeaveType] = useState("");
-  const [leavePerYear, setLeavePerYear] = useState("");
-  const [leaveCarryForwarded, setLeaveCarryForwarded] = useState("");
-  const [leaveAppyPerYear, setLeaveAppyPerYear] = useState("");
 
-  const [selectedData, setSelectedData] = useState({ id: "", val: "" });
+  const [leavePerYear, setLeavePerYear] = useState(0);
+  const [leaveCarryForwarded, setLeaveCarryForwarded] = useState(0);
+  const [leaveAppyPerYear, setLeaveAppyPerYear] = useState(0);
+
+  const [selectedLeaves, setSelectedLeaves] = useState({ id: "", val: "" });
+  const [leaveTypeInputFields,setLeaveTypeInputFields] = useState([]);
 
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
+
+     // call the employee type data
+     useEffect(() => {
+      getLeaves();
+    }, [getLeaves]);
+    
   // input fileds.
-  const [employeeTypeInpuFields] = useState([
+  useEffect(() => {
+    setleavesArr(leavetypes);
+    setLeaveTypeInputFields([
     {
-      label: "Leave Type",
+      label: "Leave Types",
       type: "text",
       placeholder: "Enter Leave Type",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "leaveType", // this name should be equal to the leave type array key's.
       handleOnChange: (val) => {
         setLeaveType(val);
       },
     },
     {
       label: "No of Leaves Per Year",
-      type: "text",
+      type: "number",
       placeholder: "Enter No of Leaves Per year",
-      name: "type2", // this name should be equal to the designation array key's.
+      name: "noOfLeavesPerYear", // this name should be equal to the Leave array key's.
+      defaultValue: 0,
       handleOnChange: (val) => {
         setLeavePerYear(val);
       },
     },
     {
       label: "No of Leaves Carry Forwarded",
-      type: "text",
+      type: "number",
       placeholder: "Enter No of Leaves Carry Forwarded",
-      name: "type3", // this name should be equal to the designation array key's.
+      name: "noOfLeavesCarryForwarded", // this name should be equal to the Leave array key's.
+      defaultValue: 0,
       handleOnChange: (val) => {
         setLeaveCarryForwarded(val);
       },
     },
     {
-      label: "No of Leave Apply Per Year",
-      type: "text",
-      placeholder: "Enter No of Leave Apply Per Year",
-      name: "type4", // this name should be equal to the designation array key's.
+      label: "No of Leave Applied Per Year",
+      type: "number",
+      placeholder: "Enter No of Leave Applied Per Year",
+      name: "noOfLeavesAppliedPerYear", // this name should be equal to the Leave array key's.
+      defaultValue: 0,
       handleOnChange: (val) => {
         setLeaveAppyPerYear(val);
       },
     },
   ]);
-
-  useEffect(() => {
-    setDataArr(leaveTypeArr);
-  }, []);
+}, [leavetypes]);
+ 
   // Function -------------------
   // on change in text field for updating, then from FormField component
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    selectedData.val[field] = val; // change a particular key in the selected designation.
-    // setSelectedDesg(selectedDesg);
+    let tempObj = selectedLeaves; // for not mutating reducer state.
+    tempObj.val[field] = val;
+    setSelectedLeaves(tempObj);
   };
   // toggle between the form a grid view and form .
 
@@ -109,35 +108,56 @@ export default function LeaveType() {
     setIsOpenGridView(!isOpenGridView);
     setIsOpenForm(!isOpenForm);
   };
-  //  on click the tile ,open the from with data filed.
-  const handleEditClick = (val, id) => {
-    setSelectedData({ id: id, val: val });
+
+   //  on click the tile ,open the from with data filed.
+   const handleEditLeaves = React.useCallback((val, id) => {
+    setSelectedLeaves({ id: id, val: val });
     // toggle();
-  };
+  },[]);
 
   // handle the dropdown change in list view.
   const handleDropDownBtnOnChange = (val) => {
     console.log(val);
   };
 
-  const handleDataAdd = (e) => {
+  const handleAddLeaves = (e) => {
     e.preventDefault();
-    console.log(leaveType);
-    console.log(leavePerYear);
-    console.log(leaveCarryForwarded);
-    console.log(leaveAppyPerYear);
+    let formData = {
+      leaveType: leaveType,
+      noOfLeavesPerYear: leavePerYear !== "" ? parseFloat(leavePerYear): 0,
+      noOfLeavesCarryForwarded: leaveCarryForwarded !== "" ? parseFloat(leaveCarryForwarded): 0,
+      noOfLeavesAppliedPerYear: leaveAppyPerYear !== "" ? parseFloat(leaveAppyPerYear) : 0,
+    };
+    addLeaves(formData);
+    toggle();
+  };
 
-    toggle();
-  };
-  const handleDataUpdate = (e) => {
+  const handleUpdateLeaves = (e) => {
     e.preventDefault();
-    console.log(leaveType);
-    console.log(leavePerYear);
-    console.log(leaveCarryForwarded);
-    console.log(leaveAppyPerYear);
-    setSelectedData({ id: "", val: "" });
+    updateLeaves(selectedLeaves.val);
+    setSelectedLeaves({ id: "", val: "" });
     toggle();
   };
+    // delete 
+    const handleDelLeaves = React.useCallback(
+      (leaveTypeId) => {
+        delLeaves(leaveTypeId);
+      },
+      [delLeaves]
+    );
+
+    const onClickToggleFromTable = React.useCallback(() => {
+      setIsOpenListView((prevState) => !prevState);
+      setIsOpenForm((prevState) => !prevState);
+    }, [setIsOpenListView, setIsOpenForm]);
+  
+    // customer hook.
+    const { thead, trow } =   useLeaveTypeTable(
+      leavesArr,
+      handleDelLeaves,
+      handleEditLeaves,
+      onClickToggleFromTable
+    );
 
   return (
     <div>
@@ -175,21 +195,21 @@ export default function LeaveType() {
       </Row>
       <hr></hr>
       <Collapse isOpen={isOpenForm}>
-        {selectedData.id !== "" ? (
+        {selectedLeaves.id !== "" ? (
           <FromEditFields
-            inputFields={employeeTypeInpuFields}
+            inputFields={leaveTypeInputFields}
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleDataUpdate}
-            formData={selectedData}
+            handleSubmit={handleUpdateLeaves}
+            formData={selectedLeaves}
             button={"Update"}
             toggle={toggle}
           ></FromEditFields>
         ) : (
           <FromFields
-            inputFields={employeeTypeInpuFields}
-            handleSubmit={handleDataAdd}
+            inputFields={leaveTypeInputFields}
+            handleSubmit={handleAddLeaves}
             button={"Add"}
             toggle={toggle}
           ></FromFields>
@@ -197,39 +217,36 @@ export default function LeaveType() {
       </Collapse>
       <Collapse isOpen={isOpenGridView}>
         <GridView
-          pagaData={dataArr}
+          pagaData={leavesArr}
+          displayData={{heading: "leaveType", id: "leaveTypeId"}}
           isOpenGridView={isOpenGridView}
-          emptyFormField={() => setSelectedData({ id: "", val: "" })}
-          toggle={() => {
-            setIsOpenGridView(!isOpenGridView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditClick(val, id)}
+          emptyFormField={() => setSelectedLeaves({ id: "", val: "" })}
+          handleDel={handleDelLeaves}
+          toggle={toggle}
+          handleSelectedDesg={(val, id) => handleEditLeaves(val, id)}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
-        <ListView
-          thead={thead}
-          listData={dataArr}
-          toggle={() => {
-            setIsOpenListView(!isOpenListView);
-            setIsOpenForm(!isOpenForm);
-          }}
-          handleSelectedDesg={(val, id) => handleEditClick(val, id)}
-          dropDownThead={"Status"}
-          handleDropDownOnChange={(val) => handleDropDownBtnOnChange(val)}
-          dropDownOption={[
-            {
-              icon: <i class="far fa-dot-circle text-success"></i>,
-              option: "Active",
-            },
-            {
-              icon: <i class="far fa-dot-circle text-danger"></i>,
-              option: "Inactive",
-            },
-          ]}
-        ></ListView>
+        <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
       </Collapse>
     </div>
   );
 }
+
+Leaves.prototype = {
+  getLeaves: PropTypes.func,
+  addLeaves: PropTypes.func,
+  updateLeaves: PropTypes.func,
+  delLeaves: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  leavetypes: state.adminSettingReducer,
+});
+
+export default connect(mapStateToProps, {
+  getLeaves,
+  addLeaves,
+  updateLeaves,
+  delLeaves,
+})(Leaves);

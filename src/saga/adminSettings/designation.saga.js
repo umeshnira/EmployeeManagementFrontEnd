@@ -20,12 +20,11 @@ function* getDesignationApi() {
 
 function addDesignation(formData) {
   // api for add designation.
-  api.dbDesignation().addEditDesignation(formData);
-  console.log(formData);
+  api.dbDesignation().AddEditDesignation(formData);
 }
 function updateDesignationApi(formData) {
   // api for update designation.
-  api.dbDesignation().addEditDesignation(formData);
+  api.dbDesignation().AddEditDesignation(formData);
 }
 function delDesignationApi(delId) {
   // api for delete designation

@@ -45,11 +45,9 @@ const FormFields = React.memo((props) => {
                         val.handleOnChange(e.target.value);
                       }}
                     >
-                      <option value="">----Select Department----</option>
+                      <option value="">----Select----</option>
                       {val.option.map((el, i) => (
-                        <option key={i} value={el[val.displayData["id"]]}>
-                          {el[val.displayData["selectedData"]]}
-                        </option>
+                        <option key={i} value={el[val.displayData["id"]]}>{el[val.displayData["selectedData"]]}</option>
                       ))}
                     </Input>
                   </Fragment>

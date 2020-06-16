@@ -37,6 +37,22 @@ import {
   ADD_ITEM,
   UPDATE_ITEM,
   DEL_ITEM,
+  //------------------
+  GET_LEAVETYPES,
+  ADD_LEAVETYPES,
+  UPDATE_LEAVETYPES,
+  DELETE_LEAVETYPES,
+  //--------------
+  GET_COMPANY_PLOICIES,
+  ADD_COMPANY_PLOICIES,
+  UPDATE_COMPANY_PLOICIES,
+  DELETE_COMPANY_PLOICIES,
+  //---------------------
+  GET_HOLIDAY_CALENDAR,
+  ADD_HOLIDAY_CALENDAR,
+  UPDATE_HOLIDAY_CALENDAR,
+  DELETE_HOLIDAY_CALENDAR,
+
 } from "../actionType";
 import { workPrimiseData } from "../../../datas/adminSettings";
 
@@ -250,6 +266,84 @@ export const updateItems = (itemformData) => {
 export const delItem = (delId) => {
   return {
     type: DEL_ITEM,
+    payload: delId,
+  };
+};
+
+//-------------Leave Types----------//
+export const getLeaves = () => {
+  return {
+    type: GET_LEAVETYPES,
+  };
+};
+export const addLeaves = (formData) => {
+  return {
+    type: ADD_LEAVETYPES,
+    payload: formData,
+  };
+};
+export const updateLeaves = (formData) => {
+  return {
+    type:   UPDATE_LEAVETYPES,
+    payload: formData,
+  };
+};
+
+export const delLeaves = (delId) => {
+  return {
+    type: DELETE_LEAVETYPES,
+    payload: delId,
+  };
+};
+
+//------------Company Ploicies----------//
+export const getCompanyPolicies = () => {
+  return {
+    type: GET_COMPANY_PLOICIES,
+  };
+};
+export const addCompanyPolicies = (formData) => {
+  return {
+    type: ADD_COMPANY_PLOICIES,
+    payload: formData,
+  };
+};
+export const updateCompanyPolicies = (formData) => {
+  return {
+    type:   UPDATE_COMPANY_PLOICIES,
+    payload: formData,
+  };
+};
+
+export const delCompanyPolicies = (delId) => {
+  return {
+    type: DELETE_COMPANY_PLOICIES,
+    payload: delId,
+  };
+};
+
+//------------Holiday Calendar----------//
+export const getCalendar = () => {
+  return {
+    type: GET_HOLIDAY_CALENDAR,
+  };
+};
+export const addCalendar = (formData) => {
+  return {
+    type: ADD_HOLIDAY_CALENDAR,
+    payload: formData,
+  };
+};
+export const updateCalendar = (formData) => {
+  return {
+    type:   UPDATE_HOLIDAY_CALENDAR,
+    payload: formData,
+  };
+};
+
+export const delCalendar= (delId) => {
+  return {
+    type: DELETE_HOLIDAY_CALENDAR,
     payload: delId,
   };
 };
