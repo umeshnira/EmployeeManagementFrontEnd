@@ -32,6 +32,11 @@ import {
   ADD_EMPLOYEETYPE,
   UPDATE_EMPLOYEETYPE,
   DELETE_EMPLOYEETYPE,
+  // ---------------
+  GET_ITEMS,
+  ADD_ITEM,
+  UPDATE_ITEM,
+  DEL_ITEM,
 } from "../actionType";
 import { workPrimiseData } from "../../../datas/adminSettings";
 
@@ -208,7 +213,7 @@ export const addEmployeeType = (formData) => {
 };
 export const updateEmployeeType = (formData) => {
   return {
-    type:   UPDATE_EMPLOYEETYPE,
+    type: UPDATE_EMPLOYEETYPE,
     payload: formData,
   };
 };
@@ -216,6 +221,35 @@ export const updateEmployeeType = (formData) => {
 export const delEmployeeType = (delId) => {
   return {
     type: DELETE_EMPLOYEETYPE,
+    payload: delId,
+  };
+};
+
+// -------------- Item Action
+
+export const getItemsList = () => {
+  return {
+    type: GET_ITEMS,
+  };
+};
+
+export const addItem = (itemformData) => {
+  return {
+    type: ADD_ITEM,
+    payload: itemformData,
+  };
+};
+
+export const updateItems = (itemformData) => {
+  return {
+    type: UPDATE_ITEM,
+    payload: itemformData,
+  };
+};
+
+export const delItem = (delId) => {
+  return {
+    type: DEL_ITEM,
     payload: delId,
   };
 };

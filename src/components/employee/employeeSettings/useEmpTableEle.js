@@ -36,9 +36,7 @@ const useEmpTableEle = (empList) => {
         ),
         email: emp.value.primaryMailId,
         mobile: <div style={{ width: "71px" }}>{emp.value.mobileNumber}</div>,
-        "join date": (
-          <div style={{ width: "91px" }}>{emp.value.dateOfJoin} </div>
-        ),
+        "join date": emp.value.dateOfJoin,
         role: (
           <div style={{ minWidth: "auto" }}>{emp.value.designationName}</div>
         ),

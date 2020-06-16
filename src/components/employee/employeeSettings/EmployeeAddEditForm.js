@@ -11,6 +11,7 @@ const EmployeeEditForm = React.memo((props) => {
     departments,
     officeLocationList,
     workPrimisesList,
+    employeetypesList,
   } = props;
   const [employeeName, setEmployeeName] = useState("");
   const [employeeId, setEmployeeId] = useState("");
@@ -18,7 +19,7 @@ const EmployeeEditForm = React.memo((props) => {
   const [primaryMailId, setPrimaryMailId] = useState("");
   const [altMailId, setAltMailId] = useState("");
   const [qualification, setQualification] = useState("");
-  const [designationName, setDesignationName] = useState("");
+  const [designationId, setDesignationId] = useState("");
   const [guardainName, setGuardainName] = useState("");
   const [bloodGrp, setBloodGrp] = useState("");
   const [mobileNumber, setModileNumber] = useState("");
@@ -39,52 +40,108 @@ const EmployeeEditForm = React.memo((props) => {
   const [workPrimise, setWorkPrimise] = useState("");
 
   const handleAddForm = () => {
-    let empFormData = {
-      employeeId: parseInt(employeeId),
-      employeeCode: 46,
-      employeeType: 1,
-      employeeName: employeeName,
-      dateOfJoin: dateOfJoin,
-      dateOFBirth: "2020-06-09T07:25:27.612Z",
-      aadharNumber: aadharNo,
-      panNumber: panNo,
-      esiNumber: esiNo,
-      epfuan: epfUan,
-      qualificationId: 1,
-      qualificationName: "string",
-      // departmentId: 4012,
-      // designationId: 35,
+    let empFormData = new FormData();
+    empFormData.append("employeeId", parseInt(employeeId));
+    empFormData.append("employeeCode", 46);
+    empFormData.append("employeeType", 1);
+    empFormData.append("employeeName", employeeName);
+    empFormData.append(" dateOfJoin", dateOfJoin);
+    empFormData.append("dateOFBirth", dateOFBirth);
+    empFormData.append("aadharNumber", aadharNo);
+    empFormData.append("panNumber", panNo);
+    empFormData.append("esiNumber", esiNo);
+    empFormData.append("epfuan", epfUan);
+    empFormData.append("qualificationId", 1);
+    empFormData.append("departmentId", parseInt(departmentName));
+    empFormData.append("designationId", parseInt(designationId));
+    empFormData.append(
+      "designationName",
+      designations.map((desg) =>
+        desg.designationId === parseInt(designationId)
+          ? desg.designationName
+          : ""
+      )[0]
+    );
+    empFormData.append("guardianName", guardainName);
+    empFormData.append("postalAddress", postalAddress);
+    empFormData.append("mobileNumber", mobileNumber);
+    empFormData.append("emergencyNumber", alternativeNo);
+    empFormData.append("primaryMailId", primaryMailId);
+    empFormData.append("secondaryMailId", altMailId);
+    empFormData.append("ifscCode", ifscCode);
+    empFormData.append("bankAccountNumber", accNo);
+    empFormData.append("bloodGroup", bloodGrp);
+    empFormData.append("officeLocationId", parseInt(officeLocation));
+    empFormData.append("workingPremiseId", parseInt(workPrimise));
 
-      departmentId: parseInt(departmentName),
-      designationId: parseInt(designationName),
-      guardianName: guardainName,
-      postalAddress: postalAddress,
-      mobileNumber: mobileNumber,
-      emergencyNumber: alternativeNo,
-      primaryMailId: primaryMailId,
-      secondaryMailId: altMailId,
-      ifscCode: ifscCode,
-      bankAccountNumber: accNo,
-      bloodGroup: bloodGrp,
-      // officeLocationId: 2,
-      // workingPremiseId: 19,
-      officeLocationId: parseInt(officeLocation),
-      workingPremiseId: parseInt(workPrimise),
-      profilePicture: profilePicture === "" ? "user.png" : profilePicture.name,
-      createdDate: new Date(),
-      createdBy: 1,
-      modifiedDate: "2020-06-09T07:25:27.612Z",
-      modifiedBy: 0,
-      isActive: true,
-      password: "hellothere",
-      roles: "string",
-      fileName: "string",
-      contentType: "string",
-      file: null,
-      isLatest: true,
-      encrptedPassword: "string",
-    };
+    empFormData.append(
+      "profilePicture",
+      profilePicture === "" ? "user.png" : profilePicture
+    );
+    empFormData.append("workingPremiseId", parseInt(workPrimise));
+    empFormData.append("createdDate", new Date());
+    empFormData.append("createdBy", 1);
+    empFormData.append("modifiedDate", "2020-06-09T07:25:27.612Z");
+    empFormData.append("modifiedBy", 0);
+    empFormData.append("isActive", true);
+    empFormData.append("password", "hellothere");
+    empFormData.append("roles", "string");
+    empFormData.append("fileName", "string");
+    empFormData.append("contentType", "string");
+    empFormData.append("file", null);
+    empFormData.append("isLatest", true);
+    empFormData.append("encrptedPassword", "string");
+    // let empFormData = {
+    //     employeeId: parseInt(employeeId),
+    //     employeeCode: 46,
+    //     employeeType: 1,
+    //     employeeName: employeeName,
+    //     dateOfJoin: dateOfJoin,
 
+    //     dateOFBirth: dateOFBirth,
+    //     aadharNumber: aadharNo,
+    //     panNumber: panNo,
+    //     esiNumber: esiNo,
+    //     epfuan: epfUan,
+    //     qualificationId: 1,
+    //     // qualificationName: "string",
+    //     // departmentId: 4012,
+    //     // designationId: 35,
+
+    //     departmentId: parseInt(departmentName),
+    //     designationId: parseInt(designationId),
+    //     designationName: designations.map((desg) =>
+    //       desg.designationId === parseInt(designationId)
+    //         ? desg.designationName
+    //         : ""
+    //     )[0],
+    //     guardianName: guardainName,
+    //     postalAddress: postalAddress,
+    //     mobileNumber: mobileNumber,
+    //     emergencyNumber: alternativeNo,
+    //     primaryMailId: primaryMailId,
+    //     secondaryMailId: altMailId,
+    //     ifscCode: ifscCode,
+    //     bankAccountNumber: accNo,
+    //     bloodGroup: bloodGrp,
+    //     // officeLocationId: 2,
+    //     // workingPremiseId: 19,
+    //     officeLocationId: parseInt(officeLocation),
+    //     workingPremiseId: parseInt(workPrimise),
+    //     profilePicture: profilePicture === "" ? "user.png" : profilePicture,
+    //     createdDate: new Date(),
+    //     createdBy: 1,
+    //     modifiedDate: "2020-06-09T07:25:27.612Z",
+    //     modifiedBy: 0,
+    //     isActive: true,
+    //     password: "hellothere",
+    //     roles: "string",
+    //     fileName: "string",
+    //     contentType: "string",
+    //     file: null,
+    //     isLatest: true,
+    //     encrptedPassword: "string",
+    //   };
     if (selectedEmployee) {
       props.handleUpdateEmp(empFormData);
     } else {
@@ -106,8 +163,9 @@ const EmployeeEditForm = React.memo((props) => {
       setModileNumber(selectedEmployee.mobileNumber);
       setAlternativeNo(selectedEmployee.emergencyNumber);
       setPostalAddress(selectedEmployee.postalAddress);
-      setDateOfJoin(new Date(selectedEmployee.dateOfJoin));
-      setDateOfBirth(selectedEmployee.dateOFBirth);
+      console.log(selectedEmployee.dateOfJoin);
+      setDateOfJoin(selectedEmployee.dateOfJoin.substring(0, 10));
+      setDateOfBirth(selectedEmployee.dateOFBirth.substring(0, 10));
       setPostalAddress(selectedEmployee.postalAddress);
       setAadharNo(selectedEmployee.aadharNumber);
       setPanNo(selectedEmployee.panNumber);
@@ -115,11 +173,11 @@ const EmployeeEditForm = React.memo((props) => {
       setEpfUan(selectedEmployee.epfuan);
       setAccNo(selectedEmployee.bankAccountNumber);
       setIfscCode(selectedEmployee.ifscCode);
-
-      setDesignationName(selectedEmployee.designationName);
-      setDepartmentName(selectedEmployee.departmentName);
+      setProfilePicture(selectedEmployee.profilePicture);
+      setDesignationId(selectedEmployee.designationId);
+      setDepartmentName(selectedEmployee.departmentId);
       setOfficeLocation(selectedEmployee.officeLocationId);
-      setWorkPrimise(selectedEmployee.workPrimiseId);
+      setWorkPrimise(selectedEmployee.workingPremiseId);
     } else {
       //if add btn click then keep the state to null,
       //cuz when editClick and then addClicked then last value remains in state.
@@ -134,7 +192,6 @@ const EmployeeEditForm = React.memo((props) => {
 
   return (
     <Form>
-      {console.log(dateOfJoin)}
       <Row form>
         <Col md={6}>
           <FormGroup>
@@ -161,12 +218,31 @@ const EmployeeEditForm = React.memo((props) => {
         <Col md={3}>
           <FormGroup>
             <Label>Employee Type</Label>
+
             <Input
+              type="select"
+              onChange={(e) => setEmployeeType(e.target.value)}
+            >
+              <option value="">Select Employee Type</option>
+              {employeetypesList.map((employeeTypeEl, i) => (
+                <option
+                  value={employeeTypeEl.employeeTypeId}
+                  selected={
+                    employeeType === employeeTypeEl.employeeTypeId
+                      ? true
+                      : false
+                  }
+                >
+                  {employeeTypeEl.employeeTypeValue}
+                </option>
+              ))}
+            </Input>
+            {/* <Input
               type="Text"
               name="EmployeeType"
               onChange={(e) => setEmployeeType(e.target.value)}
               value={employeeType}
-            />
+            /> */}
           </FormGroup>
         </Col>
       </Row>
@@ -211,16 +287,14 @@ const EmployeeEditForm = React.memo((props) => {
             <Label>Designation</Label>
             <Input
               type="select"
-              onChange={(e) => setDesignationName(e.target.value)}
+              onChange={(e) => setDesignationId(e.target.value)}
             >
-              <option value="">{designationName}</option>
+              <option value="">Select Designation</option>
               {designations.map((desigination, i) => (
                 <option
                   value={desigination.designationId}
                   selected={
-                    designationName === desigination.designationName
-                      ? true
-                      : false
+                    designationId === desigination.designationId ? true : false
                   }
                 >
                   {desigination.designationName}
@@ -283,11 +357,7 @@ const EmployeeEditForm = React.memo((props) => {
               onChange={(e) => setDateOfJoin(e.target.value)}
               // value={"2013-01-08"}
 
-              value={
-                dateOfJoin.getFullYear() -
-                dateOfJoin.getMonth() -
-                dateOfJoin.getDate()
-              }
+              value={dateOfJoin}
             />
           </FormGroup>
         </Col>
@@ -314,7 +384,7 @@ const EmployeeEditForm = React.memo((props) => {
             <Input
               type="file"
               name="file"
-              onChange={(e) => setProfilePicture(e.target.files[0])}
+              onChange={(e) => setProfilePicture(e.target.files[0].name)}
             />
           </FormGroup>
         </Col>
@@ -418,7 +488,7 @@ const EmployeeEditForm = React.memo((props) => {
                 <option
                   value={department.departmentId}
                   selected={
-                    departmentName === department.departmentName ? true : false
+                    departmentName === department.departmentId ? true : false
                   }
                 >
                   {department.departmentName}

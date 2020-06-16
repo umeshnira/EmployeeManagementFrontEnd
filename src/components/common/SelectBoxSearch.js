@@ -8,18 +8,27 @@ import Select from "react-select";
 
 class SelectBoxSearch extends React.Component {
   state = {
-    selectedOption: this.props.selectedUser,
+    selectedOption: "",
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedUser !== this.props.selectedUser) {
+      this.setState({
+        selectedOption: this.props.selectedUser,
+      });
+    }
+  }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     this.props.onChange(selectedOption);
   };
+
   render() {
     const { selectedOption } = this.state;
     const { options } = this.props;
     return (
       <Select
-        value={"selectedOption"}
+        value={selectedOption}
         onChange={this.handleChange}
         options={options}
       />

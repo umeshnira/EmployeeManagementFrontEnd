@@ -14,9 +14,8 @@ import {
 import classnames from "classnames";
 
 const ListAssetItem = React.memo((props) => {
-  // const { assetItems } = props.assetData;
+  const { selectedItem, assetList } = props;
   const [activeTab, setActiveTab] = useState("1");
-
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
@@ -65,44 +64,50 @@ const ListAssetItem = React.memo((props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {console.log(props.assetData)}
-                    {/* {assetItems.filter((ele) => ele.user === "")} */}
-                    {props.assetData.map((itemData, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>{i + 1}</td>
-                          <td>{itemData.itemNo}</td>
-                          <td>{itemData.itemModel}</td>
-                          <td>{itemData.modelNo}</td>
-                          <td>{itemData.uniqueIdentificationNumber}</td>
-                          <td>{itemData.purchaseDate}</td>
-                          <td>{itemData.warentyEndDate}</td>
-                          <td>{itemData.vendor}</td>
-                          <td>
-                            {/* {itemData.employeeId} */}
-                            {props.userList.filter(
-                              (el) => el.value.empId === itemData.employeeId
-                            )}
-                          </td>
-                          <td>
-                            <i
-                              className="fas fa-trash"
-                              onClick={() =>
-                                props.handleDelAsset(itemData.itemNo)
-                              }
-                            ></i>
-                            &nbsp;
-                            <i
-                              className="fas fa-edit"
-                              onClick={() => {
-                                props.handleEditAssetItem(itemData, i);
-                                // props.toggle();
-                              }}
-                            ></i>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {
+                      // props.assetData
+
+                      assetList
+                        .filter((el) => el.itemId === selectedItem.itemId)
+                        .map((itemData, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{i + 1}</td>
+                              <td>{itemData.itemNo}</td>
+                              <td>{itemData.itemModel}</td>
+                              <td>{itemData.modelNo}</td>
+                              <td>{itemData.uniqueIdentificationNumber}</td>
+                              <td>{itemData.purchaseDate}</td>
+                              <td>
+                                {itemData.warrantyEndDate.substring(0, 10)}
+                              </td>
+                              <td>{itemData.vendor}</td>
+                              <td>
+                                {/* {itemData.employeeId} */}
+                                {props.userList.filter(
+                                  (el) => el.value.empId === itemData.employeeId
+                                )}
+                              </td>
+                              <td>
+                                <i
+                                  className="fas fa-trash"
+                                  onClick={() =>
+                                    props.handleDelAsset(itemData.itemNo)
+                                  }
+                                ></i>
+                                &nbsp;
+                                <i
+                                  className="fas fa-edit"
+                                  onClick={() => {
+                                    props.handleEditAssetItem(itemData, i);
+                                    // props.toggle();
+                                  }}
+                                ></i>
+                              </td>
+                            </tr>
+                          );
+                        })
+                    }
                   </tbody>
                 </Table>
               </Col>
@@ -128,33 +133,42 @@ const ListAssetItem = React.memo((props) => {
                   <tbody>
                     {/* {assetItems.filter((ele) => ele.user === "")} */}
 
-                    {props.assetData
-                      .filter((ele) => ele.employeeId === 0)
-                      .map((itemData, i) => {
-                        return (
-                          <tr key={i}>
-                            <td>{i + 1}</td>
-                            <td>{itemData.itemNo}</td>
-                            <td>{itemData.itemModel}</td>
-                            <td>{itemData.modelNo}</td>
-                            <td>{itemData.uniqueIdentificationNumber}</td>
-                            <td>{itemData.purchaseDate}</td>
-                            <td>{itemData.warentyEndDate}</td>
-                            <td>{itemData.vendor}</td>
-                            <td>
-                              <i className="fas fa-trash"></i>
-                              &nbsp;
-                              <i
-                                className="fas fa-edit"
-                                onClick={() => {
-                                  props.handleEditAssetItem(itemData, i);
-                                  // props.toggle();
-                                }}
-                              ></i>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                    {
+                      // props.assetData
+                      //   .filter((ele) => ele.employeeId === 0)
+
+                      assetList
+                        .filter(
+                          (el) =>
+                            el.itemId === selectedItem.itemId &&
+                            el.employeeId === 0
+                        )
+                        .map((itemData, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{i + 1}</td>
+                              <td>{itemData.itemNo}</td>
+                              <td>{itemData.itemModel}</td>
+                              <td>{itemData.modelNo}</td>
+                              <td>{itemData.uniqueIdentificationNumber}</td>
+                              <td>{itemData.purchaseDate}</td>
+                              <td>{itemData.warentyEndDate}</td>
+                              <td>{itemData.vendor}</td>
+                              <td>
+                                <i className="fas fa-trash"></i>
+                                &nbsp;
+                                <i
+                                  className="fas fa-edit"
+                                  onClick={() => {
+                                    props.handleEditAssetItem(itemData, i);
+                                    // props.toggle();
+                                  }}
+                                ></i>
+                              </td>
+                            </tr>
+                          );
+                        })
+                    }
                   </tbody>
                 </Table>
               </Col>

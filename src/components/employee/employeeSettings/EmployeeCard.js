@@ -114,7 +114,7 @@ const EmployeeCard = React.memo((props) => {
                     {emp.value.employeeName}
                   </h4>
                   <div class="small text-muted">
-                    {emp.value.designationName}{" "}
+                    {emp.value.designationName}
                   </div>
                 </a>
               </div>

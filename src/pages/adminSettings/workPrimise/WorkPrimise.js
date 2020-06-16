@@ -33,11 +33,12 @@ const WorkPrimise = (props) => {
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const [workPrimiseInpuFields] = useState([
+  const [workPrimiseInpuFields, setWorkPrimiseInpuFields] = useState([
     {
       label: "Work Premise Type",
       type: "text",
       placeholder: "Enter Work Premise",
+      value: workPrimise,
       name: "workingPremiseType", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
         setWorkPrimise(val);
@@ -58,10 +59,6 @@ const WorkPrimise = (props) => {
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    // let tempObj = selectedData; // for not mutating reducer state.
-    // tempObj.val[field] = val;
-    // console.log(selectedData);
-    // setSelectedData(tempObj);
     let tempObj = { id: selectedData.id, val: {} };
     Object.keys(selectedData.val).map((key) =>
       key === field
@@ -73,7 +70,6 @@ const WorkPrimise = (props) => {
   // toggle between the form a grid view and form .
 
   const toggle = () => {
-    // setSelectedData({ id: "", val: "" });
     setIsOpenGridView(!isOpenGridView);
     setIsOpenForm(!isOpenForm);
     // setSelectedData({})
@@ -91,6 +87,7 @@ const WorkPrimise = (props) => {
       description: "",
     };
     addWorkPrimise(formData);
+    setWorkPrimise("");
     toggle();
   };
   const handleDataUpdate = (e) => {
@@ -119,6 +116,25 @@ const WorkPrimise = (props) => {
     setIsOpenListView((prevState) => !prevState);
     setIsOpenForm((prevState) => !prevState);
   }, [setIsOpenListView, setIsOpenForm]);
+
+  // make text feild empty.
+  const emptyFormField = () => {
+    setSelectedData({ id: "", val: "" });
+  };
+  const empty = () => {
+    setWorkPrimiseInpuFields([
+      {
+        label: "Work Premise Type",
+        type: "text",
+        placeholder: "Enter Work Premise",
+        value: workPrimise,
+        name: "workingPremiseType", // this name should be equal to the designation array key's.
+        handleOnChange: (val) => {
+          setWorkPrimise(val);
+        },
+      },
+    ]);
+  };
 
   // customer hook.
   const { thead, trow } = useTableWorkPrimise(
@@ -184,10 +200,11 @@ const WorkPrimise = (props) => {
             id: "workingPremiseId",
           }}
           isOpenGridView={isOpenGridView}
-          emptyFormField={() => setSelectedData({ id: "", val: "" })}
+          emptyFormField={emptyFormField}
           toggle={() => {
             setIsOpenGridView(!isOpenGridView);
             setIsOpenForm(!isOpenForm);
+            empty();
           }}
           handleSelectedDesg={(val, id) => handleEditClick(val, id)}
           handleDel={handleDelWorkPrimsie}

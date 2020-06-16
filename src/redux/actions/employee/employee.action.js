@@ -5,6 +5,7 @@ import {
   DEL_EMP_CERTIFICATE,
   ADD_EMP_SKILL,
   DEL_EMP,
+  UPDATE_EMP,
 } from "../../actions/actionType";
 
 // saga call.
@@ -16,6 +17,12 @@ export const getEmpList = () => {
 export const addEmp = (empData) => {
   return {
     type: ADD_EMP,
+    payload: empData,
+  };
+};
+export const updateEmp = (empData) => {
+  return {
+    type: UPDATE_EMP,
     payload: empData,
   };
 };

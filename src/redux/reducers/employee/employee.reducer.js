@@ -5,6 +5,7 @@ import {
   DEL_EMP_CERTIFICATE_SUCCESS,
   ADD_EMP_SKILL_SUCCESS,
   DEL_EMP_SUCCESS,
+  UPDATE_EMP_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -26,8 +27,18 @@ export default function (state = initialState, action) {
         ...state,
         empList: [
           ...state.empList,
-          { value: action.payload, label: action.payload.empName },
+          { value: action.payload, label: action.payload.employeeName },
         ],
+      };
+    case UPDATE_EMP_SUCCESS:
+      return {
+        ...state,
+        key: console.log(action.payload),
+        empList: state.empList.map((emp) =>
+          emp.value.employeeId === action.payload.employeeId
+            ? { value: action.payload, label: action.payload.employeeName }
+            : emp
+        ),
       };
     case DEL_EMP_SUCCESS:
       return {

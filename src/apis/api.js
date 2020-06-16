@@ -44,20 +44,7 @@ export default {
       del: (delId) => axios.post(url + `DeleteRewards?RewardId=${delId}`),
     };
   },
-  // asset api's.
-  asset(url = baseUrl + "Admin/") {
-    return {
-      getAll: () => axios.get(url + "GetAssetList"),
-      addEdit: (formData) => axios.post(url + "AddEditAsset", formData),
-      del: (delId) => axios.post(url + `DeleteAsset?itemNo=${delId}`),
-    };
-  },
-  // items api's.
-  items(url = baseUrl + "Admin/") {
-    return {
-      getAll: () => axios.get(url + "GetItemsList"),
-    };
-  },
+
   //employee type api's
   dbEmployeeTypes(url = baseUrl + "Admin/") {
     return {
@@ -68,7 +55,6 @@ export default {
         axios.post(url + `DeleteEmployeeType?employeeTypeId=${delId}`),
     };
   },
-
   // empoloyee api's.
   employee(url = baseUrl + "Admin/") {
     return {
@@ -77,6 +63,31 @@ export default {
         axios.get(url + `GetAllEmployeeDetailsById?employeeID=${empId}`),
       addEdit: (formData) => axios.post(url + "AddEditEmployees", formData),
       del: (delId) => axios.post(url + `DeleteEmployees?employeeId=${delId}`),
+    };
+  },
+
+  // items api's.
+  items(url = baseUrl + "Admin/") {
+    return {
+      getAll: () => axios.get(url + "GetItemsList"),
+      addEdit: (itemFormData) => axios.post(url + "AddEditItems", itemFormData),
+    };
+  },
+
+  // asset api's.
+  asset(url = baseUrl + "Admin/") {
+    return {
+      getAll: () => axios.get(url + "GetAssetList"),
+      // addEdit: (formData) => axios.post(url + "AddEditAsset", formData),
+      addEdit: (formData) =>
+        axios({
+          method: "post",
+          url: url + "AddEditAsset",
+          data: formData,
+          headers: { "Content-Type": "multipart/form-data" },
+        }),
+
+      del: (delId) => axios.post(url + `DeleteAsset?itemNo=${delId}`),
     };
   },
 };

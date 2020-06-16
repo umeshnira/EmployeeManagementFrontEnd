@@ -2,11 +2,13 @@ import React, { useState, Fragment, useEffect, useCallback } from "react";
 import uuid from "react-uuid";
 import { connect } from "react-redux";
 import { getEmpList } from "../../../redux/actions/employee/employee.action";
-import { getItemsList } from "../../../redux/actions/items/items.action";
 import {
   getAllAsset,
   addAsset,
+  updateAsset,
   delAsset,
+  getItemsList,
+  addItem,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 import { Button, Row, Col } from "reactstrap";
 import {
@@ -16,93 +18,28 @@ import {
 } from "../../../components/adminSettings/assets/index";
 import FormFields from "../../../components/adminSettings/FormFields";
 
-const assetArr = [
-  // ------------ 1st asset details
-  {
-    asset: "mouse",
-    assetItems: [
-      {
-        itemNo: uuid(),
-        itemDescription: "Hp mouse",
-        uniqueId: "#22009",
-        modelNo: "*12000293838",
-        purchaseDate: "2019-09-20",
-        vendor: "Donald",
-        warentyEndDate: "2022-09-20",
-        user: "Jerry",
-      },
-      {
-        itemNo: uuid(),
-        itemDescription: "Mac mouse",
-        uniqueId: "#255009",
-        modelNo: "*183830293838",
-        purchaseDate: "2019-09-20",
-        vendor: "Donald",
-        warentyEndDate: "2022-09-20",
-        user: "Tom",
-      },
-      {
-        itemNo: uuid(),
-        itemDescription: "Samsung mouse",
-        uniqueId: "#9009",
-        modelNo: "*oi830293838",
-        purchaseDate: "2019-09-20",
-        vendor: "Donald",
-        warentyEndDate: "2022-09-20",
-        user: "",
-      },
-    ],
-  },
-  // ------------ 2nd asset details
-  {
-    asset: "keyboard",
-    assetItems: [
-      {
-        itemNo: uuid(),
-        itemDescription: "lenova Keyboard",
-        uniqueId: "#22ssda",
-        modelNo: "*12ooo93838",
-        purchaseDate: "2019-09-20",
-        vendor: "Donald",
-        warentyEndDate: "2022-09-20",
-        user: "Micky",
-      },
-      {
-        itemNo: uuid(),
-        itemDescription: "Mac keyboard",
-        uniqueId: "#255009",
-        modelNo: "*183830293838",
-        purchaseDate: "2019-09-20",
-        vendor: "Donald",
-        warentyEndDate: "2022-09-20",
-        user: "Mouse",
-      },
-      {
-        itemNo: uuid(),
-        itemDescription: "Samsung keyboard",
-        uniqueId: "#9009",
-        modelNo: "*oi830293838",
-        purchaseDate: "2019-09-20",
-        vendor: "Donald",
-        warentyEndDate: "2022-09-20",
-        user: "Tom",
-      },
-    ],
-  },
-];
-
 const Assets = (props) => {
-  const { getEmpList, getItemsList, getAllAsset, addAsset, delAsset } = props;
+  const {
+    getEmpList,
+    getItemsList,
+    getAllAsset,
+    addAsset,
+    updateAsset,
+    delAsset,
+    addItem,
+  } = props;
 
-  const { assetList } = props.assetList; // from reducer.
-  const { itemList } = props.itemList;
+  const { assetList, itemList } = props.assetList; // from reducer.
+  // const { itemList } = props.itemList;
   const { empList } = props.empList; // user list.
-  const [dataArr, setDataArr] = useState([]);
   const [assets, setAssets] = useState([]);
   const [items, setItems] = useState([]);
   const [assetName, setAssetName] = useState("");
+  const [itemCategoryId, setItemCategoryId] = useState(0);
 
+  const [selectedAssetList, setSelectedAssetList] = useState("");
   const [selectedAsset, setSelectedAsset] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
 
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -111,12 +48,24 @@ const Assets = (props) => {
   // --------------------------------------------------------------------
   const [assetInpuFields] = useState([
     {
-      label: "Asset Name",
+      label: "Item Name",
       type: "text",
       placeholder: "Enter Asset Name",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "type1", // this name should be equal to the name in api key's.
       handleOnChange: (val) => {
         setAssetName(val);
+      },
+    },
+    {
+      lable: "Item Category",
+      type: "select",
+      option: [
+        { ItemCategoryId: 1, ItemCategoryName: "Software" },
+        { ItemCategoryId: 2, ItemCategoryName: "hardware" },
+      ],
+      displayData: { selectedData: "ItemCategoryName", id: "ItemCategoryId" },
+      handleOnChange: (val) => {
+        setItemCategoryId(val);
       },
     },
   ]);
@@ -127,16 +76,13 @@ const Assets = (props) => {
     getEmpList();
   }, [getItemsList, getAllAsset, getEmpList]);
 
-  useEffect(() => {
-    setDataArr(assetArr);
-  }, []);
-
   // when itemList chanegs
   useEffect(() => {
     setItems(itemList);
   }, [itemList]);
-  // Function -------------------
 
+  // Function -------------------
+  // =============== Function for Asset main window.
   const toggleFromGridViews = useCallback(() => {
     // setIsOpenListView(!isOpenListView);
     setIsOpenGridView((prevState) => !prevState);
@@ -150,49 +96,83 @@ const Assets = (props) => {
     setIsOpenForm((prevState) => !prevState);
   }, [setIsOpenGridView, setIsOpenForm]);
 
-  //  on click the tile ,open the listAssetItem with data filed.
-  const handleSelectedAsset = useCallback(
+  //  on click the tile ,open the listAssetItem.
+  const handleSelectedItem = useCallback(
     (val, id) => {
       console.log(val);
+      console.log(assetList);
       let assetArr = assetList.filter((el) => el.itemId === val.itemId);
-
-      console.log(assetArr);
-      setSelectedAsset(assetArr);
-
-      // setSelectedAsset(val);
+      setSelectedAssetList(assetArr);
+      // set seleted item.
+      setSelectedItem(val);
     },
     [assetList]
+  );
+
+  // ======================== Functions for asset items listin window.
+  //   handle asset item edit click from listAssetItem.js
+  const handleEditAssetItem = (assetItemDate, i) => {
+    setSelectedAsset(assetItemDate);
+    toggleFromListAssetItems();
+  };
+
+  // toggle from Add and update buttons from listAssetItem.
+  const toggleFromListAssetItems = React.useCallback(() => {
+    setIsOpenFormAssetAddItems(true);
+    setIsOpenAssetItems(false);
+  }, []);
+
+  // toggel from add edit asset form.
+  const handleCancelFromListAssetItem = React.useCallback(() => {
+    setSelectedAsset("");
+    setIsOpenFormAssetAddItems(false);
+    setIsOpenAssetItems(true);
+  }, [setIsOpenFormAssetAddItems, setIsOpenAssetItems]);
+
+  // ============================ CRUD Calls.
+  //   handle add item.
+  const handleAssetAdd = React.useCallback(
+    (e) => {
+      e.preventDefault();
+
+      let itemFormData = {
+        itemType: itemCategoryId,
+        itemName: assetName,
+        itemCategoryId: 0, //same structure should go to back-end
+      };
+      addItem(itemFormData);
+      setIsOpenForm(false);
+      setIsOpenGridView(true);
+    },
+    [itemCategoryId, assetName, addItem]
   );
 
   // handle Delete asset by itemNo.
   const handleDelAsset = React.useCallback(
     (delId) => {
       delAsset(delId);
+      handleSelectedItem(selectedItem);
     },
-    [delAsset]
+    [delAsset, selectedItem, handleSelectedItem]
   );
 
-  //   handle asset item edit click from listAssetItem.js
-  const handleEditAssetItem = (assetItemInfo, i) => {
-    setAssetName(selectedAsset.asset);
+  //  handle add assets.
+  const handleAddItemsToAsset = React.useCallback(
+    (assetFormData) => {
+      addAsset(assetFormData);
+      handleCancelFromListAssetItem();
+    },
+    [addAsset, handleCancelFromListAssetItem]
+  );
 
-    setIsOpenAssetItems(false);
-    setIsOpenFormAssetAddItems(true);
-  };
-
-  //   handle add asset
-  const handleAssetAdd = (e) => {
-    e.preventDefault();
-    console.log(assetName);
-    setIsOpenForm(false);
-    setIsOpenGridView(true);
-  };
-
-  //   handle asset item add.
-  const handleAddItemsToAsset = (formData) => {
-    console.log(formData);
-    addAsset(formData);
-  };
+  // handle updated asset.
+  const handleUpdateItemsToAsset = React.useCallback(
+    (assetFormData) => {
+      updateAsset(assetFormData);
+      handleCancelFromListAssetItem();
+    },
+    [updateAsset, handleCancelFromListAssetItem]
+  );
 
   return (
     <div>
@@ -200,11 +180,11 @@ const Assets = (props) => {
       <Row>
         <Col>
           {isOpenFormAssetAddItems ? (
-            // <h3>Add Item to {selectedAsset.asset} </h3>
-            <h3>Add Item to </h3>
+            <h3>Add Item to {selectedItem.itemName}</h3>
           ) : (
+            // <h3>Add Item to </h3>
             <h3>
-              {/* Assets {selectedAsset !== "" ? `-> ${selectedAsset.asset}` : ""}{" "} */}
+              Assets {selectedItem !== "" ? `-> ${selectedItem.itemName}` : ""}
               Assets
             </h3>
           )}
@@ -219,7 +199,6 @@ const Assets = (props) => {
                 onClick={() => {
                   setIsOpenGridView(true);
                   setIsOpenAssetItems(false);
-                  setSelectedAsset(""); // on back set the selected data empty
                 }}
               >
                 <i className="fas fa-arrow-left  "></i>
@@ -227,10 +206,7 @@ const Assets = (props) => {
               <Button
                 color=""
                 className="btn-admin-settings float-right"
-                onClick={() => {
-                  setIsOpenFormAssetAddItems(true);
-                  setIsOpenAssetItems(false);
-                }}
+                onClick={toggleFromListAssetItems}
               >
                 <i className="fas fa-plus"></i>
               </Button>
@@ -244,18 +220,18 @@ const Assets = (props) => {
       {/* AssetsTabs have tabs of All Assets and Employee Assets. */}
       {isOpenGridView ? (
         <AssetsTabs
-          assets={dataArr}
           itemList={items}
           openAssetItem={toggleFromGridViews}
           openAddForm={toggleFromGridViewsAddBtn}
-          handleSelectedAsset={handleSelectedAsset}
+          handleSelectedAsset={handleSelectedItem}
           userList={empList}
         ></AssetsTabs>
       ) : null}
       {/* show the items corresponding to an asset. */}
       {isOpenAssetItems ? (
         <ListAssetItem
-          assetData={selectedAsset}
+          assetList={assetList}
+          selectedItem={selectedItem}
           isOpen={isOpenAssetItems}
           userList={empList}
           handleEditAssetItem={handleEditAssetItem}
@@ -276,12 +252,12 @@ const Assets = (props) => {
       {/* show edit and add asset item form */}
       {isOpenFormAssetAddItems ? (
         <FormAddEditAssetItem
+          selectedItem={selectedItem}
+          selectedAsset={selectedAsset}
           userList={empList}
-          handleSubmit={handleAddItemsToAsset}
-          handleCancel={() => {
-            setIsOpenFormAssetAddItems(false);
-            setIsOpenAssetItems(true);
-          }}
+          handleAddAsset={handleAddItemsToAsset}
+          handleUpdateAsset={handleUpdateItemsToAsset}
+          handleCancel={handleCancelFromListAssetItem}
         ></FormAddEditAssetItem>
       ) : null}
     </div>
@@ -297,7 +273,9 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getEmpList,
   getItemsList,
+  addItem,
   getAllAsset,
   addAsset,
+  updateAsset,
   delAsset,
 })(Assets);

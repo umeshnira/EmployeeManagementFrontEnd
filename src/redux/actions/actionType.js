@@ -57,8 +57,6 @@ export const UPDATE_ASSET_SUCCESS = "UPDATE_ASSET_SUCCESS";
 export const DEL_ASSET = "DEL_ASSET";
 export const DEL_ASSET_SUCCESS = "DEL_ASSET_SUCCESS";
 
-// admin setting action type  END.
-
 // Item action type.
 export const GET_ITEMS = "GET_ITEMS";
 export const GET_ITEMS_SUCCESS = "GET_ITEMS_SUCCESS";
@@ -68,6 +66,8 @@ export const UPDATE_ITEM = "UPDATE_ITEM";
 export const UPDATE_ITEM_SUCCESS = "UPDATE_ITEM_SUCCESS";
 export const DEL_ITEM = "DEL_ITEM";
 export const DEL_ITEM_SUCCESS = "DEL_ITEM_SUCCESS";
+
+// admin setting action type  END.
 
 // Process rewards action type.
 export const GET_PROCESS_REWARDS = "GET_PROCESS_REWARDS";

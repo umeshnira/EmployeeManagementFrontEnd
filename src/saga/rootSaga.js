@@ -9,9 +9,9 @@ import { employeeWatchFun } from "./employee.saga";
 import { projectWatachFun } from "./project.saga";
 import { taskWatchFun } from "./task.saga";
 import { processRewardsWatchFun } from "./processRewards.saga";
-import { itemsWatchFunc } from "./items.saga";
 import { assetWatchFun } from "./adminSettings/asset.saga";
 import { employeetypeWatchFun } from "./adminSettings/employeetype.saga";
+import { itemsWatchFunc } from "./adminSettings/items.saga";
 
 export default function* rootSaga() {
   yield all([

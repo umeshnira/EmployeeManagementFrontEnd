@@ -12,6 +12,8 @@ import {
   ADD_EMP_SKILL_SUCCESS,
   DEL_EMP,
   DEL_EMP_SUCCESS,
+  UPDATE_EMP,
+  UPDATE_EMP_SUCCESS,
 } from "../redux/actions/actionType";
 import { empList, empCertificates, empSkills } from "../datas/employee";
 import api from "../apis/api";
@@ -33,7 +35,7 @@ function* getEmpListApi() {
   return empArr;
   // return empList;
 }
-function addEmpApi(formDate) {
+function addEditEmpApi(formDate) {
   api.employee().addEdit(formDate);
   return formDate;
 }
@@ -53,8 +55,6 @@ function* getSelectEmpApi(empId) {
     label: response.data[0].employeeName,
   };
   return { profileInfo };
-
-  // return { profileInfo, empCertificate, empSkill };
 }
 function delEmpCertificateApi(delId) {
   // api call.
@@ -83,8 +83,18 @@ export function* handleGetEmpList() {
 export function* handleAddEmp({ payload }) {
   try {
     let formDate = payload;
-    const resAddEmp = yield call(addEmpApi, formDate);
+    const resAddEmp = yield call(addEditEmpApi, formDate);
     yield put({ type: ADD_EMP_SUCCESS, payload: resAddEmp });
+  } catch (error) {
+    console.log(error);
+  }
+}
+// update employee
+export function* handleUpdateEmp({ payload }) {
+  try {
+    let formData = payload;
+    yield call(addEditEmpApi, formData);
+    yield put({ type: UPDATE_EMP_SUCCESS, payload: formData });
   } catch (error) {
     console.log(error);
   }
@@ -151,6 +161,7 @@ export function* handleAddEmpNeSkill({ empNewSkill, skillId, empId }) {
 export function* employeeWatchFun() {
   yield takeEvery(GET_EMP_LIST, handleGetEmpList);
   yield takeLatest(ADD_EMP, handleAddEmp);
+  yield takeLatest(UPDATE_EMP, handleUpdateEmp);
   yield takeLatest(DEL_EMP, handleDelEmp);
   yield takeLatest(GET_SELECT_EMP, handleGetSelectEmp);
   yield takeLatest(DEL_EMP_CERTIFICATE, handleDelEmpCertificate);

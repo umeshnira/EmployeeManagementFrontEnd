@@ -35,6 +35,9 @@ import {
   ADD_EMPLOYEETYPE_SUCCESS,
   UPDATE_EMPLOYEETYPE_SUCCESS,
   DELETE_EMPLOYEETYPE_SUCCESS,
+  // -----------items.
+  GET_ITEMS_SUCCESS,
+  ADD_ITEM_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -45,6 +48,8 @@ const initialState = {
   rewards: [],
   officeLocation: [],
   assetList: [],
+  employeetypes: [],
+  itemList: [],
   // user list.
 };
 
@@ -114,7 +119,6 @@ export default function (state = initialState, action) {
         departments: [...state.departments, action.payload],
       };
     case UPDATE_DEPARTMENT_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         departments: state.departments.filter((el, i) =>
@@ -128,6 +132,7 @@ export default function (state = initialState, action) {
           (el) => el.departmentId !== action.payload
         ),
       };
+
     // ----------------- Work Primise.
     case GET_WORKPRIMISE_SUCCESS:
       return {
@@ -155,6 +160,7 @@ export default function (state = initialState, action) {
           (el) => el.workingPremiseId !== action.payload
         ),
       };
+
     // ------------------------Rewards.
     case GET_REWARDS_SUCCESS:
       return {
@@ -163,32 +169,20 @@ export default function (state = initialState, action) {
       };
     case ADD_REWARDS_SUCCESS:
       return {
+        ...state,
         rewards: [...state.rewards, action.payload],
       };
     case UPDATE_REWARDS_SUCCESS:
       return {
+        ...state,
         rewards: state.rewards.map((el) =>
           el.rewardId === action.payload.rewardId ? action.payload : el
         ),
       };
     case DEL_REWADRDS_SUCCESS:
       return {
+        ...state,
         rewards: state.rewards.filter((el) => el.rewardId !== action.payload),
-      };
-
-    // ----------------- Asset.
-    case GET_ASSET_SUCCESS:
-      return {
-        assetList: action.payload,
-      };
-
-    case ADD_ASSET_SUCCESS:
-      return {
-        assetList: [...state.assetList, action.payload],
-      };
-    case DEL_ASSET_SUCCESS:
-      return {
-        assetList: state.assetList.filter((el) => el.itemNo !== action.payload),
       };
 
     //----Employee Types---//
@@ -208,7 +202,6 @@ export default function (state = initialState, action) {
         employeetypes: [...state.employeetypes, action.payload],
       };
     case UPDATE_EMPLOYEETYPE_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         employeetypes: state.employeetypes.filter((el, i) =>
@@ -221,6 +214,39 @@ export default function (state = initialState, action) {
         employeetypes: state.employeetypes.filter(
           (el) => el.employeeTypeId !== action.payload
         ),
+      };
+
+    // ---------------------------Items.
+    case GET_ITEMS_SUCCESS:
+      return {
+        ...state,
+        itemList: action.payload,
+      };
+    case ADD_ITEM_SUCCESS:
+      return {
+        ...state,
+        itemList: [...state.itemList, action.payload],
+      };
+    // ----------------- Asset.
+    case GET_ASSET_SUCCESS:
+      return {
+        ...state,
+        assetList: action.payload,
+      };
+    case ADD_ASSET_SUCCESS:
+      return {
+        ...state,
+        assetList: [...state.assetList, action.payload],
+      };
+    case UPDATE_ASSET_SUCCESS:
+      return {
+        assetList: state.assetList.map((el) =>
+          el.itemNo === action.payload.itemNo ? action.payload : el
+        ),
+      };
+    case DEL_ASSET_SUCCESS:
+      return {
+        assetList: state.assetList.filter((el) => el.itemNo !== action.payload),
       };
 
     default:

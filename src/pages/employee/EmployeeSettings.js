@@ -10,6 +10,7 @@ import {
 import {
   getEmpList,
   addEmp,
+  updateEmp,
   delEmp,
 } from "../../redux/actions/employee/employee.action";
 import {
@@ -17,6 +18,7 @@ import {
   getDepartment,
   getOfficeLocation,
   getWorkPrimise,
+  getEmployeeTypeList,
 } from "../../redux/actions/adminSettings/adminSettings.action";
 import TableWithSortPagtn from "../../components/common/TableWithSortPagtn";
 // require("bootstrap/less/bootstrap.less");
@@ -25,11 +27,13 @@ const EmployeeList = (props) => {
   const {
     getEmpList,
     addEmp,
+    updateEmp,
     delEmp,
     getDesignation,
     getDepartment,
     getOfficeLocation,
     getWorkPrimise,
+    getEmployeeTypeList,
   } = props;
 
   const { empList } = props.empList;
@@ -38,6 +42,7 @@ const EmployeeList = (props) => {
     departments,
     officeLocation,
     workPrimisesList,
+    employeetypes,
   } = props.designations;
   const [searchArr, setSearchArr] = useState(empList);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -58,23 +63,27 @@ const EmployeeList = (props) => {
     getDepartment();
     getOfficeLocation();
     getWorkPrimise();
+    getEmployeeTypeList();
   }, []);
 
   // -------------Functions
   // handle click in EmployeeAddForm.js 'add'.
   const handleAddEmp = React.useCallback(
     (empData) => {
-      // console.log(empData);
+      console.log(empData);
       addEmp(empData);
     },
     [addEmp]
   );
 
   // handle click in EmployeeEditForm.js 'update'.
-  const handleUpdateEmp = React.useCallback((empData) => {
-    console.log(empData);
-    // props.addEmp(empData);
-  }, []);
+  const handleUpdateEmp = React.useCallback(
+    (empData) => {
+      console.log(empData);
+      updateEmp(empData);
+    },
+    [updateEmp]
+  );
 
   // handle click in EmployeeCard.js
   const handleEmpEdit = React.useCallback(
@@ -188,6 +197,7 @@ const EmployeeList = (props) => {
             departments={departments}
             officeLocationList={officeLocation}
             workPrimisesList={workPrimisesList}
+            employeetypesList={employeetypes}
           ></EmployeeAddEditForm>
         </Collapse>
         {/* Edit employee form.------------------------ */}
@@ -209,4 +219,6 @@ export default connect(mapStateToProps, {
   getDesignation,
   getOfficeLocation,
   getWorkPrimise,
+  getEmployeeTypeList,
+  updateEmp,
 })(EmployeeList);

@@ -43,6 +43,15 @@ export function* handleAddAsset({ payload }) {
   }
 }
 // to update asset.
+export function* handleUpdateAsset({ payload }) {
+  try {
+    let formData = payload;
+    yield call(addAssetApi, formData);
+    yield put({ type: UPDATE_ASSET_SUCCESS, payload: formData });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // to delete asset.
 export function* handleDelAsset({ payload }) {
@@ -59,6 +68,6 @@ export function* handleDelAsset({ payload }) {
 export function* assetWatchFun() {
   yield takeLatest(GET_ASSET, handleGetAssets);
   yield takeLatest(ADD_ASSET, handleAddAsset);
-  //   yield takeLatest(UPDATE_ASSET, handleUpdateAsset);
+  yield takeLatest(UPDATE_ASSET, handleUpdateAsset);
   yield takeLatest(DEL_ASSET, handleDelAsset);
 }
