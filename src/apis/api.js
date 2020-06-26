@@ -127,4 +127,43 @@ export default {
         axios.post(url + `DeleteHolidayCalendar?year=${year}`),
     };
   },
+
+  // employee educational info
+  dbempeducationalinfo(url = baseUrl + "Employee/"){
+    return {
+      GetEmpEducationalInfo: (employeeId) => axios.get(url + `GetEmployeeEducationalQualificationByEmployeeId?employeeId=${employeeId}`),
+      AddEditEmpEducationalInfo: (formData) => {
+                axios.post(url + "AddEditEmployeeEducationalQualification", formData)
+      },
+      DeleteEmpEducationalInfo: (educationalQualificationId) =>
+      axios.post(url + `DeleteEmployeeEducationalQualificationDetails?educationalQualificationId=${educationalQualificationId}`),    
+    };
+  },
+
+  // Qualification api
+  dbqualification(url = baseUrl + "Admin/") {
+      return {
+        GetQualifications: () => axios.get(url + "GetQualifications"),
+      }
+  },
+
+  // Work Experience api
+  dbworkexperience(url = baseUrl + "Employee/") {
+    return {
+      GetPreviousProject: (employeeId) => axios.get(url + `GetEmployeeWorkExperienceByEmployeeId?employeeId=${employeeId}`),
+    }
+  },
+
+// Previous Company Details api
+dbpreviouscompany(url = baseUrl + "Employee/") {
+  return {
+    GetEmpPreviousCompanyInfo: (employeeId) => axios.get(url + `GetAllEmployeePreviousCompanyDetailsByEmployeeId?employeeId=${employeeId}`),
+    AddEditPreviousCompanyInfo: (formData) => 
+      axios.post(url + "AddEditEmployeePreviousCompanyDetails", formData),
+    DeletePreviousCompanyInfo: (employeeCompanyDetailsId) =>
+      axios.post(url + `DeleteEmployeePreviousCompanyDetails?employeeCompanyDetailsId=${employeeCompanyDetailsId}`),    
+  }
+},
 };
+
+

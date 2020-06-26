@@ -6,6 +6,16 @@ import {
   ADD_EMP_SKILL,
   DEL_EMP,
   UPDATE_EMP,
+  GET_EMP_EUCATIONAL_INFO,
+  ADD_EMP_EUCATIONAL_INFO,
+  GET_EMP_QUALIFICATION,
+  UPDATE_EMP_EUCATIONAL_INFO,
+  DELETE_EMP_EUCATIONAL_INFO,
+  GET_EMP_PREVIOUS_COMPANY_DETAILS,
+  ADD_PREVIOUS_COMPANY_DETAILS,
+  UPDATE_PREVIOUS_COMPANY_DETAILS,
+  DELETE_PREVIOUS_COMPANY_DETAILS,
+  GET_EMP_WORKEXPERIENCE,
 } from "../../actions/actionType";
 
 // saga call.
@@ -55,3 +65,73 @@ export const addEmpSkill = (empNewSkill, skillId, empId) => {
     empId,
   };
 };
+
+// --------------- EMP Educational Info -------------
+export const getEmpEducationalInfo = (employeeId) => {
+  return {
+    type: GET_EMP_EUCATIONAL_INFO,
+    payload: employeeId,
+  };
+};
+export const addEmpEducationalInfo = (formData) => {
+  return {
+    type: ADD_EMP_EUCATIONAL_INFO,
+    payload: formData,
+  };
+};
+export const updateEmpEducationalInfo = (formData) => {
+  return {
+    type: UPDATE_EMP_EUCATIONAL_INFO,
+    payload: formData,
+  };
+};
+export const delEmpEducationalInfo= (delId) => {
+  return {
+    type: DELETE_EMP_EUCATIONAL_INFO,
+    payload: delId,
+  };
+};
+
+//-------------Qualification------------
+export const getQualification = () => {
+  return {
+    type: GET_EMP_QUALIFICATION,
+  };
+};
+
+//-----------Previous Company Details--------
+export const getEmpPreviousCompanyInfo = (employeeId) => {
+  return {
+    type: GET_EMP_PREVIOUS_COMPANY_DETAILS,
+    payload: employeeId,
+  };
+};
+
+export const addPreviousCompanyInfo = (formData) => {
+  return {
+    type: ADD_PREVIOUS_COMPANY_DETAILS,
+    payload: formData,
+  };
+};
+
+export const updatePreviousCompanyInfo = (formData) => {
+  return {
+    type: UPDATE_PREVIOUS_COMPANY_DETAILS,
+    payload: formData,
+  };
+};
+export const delPreviousCompanyInfo = (delId) => {
+  return {
+    type: DELETE_PREVIOUS_COMPANY_DETAILS,
+    payload: delId,
+  };
+};
+
+//-------------Work Experience------------
+export const getWorkExperience = (employeeId) => {
+  return {
+    type: GET_EMP_WORKEXPERIENCE,
+    payload: employeeId,
+  };
+};
+

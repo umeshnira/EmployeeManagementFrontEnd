@@ -100,10 +100,10 @@ const EmpProfileViewTabs = React.memo((props) => {
       </Nav>
       <TabContent activeTab={activeTab} className="mt-2">
         <TabPane tabId="profile">
-          <TabProfile selectEmp={selectEmp}></TabProfile>
+          <TabProfile selectEmp={selectEmp} educationalInfo={empeducationalInfo} employeeId={empId}></TabProfile>
         </TabPane>
         <TabPane tabId="projects">
-          <TabProjects projectList={projectList}></TabProjects>
+          <TabProjects projectList={projectList} employeeId={empId}></TabProjects>
         </TabPane>
         <TabPane tabId="skills">
           <TabSkill empSkill={empSkill} addSkill={handleAddEmpSkill}></TabSkill>

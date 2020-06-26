@@ -31,7 +31,7 @@ const EmployeeProfileView = (props) => {
         </Col>
       </Row>
       <EmpProfileViewTopCard selectEmp={selectEmp}></EmpProfileViewTopCard>
-      <EmpProfileViewTabs></EmpProfileViewTabs>
+      <EmpProfileViewTabs {...props} ></EmpProfileViewTabs>
     </Container>
   );
 };

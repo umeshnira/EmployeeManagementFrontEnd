@@ -1,4 +1,5 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
+import { connect } from "react-redux";
 import {
   Card,
   CardTitle,
@@ -10,17 +11,54 @@ import {
   FormGroup,
   Label,
   Input,
+   Popover,
+  PopoverHeader,
+  PopoverBody,
 } from "reactstrap";
+
+import {
+  getQualification,
+  addEmpEducationalInfo,
+  updateEmpEducationalInfo,
+  delEmpEducationalInfo,
+  getEmpPreviousCompanyInfo,
+  addPreviousCompanyInfo,
+  updatePreviousCompanyInfo,
+  delPreviousCompanyInfo,
+} from "../../../redux/actions/employee/employee.action";
 
 // style for the edit/update forms.
 const fontSize = {
   fontSize: "12px",
 };
-const inputHeight = { height: "30px" };
+const inputHeight = { height: "35px" };
+ const TabProfile = React.memo((props) => {
 
-export const TabProfile = React.memo((props) => {
-  // console.log(props);
+  const { addEmpEducationalInfo, getQualification, updateEmpEducationalInfo, delEmpEducationalInfo, getEmpPreviousCompanyInfo,
+    addPreviousCompanyInfo, updatePreviousCompanyInfo, delPreviousCompanyInfo } = props; 
+  const { qualification, prevcompanyinfo } = props.empeducationalInfo;
+  
   const [isClickEdit, setIsClickEdit] = useState("");
+  const [popoverOpenAddEducationalInfo, setpopoverOpenAddEducationalInfo] = useState(false);
+
+  const [qualificationName, setQualificationName] = useState("");
+  const [branch, setBranch] = useState("");
+  const [university, setUniversity] = useState("");
+  const [yop, setyop] = useState("");
+  const [typeofstudy, setTypeofstudy] = useState("");
+  const [gpa, setgpa] = useState("");
+  const [qualificationId,setQualificationId] = useState("");
+  const [eduQualificationId,setEduQualificationId] = useState(0);
+
+  const [role, setRole] = useState("");
+  const [duration, setDuration] = useState("");
+  const [company, setCompany] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [durationFrom, setFrom] = useState("");
+  const [durationTo, setTo] = useState("");
+  const [employeeCompanyDetailsId,setEmployeeCompanyDetailsId] = useState(0);
+
+  const toggle = () => setpopoverOpenAddEducationalInfo(!popoverOpenAddEducationalInfo);
 
   const handleClickEdit = React.useCallback(
     (whichCard) => {
@@ -28,6 +66,103 @@ export const TabProfile = React.memo((props) => {
     },
     [setIsClickEdit]
   );
+
+  const handleAddClickEduInfo = (e) => {
+    e.preventDefault();
+    let qName = "";
+    qualification.map((el) => parseInt(el.qualificationId) === parseInt(qualificationId) ? 
+    qName  = el.qualificationName : null)
+    let formData = {
+      qualificationName : qName,
+      branch : branch,
+      universityName : university,
+      yearOfPassing : parseInt(yop),
+      studyType : typeofstudy,
+      percentageOrGPA : gpa,
+      qualificationId : parseInt(qualificationId),
+      employeeId : parseInt(props.employeeId),  
+      educationalQualificationId : parseInt(eduQualificationId)                 
+    };  
+    eduQualificationId !== 0 ?  updateEmpEducationalInfo(formData) : addEmpEducationalInfo(formData);
+    handleClickEdit("");
+  };
+
+  const handleAddClickCompanyInfo = (e) => {
+    e.preventDefault();
+    let formData = {
+      employeeCompanyDetailsId: parseInt(employeeCompanyDetailsId),
+      companyName: company,
+      designation: designation,
+      durationOfWork: parseFloat(duration),
+      employeeId: parseInt(props.employeeId),
+      fromDate: durationFrom,
+      toDate: durationTo             
+    };  
+    employeeCompanyDetailsId !== 0  ? updatePreviousCompanyInfo(formData) : addPreviousCompanyInfo(formData);
+    handleClickEdit("");
+  };
+
+const  handleClickUpdateCompanyInfo = (e) => {
+  setEmployeeCompanyDetailsId(e.employeeCompanyDetailsId);
+  setCompany(e.company);
+  setDesignation(e.designation);
+  setDuration(e.duration);
+  setFrom(e.fromDate);
+  setTo(e.toDate);
+  handleClickEdit("workExperience");
+}
+
+const  handleClickUpdateEduInfo = (e) => {
+  setEduQualificationId(e.educationalQualificationId);
+  setBranch(e.branch);
+  setQualificationName(e.qualificationName);
+  setUniversity(e.universityName);
+  setTypeofstudy(e.studyType);
+  setgpa(e.percentageOrGPA);
+  setyop(e.yearOfPassing);
+  setQualificationId(e.qualificationId);
+  handleClickEdit("eduInformation");
+}
+
+const  handleClearValues = (cardname) => {
+  if (cardname === "eduInformation") 
+  {
+  setEduQualificationId(0);
+  setBranch("");
+  setQualificationName("");
+  setUniversity("");
+  setTypeofstudy("");
+  setgpa("");
+  setyop("");
+  handleClickEdit("eduInformation");
+  }
+  else if (cardname === "workExperience")
+  {    
+    setEmployeeCompanyDetailsId(0);
+    setCompany("");
+    setDesignation("");
+    setDuration("");
+    setFrom("");
+    setTo("");
+    handleClickEdit("workExperience"); 
+  }
+}
+
+const handleClickDeleteEduInfo = (educationalQualificationId) => {
+  delEmpEducationalInfo(educationalQualificationId);
+};
+
+const handleClickDeleteCompanyInfo = (employeeCompanyDetailsId) => {
+  delPreviousCompanyInfo(employeeCompanyDetailsId);
+};
+  useEffect(() => { 
+    getQualification();
+  }, [getQualification]);
+
+  useEffect(() => {  
+    getEmpPreviousCompanyInfo(props.employeeId);
+  }, [getEmpPreviousCompanyInfo]);
+
   // ------------------------------form personalInfo
   const personalInfoFrom = (
     <Fragment>
@@ -175,10 +310,178 @@ export const TabProfile = React.memo((props) => {
       </Form>
     </Fragment>
   );
-  return (
-    <div className="profile-box ">
-      {console.log("tab profile")}
+  //----------------Educational Information
+  const eduInformation = (
+    <Fragment>
+      <Form>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+          Qualification  Name 
+          </Label>
+          <Col sm={8}>
+            <Input type="select" style={inputHeight} name="select" 
+            onChange = {(e) => setQualificationId(e.target.value)}>              
+              <option value="">----Select----</option>
+               {qualification.map((quali) => (               
+             <option key={quali.qualificationId} 
+             value={quali.qualificationId} data-name={quali.qualificationName} 
+             selected = {quali.qualificationId === qualificationId ? true : false }>
+               {quali.qualificationName}</option>
+             ))}  
+            </Input>           
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+            Branch
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} value={branch}
+             onChange = {(e) => setBranch(e.target.value)}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+          University
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} value={university}
+             onChange = {(e) => setUniversity(e.target.value)}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+          Year of Passing
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} value={yop}
+             onChange = {(e) => setyop(e.target.value)}
+            />
+          </Col>
+        </FormGroup>        
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+            Type Of Study
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} value={typeofstudy}
+             onChange = {(e) => setTypeofstudy(e.target.value)}
+            />
+          </Col>
+        </FormGroup>
+         <FormGroup row>
+          <Label sm={4} style={fontSize}>
+            Percentage(%)/GPA
+          </Label>
+          <Col sm={8}>
+            <Input
+              type="text"
+              style={inputHeight} value={gpa}
+              onChange = {(e) => setgpa(e.target.value)}
+              />
+          </Col>
+        </FormGroup>
+        <FormGroup check row className="text-center">
+          <Button
+            color=""
+            className="btn-admin-settings"
+            onClick={handleAddClickEduInfo}
+          >{qualificationName !== "" ? "Update" : "Add"}
+          </Button>
+          &nbsp;
+          <Button
+            color=""
+            className="btn-cancel"
+            onClick={() => handleClickEdit("")}
+          >
+            cancel
+          </Button>
+        </FormGroup>
+      </Form>
+    </Fragment>
+  );
+  //===========================================
+  //----------------Work Experience
+  const workExperience = (
+    <Fragment>
+      <Form>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+          Company Name
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} value={company}
+            onChange = {(e) => setCompany(e.target.value)}
+            >              
+            </Input>           
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+            Designation
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} value={designation}
+             onChange = {(e) => setDesignation(e.target.value)}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+          Duration Of Work
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} placeholder={"in years"} value={duration}
+             onChange = {(e) => setDuration(e.target.value)}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+          From
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} placeholder={"MMM yyyy"} value={durationFrom}
+             onChange = {(e) => setFrom(e.target.value)}
+            />
+          </Col>
+        </FormGroup>        
+        <FormGroup row>
+          <Label sm={4} style={fontSize}>
+           To
+          </Label>
+          <Col sm={8}>
+            <Input type="text" style={inputHeight} placeholder={"MMM yyyy"} value={durationTo}
+             onChange = {(e) => setTo(e.target.value)}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup check row className="text-center">
+          <Button
+            color=""
+            className="btn-admin-settings"
+            onClick={handleAddClickCompanyInfo}
+          >
+         {designation !== "" ? "Update" : "Add"}
+          </Button>
+          &nbsp;
+          <Button
+            color=""
+            className="btn-cancel"
+            onClick={() => handleClickEdit("")}
+          >
+            cancel
+          </Button>
+        </FormGroup>
+      </Form>
+    </Fragment>
+  );
+//===================End of Form ====================
 
+  return (
+    <div className="profile-box">
       <Row>
         <Col md="6">
           <Card className="flex-fill">
@@ -237,9 +540,10 @@ export const TabProfile = React.memo((props) => {
                   </li>
                 </ul>
               )}
+              
             </CardBody>
           </Card>
-        </Col>
+        </Col>       
         <Col md="6">
           <Card className="flex-fill">
             <CardBody>
@@ -296,25 +600,39 @@ export const TabProfile = React.memo((props) => {
           </Card>
         </Col>
       </Row>
+
+      {/*------------Educational information */}
       <Row>
         <Col md="6">
           <Card className="flex-fill">
             <CardBody>
               <CardTitle>
                 <h3>
-                  Education Information
-                  <span
-                    href="#"
-                    className="edit-icon"
-                    data-toggle="modal"
-                    data-target="#emergency_contact_modal"
-                  >
-                    <i className="fas fa-pencil-alt"></i>
-                  </span>
-                </h3>
+                  Educational Information
+                  {isClickEdit === "eduInformation" ? (
+                   <span
+                   href="#"
+                   className="edit-icon"
+                   onClick={() => handleClickEdit("")}
+                   >
+                 <i className="fas fa-times"></i>
+                 </span> 
+              ) :  
+                <span
+                href="#"
+                className="edit-icon"
+                onClick={() => handleClearValues("eduInformation")}
+                >
+              <i className="fas fa-pencil-alt"></i>
+              </span> }                  
+              </h3>
               </CardTitle>
-              <div className="experience-box">
-                <ul className="experience-list">
+              {isClickEdit === "eduInformation" ? (
+                eduInformation
+              ) : (                
+               <div className="experience-box">                   
+                <ul className="experience-list">      
+                {props.educationalInfo.map((ed) => (                     
                   <li>
                     <div className="experience-user">
                       <div className="before-circle"></div>
@@ -322,96 +640,96 @@ export const TabProfile = React.memo((props) => {
                     <div className="experience-content">
                       <div className="timeline-content">
                         <a href="#/" className="name">
-                          International College of Arts and Science (UG)
+                          {ed.universityName}
                         </a>
-                        <div>Bsc Computer Science</div>
-                        <span className="time">2000 - 2003</span>
+                        <div>                        
+                          {ed.qualificationName + " " + ed.branch}
+                        </div>
+                        <span className="time">{ed.yearOfPassing !== 0 ? ed.yearOfPassing : ""}</span>
+                      </div>
+                      <div className="edit-del-icon ">
+                      <span className="edit"
+                      onClick={() => handleClickUpdateEduInfo(ed)}
+                      >
+                      <i className="fas fa-pencil-alt"></i> 
+                      </span> 
+                      <span className="del"
+                      onClick={() => handleClickDeleteEduInfo(ed.educationalQualificationId)}
+                      >
+                      <i className="fas fa-trash"></i>
+                      </span> 
                       </div>
                     </div>
                   </li>
-                  <li>
-                    <div className="experience-user">
-                      <div className="before-circle"></div>
-                    </div>
-                    <div className="experience-content">
-                      <div className="timeline-content">
-                        <a href="#/" className="name">
-                          International College of Arts and Science (PG)
-                        </a>
-                        <div>Msc Computer Science</div>
-                        <span className="time">2000 - 2003</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+                   ))}   
+                </ul>               
               </div>
+              )}
             </CardBody>
           </Card>
         </Col>
+
+      {/* ----------Work Experience   */}
         <Col md="6">
           <Card className="flex-fill">
             <CardBody>
               <CardTitle>
                 <h3>
                   Experience
-                  <span
-                    href="#"
-                    className="edit-icon"
-                    data-toggle="modal"
-                    data-target="#emergency_contact_modal"
-                  >
+                  {isClickEdit === "workExperience" ? (
+                   <span
+                   href="#"
+                   className="edit-icon"
+                   onClick={() => handleClickEdit("")}
+                   > 
+                   <i className="fas fa-times"></i>
+                   </span> 
+                    ) :  
+                    <span
+                     href="#"
+                     className="edit-icon"
+                     onClick={() => handleClearValues("workExperience")}
+                     >
                     <i className="fas fa-pencil-alt"></i>
-                  </span>
+                  </span> }
                 </h3>
               </CardTitle>
+              {isClickEdit === "workExperience" ? (
+                workExperience
+              ) : (   
               <div className="experience-box">
                 <ul className="experience-list">
+                {prevcompanyinfo.map((we) => (      
                   <li>
                     <div className="experience-user">
-                      <div className="before-circle"></div>
+                    <div className="before-circle"></div>
                     </div>
                     <div className="experience-content">
                       <div className="timeline-content">
                         <a href="#/" className="name">
-                          Team Lead at Wipro
+                          {we.designation + " at " + we.companyName}
                         </a>
-                        {/* <div>Bsc Computer Science</div> */}
-                        <span className="time">Jan 2019</span>
+                        <span className="time">{we.fromDate + "-" + we.toDate}</span>
+                      </div>
+                      <span>   </span>
+                      <div className="edit-del-icon ">
+                      <span className="edit"
+                      onClick={() => handleClickUpdateCompanyInfo(we)}
+                      >
+                      <i className="fas fa-pencil-alt"></i>
+                      </span>
+                      <span className="del"
+                      onClick={() => handleClickDeleteCompanyInfo(we.employeeCompanyDetailsId)}
+                      >
+                      <i className="fas fa-trash"></i>
+                      </span>
                       </div>
                     </div>
                   </li>
-                  <li>
-                    <div className="experience-user">
-                      <div className="before-circle"></div>
-                    </div>
-                    <div className="experience-content">
-                      <div className="timeline-content">
-                        <a href="#/" className="name">
-                          Web Designer at Infosys
-                        </a>
-                        {/* <div>Bsc Computer Science</div> */}
-                        <span className="time">
-                          Jan 2013 (5 years 2 months)
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="experience-user">
-                      <div className="before-circle"></div>
-                    </div>
-                    <div className="experience-content">
-                      <div className="timeline-content">
-                        <a href="#/" className="name">
-                          Inter at Apple
-                        </a>
-                        {/* <div>Bsc Computer Science</div> */}
-                        <span className="time">Jan 2012</span>
-                      </div>
-                    </div>
-                  </li>
+                  ))}
                 </ul>
               </div>
+              )}
             </CardBody>
           </Card>
         </Col>
@@ -419,3 +737,18 @@ export const TabProfile = React.memo((props) => {
     </div>
   );
 });
+
+const mapStateToProps = (state) => ({
+  empeducationalInfo: state.empReducer,
+});
+
+export default connect(mapStateToProps, {
+  getQualification,
+  addEmpEducationalInfo,
+  updateEmpEducationalInfo,
+  delEmpEducationalInfo,
+  getEmpPreviousCompanyInfo,
+  addPreviousCompanyInfo,
+  updatePreviousCompanyInfo,
+  delPreviousCompanyInfo,
+})(TabProfile);

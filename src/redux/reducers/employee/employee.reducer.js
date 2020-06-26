@@ -6,6 +6,16 @@ import {
   ADD_EMP_SKILL_SUCCESS,
   DEL_EMP_SUCCESS,
   UPDATE_EMP_SUCCESS,
+  GET_EMP_EUCATIONAL_INFO_SUCCESS,
+  ADD_EMP_EUCATIONAL_INFO_SUCCESS,
+  GET_EMP_QUALIFICATION_SUCCESS,
+  UPDATE_EMP_EUCATIONAL_INFO_SUCCESS,
+  DELETE_EMP_EUCATIONAL_INFO_SUCCESS,
+  GET_EMP_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+  ADD_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+  UPDATE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+  DELETE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+  GET_EMP_WORKEXPERIENCE_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -13,6 +23,10 @@ const initialState = {
   selectEmp: [],
   empCertificate: [],
   empSkill: [],
+  empeducationalInfo: [],
+  qualification: [],
+  empworkexp: [],
+  prevcompanyinfo: [],
 };
 
 export default function (state = initialState, action) {
@@ -71,6 +85,73 @@ export default function (state = initialState, action) {
         // }),
         empSkill: action.newEmpSkillList,
       };
+
+          //------Employee educational Information
+          case GET_EMP_EUCATIONAL_INFO_SUCCESS:
+            return {
+              ...state,
+              empeducationalInfo: action.payload
+            };
+          case ADD_EMP_EUCATIONAL_INFO_SUCCESS:
+              return {
+                ...state,
+                empeducationalInfo:  [...state.empeducationalInfo, action.payload],
+              };
+          case UPDATE_EMP_EUCATIONAL_INFO_SUCCESS:
+            return {
+                  ...state,
+                  empeducationalInfo: state.empeducationalInfo.filter((el, i) =>
+                    i === action.payload.educationalQualificationId ? action.payload.val : el
+                  ),
+            };
+            case DELETE_EMP_EUCATIONAL_INFO_SUCCESS:
+              return {
+                 ...state,
+                 empeducationalInfo: state.empeducationalInfo.filter(
+                   (el) => el.educationalQualificationId !== action.payload
+                 ),
+               };    
+          //----Qualification 
+          case   GET_EMP_QUALIFICATION_SUCCESS:
+          return {
+            ...state,
+            qualification: action.payload,
+          };
+    
+          //----Previous Company Details
+          case   GET_EMP_PREVIOUS_COMPANY_DETAILS_SUCCESS:
+          return {
+            ...state,
+            prevcompanyinfo: action.payload,
+          };
+    
+          case   ADD_PREVIOUS_COMPANY_DETAILS_SUCCESS:
+          return {
+            ...state,
+            prevcompanyinfo: [...state.prevcompanyinfo, action.payload],
+          };
+          case UPDATE_PREVIOUS_COMPANY_DETAILS_SUCCESS:
+            return {
+                  ...state,
+                  prevcompanyinfo: state.prevcompanyinfo.filter((el, i) =>
+                    i === action.payload.employeeCompanyDetailsId ? action.payload.val : el
+                  ),
+            };
+            case DELETE_PREVIOUS_COMPANY_DETAILS_SUCCESS:
+              return {
+                 ...state,
+                 prevcompanyinfo: state.prevcompanyinfo.filter(
+                   (el) => el.employeeCompanyDetailsId !== action.payload
+                 ),
+               };   
+    
+      //--------------Work Experience
+          case   GET_EMP_WORKEXPERIENCE_SUCCESS:
+          return {
+            ...state,
+            empworkexp: action.payload,
+          };
+    
     default:
       return state;
   }
