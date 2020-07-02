@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
@@ -7,7 +7,6 @@ import {
   GridView,
   FromFields,
   FromEditFields,
-  ListView,
   useEmployeeTypeTable,
 } from "../../../components/adminSettings/index";
 import {
@@ -16,13 +15,14 @@ import {
   updateEmployeeType,
   delEmployeeType,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const EmployeeTypes = (props) => {
   const {
-  getEmployeeTypeList,
-  addEmployeeType,
-  updateEmployeeType,
-  delEmployeeType,
+    getEmployeeTypeList,
+    addEmployeeType,
+    updateEmployeeType,
+    delEmployeeType,
   } = props;
   const { employeetypes } = props.employeetypes;
 
@@ -30,32 +30,45 @@ const EmployeeTypes = (props) => {
 
   const [selectedEmptype, setSelectedEmptype] = useState({ id: "", val: "" });
   const [emptypeArray, setEmpTypeArray] = useState([]);
-  const [employeeTypeInpuFields,setEmployeeTypeInpuFields] = useState([]);
+  const [employeeTypeInpuFields, setEmployeeTypeInpuFields] = useState([]);
 
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-   // call the employee type data
- useEffect(() => {
-  getEmployeeTypeList();
-}, [getEmployeeTypeList]);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidation = useRef(false);
 
-// to set the employee type data from reducer.
-useEffect(() => {
-  setEmpTypeArray(employeetypes);
-  setEmployeeTypeInpuFields([
-    {
-      label: "Employee Type",
-      type: "text",
-      placeholder: "Enter Employee Type",
-      name: "employeeTypeValue", // this name should be equal to the employee types array key's.
-      handleOnChange: (val) => {
-        setEmployeeType(val);
+  // custom hook.
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationState
+  );
+
+  useEffect(() => {
+    console.log("in change useEffect");
+    callValidation.current && callBackAfterValidation();
+  }, [formValidation]);
+
+  // call the employee type data
+  useEffect(() => {
+    getEmployeeTypeList();
+  }, [getEmployeeTypeList]);
+
+  // to set the employee type data from reducer.
+  useEffect(() => {
+    setEmpTypeArray(employeetypes);
+    setEmployeeTypeInpuFields([
+      {
+        label: "Employee Type",
+        type: "text",
+        placeholder: "Enter Employee Type",
+        name: "employeeTypeValue", // this name should be equal to the employee types array key's.
+        handleOnChange: (val) => {
+          setEmployeeType(val);
+        },
       },
-    },
-  ]);
-}, [employeetypes]);
+    ]);
+  }, [employeetypes]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -63,8 +76,14 @@ useEffect(() => {
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
     let tempObj = selectedEmptype; // for not mutating reducer state.
-    tempObj.val[field] = val;
-    setSelectedEmptype(tempObj); // change a particular key in the selected emptype.
+    let updateObj = {
+      ...tempObj,
+      val: {
+        ...tempObj.val,
+        [field]: val,
+      },
+    };
+    setSelectedEmptype(updateObj); // change a particular key in the selected emptype.
   };
   // toggle between the form a grid view and form .
 
@@ -77,7 +96,7 @@ useEffect(() => {
   const handleEditEmployeeType = React.useCallback((val, id) => {
     setSelectedEmptype({ id: id, val: val });
     // toggle();
-  },[]);
+  }, []);
 
   const handleAddEmployeeType = (e) => {
     e.preventDefault();
@@ -94,13 +113,13 @@ useEffect(() => {
     setSelectedEmptype({ id: "", val: "" });
     toggle();
   };
-    // delete  
-    const handleDelEmployeeType = React.useCallback(
-      (employeeTypeId) => {
-        delEmployeeType(employeeTypeId);
-      },
-      [delEmployeeType]
-    );
+  // delete
+  const handleDelEmployeeType = React.useCallback(
+    (employeeTypeId) => {
+      delEmployeeType(employeeTypeId);
+    },
+    [delEmployeeType]
+  );
 
   const onClickToggleFromTable = React.useCallback(() => {
     setIsOpenListView((prevState) => !prevState);
@@ -108,12 +127,58 @@ useEffect(() => {
   }, [setIsOpenListView, setIsOpenForm]);
 
   // customer hook.
-  const { thead, trow } =   useEmployeeTypeTable(
+  const { thead, trow } = useEmployeeTypeTable(
     emptypeArray,
     handleDelEmployeeType,
     handleEditEmployeeType,
     onClickToggleFromTable
   );
+
+  const formValidationOnSubmitAdd = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      employeeTypeValue: {
+        required: true,
+        isValid: true,
+        value: employeeType,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+
+  const formValidationOnSubmitUpdate = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      employeeTypeValue: {
+        required: true,
+        isValid: true,
+        value: selectedEmptype.val.employeeTypeValue,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const callBackAfterValidation = () => {
+    console.log("formValidation:", isFormValid);
+    if (isFormValid) {
+      // if form valid.
+      if (selectedEmptype.id !== "") {
+        // update
+        console.log("updated", employeeType);
+        setSelectedEmptype({ id: "", val: "" });
+        toggle();
+      } else {
+        // add
+        console.log("add", employeeType);
+        toggle();
+      }
+    }
+  };
 
   return (
     <div>
@@ -157,7 +222,9 @@ useEffect(() => {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleUpdateEmployeeType}
+            // handleSubmit={handleDataUpdate}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedEmptype}
             button={"Update"}
             toggle={toggle}
@@ -165,7 +232,9 @@ useEffect(() => {
         ) : (
           <FromFields
             inputFields={employeeTypeInpuFields}
-            handleSubmit={handleAddEmployeeType}
+            // handleSubmit={handleDataAdd}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>
@@ -173,13 +242,13 @@ useEffect(() => {
       </Collapse>
       <Collapse isOpen={isOpenGridView}>
         <GridView
-        pagaData={emptypeArray}
-        displayData={{heading: "employeeTypeValue", id: "employeeTypeId"}}
-        isOpenGridView={isOpenGridView}
-        emptyFormField={() => setSelectedEmptype({ id: "", val: "" })}
-        handleDel={handleDelEmployeeType}
-        toggle={toggle}
-        handleSelectedDesg={(val,id) =>handleEditEmployeeType(val, id)}
+          pagaData={emptypeArray}
+          displayData={{ heading: "employeeTypeValue", id: "employeeTypeId" }}
+          isOpenGridView={isOpenGridView}
+          emptyFormField={() => setSelectedEmptype({ id: "", val: "" })}
+          handleDel={handleDelEmployeeType}
+          toggle={toggle}
+          handleSelectedDesg={(val, id) => handleEditEmployeeType(val, id)}
         ></GridView>
       </Collapse>
       <Collapse isOpen={isOpenListView}>
@@ -187,7 +256,7 @@ useEffect(() => {
       </Collapse>
     </div>
   );
-}
+};
 
 EmployeeTypes.prototype = {
   getEmployeeTypeList: PropTypes.func,

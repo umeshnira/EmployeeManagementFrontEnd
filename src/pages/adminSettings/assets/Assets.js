@@ -1,5 +1,10 @@
-import React, { useState, Fragment, useEffect, useCallback } from "react";
-import uuid from "react-uuid";
+import React, {
+  useState,
+  Fragment,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { connect } from "react-redux";
 import { getEmpList } from "../../../redux/actions/employee/employee.action";
 import {
@@ -17,6 +22,7 @@ import {
   AssetsTabs,
 } from "../../../components/adminSettings/assets/index";
 import FormFields from "../../../components/adminSettings/FormFields";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const Assets = (props) => {
   const {
@@ -34,8 +40,8 @@ const Assets = (props) => {
   const { empList } = props.empList; // user list.
   const [assets, setAssets] = useState([]);
   const [items, setItems] = useState([]);
-  const [assetName, setAssetName] = useState("");
-  const [itemCategoryId, setItemCategoryId] = useState(0);
+  const [assetName, setAssetName] = useState(""); // main asset category :ie, mouse,keybord etc
+  const [itemCategoryId, setItemCategoryId] = useState("");
 
   const [selectedAssetList, setSelectedAssetList] = useState("");
   const [selectedAsset, setSelectedAsset] = useState("");
@@ -51,14 +57,15 @@ const Assets = (props) => {
       label: "Item Name",
       type: "text",
       placeholder: "Enter Asset Name",
-      name: "type1", // this name should be equal to the name in api key's.
+      name: "itemName", // this name should be equal to the name in api key's.
       handleOnChange: (val) => {
         setAssetName(val);
       },
     },
     {
-      lable: "Item Category",
+      label: "Item Category",
       type: "select",
+      name: "itemCategory",
       option: [
         { ItemCategoryId: 1, ItemCategoryName: "Software" },
         { ItemCategoryId: 2, ItemCategoryName: "hardware" },
@@ -69,6 +76,8 @@ const Assets = (props) => {
       },
     },
   ]);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidationAsset = useRef(false);
 
   useEffect(() => {
     getItemsList();
@@ -80,6 +89,14 @@ const Assets = (props) => {
   useEffect(() => {
     setItems(itemList);
   }, [itemList]);
+
+  // custom hook.
+  const assetAddFormValidation = useFormValidation(formValidationState);
+
+  useEffect(() => {
+    // calls when asset add form is submited.
+    callValidationAsset.current && callBackAfterValidationAsset();
+  }, [assetAddFormValidation.formValidation]);
 
   // Function -------------------
   // =============== Function for Asset main window.
@@ -130,22 +147,6 @@ const Assets = (props) => {
   }, [setIsOpenFormAssetAddItems, setIsOpenAssetItems]);
 
   // ============================ CRUD Calls.
-  //   handle add item.
-  const handleAssetAdd = React.useCallback(
-    (e) => {
-      e.preventDefault();
-
-      let itemFormData = {
-        itemType: itemCategoryId,
-        itemName: assetName,
-        itemCategoryId: 0, //same structure should go to back-end
-      };
-      addItem(itemFormData);
-      setIsOpenForm(false);
-      setIsOpenGridView(true);
-    },
-    [itemCategoryId, assetName, addItem]
-  );
 
   // handle Delete asset by itemNo.
   const handleDelAsset = React.useCallback(
@@ -156,7 +157,7 @@ const Assets = (props) => {
     [delAsset, selectedItem, handleSelectedItem]
   );
 
-  //  handle add assets.
+  //  handle add assets items.
   const handleAddItemsToAsset = React.useCallback(
     (assetFormData) => {
       addAsset(assetFormData);
@@ -165,7 +166,7 @@ const Assets = (props) => {
     [addAsset, handleCancelFromListAssetItem]
   );
 
-  // handle updated asset.
+  // handle updated asset items.
   const handleUpdateItemsToAsset = React.useCallback(
     (assetFormData) => {
       updateAsset(assetFormData);
@@ -173,6 +174,46 @@ const Assets = (props) => {
     },
     [updateAsset, handleCancelFromListAssetItem]
   );
+
+  //  asset add validation.
+  const formValidationOnSubmitAddAsset = React.useCallback(
+    (e) => {
+      e.preventDefault();
+      let formValidationList = {
+        // key name should be same as the input field name to represtent in form.
+        itemName: {
+          required: true,
+          isValid: true,
+          value: assetName,
+          errorMessage: "",
+        },
+        itemCategory: {
+          required: true,
+          isValid: true,
+          value: String(itemCategoryId),
+          errorMessage: "",
+        },
+      };
+      setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+      callValidationAsset.current = true;
+    },
+    [assetName, itemCategoryId]
+  );
+
+  // asset add after validation.
+  const callBackAfterValidationAsset = React.useCallback(() => {
+    if (assetAddFormValidation.isFormValid) {
+      // if form valid.
+      let itemFormData = {
+        itemType: itemCategoryId,
+        itemName: assetName,
+        itemCategoryId: 0, //same structure should go to back-end
+      };
+      addItem(itemFormData);
+      setIsOpenForm(false);
+      setIsOpenGridView(true);
+    }
+  }, [itemCategoryId, assetName, addItem, assetAddFormValidation.isFormValid]);
 
   return (
     <div>
@@ -243,7 +284,9 @@ const Assets = (props) => {
       {isOpenForm ? (
         <FormFields
           inputFields={assetInpuFields}
-          handleSubmit={handleAssetAdd}
+          // handleSubmit={handleAssetAdd}
+          handleSubmit={formValidationOnSubmitAddAsset}
+          formValidation={assetAddFormValidation.formValidation}
           button={"Add"}
           toggle={toggleFromGridViewsAddBtn}
         ></FormFields>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
@@ -17,16 +17,17 @@ import {
   delCompanyPolicies,
   getDepartment,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const CompanyPolicies = (props) => {
   const {
-  getCompanyPolicies,
-  addCompanyPolicies,
-  updateCompanyPolicies,
-  delCompanyPolicies,
-  getDepartment,
+    getCompanyPolicies,
+    addCompanyPolicies,
+    updateCompanyPolicies,
+    delCompanyPolicies,
+    getDepartment,
   } = props;
-  const { companypolicies,departments } = props.companypolicies;
+  const { companypolicies, departments } = props.companypolicies;
 
   const [companyPolicyArray, setcompanyPolicyArray] = useState([]);
   const [policyName, setPolicyName] = useState("");
@@ -35,63 +36,78 @@ const CompanyPolicies = (props) => {
   const [policyFile, setPolicyFile] = useState(null);
   const [departmentId, setDepartmentId] = useState("");
 
-  const [selectedCompanyPolicies, setselectedCompanyPolicies] = useState({ id: "", val: "" });
-  const [companyPolicyInputFields,setcompanyPolicyInputFields] = useState([]);
+  const [selectedCompanyPolicies, setselectedCompanyPolicies] = useState({
+    id: "",
+    val: "",
+  });
+  const [companyPolicyInputFields, setcompanyPolicyInputFields] = useState([]);
 
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidation = useRef(false);
 
-   // call the employee type data
-   useEffect(() => {
+  // call the employee type data
+  useEffect(() => {
     getCompanyPolicies();
     getDepartment();
-  }, [getCompanyPolicies,getDepartment]);
+  }, [getCompanyPolicies, getDepartment]);
 
- // input fileds.
- useEffect(() => {
-  setcompanyPolicyArray(companypolicies);
-  setPolicyDepartment(departments);
-  setcompanyPolicyInputFields([
-    {
-      label: "Policy Name",
-      type: "text",
-      placeholder: "Enter Policy Name",
-      name: "policyName", // this name should be equal to the designation array key's.
-      handleOnChange: (val) => {
-        setPolicyName(val);
+  // custom hook.
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationState
+  );
+
+  useEffect(() => {
+    // calls when form submited`
+    callValidation.current && callBackAfterValidation();
+  }, [formValidation]);
+
+  // input fileds.
+  useEffect(() => {
+    setcompanyPolicyArray(companypolicies);
+    setPolicyDepartment(departments);
+    setcompanyPolicyInputFields([
+      {
+        label: "Policy Name",
+        type: "text",
+        placeholder: "Enter Policy Name",
+        name: "policyName", // this name should be equal to the designation array key's.
+        handleOnChange: (val) => {
+          setPolicyName(val);
+        },
       },
-    },
-    {
-      label: "Description",
-      type: "text",
-      placeholder: "Enter Description",
-      name: "description", // this name should be equal to the designation array key's.
-      handleOnChange: (val) => {
-        setPolicyDescription(val);
+      {
+        label: "Description",
+        type: "text",
+        placeholder: "Enter Description",
+        name: "description", // this name should be equal to the designation array key's.
+        handleOnChange: (val) => {
+          setPolicyDescription(val);
+        },
       },
-    },
-    {
-      label: "Department",
-      type: "select",
-      option: departments,
-      displayData: {selectedData:"departmentName", id:"departmentId"},
-      name: "departmentName", // this name should be equal to the designation array key's.
-      handleOnChange: (val) => {
-        setDepartmentId(val);
+      {
+        label: "Department",
+        type: "select",
+        option: departments,
+        displayData: { selectedData: "departmentName", id: "departmentId" },
+        name: "departmentId", // this name should be equal to the designation array key's.
+        handleOnChange: (val) => {
+          setDepartmentId(val);
+        },
       },
-    },
-    {
-      label: "Upload File",
-      type: "file",
-      placeholder: "Upload File",
-      name: "uploadPolicy", // this name should be equal to the designation array key's.
-      handleOnChange: (val) => {
-        setPolicyFile(val);
+      {
+        label: "Upload File",
+        type: "file",
+        placeholder: "Upload File",
+        name: "uploadPolicy", // this name should be equal to the designation array key's.
+        handleOnChange: (val) => {
+          setPolicyFile(val);
+        },
       },
-    },
-  ]);
-}, [companypolicies,departments]);
+    ]);
+  }, [companypolicies, departments]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -99,8 +115,15 @@ const CompanyPolicies = (props) => {
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
     let tempObj = selectedCompanyPolicies; // for not mutating reducer state.
-    tempObj.val[field] = val;
-    setselectedCompanyPolicies(tempObj);
+    console.log(selectedCompanyPolicies);
+    let updaeteObj = {
+      ...tempObj,
+      val: {
+        ...tempObj.val,
+        [field]: val,
+      },
+    };
+    setselectedCompanyPolicies(updaeteObj);
   };
   // toggle between the form a grid view and form .
 
@@ -113,7 +136,7 @@ const CompanyPolicies = (props) => {
   const handleEditCompanyPolicies = React.useCallback((val, id) => {
     setselectedCompanyPolicies({ id: id, val: val });
     // toggle();
-  },[]);
+  }, []);
 
   const handleAddCompanyPolicies = (e) => {
     e.preventDefault();
@@ -134,8 +157,8 @@ const CompanyPolicies = (props) => {
     toggle();
   };
 
-   // delete  
-   const handleDelCompanyPolicies = React.useCallback(
+  // delete
+  const handleDelCompanyPolicies = React.useCallback(
     (companyPolicyId) => {
       delCompanyPolicies(companyPolicyId);
     },
@@ -148,13 +171,75 @@ const CompanyPolicies = (props) => {
   }, [setIsOpenListView, setIsOpenForm]);
 
   // customer hook.
-  const { thead, trow } =   useComapnyPolicyTable(
+  const { thead, trow } = useComapnyPolicyTable(
     companyPolicyArray,
     policyDepartment,
     handleDelCompanyPolicies,
     handleEditCompanyPolicies,
     onClickToggleFromTable
   );
+  // add form validation.
+  const formValidationOnSubmitAdd = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      policyName: {
+        required: true,
+        isValid: true,
+        value: policyName,
+        errorMessage: "",
+      },
+      departmentId: {
+        required: true,
+        isValid: true,
+        value: departmentId,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  // update form validation.
+  const formValidationOnSubmitUpdate = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      policyName: {
+        required: true,
+        isValid: true,
+        value: selectedCompanyPolicies.val.policyName,
+        errorMessage: "",
+      },
+      departmentId: {
+        required: true,
+        isValid: true,
+        value: String(selectedCompanyPolicies.val.departmentId),
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const callBackAfterValidation = () => {
+    console.log("formValidation:", isFormValid);
+    if (isFormValid) {
+      // if form valid.
+      if (selectedCompanyPolicies.id !== "") {
+        updateCompanyPolicies(selectedCompanyPolicies.val);
+        setselectedCompanyPolicies({ id: "", val: "" });
+        toggle();
+      } else {
+        let formData = {
+          policyName: policyName,
+          description: policyDescription,
+          departmentId: parseInt(departmentId),
+          uploadPolicy: policyFile,
+        };
+        addCompanyPolicies(formData);
+        toggle();
+      }
+    }
+  };
 
   return (
     <div>
@@ -198,7 +283,9 @@ const CompanyPolicies = (props) => {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleUpdateComapanyPolicies}
+            // handleSubmit={handleUpdateComapanyPolicies}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedCompanyPolicies}
             button={"Update"}
             toggle={toggle}
@@ -206,7 +293,9 @@ const CompanyPolicies = (props) => {
         ) : (
           <FromFields
             inputFields={companyPolicyInputFields}
-            handleSubmit={handleAddCompanyPolicies}
+            // handleSubmit={handleAddCompanyPolicies}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>
@@ -215,7 +304,7 @@ const CompanyPolicies = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={companyPolicyArray}
-          displayData={{heading: "policyName", id: "companyPolicyId"}}
+          displayData={{ heading: "policyName", id: "companyPolicyId" }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setselectedCompanyPolicies({ id: "", val: "" })}
           handleDel={handleDelCompanyPolicies}
@@ -228,7 +317,7 @@ const CompanyPolicies = (props) => {
       </Collapse>
     </div>
   );
-}
+};
 
 CompanyPolicies.prototype = {
   getCompanyPolicies: PropTypes.func,

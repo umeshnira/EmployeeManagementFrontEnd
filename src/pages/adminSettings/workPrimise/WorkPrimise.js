@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Collapse, Row, Col, Button } from "reactstrap";
@@ -15,6 +15,7 @@ import {
   delWorkPrimise,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
 import TableWithSortPagtn from "../../../components/common/TableWithSortPagtn";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const WorkPrimise = (props) => {
   const {
@@ -26,12 +27,14 @@ const WorkPrimise = (props) => {
   const { workPrimisesList } = props.workPrimisesList;
   const [dataArr, setDataArr] = useState([]);
   const [workPrimise, setWorkPrimise] = useState("");
-
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
-
+  const [workPrimiseFormValidation, setworkPrimiseFormValidation] = useState(
+    {}
+  );
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
+  const callValidation = useRef(false);
 
   const [workPrimiseInpuFields, setWorkPrimiseInpuFields] = useState([
     {
@@ -59,20 +62,20 @@ const WorkPrimise = (props) => {
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    let tempObj = { id: selectedData.id, val: {} };
-    Object.keys(selectedData.val).map((key) =>
-      key === field
-        ? (tempObj.val[key] = val)
-        : (tempObj.val[key] = selectedData.val[key])
-    );
-    setSelectedData(tempObj);
+    let tempObj = selectedData; // for not mutating reducer state.
+    let updateObj = {
+      ...tempObj,
+      val: {
+        ...tempObj.val,
+        [field]: val,
+      },
+    };
+    setSelectedData(updateObj);
   };
   // toggle between the form a grid view and form .
-
   const toggle = () => {
     setIsOpenGridView(!isOpenGridView);
     setIsOpenForm(!isOpenForm);
-    // setSelectedData({})
   };
   //  on click the tile ,open the from with data filed.
   const handleEditClick = React.useCallback((val, id) => {
@@ -92,7 +95,6 @@ const WorkPrimise = (props) => {
   };
   const handleDataUpdate = (e) => {
     e.preventDefault();
-    console.log(selectedData.val);
     let formData = selectedData.val;
     updateWorkPrimise(formData);
     setSelectedData({ id: "", val: "" });
@@ -144,8 +146,70 @@ const WorkPrimise = (props) => {
     onClickToggleFromTable
   );
 
+  const { formValidation, isFormValid } = useFormValidation(
+    workPrimiseFormValidation
+  );
+
+  useEffect(() => {
+    callValidation.current && callBack();
+  }, [formValidation]);
+
+  const formValidationOnSubmitAdd = (e) => {
+    e.preventDefault();
+
+    let formValidationList = {
+      // key name should be same as the input field name.
+      workingPremiseType: {
+        required: true,
+        isValid: true,
+        value: workPrimise,
+        errorMessage: "",
+      },
+    };
+    setworkPrimiseFormValidation(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  // form validation on update form.
+  const formValidationOnSubmitUpdate = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      workingPremiseType: {
+        required: true,
+        isValid: true,
+        value: selectedData.val.workingPremiseType,
+        errorMessage: "",
+      },
+    };
+    setworkPrimiseFormValidation(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const callBack = () => {
+    if (isFormValid) {
+      // if form valid.
+      if (selectedData.id !== "") {
+        // updation.
+        console.log(selectedData.val);
+        let formData = selectedData.val;
+        updateWorkPrimise(formData);
+        setSelectedData({ id: "", val: "" });
+        toggle();
+      } else {
+        // add.
+        console.log(workPrimise);
+        let formData = {
+          workingPremiseType: workPrimise,
+          description: "",
+        };
+        addWorkPrimise(formData);
+        setWorkPrimise("");
+        toggle();
+      }
+    }
+  };
   return (
     <div>
+      {/* {console.log(formValidation)} */}
       <Row>
         <Col>
           <h3>Work Premise</h3>
@@ -157,7 +221,7 @@ const WorkPrimise = (props) => {
               className="btn-admin-settings float-right"
               onClick={toggleBtn}
             >
-              <i className="fas   fa-list "></i>
+              <i className="fas fa-list "></i>
             </Button>
           ) : (
             <Button
@@ -178,7 +242,9 @@ const WorkPrimise = (props) => {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleDataUpdate}
+            // handleSubmit={handleDataUpdate}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedData}
             button={"Update"}
             toggle={toggle}
@@ -186,7 +252,9 @@ const WorkPrimise = (props) => {
         ) : (
           <FromFields
             inputFields={workPrimiseInpuFields}
-            handleSubmit={handleDataAdd}
+            // handleSubmit={handleDataAdd}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>

@@ -13,7 +13,7 @@ let dayArr = [
 ];
 
 const FormAddHolidayCalender = (props) => {
-  const { inputFields } = props;
+  const { inputFields, formValidation } = props;
   const [calenderDate] = useState(new Date());
   const [date, setDate] = useState();
   const [day, setDay] = useState("");
@@ -29,8 +29,8 @@ const FormAddHolidayCalender = (props) => {
 
   useEffect(() => {
     if (props.formData !== undefined) {
-      let incomingDate = new Date(props.formData.val.type2);
-      console.log(props.formData.val.type2);
+      let incomingDate = new Date(props.formData.val.holidayDate);
+      console.log(props.formData.val.holidayDate);
 
       console.log(incomingDate.getDate());
       setDate(incomingDate.getDate());
@@ -57,9 +57,19 @@ const FormAddHolidayCalender = (props) => {
                         placeholder={inputField.placeholder}
                         onChange={(e) => {
                           inputField.handleOnChange(e.target.value);
+                          props.handleOnchangeToSelectedData(
+                            e.target.value,
+                            inputField.name
+                          );
                         }}
                         value={props.formData.val[inputField.name]}
                       />
+                      {Object.keys(formValidation).length !== 0 &&
+                        !formValidation?.[inputField.name]?.isValid && (
+                          <span className=" " style={{ color: "red" }}>
+                            {formValidation?.[inputField.name]?.errorMessage}
+                          </span>
+                        )}
                     </FormGroup>
                   );
                 })
@@ -75,6 +85,12 @@ const FormAddHolidayCalender = (props) => {
                     disabled
                     // value={props.formData ? props.formData.val[val.name] : null}
                   />
+                  {Object.keys(formValidation).length !== 0 &&
+                    !formValidation?.date?.isValid && (
+                      <span className=" " style={{ color: "red" }}>
+                        {formValidation?.date?.errorMessage}
+                      </span>
+                    )}
                 </FormGroup>
               </Col>
               <Col md={4}>

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const FormEditFields = (props) => {
-  const { inputFields } = props;
+  const { inputFields, formValidation } = props;
   return (
-    <Form>
+    <Form onSubmit={props.handleSubmit}>
       {inputFields !== undefined
         ? inputFields.map((val, i) => {
             return (
@@ -54,11 +54,28 @@ const FormEditFields = (props) => {
                       }}
                     >
                       {val.option.map((el, i) => (
-                        <option key={i} value={el[val.displayData["id"]]} selected={parseInt(el[val.displayData["id"]]) === parseInt(props.formData.val.departmentId)? true : false} >{el[val.displayData["selectedData"]]}</option>
+                        <option
+                          key={i}
+                          value={el[val.displayData["id"]]}
+                          selected={
+                            parseInt(el[val.displayData["id"]]) ===
+                            parseInt(props.formData.val.departmentId)
+                              ? true
+                              : false
+                          }
+                        >
+                          {el[val.displayData["selectedData"]]}
+                        </option>
                       ))}
                     </Input>
                   </Fragment>
                 ) : null}
+                {Object.keys(formValidation)?.length !== 0 &&
+                  !formValidation?.[val.name]?.isValid && (
+                    <span className=" " style={{ color: "red" }}>
+                      {formValidation?.[val.name]?.errorMessage}
+                    </span>
+                  )}
               </FormGroup>
             );
           })

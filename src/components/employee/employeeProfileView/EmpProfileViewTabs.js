@@ -8,16 +8,23 @@ import {
 } from "../../../redux/actions/employee/employee.action";
 
 import classnames from "classnames";
-import { TabProfile } from "./TabProfile";
+import TabProfile from "./TabProfile";
 import { TabProjects } from "./TabProjects";
 import { TabCertification } from "./TabCertification";
 import { TabSkill } from "./TabSkill";
 import { TabRewards } from "./TabRewards";
 
 const EmpProfileViewTabs = React.memo((props) => {
+  let empId = props.match.params.empId;
+
   const { delCertificateEmp, addEmpSkill } = props;
 
-  const { selectEmp, empCertificate, empSkill } = props.selectEmp;
+  const {
+    selectEmp,
+    empCertificate,
+    empSkill,
+    empeducationalInfo,
+  } = props.selectEmp;
   const { projectList } = props.projectList;
 
   const [activeTab, setActiveTab] = useState("profile");
@@ -100,10 +107,17 @@ const EmpProfileViewTabs = React.memo((props) => {
       </Nav>
       <TabContent activeTab={activeTab} className="mt-2">
         <TabPane tabId="profile">
-          <TabProfile selectEmp={selectEmp} educationalInfo={empeducationalInfo} employeeId={empId}></TabProfile>
+          <TabProfile
+            selectEmp={selectEmp}
+            educationalInfo={empeducationalInfo}
+            employeeId={empId}
+          ></TabProfile>
         </TabPane>
         <TabPane tabId="projects">
-          <TabProjects projectList={projectList} employeeId={empId}></TabProjects>
+          <TabProjects
+            projectList={projectList}
+            employeeId={empId}
+          ></TabProjects>
         </TabPane>
         <TabPane tabId="skills">
           <TabSkill empSkill={empSkill} addSkill={handleAddEmpSkill}></TabSkill>

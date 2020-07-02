@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const FormFields = React.memo((props) => {
-  const { inputFields } = props;
+  const { inputFields, formValidation } = props;
   const [inputFieldsArr, setInputFieldsArr] = useState(null);
 
   return (
@@ -11,10 +11,8 @@ const FormFields = React.memo((props) => {
         ? inputFields.map((val, i) => {
             return (
               <FormGroup key={i}>
-                {console.log(val.value)}
-                {/* {console.log(props.formData.val[val.name])} */}
                 <Label>{val.label}</Label>
-                {/* if input field is a file then */}
+                {/* if input field is a text or number then */}
                 {val.type === "text" || val.type === "number" ? (
                   <Input
                     type={val.type}
@@ -47,11 +45,19 @@ const FormFields = React.memo((props) => {
                     >
                       <option value="">----Select----</option>
                       {val.option.map((el, i) => (
-                        <option key={i} value={el[val.displayData["id"]]}>{el[val.displayData["selectedData"]]}</option>
+                        <option key={i} value={el[val.displayData["id"]]}>
+                          {el[val.displayData["selectedData"]]}
+                        </option>
                       ))}
                     </Input>
                   </Fragment>
                 ) : null}
+                {Object.keys(formValidation)?.length !== 0 &&
+                  !formValidation?.[val.name]?.isValid && (
+                    <span className=" " style={{ color: "red" }}>
+                      {formValidation?.[val.name]?.errorMessage}
+                    </span>
+                  )}
               </FormGroup>
             );
           })

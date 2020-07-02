@@ -12,6 +12,9 @@ import { processRewardsWatchFun } from "./processRewards.saga";
 import { assetWatchFun } from "./adminSettings/asset.saga";
 import { employeetypeWatchFun } from "./adminSettings/employeetype.saga";
 import { itemsWatchFunc } from "./adminSettings/items.saga";
+import { holidaycalendarWatchFun } from "./adminSettings/holidaycalendar.saga";
+import { leavetypeWatchFun } from "./adminSettings/leavetype.saga";
+import { companypolicyWatchFun } from "./adminSettings/companypolicy.saga";
 
 export default function* rootSaga() {
   yield all([
@@ -27,5 +30,8 @@ export default function* rootSaga() {
     itemsWatchFunc(),
     assetWatchFun(),
     employeetypeWatchFun(),
+    holidaycalendarWatchFun(),
+    leavetypeWatchFun(),
+    companypolicyWatchFun(),
   ]);
 }

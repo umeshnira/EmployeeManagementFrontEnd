@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import SelectBoxSearch from "../../common/SelectBoxSearch";
+import useFormValidation from "../../common/useFormValidation";
 
 const FormAddEditAssetItem = React.memo((props) => {
-  const { selectedItem, selectedAsset, userList } = props;
+  const {
+    selectedItem,
+    selectedAsset,
+    userList,
+    handleAddAsset,
+    handleUpdateAsset,
+  } = props;
   const [itemNo, setItemNo] = useState(0);
   const [itemModel, setItemModel] = useState("");
   const [itemUniqueId, setItemUniqueId] = useState("");
@@ -11,13 +18,24 @@ const FormAddEditAssetItem = React.memo((props) => {
   const [itemUser, setItemUser] = useState(0);
   const [warrantyEndDate, setWarrantyEndDate] = useState("");
   const [warrentyFile, setWarrentyFile] = useState("");
-
   const [purchaseDate, setPurchaseDate] = useState("");
   const [vendor, setVendor] = useState("");
+  // for item inside asset.
+  const [
+    formValidationStateAssetItem,
+    setFormValidationStateAssetItem,
+  ] = useState({});
+  const callValidationAssetItem = useRef(false);
+
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationStateAssetItem
+  ); // for item inside asset.
+  useEffect(() => {
+    // calls when asset item's add&edit form is submited.
+    callValidationAssetItem.current && callBackAfterValidationAssetItem();
+  }, [formValidation]);
 
   useEffect(() => {
-    // console.log(selectedItem);
-
     if (selectedAsset !== "") {
       setItemNo(selectedAsset.itemNo);
       setItemModel(selectedAsset.itemModel);
@@ -31,6 +49,7 @@ const FormAddEditAssetItem = React.memo((props) => {
       );
 
       setItemUser(assignedUser.legth >= 0 ? assignedUser[0] : 0); // set user to search select box, took index cuz only one value will be there.
+      setWarrentyFile(selectedAsset.WarrantyFileUpload);
     } else {
       setItemNo(0);
       setItemModel("");
@@ -48,12 +67,12 @@ const FormAddEditAssetItem = React.memo((props) => {
   }, [selectedItem, selectedAsset, userList]);
 
   // function
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = React.useCallback(() => {
+    // e.preventDefault();
 
     let AssetFormData = new FormData();
     AssetFormData.set("itemNo", itemNo);
-    AssetFormData.set(" itemId ", props.selectedItem.itemId);
+    AssetFormData.set("itemId", selectedItem.itemId);
     AssetFormData.set("itemModel", itemModel);
     AssetFormData.set("uniqueIdentificationNumber", itemUniqueId);
     AssetFormData.set("modelNo", itemModelNo);
@@ -84,12 +103,59 @@ const FormAddEditAssetItem = React.memo((props) => {
     // };
 
     if (selectedAsset !== "") {
-      props.handleUpdateAsset(AssetFormData);
+      handleUpdateAsset(AssetFormData);
     } else {
       console.log(AssetFormData);
-      props.handleAddAsset(AssetFormData);
+      handleAddAsset(AssetFormData);
     }
-  };
+  }, [
+    itemModel,
+    itemNo,
+    itemModelNo,
+    itemUniqueId,
+    itemUser,
+    // props,
+    selectedItem,
+    handleAddAsset,
+    handleUpdateAsset,
+    purchaseDate,
+    selectedAsset,
+    vendor,
+    warrantyEndDate,
+    warrentyFile,
+  ]);
+  // asset item valdation's and ADD&EDIT call.
+  const formValidationOnSubmitAddAssetItem = React.useCallback(
+    (e) => {
+      e.preventDefault();
+      let formValidationList = {
+        // key name should be same as the input field name to represtent in form.
+        itemModel: {
+          required: true,
+          isValid: true,
+          value: itemModel,
+          errorMessage: "",
+        },
+        itemUniqueId: {
+          required: true,
+          isValid: true,
+          value: itemUniqueId,
+          errorMessage: "",
+        },
+      };
+      setFormValidationStateAssetItem(formValidationList); //this set call the custom hook useFormValidation.
+      callValidationAssetItem.current = true;
+    },
+    [itemModel, itemUniqueId]
+  );
+
+  // asset add after validation.
+  const callBackAfterValidationAssetItem = React.useCallback(() => {
+    if (isFormValid) {
+      // if form valid.
+      handleFormSubmit();
+    }
+  }, [isFormValid, handleFormSubmit]);
 
   return (
     <Form>
@@ -117,6 +183,14 @@ const FormAddEditAssetItem = React.memo((props) => {
               value={itemModel}
               onChange={(e) => setItemModel(e.target.value)}
             />
+            {
+              // Object.keys(formValidation).length !== 0 &&
+              !formValidation?.itemModel?.isValid && (
+                <span className=" " style={{ color: "red" }}>
+                  {formValidation?.itemModel?.errorMessage}
+                </span>
+              )
+            }
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -129,6 +203,14 @@ const FormAddEditAssetItem = React.memo((props) => {
               value={itemUniqueId}
               onChange={(e) => setItemUniqueId(e.target.value)}
             />
+            {
+              // Object.keys(formValidation).length !== 0 &&
+              !formValidation?.itemUniqueId?.isValid && (
+                <span className=" " style={{ color: "red" }}>
+                  {formValidation?.itemUniqueId?.errorMessage}
+                </span>
+              )
+            }
           </FormGroup>
         </Col>
       </Row>
@@ -212,7 +294,8 @@ const FormAddEditAssetItem = React.memo((props) => {
             type="submit"
             color=""
             className="btn-admin-settings"
-            onClick={handleFormSubmit}
+            // onClick={handleFormSubmit}
+            onClick={formValidationOnSubmitAddAssetItem}
           >
             {selectedAsset !== "" ? "Update" : "Add"}
           </Button>

@@ -13,36 +13,38 @@ let dayArr = [
 ];
 
 const FormAddHolidayCalender = (props) => {
-  const { inputFields } = props;
+  const { inputFields, formValidation } = props;
   const [calenderDate] = useState(new Date());
-  const [date, setDate] = useState();
-  const [day, setDay] = useState("");
-  const [year, setYear] = useState("");
+  // const [date, setDate] = useState();
+  // const [day, setDay] = useState("");
+  // const [year, setYear] = useState("");
 
-  const onChange = (date) => {
-    // setDate(date);
-    setDate(date.getDate());
-    setDay(dayArr[date.getDay()]);
-    setYear(date.getFullYear());
-    props.handleOnchangeDate(date);
-  };
+  // const onChange = (date) => {
+  //   // setDate(date);
+  //   setDate(date.getDate());
+  //   setDay(dayArr[date.getDay()]);
+  //   setYear(date.getFullYear());
+  //   props.handleOnchangeDate(date);
+  // };
 
-  useEffect(() => {
-    if (props.formData !== undefined) {
-      let incomingDate = new Date(props.formData.val.type2);
-
-      setDate(incomingDate.getDate());
-      setDay(dayArr[incomingDate.getDay()]);
-      setYear(incomingDate.getFullYear());
-    }
-  }, [props.formData]);
+  // useEffect(() => {
+  //   if (props.formData !== undefined) {
+  //     let incomingDate = new Date(props.formData.val.type2);
+  //     setDate(incomingDate.getDate());
+  //     setDay(dayArr[incomingDate.getDay()]);
+  //     setYear(incomingDate.getFullYear());
+  //   }
+  // }, [props.formData]);
 
   return (
     <Fragment>
-      <Form>
+      <Form onSubmit={props.handleSubmit}>
         <Row form>
           <Col md={4}>
-            <Calendar onChange={onChange} value={calenderDate} />
+            <Calendar
+              onChange={(date) => props.handleOnchangeDate(date)}
+              value={calenderDate}
+            />
           </Col>
           <Col md={8}>
             {inputFields !== undefined
@@ -62,6 +64,12 @@ const FormAddHolidayCalender = (props) => {
                             : null
                         }
                       />
+                      {Object.keys(formValidation).length !== 0 &&
+                        !formValidation?.[inputField.name]?.isValid && (
+                          <span className=" " style={{ color: "red" }}>
+                            {formValidation?.[inputField.name]?.errorMessage}
+                          </span>
+                        )}
                     </FormGroup>
                   );
                 })
@@ -73,10 +81,18 @@ const FormAddHolidayCalender = (props) => {
                   <Input
                     type="text"
                     placeholder="Select Date"
-                    value={date}
+                    // value={date}
+                    value={props.calenderDate.date}
                     disabled
+                    required
                     // value={props.formData ? props.formData.val[val.name] : null}
                   />
+                  {Object.keys(formValidation).length !== 0 &&
+                    !formValidation?.date?.isValid && (
+                      <span className=" " style={{ color: "red" }}>
+                        {formValidation?.date?.errorMessage}
+                      </span>
+                    )}
                 </FormGroup>
               </Col>
               <Col md={4}>
@@ -85,7 +101,8 @@ const FormAddHolidayCalender = (props) => {
                   <Input
                     type="text"
                     placeholder="Select Date"
-                    value={day}
+                    // value={day}
+                    value={props.calenderDate.day}
                     disabled
                     // value={props.formData ? props.formData.val[val.name] : null}
                   />
@@ -97,18 +114,15 @@ const FormAddHolidayCalender = (props) => {
                   <Input
                     type="text"
                     placeholder="Select Date"
-                    value={year}
+                    // value={year}
+                    value={props.calenderDate.year}
                     disabled
                     // value={props.formData ? props.formData.val[val.name] : null}
                   />
                 </FormGroup>
               </Col>
             </Row>
-            <Button
-              color=""
-              className="btn-admin-settings"
-              onClick={props.handleSubmit}
-            >
+            <Button type="submit" color="" className="btn-admin-settings">
               {props.button}
             </Button>{" "}
             &nbsp;

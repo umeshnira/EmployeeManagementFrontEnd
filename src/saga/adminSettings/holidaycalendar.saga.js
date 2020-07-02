@@ -1,21 +1,21 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
-   GET_HOLIDAY_CALENDAR,
-   ADD_HOLIDAY_CALENDAR,
-   UPDATE_HOLIDAY_CALENDAR,
-   DELETE_HOLIDAY_CALENDAR,
-    GET_HOLIDAY_CALENDAR_SUCCESS,
-    ADD_HOLIDAY_CALENDAR_SUCCESS,
-    UPDATE_HOLIDAY_CALENDAR_SUCCESS,
-    DELETE_HOLIDAY_CALENDAR_SUCCESS,
+  GET_HOLIDAY_CALENDAR,
+  ADD_HOLIDAY_CALENDAR,
+  UPDATE_HOLIDAY_CALENDAR,
+  DELETE_HOLIDAY_CALENDAR,
+  GET_HOLIDAY_CALENDAR_SUCCESS,
+  ADD_HOLIDAY_CALENDAR_SUCCESS,
+  UPDATE_HOLIDAY_CALENDAR_SUCCESS,
+  DELETE_HOLIDAY_CALENDAR_SUCCESS,
 } from "../../redux/actions/actionType";
 import api from "../../apis/api";
 
 // api function.
-function getHolidayCalendarApi()  {
+function getHolidayCalendarApi() {
   // api for get employeetype
- const response = api.dbcalendar().GetHolidayCalendarList();
-    return response;
+  const response = api.dbcalendar().GetHolidayCalendarList();
+  return response;
 }
 function addHolidayCalendarApi(formData) {
   // api for add  employeetype.
@@ -34,6 +34,7 @@ function delHolidayCalendarApi(delId) {
 export function* handleGetHolidayCalendar() {
   try {
     const response = yield call(getHolidayCalendarApi);
+    console.log(response.data);
     yield put({ type: GET_HOLIDAY_CALENDAR_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);

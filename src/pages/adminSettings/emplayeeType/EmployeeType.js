@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Collapse, Row, Col, Button } from "reactstrap";
 import {
   GridView,
@@ -6,20 +6,21 @@ import {
   FromFields,
   FromEditFields,
 } from "../../../components/adminSettings/index";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const employeeArr = [
   {
-    type1: "Contract", // Employee Type
+    employeeType: "Contract", // Employee Type
     // type2: "manager",
   },
   {
-    type1: "Permanent", //  Employee Type
+    employeeType: "Permanent", //  Employee Type
   },
   {
-    type1: "Part Time", //  Employee Type
+    employeeType: "Part Time", //  Employee Type
   },
   {
-    type1: "Resigned", //  Employee Type
+    employeeType: "Resigned", //  Employee Type
   },
 ];
 
@@ -29,24 +30,33 @@ const thead = [" Employee Type"];
 export default function EmployeeType() {
   const [dataArr] = useState(employeeArr);
   const [employeeType, setEmployeeType] = useState("");
-
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
-
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
-
   const [employeeTypeInpuFields] = useState([
     {
       label: "Employee Type",
       type: "text",
       placeholder: "Enter Employee Type",
-      name: "type1", // this name should be equal to the designation array key's.
+      name: "employeeType", // this name should be equal to the designation array key's.
       handleOnChange: (val) => {
         setEmployeeType(val);
       },
     },
   ]);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidation = useRef(false);
+
+  // custom hook.
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationState
+  );
+
+  useEffect(() => {
+    console.log("in change useEffect");
+    callValidation.current && callBackAfterValidation();
+  }, [formValidation]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -79,6 +89,50 @@ export default function EmployeeType() {
     console.log(employeeType);
     setSelectedData({ id: "", val: "" });
     toggle();
+  };
+
+  const formValidationOnSubmitAdd = () => {
+    let formValidationList = {
+      // key name should be same as the input field name.
+      employeeType: {
+        required: true,
+        isValid: true,
+        value: "",
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+
+  const formValidationOnSubmitUpdate = () => {
+    let formValidationList = {
+      // key name should be same as the input field name.
+      employeeType: {
+        required: true,
+        isValid: true,
+        value: selectedData.val.employeeType,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const callBackAfterValidation = () => {
+    console.log("formValidation:", isFormValid);
+    if (isFormValid) {
+      // if form valid.
+      if (selectedData.id !== "") {
+        // update
+        console.log("updated", employeeType);
+        setSelectedData({ id: "", val: "" });
+        toggle();
+      } else {
+        // add
+        console.log("add", employeeType);
+        toggle();
+      }
+    }
   };
 
   return (
@@ -123,7 +177,9 @@ export default function EmployeeType() {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleDataUpdate}
+            // handleSubmit={handleDataUpdate}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedData}
             button={"Update"}
             toggle={toggle}
@@ -131,7 +187,9 @@ export default function EmployeeType() {
         ) : (
           <FromFields
             inputFields={employeeTypeInpuFields}
-            handleSubmit={handleDataAdd}
+            // handleSubmit={handleDataAdd}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>

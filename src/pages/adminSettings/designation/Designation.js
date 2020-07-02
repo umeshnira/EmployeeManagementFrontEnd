@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
@@ -7,7 +7,6 @@ import {
   GridView,
   FromFields,
   FromEditFields,
-  ListView,
   useDesignationTableEle,
 } from "../../../components/adminSettings/index";
 import {
@@ -17,7 +16,7 @@ import {
   delDesignation,
   getDepartment,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
-
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const Designation = (props) => {
   const {
@@ -27,27 +26,25 @@ const Designation = (props) => {
     delDesignation,
     getDepartment,
   } = props;
-  const { designations,departments } = props.designations;
+  const { designations, departments } = props.designations;
 
   const [designationArr, setDesignationArray] = useState([]);
   const [designation, setDesignation] = useState("");
   const [departmentId, setDepartmentId] = useState("");
-
   const [selectedDesg, setSelectedDesg] = useState({ id: "", val: "" });
-
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
-
   const [departmentArray, setDepartmentArray] = useState([]);
-
-  const [desgnationInpuFields,setDesignationInputFields ] = useState([]);
+  const [desgnationInpuFields, setDesignationInputFields] = useState([]);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidation = useRef(false);
 
   // call the designation data
   useEffect(() => {
     getDesignation();
     getDepartment();
-  }, [getDesignation,getDepartment]);
+  }, [getDesignation, getDepartment]);
 
   // to set the designation data from reducer.
   useEffect(() => {
@@ -67,14 +64,23 @@ const Designation = (props) => {
         label: "Department Name",
         type: "select",
         option: departments,
-        displayData: {selectedData:"departmentName", id:"departmentId"},
+        displayData: { selectedData: "departmentName", id: "departmentId" },
         name: "departmentId", // this name should be equal to the data array key's name.
         handleOnChange: (val) => {
           setDepartmentId(val);
         },
       },
     ]);
-  }, [designations,departments]);
+  }, [designations, departments]);
+  // custom hook.
+
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationState
+  );
+
+  useEffect(() => {
+    callValidation.current && callBackAfterValidation();
+  }, [formValidation]);
 
   // Function -------------------
   // on change in text field for updating, then from FormField component
@@ -82,22 +88,29 @@ const Designation = (props) => {
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
     let tempObj = selectedDesg; // for not mutating reducer state.
-    tempObj.val[field] = val;
-    setSelectedDesg(tempObj);
+    console.log(selectedDesg.val.departmentId);
+    let updatedObj = {
+      ...tempObj,
+      val: {
+        ...tempObj.val,
+        [field]: val,
+      },
+    };
+    setSelectedDesg(updatedObj);
     // change a particular key in the selected designation.
   };
-  // toggle between the form a grid view and form .
 
+  // toggle between the form a grid view and form .
   const toggle = () => {
     // setSelectedDesg({ id: "", val: "" });
     setIsOpenGridView(!isOpenGridView);
     setIsOpenForm(!isOpenForm);
   };
   //  on click the tile open the from with data filed.
-  const handleEditDesignation =  React.useCallback((val, id) => {
+  const handleEditDesignation = React.useCallback((val, id) => {
     setSelectedDesg({ id: id, val: val });
     // toggle();
-  },[]);
+  }, []);
 
   const handleDesignationAdd = (e) => {
     e.preventDefault();
@@ -114,7 +127,7 @@ const Designation = (props) => {
       designationId: selectedDesg.val.designationId,
       designationName: selectedDesg.val.designationName,
       departmentId: parseInt(selectedDesg.val.departmentId),
-      departmentList:[],
+      departmentList: [],
     };
     updateDesignation(formData);
     setSelectedDesg({ id: "", val: "" });
@@ -127,7 +140,7 @@ const Designation = (props) => {
     },
     [delDesignation]
   );
-  
+
   const onClickToggleFromTable = React.useCallback(() => {
     setIsOpenListView((prevState) => !prevState);
     setIsOpenForm((prevState) => !prevState);
@@ -141,6 +154,75 @@ const Designation = (props) => {
     handleEditDesignation,
     onClickToggleFromTable
   );
+
+  // Validation on add form Add.
+  const formValidationOnSubmitAdd = () => {
+    let formValidationList = {
+      // key name should be same as the input field name.
+      designationName: {
+        required: true,
+        isValid: true,
+        value: designation,
+        errorMessage: "",
+      },
+      departmentId: {
+        required: true,
+        isValid: true,
+        value: departmentId,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  // Validation on add form Add.
+  const formValidationOnSubmitUpdate = () => {
+    let formValidationList = {
+      // key name should be same as the input field name.
+      designationName: {
+        required: true,
+        isValid: true,
+        value: selectedDesg.val.designationName,
+        errorMessage: "",
+      },
+      departmentId: {
+        required: true,
+        isValid: true,
+        value: String(selectedDesg.val.departmentId),
+        // value: "",
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+
+  const callBackAfterValidation = () => {
+    console.log("formValidation:", isFormValid);
+    if (isFormValid) {
+      // if form valid.
+      if (selectedDesg.id !== "") {
+        // update.
+        let formData = {
+          designationId: selectedDesg.val.designationId,
+          designationName: selectedDesg.val.designationName,
+          departmentId: parseInt(selectedDesg.val.departmentId),
+          departmentList: [],
+        };
+        updateDesignation(formData);
+        setSelectedDesg({ id: "", val: "" });
+        toggle();
+      } else {
+        // add.
+        let formData = {
+          designationName: designation,
+          departmentId: parseInt(departmentId),
+        };
+        addDesignation(formData);
+        toggle();
+      }
+    }
+  };
 
   return (
     <div>
@@ -184,7 +266,9 @@ const Designation = (props) => {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleDesignationUpdate}
+            // handleSubmit={handleDesignationUpdate}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedDesg}
             button={"Update"}
             toggle={toggle}
@@ -192,7 +276,9 @@ const Designation = (props) => {
         ) : (
           <FromFields
             inputFields={desgnationInpuFields}
-            handleSubmit={handleDesignationAdd}
+            // handleSubmit={handleDesignationAdd}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>
@@ -201,7 +287,7 @@ const Designation = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={designationArr}
-          displayData={{heading: "designationName", id: "designationId"}}
+          displayData={{ heading: "designationName", id: "designationId" }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedDesg({ id: "", val: "" })}
           handleDel={handleDelDesignation}
@@ -232,5 +318,5 @@ export default connect(mapStateToProps, {
   addDesignation,
   updateDesignation,
   delDesignation,
-  getDepartment
+  getDepartment,
 })(Designation);

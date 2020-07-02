@@ -12,6 +12,7 @@ import {
   addEmp,
   updateEmp,
   delEmp,
+  getQualification,
 } from "../../redux/actions/employee/employee.action";
 import {
   getDesignation,
@@ -29,6 +30,8 @@ const EmployeeList = (props) => {
     addEmp,
     updateEmp,
     delEmp,
+    getQualification,
+
     getDesignation,
     getDepartment,
     getOfficeLocation,
@@ -36,7 +39,7 @@ const EmployeeList = (props) => {
     getEmployeeTypeList,
   } = props;
 
-  const { empList } = props.empList;
+  const { empList, qualification } = props.empList;
   const {
     designations,
     departments,
@@ -61,6 +64,7 @@ const EmployeeList = (props) => {
     getEmpList();
     getDesignation();
     getDepartment();
+    getQualification();
     getOfficeLocation();
     getWorkPrimise();
     getEmployeeTypeList();
@@ -189,11 +193,13 @@ const EmployeeList = (props) => {
         {/* Add & edit employee form.------------------------ */}
         <Collapse isOpen={isOpenAddForm}>
           <EmployeeAddEditForm
+            {...props}
             handleAddEmp={handleAddEmp}
             handleUpdateEmp={handleUpdateEmp}
             toggle={toogleFromEmployeeAddForm}
             selectedEmployee={selectedEmployee}
             designations={designations}
+            qualification={qualification}
             departments={departments}
             officeLocationList={officeLocation}
             workPrimisesList={workPrimisesList}
@@ -215,6 +221,7 @@ export default connect(mapStateToProps, {
   getEmpList,
   addEmp,
   delEmp,
+  getQualification,
   getDepartment,
   getDesignation,
   getOfficeLocation,

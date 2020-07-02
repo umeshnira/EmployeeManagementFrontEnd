@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
@@ -14,6 +14,7 @@ import {
   FromFields,
   FromEditFields,
 } from "../../../components/adminSettings/index";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 // Data for  list view.
 const thead = ["reward Type", "reward Points"];
@@ -24,9 +25,7 @@ const Reward = (props) => {
   const [dataArr, setDataArr] = useState([]);
   const [rewardDescription, setRewardDescription] = useState("");
   const [rewardPoint, setRewardPoint] = useState("");
-
   const [selectedData, setSelectedData] = useState({ id: "", val: "" });
-
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -51,6 +50,17 @@ const Reward = (props) => {
       },
     },
   ]);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidation = useRef(false);
+
+  // custom hook.
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationState
+  );
+
+  useEffect(() => {
+    callValidation.current && callBackAfterValidation();
+  }, [formValidation]);
 
   useEffect(() => {
     getRewards();
@@ -69,15 +79,18 @@ const Reward = (props) => {
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
-    // selectedData.val[field] = val; // change a particular key in the selected designation.
-    // setSelectedDesg(selectedDesg);
-    let tempObj = { id: selectedData.id, val: {} };
-    Object.keys(selectedData.val).map((key) =>
-      key === field
-        ? (tempObj.val[key] = val)
-        : (tempObj.val[key] = selectedData.val[key])
-    );
-    setSelectedData(tempObj);
+    let tempObj = selectedData;
+    console.log(selectedData);
+    let updateObj = {
+      ...tempObj,
+      val: {
+        ...tempObj.val,
+        [field]: val,
+      },
+    };
+    console.log(updateObj);
+
+    setSelectedData(updateObj);
   };
   // toggle between the form a grid view and form .
 
@@ -106,7 +119,7 @@ const Reward = (props) => {
   const handleDataUpdate = (e) => {
     e.preventDefault();
     console.log(selectedData);
-    // convcert the ponts from string to float.
+    // convert the ponts from string to float.
     selectedData.val["rewardPoints"] = parseFloat(
       selectedData.val["rewardPoints"]
     );
@@ -121,6 +134,72 @@ const Reward = (props) => {
     },
     [delRewards]
   );
+  // on form Add.
+  const formValidationOnSubmitAdd = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      rewardType: {
+        required: true,
+        isValid: true,
+        value: rewardDescription,
+        errorMessage: "",
+      },
+      rewardPoints: {
+        required: true,
+        isValid: true,
+        value: rewardPoint,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+
+  // on form update.
+  const formValidationOnSubmitUpdate = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      rewardType: {
+        required: true,
+        isValid: true,
+        value: selectedData.val.rewardType,
+        errorMessage: "",
+      },
+      rewardPoints: {
+        required: true,
+        isValid: true,
+        value: String(selectedData.val.rewardPoints),
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const callBackAfterValidation = () => {
+    if (isFormValid) {
+      console.log("formValidation:", isFormValid);
+
+      // if form valid.
+      if (selectedData.id !== "") {
+        // convert the ponts from string to float.
+        selectedData.val["rewardPoints"] = parseFloat(
+          selectedData.val["rewardPoints"]
+        );
+        updateRewards(selectedData.val);
+        setSelectedData({ id: "", val: "" });
+        toggle();
+      } else {
+        let formData = {
+          rewardType: rewardDescription,
+          rewardPoints: parseFloat(rewardPoint),
+        };
+        addRewards(formData);
+        toggle();
+      }
+    }
+  };
 
   return (
     <div>
@@ -164,7 +243,9 @@ const Reward = (props) => {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleDataUpdate}
+            // handleSubmit={handleDataUpdate}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedData}
             button={"Update"}
             toggle={toggle}
@@ -172,7 +253,9 @@ const Reward = (props) => {
         ) : (
           <FromFields
             inputFields={employeeTypeInpuFields}
-            handleSubmit={handleDataAdd}
+            // handleSubmit={handleDataAdd}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>

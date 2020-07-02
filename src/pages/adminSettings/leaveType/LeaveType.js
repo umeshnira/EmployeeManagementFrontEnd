@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Collapse, Row, Col, Button } from "reactstrap";
@@ -7,7 +7,6 @@ import {
   GridView,
   FromFields,
   FromEditFields,
-  ListView,
   useLeaveTypeTable,
 } from "../../../components/adminSettings/index";
 import {
@@ -16,14 +15,10 @@ import {
   updateLeaves,
   delLeaves,
 } from "../../../redux/actions/adminSettings/adminSettings.action";
+import useFormValidation from "../../../components/common/useFormValidation";
 
 const Leaves = (props) => {
-  const {
-  getLeaves,
-  addLeaves,
-  updateLeaves,
-  delLeaves,
-  } = props;
+  const { getLeaves, addLeaves, updateLeaves, delLeaves } = props;
   const { leavetypes } = props.leavetypes;
 
   const [leavesArr, setleavesArr] = useState([]);
@@ -35,71 +30,91 @@ const Leaves = (props) => {
   const [leaveAppyPerYear, setLeaveAppyPerYear] = useState(0);
 
   const [selectedLeaves, setSelectedLeaves] = useState({ id: "", val: "" });
-  const [leaveTypeInputFields,setLeaveTypeInputFields] = useState([]);
+  const [leaveTypeInputFields, setLeaveTypeInputFields] = useState([]);
 
   const [isOpenGridView, setIsOpenGridView] = useState(true);
   const [isOpenListView, setIsOpenListView] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
+  const [formValidationState, setFormValidationState] = useState({});
+  const callValidation = useRef(false);
 
-     // call the employee type data
-     useEffect(() => {
-      getLeaves();
-    }, [getLeaves]);
-    
+  // custom hook.
+  const { formValidation, isFormValid } = useFormValidation(
+    formValidationState
+  );
+
+  useEffect(() => {
+    // calls when form submited`
+    callValidation.current && callBackAfterValidation();
+  }, [formValidation]);
+
+  // call the employee type data
+  useEffect(() => {
+    getLeaves();
+  }, [getLeaves]);
+
   // input fileds.
   useEffect(() => {
     setleavesArr(leavetypes);
     setLeaveTypeInputFields([
-    {
-      label: "Leave Types",
-      type: "text",
-      placeholder: "Enter Leave Type",
-      name: "leaveType", // this name should be equal to the leave type array key's.
-      handleOnChange: (val) => {
-        setLeaveType(val);
+      {
+        label: "Leave Types",
+        type: "text",
+        placeholder: "Enter Leave Type",
+        name: "leaveType", // this name should be equal to the leave type array key's.
+        handleOnChange: (val) => {
+          setLeaveType(val);
+        },
       },
-    },
-    {
-      label: "No of Leaves Per Year",
-      type: "number",
-      placeholder: "Enter No of Leaves Per year",
-      name: "noOfLeavesPerYear", // this name should be equal to the Leave array key's.
-      defaultValue: 0,
-      handleOnChange: (val) => {
-        setLeavePerYear(val);
+      {
+        label: "No of Leaves Per Year",
+        type: "number",
+        placeholder: "Enter No of Leaves Per year",
+        name: "noOfLeavesPerYear", // this name should be equal to the Leave array key's.
+        defaultValue: 0,
+        handleOnChange: (val) => {
+          setLeavePerYear(val);
+        },
       },
-    },
-    {
-      label: "No of Leaves Carry Forwarded",
-      type: "number",
-      placeholder: "Enter No of Leaves Carry Forwarded",
-      name: "noOfLeavesCarryForwarded", // this name should be equal to the Leave array key's.
-      defaultValue: 0,
-      handleOnChange: (val) => {
-        setLeaveCarryForwarded(val);
+      {
+        label: "No of Leaves Carry Forwarded",
+        type: "number",
+        placeholder: "Enter No of Leaves Carry Forwarded",
+        name: "noOfLeavesCarryForwarded", // this name should be equal to the Leave array key's.
+        defaultValue: 0,
+        handleOnChange: (val) => {
+          setLeaveCarryForwarded(val);
+        },
       },
-    },
-    {
-      label: "No of Leave Applied Per Year",
-      type: "number",
-      placeholder: "Enter No of Leave Applied Per Year",
-      name: "noOfLeavesAppliedPerYear", // this name should be equal to the Leave array key's.
-      defaultValue: 0,
-      handleOnChange: (val) => {
-        setLeaveAppyPerYear(val);
+      {
+        label: "No of Leave Applied Per Year",
+        type: "number",
+        placeholder: "Enter No of Leave Applied Per Year",
+        name: "noOfLeavesAppliedPerYear", // this name should be equal to the Leave array key's.
+        defaultValue: 0,
+        handleOnChange: (val) => {
+          setLeaveAppyPerYear(val);
+        },
       },
-    },
-  ]);
-}, [leavetypes]);
- 
+    ]);
+  }, [leavetypes]);
+
   // Function -------------------
   // on change in text field for updating, then from FormField component
   // onChange call this func and replace the value in selectedData by the key name
   // which we have assigned in the name in inputField state.
   const handleOnchangeToSelectedData = (val, field) => {
     let tempObj = selectedLeaves; // for not mutating reducer state.
-    tempObj.val[field] = val;
-    setSelectedLeaves(tempObj);
+    console.log(selectedLeaves);
+    let updateObj = {
+      ...tempObj,
+      val: {
+        ...tempObj.val,
+        [field]: val,
+      },
+    };
+
+    setSelectedLeaves(updateObj);
   };
   // toggle between the form a grid view and form .
 
@@ -109,11 +124,11 @@ const Leaves = (props) => {
     setIsOpenForm(!isOpenForm);
   };
 
-   //  on click the tile ,open the from with data filed.
-   const handleEditLeaves = React.useCallback((val, id) => {
+  //  on click the tile ,open the from with data filed.
+  const handleEditLeaves = React.useCallback((val, id) => {
     setSelectedLeaves({ id: id, val: val });
     // toggle();
-  },[]);
+  }, []);
 
   // handle the dropdown change in list view.
   const handleDropDownBtnOnChange = (val) => {
@@ -124,9 +139,11 @@ const Leaves = (props) => {
     e.preventDefault();
     let formData = {
       leaveType: leaveType,
-      noOfLeavesPerYear: leavePerYear !== "" ? parseFloat(leavePerYear): 0,
-      noOfLeavesCarryForwarded: leaveCarryForwarded !== "" ? parseFloat(leaveCarryForwarded): 0,
-      noOfLeavesAppliedPerYear: leaveAppyPerYear !== "" ? parseFloat(leaveAppyPerYear) : 0,
+      noOfLeavesPerYear: leavePerYear !== "" ? parseFloat(leavePerYear) : 0,
+      noOfLeavesCarryForwarded:
+        leaveCarryForwarded !== "" ? parseFloat(leaveCarryForwarded) : 0,
+      noOfLeavesAppliedPerYear:
+        leaveAppyPerYear !== "" ? parseFloat(leaveAppyPerYear) : 0,
     };
     addLeaves(formData);
     toggle();
@@ -138,26 +155,113 @@ const Leaves = (props) => {
     setSelectedLeaves({ id: "", val: "" });
     toggle();
   };
-    // delete 
-    const handleDelLeaves = React.useCallback(
-      (leaveTypeId) => {
-        delLeaves(leaveTypeId);
-      },
-      [delLeaves]
-    );
+  // delete
+  const handleDelLeaves = React.useCallback(
+    (leaveTypeId) => {
+      delLeaves(leaveTypeId);
+    },
+    [delLeaves]
+  );
 
-    const onClickToggleFromTable = React.useCallback(() => {
-      setIsOpenListView((prevState) => !prevState);
-      setIsOpenForm((prevState) => !prevState);
-    }, [setIsOpenListView, setIsOpenForm]);
-  
-    // customer hook.
-    const { thead, trow } =   useLeaveTypeTable(
-      leavesArr,
-      handleDelLeaves,
-      handleEditLeaves,
-      onClickToggleFromTable
-    );
+  const onClickToggleFromTable = React.useCallback(() => {
+    setIsOpenListView((prevState) => !prevState);
+    setIsOpenForm((prevState) => !prevState);
+  }, [setIsOpenListView, setIsOpenForm]);
+
+  // customer hook.
+  const { thead, trow } = useLeaveTypeTable(
+    leavesArr,
+    handleDelLeaves,
+    handleEditLeaves,
+    onClickToggleFromTable
+  );
+
+  const formValidationOnSubmitAdd = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      leaveType: {
+        required: true,
+        isValid: true,
+        value: leaveType,
+        errorMessage: "",
+      },
+      noOfLeavesPerYear: {
+        required: true,
+        isValid: true,
+        value: leavePerYear === 0 ? "" : leavePerYear,
+        errorMessage: "",
+      },
+      noOfLeavesCarryForwarded: {
+        required: true,
+        isValid: true,
+        value: leaveCarryForwarded === 0 ? "" : leaveCarryForwarded,
+        errorMessage: "",
+      },
+      noOfLeavesAppliedPerYear: {
+        required: true,
+        isValid: true,
+        value: leaveAppyPerYear === 0 ? "" : leaveAppyPerYear,
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const formValidationOnSubmitUpdate = (e) => {
+    e.preventDefault();
+    let formValidationList = {
+      // key name should be same as the input field name.
+      leaveType: {
+        required: true,
+        isValid: true,
+        value: selectedLeaves.val.leaveType,
+        errorMessage: "",
+      },
+      noOfLeavesPerYear: {
+        required: true,
+        isValid: true,
+        value: String(selectedLeaves.val.noOfLeavesPerYear),
+        errorMessage: "",
+      },
+      noOfLeavesCarryForwarded: {
+        required: true,
+        isValid: true,
+        value: String(selectedLeaves.val.noOfLeavesCarryForwarded),
+        errorMessage: "",
+      },
+      noOfLeavesAppliedPerYear: {
+        required: true,
+        isValid: true,
+        value: String(selectedLeaves.val.noOfLeavesAppliedPerYear),
+        errorMessage: "",
+      },
+    };
+    setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
+    callValidation.current = true;
+  };
+  const callBackAfterValidation = () => {
+    console.log("formValidation:", isFormValid);
+    if (isFormValid) {
+      // if form valid.
+      if (selectedLeaves.id !== "") {
+        updateLeaves(selectedLeaves.val);
+        setSelectedLeaves({ id: "", val: "" });
+        toggle();
+      } else {
+        let formData = {
+          leaveType: leaveType,
+          noOfLeavesPerYear: leavePerYear !== "" ? parseFloat(leavePerYear) : 0,
+          noOfLeavesCarryForwarded:
+            leaveCarryForwarded !== "" ? parseFloat(leaveCarryForwarded) : 0,
+          noOfLeavesAppliedPerYear:
+            leaveAppyPerYear !== "" ? parseFloat(leaveAppyPerYear) : 0,
+        };
+        addLeaves(formData);
+        toggle();
+      }
+    }
+  };
 
   return (
     <div>
@@ -201,7 +305,9 @@ const Leaves = (props) => {
             handleOnchangeToSelectedData={(val, field) =>
               handleOnchangeToSelectedData(val, field)
             }
-            handleSubmit={handleUpdateLeaves}
+            // handleSubmit={handleUpdateLeaves}
+            handleSubmit={formValidationOnSubmitUpdate}
+            formValidation={formValidation}
             formData={selectedLeaves}
             button={"Update"}
             toggle={toggle}
@@ -209,7 +315,9 @@ const Leaves = (props) => {
         ) : (
           <FromFields
             inputFields={leaveTypeInputFields}
-            handleSubmit={handleAddLeaves}
+            // handleSubmit={handleAddLeaves}
+            handleSubmit={formValidationOnSubmitAdd}
+            formValidation={formValidation}
             button={"Add"}
             toggle={toggle}
           ></FromFields>
@@ -218,7 +326,7 @@ const Leaves = (props) => {
       <Collapse isOpen={isOpenGridView}>
         <GridView
           pagaData={leavesArr}
-          displayData={{heading: "leaveType", id: "leaveTypeId"}}
+          displayData={{ heading: "leaveType", id: "leaveTypeId" }}
           isOpenGridView={isOpenGridView}
           emptyFormField={() => setSelectedLeaves({ id: "", val: "" })}
           handleDel={handleDelLeaves}
@@ -231,7 +339,7 @@ const Leaves = (props) => {
       </Collapse>
     </div>
   );
-}
+};
 
 Leaves.prototype = {
   getLeaves: PropTypes.func,
