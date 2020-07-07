@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Card, CardBody, Row, Col, Collapse, Button } from "reactstrap";
 
+const pointsToRedeem = 4000;
+
 export const TopCardReward = React.memo(({ selectEmp }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +20,7 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                     {/* <a href="#"> */}
                     <img
                       alt=""
-                      src={require(`../../../img/employee/${selectEmp.value.profileImg}`)}
+                      src={require(`../../../img/employee/${selectEmp.value.profilePicture}`)}
                     />
                     {/* </a> */}
                   </div>
@@ -67,32 +69,6 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                         </Col>
                       </Row>
 
-                      {/* <ul className="personal-info">
-                        <li>
-                          <div className="title">
-                            Total Reward Points Achieved
-                          </div>
-                          <div className="text">
-                            <span className="">4000</span>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="title">
-                            Total Reward Points Redeemed
-                          </div>
-                          <div className="text">
-                            <span className="">12000</span>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="title">
-                            Total Reward Points Need to Redeem
-                          </div>
-                          <div className="text">
-                            <span className="link-text">8000</span>
-                          </div>
-                        </li>
-                      </ul> */}
                       <Collapse isOpen={isOpen}>
                         <hr></hr>
                         <span
@@ -108,6 +84,7 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                           <Button
                             outline
                             color="info"
+                            disabled={pointsToRedeem >= 8000 ? false : true}
                             style={{ width: "100%", display: "block" }}
                           >
                             Redeem

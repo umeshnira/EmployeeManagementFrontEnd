@@ -27,7 +27,7 @@ const useEmpListAssignRewards = (empArr, handleSelectedEmp) => {
             <img
               class="profile-img-table"
               alt=""
-              src={require(`../../../img/employee/${employee.emp.profileImg}`)}
+              src={require(`../../../img/employee/${employee.emp.profilePicture}`)}
             />
             <span className="ml-2">
               <span style={{ fontWeight: "400", color: "black" }}>

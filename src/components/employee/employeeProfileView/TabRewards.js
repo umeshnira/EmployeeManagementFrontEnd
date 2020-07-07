@@ -10,7 +10,10 @@ import {
   Button,
 } from "reactstrap";
 
-export const TabRewards = () => {
+const pointsToRedeem = 4000;
+
+export const TabRewards = (props) => {
+  const empId = props.match.params.empId;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleHowToGetRedeem = () => setIsOpen(!isOpen);
@@ -25,7 +28,7 @@ export const TabRewards = () => {
                   <h3>
                     Rewards{" "}
                     <span className="float-right more-details">
-                      <a href={`/empRewards/29`}> more details</a>
+                      <a href={`/empRewards/${empId}`}> more details</a>
                     </span>
                   </h3>
                 </CardTitle>
@@ -66,6 +69,7 @@ export const TabRewards = () => {
                     <Button
                       outline
                       color="info"
+                      disabled={pointsToRedeem >= 8000 ? false : true}
                       style={{ width: "100%", display: "block" }}
                     >
                       Redeem
@@ -79,50 +83,6 @@ export const TabRewards = () => {
                     </div>
                   </Col>
                 </Row>
-
-                {/* <ul className="personal-info">
-                  <li>
-                    <div className="title">Total Reward Point </div>
- 
-                    <div className="text">
-                      1000 <a href={`/empRewards/29`}> more details</a>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="title">Total points to Redeem </div>
-                     <div className="text text-left">3000</div>
-                  </li>
-                  <Collapse isOpen={isOpen}>
-                    <hr></hr>
-                    <span
-                      className="text-muted"
-                      style={{ position: "aboslute" }}
-                    >
-                      How to earn points,<br></br> Only have to do give your 80%
-                      on planing and 20% on action.
-                    </span>
-                  </Collapse>
-                  <span
-                    href="#"
-                    className="text-muted float-right"
-                    data-toggle="modal"
-                    data-target="#emergency_contact_modal"
-                    onClick={toggleHowToGetRedeem}
-                  >
-                    <i className="fas fa-2x fa-question-circle"></i>
-                  </span>
-                </ul>
-                <Row>
-                  <Col md={12}>
-                    <Button
-                      outline
-                      color="info"
-                      style={{ width: "100%", display: "block" }}
-                    >
-                      Redeem
-                    </Button>
-                  </Col>
-                </Row> */}
               </CardBody>
             </Card>
           </Col>

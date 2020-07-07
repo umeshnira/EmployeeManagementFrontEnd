@@ -19,7 +19,7 @@ const SelectedEmpAssignRewards = React.memo(
               <div className="selected-emp-info ">
                 <div className="emp-img">
                   <img
-                    src={require(`../../../img/employee/${el.profileImg}`)}
+                    src={require(`../../../img/employee/${el.profilePicture}`)}
                     alt="no img"
                   />
                   <div className="overlay">

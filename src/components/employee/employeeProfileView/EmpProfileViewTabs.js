@@ -27,7 +27,7 @@ const EmpProfileViewTabs = React.memo((props) => {
   } = props.selectEmp;
   const { projectList } = props.projectList;
 
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("skills");
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -129,7 +129,7 @@ const EmpProfileViewTabs = React.memo((props) => {
           ></TabCertification>
         </TabPane>
         <TabPane tabId="rewards">
-          <TabRewards></TabRewards>
+          <TabRewards {...props}></TabRewards>
         </TabPane>
       </TabContent>
     </div>
