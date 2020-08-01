@@ -34,6 +34,14 @@ import {
   UPDATE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
   DELETE_PREVIOUS_COMPANY_DETAILS,
   DELETE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+  GET_EMP_PREVIOUS_PROJECT_DETAILS,
+  GET_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  ADD_EMP_PREVIOUS_PROJECT_DETAILS,
+  ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  UPDATE_EMP_PREVIOUS_PROJECT_DETAILS,
+  UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  DELETE_EMP_PREVIOUS_PROJECT_DETAILS,
+  DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
 
 } from "../redux/actions/actionType";
 
@@ -142,6 +150,27 @@ function deleteEmpPreviousComapnyInfoApi(delId) {
 
 function getPreviousProjectApi(employeeId) {
   const response = api.dbworkexperience().GetPreviousProject(employeeId);
+  return response;
+}
+
+function getPreviousProjectDetailsApi(workExperienceId) {
+  const response = api.dbworkexperience().GetPreviousProjectDetails(workExperienceId);
+  return response;
+}
+
+function addEditPreviousProjectDetailsApi(formData) {
+  // api for add previous project details
+  api.dbworkexperience().AddEditPreviousProjectDetails(formData);
+}
+
+function updateEditPreviousProjectDetailsApi(formData) {
+  // api for update  previous project details
+  api.dbworkexperience().AddEditPreviousProjectDetails(formData);
+}
+
+function deletePreviousProjectDetailsApi(delId) {
+  // api for delete  previous project details
+  const response = api.dbworkexperience().DeletePreviousProject(delId);
   return response;
 }
 
@@ -332,6 +361,44 @@ export function* handleGetPreviousProject(employeeId) {
   }
 }
 
+//get Previous Project Details
+export function* handleGetPreviousProjectDetails(workExperienceId) {
+  try {
+    const response = yield call(getPreviousProjectDetailsApi,workExperienceId.payload);
+    yield put({ type: GET_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: response.data[0] });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* handleAddPreviousProjectDetails({payload}) {
+  try {
+    yield call(addEditPreviousProjectDetailsApi, payload);
+    yield put({ type: ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: payload });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* handleEditPreviousProjectDetails({payload}) {
+  try {
+    let formData = payload;
+    yield call(updateEditPreviousProjectDetailsApi, formData);
+    yield put({ type: UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: formData });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* handleDeletePreviousProjectDetails({ payload }) {
+  try {
+    yield call(deletePreviousProjectDetailsApi, payload);
+    yield put({ type: DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: payload });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // watch function.
 export function* employeeWatchFun() {
   yield takeEvery(GET_EMP_LIST, handleGetEmpList);
@@ -351,4 +418,8 @@ export function* employeeWatchFun() {
   yield takeLatest(UPDATE_PREVIOUS_COMPANY_DETAILS, handleEditPreviousComapnyInfo);
   yield takeLatest(DELETE_PREVIOUS_COMPANY_DETAILS, handleDelPreviousComapnyInfo);
   yield takeLatest(GET_EMP_WORKEXPERIENCE, handleGetPreviousProject);
+  yield takeLatest(GET_EMP_PREVIOUS_PROJECT_DETAILS, handleGetPreviousProjectDetails);
+  yield takeLatest(ADD_EMP_PREVIOUS_PROJECT_DETAILS, handleAddPreviousProjectDetails);
+  yield takeLatest(UPDATE_EMP_PREVIOUS_PROJECT_DETAILS, handleEditPreviousProjectDetails);
+  yield takeLatest(DELETE_EMP_PREVIOUS_PROJECT_DETAILS, handleDeletePreviousProjectDetails);
 }

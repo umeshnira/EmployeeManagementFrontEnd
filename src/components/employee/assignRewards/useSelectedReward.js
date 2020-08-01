@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 // import { Row, Col, Card } from "reactstrap";
 
-const useSelectedReward = (selectedReward, delSelectedReward) => {
+const useSelectedReward = (
+  selectedReward,
+  handleAddDescriptionToReward,
+  delSelectedReward
+) => {
   const [trowSelectedReward, setTrowSelectedReward] = useState([]);
   const [theadSelectedReward] = useState([
     "Reward",
     "Points",
+    "Description",
     "Action",
     // "email",
     // "mobile",
@@ -17,8 +22,18 @@ const useSelectedReward = (selectedReward, delSelectedReward) => {
   useEffect(() => {
     let trow = selectedReward.map((re, i) => {
       return {
-        Reward: <span>{re.reward} </span>,
-        Points: <span>{re.rewardPoint}</span>,
+        Reward: <span>{re.rewardType} </span>,
+        Points: <span>{re.rewardPoints}</span>,
+        Description: (
+          <textarea
+            className="form-control"
+            id="exampleFormControlTextarea1"
+            rows="1"
+            onChange={(e) =>
+              handleAddDescriptionToReward(re.rewardId, e.target.value)
+            }
+          ></textarea>
+        ),
         Action: (
           <i
             className="fas fa-trash"

@@ -16,7 +16,7 @@ const RewardListAssignRewards = React.memo(
             onClick={() => handleSelectedReward(el)}
           >
             <Card body inverse className="card-tile">
-              {el.reward}
+            {el.rewardType}
             </Card>
           </Col>
         ))}

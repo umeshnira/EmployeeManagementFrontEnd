@@ -92,7 +92,7 @@ const AssignRewards = (props) => {
   //   delete selected employee.
   const delSelectedEmp = React.useCallback(
     (empId) => {
-      let filterArr = selectedEmp.filter((el) => el.empId !== empId);
+      let filterArr = selectedEmp.filter((el) => el.employeeId !== empId);
       setSelectedEmp(filterArr);
     },
     [selectedEmp]
@@ -102,6 +102,28 @@ const AssignRewards = (props) => {
     console.log(reward);
     setSelectedReward((prevState) => [...prevState, reward]);
   }, []);
+
+  // function to store the description to reward.
+  const handleAddDescriptionToReward = React.useCallback(
+    (id, descp) => {
+      console.log(id, descp);
+      console.log(selectedReward);
+      let selectedRewardWithOutDescp = selectedReward.filter(
+        (reward) => reward.rewardId === id
+      );
+      console.log(selectedRewardWithOutDescp);
+      let selectedRewardWithDescp = {
+        ...selectedRewardWithOutDescp[0],
+        rewardDescripition: descp,
+      };
+      console.log(selectedRewardWithDescp);
+      let updatedSelectedReward = selectedReward.map((reward) =>
+        reward.rewardId === id ? selectedRewardWithDescp : reward
+      );
+      setSelectedReward(updatedSelectedReward);
+    },
+    [selectedReward]
+  );
 
   const delSelectedReward = React.useCallback(
     (rewardId) => {
@@ -137,6 +159,7 @@ const AssignRewards = (props) => {
   const { thead, trow } = useEmpListAssignRewards(empData, handleSelectedEmp);
   const { theadSelectedReward, trowSelectedReward } = useSelectedReward(
     selectedReward,
+    handleAddDescriptionToReward,
     delSelectedReward
   );
   return (
@@ -145,8 +168,8 @@ const AssignRewards = (props) => {
         <Row>
           <Col>{/* <h3>Assign Rewards</h3> */}</Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={4} md={6} lg={5}>
+        <Row className="top-row">
+          <Col xs={12} sm={6} md={6} lg={6}>
             <Row>
               <Col>
                 {" "}
@@ -161,18 +184,18 @@ const AssignRewards = (props) => {
                 />
               </Col>
             </Row>
-
-            <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
-            <Label check className="check-select-all">
-              <Input type="checkbox" onChange={handleSelectAllEmp} />
-              Select All
-            </Label>
-            {/* <EmpListAssignRewards
-              empList={empData}
-              handleSelectedEmp={handleSelectedEmp}
-            ></EmpListAssignRewards> */}
+            <div className="mt-2">
+              <TableWithSortPagtn
+                thead={thead}
+                trow={trow}
+              ></TableWithSortPagtn>
+              <Label check className="check-select-all">
+                <Input type="checkbox" onChange={handleSelectAllEmp} />
+                Select All
+              </Label>
+            </div>
           </Col>
-          <Col xs={12} sm={4} md={6} lg={6}>
+          <Col xs={12} sm={6} md={6} lg={6} className=" profile-info-left">
             <Row>
               <Col>
                 {" "}
@@ -193,25 +216,33 @@ const AssignRewards = (props) => {
             ></RewardListAssignRewards>
           </Col>
         </Row>
-        <Row>
-          <Col xs={12} sm={5} md={5} lg={5}>
+
+        <Row className="second-row">
+          <Col xs={12} sm={6} md={6} lg={6}>
+            <div>
+              <h5>Selected Employee</h5>
+            </div>
             <SelectedEmpAssignRewards
               selectedEmp={selectedEmp}
               delSelectedEmp={delSelectedEmp}
             ></SelectedEmpAssignRewards>
           </Col>
-          <Col xs={12} sm={6} md={6} lg={6} className="selected-rewards">
+          <Col
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+            className="profile-info-left selected-rewards"
+          >
+            <div>
+              <h5>Selected Rewards</h5>
+            </div>
             {selectedReward.length > 0 ? (
               <TableWithSortPagtn
                 thead={theadSelectedReward}
                 trow={trowSelectedReward}
               ></TableWithSortPagtn>
             ) : null}
-
-            {/* <SelectedRewardAssignRewards
-              delSelectedReward={delSelectedReward}
-              selectedReward={selectedReward}
-            ></SelectedRewardAssignRewards> */}
           </Col>
         </Row>
         {/* footer  */}

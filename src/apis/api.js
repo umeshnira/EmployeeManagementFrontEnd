@@ -151,6 +151,11 @@ export default {
   dbworkexperience(url = baseUrl + "Employee/") {
     return {
       GetPreviousProject: (employeeId) => axios.get(url + `GetEmployeeWorkExperienceByEmployeeId?employeeId=${employeeId}`),
+      GetPreviousProjectDetails:(workExperienceId) => axios.get(url + `GetEmployeeWorkExperienceById?workExperienceId=${workExperienceId}`),
+      AddEditPreviousProjectDetails: (formData) => 
+      axios.post(url + "AddEditEmployeeWorkExperience", formData),
+      DeletePreviousProject: (workExperienceId) =>
+      axios.post(url + `DeleteEmployeeWorkExperience?workExperienceId=${workExperienceId}`),    
     }
   },
 

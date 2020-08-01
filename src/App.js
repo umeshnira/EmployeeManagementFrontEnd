@@ -43,6 +43,8 @@ import { TaskManagment } from "./pages/tasks/index";
 
 import Test3 from "./pages/test/Test3";
 
+const ViewPreviousProject = React.lazy(() => import("./components/employee/previousProjects/ViewPreviousProject.js"));
+
 function App() {
   return (
     <Router history={history}>
@@ -110,6 +112,7 @@ function App() {
             />
             <Route exact path="/taskManagment" component={TaskManagment} />
             <Route exact path="/test3" component={Test3} />
+            <Route exact path="/viewPreviousProject/:workExperienceId/:employeeId" component={ViewPreviousProject}></Route>
           </React.Suspense>
         </MainLayout>
       </Switch>

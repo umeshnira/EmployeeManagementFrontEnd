@@ -5,7 +5,6 @@ const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
   return (
     <Card style={{ borderRadius: "5px" }}>
       <CardBody>
-        {console.log(selectEmp)}
         {/* check whether the props has the value */}
         {selectEmp.value ? (
           <Row>

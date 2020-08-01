@@ -27,7 +27,7 @@ const EmpProfileViewTabs = React.memo((props) => {
   } = props.selectEmp;
   const { projectList } = props.projectList;
 
-  const [activeTab, setActiveTab] = useState("skills");
+  const [activeTab, setActiveTab] = useState("projects");
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -51,8 +51,6 @@ const EmpProfileViewTabs = React.memo((props) => {
 
   return (
     <div>
-      {console.log("Main Tab")}
-
       <Nav tabs className="mt-2">
         <NavItem>
           <NavLink
@@ -117,6 +115,7 @@ const EmpProfileViewTabs = React.memo((props) => {
           <TabProjects
             projectList={projectList}
             employeeId={empId}
+            {...props}
           ></TabProjects>
         </TabPane>
         <TabPane tabId="skills">

@@ -16,6 +16,10 @@ import {
   UPDATE_PREVIOUS_COMPANY_DETAILS,
   DELETE_PREVIOUS_COMPANY_DETAILS,
   GET_EMP_WORKEXPERIENCE,
+  GET_EMP_PREVIOUS_PROJECT_DETAILS,
+  ADD_EMP_PREVIOUS_PROJECT_DETAILS,
+  UPDATE_EMP_PREVIOUS_PROJECT_DETAILS,
+  DELETE_EMP_PREVIOUS_PROJECT_DETAILS,
 } from "../../actions/actionType";
 
 // saga call.
@@ -132,6 +136,32 @@ export const getWorkExperience = (employeeId) => {
   return {
     type: GET_EMP_WORKEXPERIENCE,
     payload: employeeId,
+  };
+};
+
+//-------------Previous Project Details------------
+export const getPreviousProjectList = (workExperienceId) => {
+  return {
+    type: GET_EMP_PREVIOUS_PROJECT_DETAILS,
+    payload: workExperienceId,
+  };
+};
+export const addPreviousProjectList = (formData) => {
+  return {
+    type: ADD_EMP_PREVIOUS_PROJECT_DETAILS,
+    payload: formData,
+  };
+};
+export const updatePreviousProjectList = (formData) => {
+  return {
+    type: UPDATE_EMP_PREVIOUS_PROJECT_DETAILS,
+    payload: formData,
+  };
+};
+export const deletePreviousProjectList = (formData) => {
+  return {
+    type: DELETE_EMP_PREVIOUS_PROJECT_DETAILS,
+    payload: formData,
   };
 };
 

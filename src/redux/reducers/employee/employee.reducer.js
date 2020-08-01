@@ -16,6 +16,10 @@ import {
   UPDATE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
   DELETE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
   GET_EMP_WORKEXPERIENCE_SUCCESS,
+  GET_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -27,6 +31,7 @@ const initialState = {
   qualification: [],
   empworkexp: [],
   prevcompanyinfo: [],
+  prevprojects: [],
 };
 
 export default function (state = initialState, action) {
@@ -154,8 +159,34 @@ export default function (state = initialState, action) {
     case GET_EMP_WORKEXPERIENCE_SUCCESS:
       return {
         ...state,
-        // empworkexp: action.payload,
-        empworkexp: [],
+         empworkexp: action.payload,
+      };
+
+    //--------------Previous Project Details
+    case GET_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
+      return {
+        ...state,
+        prevprojects: action.payload,
+      };
+    case ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
+        return {
+          ...state,
+          empworkexp: [...state.empworkexp, action.payload],
+        };
+    case UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
+        return {
+          ...state,
+          empworkexp: state.empworkexp.map((el, i) =>
+          el.workExperienceId === action.payload.workExperienceId
+            ? action.payload
+            : el),
+        };  
+    case DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
+      return {
+        ...state,
+        empworkexp: state.empworkexp.filter(
+          (el) => el.workExperienceId !== action.payload
+        ),
       };
 
     default:

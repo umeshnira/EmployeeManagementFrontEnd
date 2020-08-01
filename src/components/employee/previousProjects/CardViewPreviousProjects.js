@@ -1,85 +1,77 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Col, Card, CardBody, CardTitle, Progress } from "reactstrap";
+import { Col, Card, CardBody, CardTitle, Button, Progress } from "reactstrap";
 // import DropDownActions from "../../common/DropDownActions";
 import {
   getWorkExperience,
+  updatePreviousProjectList,
+  addPreviousProjectList,
+  deletePreviousProjectList,
 } from "../../../redux/actions/employee/employee.action";
 
+import AddEditFormPreviousProject from "./AddEditFormPreviousProject";
 
 const CardViewPreviousProjects = React.memo((props) => {
-  const { getWorkExperience } = props;
+  const { getWorkExperience, updatePreviousProjectList, addPreviousProjectList, deletePreviousProjectList } = props;
   const { empworkexp } = props.empworkexp;
+
+  const [isOpenEditForm, setIsOpenEditForm] = useState(false);
+  const [selectedpreviousprojects, setSelectedpreviousprojects] = useState("");
   
   useEffect(() => {  
-    getWorkExperience(props.employeeId);
+    getWorkExperience(props.match.params.empId);
   }, [getWorkExperience]);
+
+  const toggleForm = React.useCallback(() => {
+    setIsOpenEditForm((prevState) => !prevState);
+  }, [setIsOpenEditForm]);
+
+  const handleProjectEdit = React.useCallback((project) => {
+    setSelectedpreviousprojects(project);
+    toggleForm();
+  },[]);
+
+  const updatePreviousProject = React.useCallback((formData) => {   
+    updatePreviousProjectList(formData);  
+  }, [updatePreviousProjectList]);
+
+  const addPreviousProject = React.useCallback((formData) => {   
+    addPreviousProjectList(formData);  
+  }, [addPreviousProjectList]);
+
+  const handleClickDeletePreviousProjects = (workExperienceId) => {
+    deletePreviousProjectList(workExperienceId);
+  };
 
   return (
     <Fragment>
-        {empworkexp.map((project, i) => (
+      {isOpenEditForm ? 
+      <AddEditFormPreviousProject
+      {...props}
+      prevprojects={selectedpreviousprojects}
+      toggleForm={toggleForm}
+      updatePreviousProject={updatePreviousProject}
+      addPreviousProject={addPreviousProject}
+      > 
+      </AddEditFormPreviousProject> :
+        empworkexp.map((project, i) => (
         <Col key={i} md={4} sm={6} xl={3}>
           <Card className="project-crad mb-4">
             <CardBody>
               <CardTitle>
                 <h4 className="project-title">
-                  {/* <a href={`/viewProject/${project.projectId}`}>
-                    {project.projectName}
-                  </a> */}
-                  <a>
+                  <a href='#'
+                  onClick={() => handleProjectEdit(project)}
+                  >
                     {project.projectName}
                   </a>
-                  <div className="dropDown-action">
-                    {/* <DropDownActions
-                      selectedOpt={project.status}
-                      dropDownOption={[
-                        {
-                          action: "Edit",
-                          handleAction: () => handleProjectEdit(project),
-                        },
-                        {
-                          action: "Delete",
-                          // handleAction: () => handleEditProject(project),
-                        },
-                      ]}
-                    ></DropDownActions> */}
-                    {/* <Dropdown
-                      isOpen={
-                        // true
-                        setDropdownOpt.current === i ? dropdownOpen : false
-                      }
-                      toggle={() => toggle(i)}
-                      // onClick={() => toggle(i)}
-                    >
-                      <DropdownToggle color="">
-                        <i className="fas fa-ellipsis-v text-muted"></i>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        right
-                        modifiers={{
-                          setMinWidth: {
-                            enabled: true,
-                            order: 890,
-                            fn: (data) => {
-                              return {
-                                ...data,
-                                styles: {
-                                  ...data.styles,
-                                  minWidth: "100px",
-                                },
-                              };
-                            },
-                          },
-                        }}
+                  <div className="edit-del-icon ">
+                    <span
+                      className="del"
+                        onClick={() => handleClickDeletePreviousProjects(project.workExperienceId)}
                       >
-                        <DropdownItem
-                          onClick={() => handleProjectEdit(project)}
-                        >
-                          Edit
-                        </DropdownItem>
-                        <DropdownItem>Delete</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown> */}
+                      <i className="fas fa-trash"></i>
+                    </span>
                   </div>
                 </h4>
               </CardTitle>
@@ -104,8 +96,13 @@ const CardViewPreviousProjects = React.memo((props) => {
               </div>
             </CardBody>
           </Card>
-        </Col>
-      ))} 
+          <Button color="primary" outline className="skill-add-btn"
+         onClick = {() => {setSelectedpreviousprojects({}); toggleForm() }}
+          >
+          <i className="fa fa-plus"></i>
+       </Button>
+      </Col>       
+      ))}
     </Fragment>
   );
 });
@@ -116,7 +113,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getWorkExperience,
-  // addEmpEducationalInfo,
-  // updateEmpEducationalInfo,
-  // delEmpEducationalInfo,
+  updatePreviousProjectList,
+  addPreviousProjectList,
+  deletePreviousProjectList,
 })(CardViewPreviousProjects);

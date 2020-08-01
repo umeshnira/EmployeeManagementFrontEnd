@@ -26,6 +26,7 @@ import {
   updatePreviousCompanyInfo,
   delPreviousCompanyInfo,
   updateEmp,
+  getEmpEducationalInfo,
 } from "../../../redux/actions/employee/employee.action";
 
 // style for the edit/update forms.
@@ -46,8 +47,9 @@ const TabProfile = React.memo((props) => {
     addPreviousCompanyInfo,
     updatePreviousCompanyInfo,
     delPreviousCompanyInfo,
+    getEmpEducationalInfo,
   } = props;
-  const { qualification, prevcompanyinfo } = props.empeducationalInfo;
+  const { qualification, prevcompanyinfo, empeducationalInfo } = props.empeducationalInfo;
 
   const [isClickEdit, setIsClickEdit] = useState("");
   const [
@@ -81,6 +83,10 @@ const TabProfile = React.memo((props) => {
   useEffect(() => {
     getEmpPreviousCompanyInfo(props.employeeId);
   }, [getEmpPreviousCompanyInfo]);
+
+  useEffect(() => {
+    getEmpEducationalInfo(props.employeeId);
+  }, [getEmpEducationalInfo]);
 
   useEffect(() => {
     // seting the value of selected employee to state
@@ -1034,4 +1040,5 @@ export default connect(mapStateToProps, {
   updatePreviousCompanyInfo,
   delPreviousCompanyInfo,
   updateEmp,
+  getEmpEducationalInfo,
 })(TabProfile);

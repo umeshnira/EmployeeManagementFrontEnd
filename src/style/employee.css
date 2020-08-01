@@ -714,6 +714,22 @@ h2 span {
 .emp-list {
   max-height: 250px;
 }
+
+.assign-rewards .top-row {
+  border: 1px solid rgba(0, 0, 0, 0.158);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+.assign-rewards .second-row {
+  border: 1px solid rgba(0, 0, 0, 0.158);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  min-height: 40vh;
+}
 /* .selected-card {
   position: relative;
 } */
@@ -787,7 +803,7 @@ h2 span {
   position: absolute;
   /* top: 300px; */
   bottom: 20px;
-  right: 0;
+  right: 20px;
 }
 
 /* process rewards */
