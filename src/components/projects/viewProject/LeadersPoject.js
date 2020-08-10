@@ -29,10 +29,11 @@ const LeadersPoject = React.memo(({ leaders, empList }) => {
   const apendLeader = React.useCallback(
     (leader) => {
       let leaderData = {
-        leaderName: leader.label,
-        leaderImg: leader.value.profileImg,
+        managerId: leader.value.employeeId,
+        managerName: leader.label,
+        managerPicture: leader.value.profilePicture,
       };
-      setLeadersArr((prevState) => prevState.concat(leaderData));
+      setLeadersArr(leaderData);
     },
     [setLeadersArr]
   );
@@ -67,23 +68,24 @@ const LeadersPoject = React.memo(({ leaders, empList }) => {
               )}
             </Button>
           </CardTitle>
-          <ul className="list-box ">
-            {leadersArr.map((leader, i) => (
-              <li key={i}>
+          {leadersArr.managerPicture !== undefined && (
+            <ul className="list-box ">
+              {/* {leadersArr.map((leader, i) => ( */}
+              <li>
                 {/* <a href="profile.html"> */}
                 <div className="list-item">
                   <div className="list-left">
-                    <h4 key={i} className="form-avatar">
+                    <h4 className="form-avatar">
                       <span className="avatar">
                         <img
                           alt=""
-                          src={require(`../../../img/employee/${leader.leaderImg}`)}
+                          src={require(`../../../img/employee/${leadersArr.managerPicture}`)}
                         />
                         <div className="overlay">
                           <div className="text">
                             <i
                               className="fas fa-times user-del-icon"
-                              onClick={() => delLeader(i)}
+                              onClick={() => delLeader(leadersArr.managerId)}
                             ></i>
                           </div>
                         </div>
@@ -91,15 +93,18 @@ const LeadersPoject = React.memo(({ leaders, empList }) => {
                     </h4>
                   </div>
                   <div className="list-body">
-                    <span className="message-author">{leader.leaderName}</span>
+                    <span className="message-author">
+                      {leadersArr.managerName}
+                    </span>
                     <div className="clearfix"></div>
                     <span className="message-content">Team Leader</span>
                   </div>
                 </div>
                 {/* </a> */}
               </li>
-            ))}
-          </ul>
+              {/* ))} */}
+            </ul>
+          )}
 
           <Popover
             placement="top"

@@ -38,21 +38,23 @@ import {
   // -----------items.
   GET_ITEMS_SUCCESS,
   ADD_ITEM_SUCCESS,
-    //-----leaves types
-    GET_LEAVETYPES_SUCCESS,
-    ADD_LEAVETYPES_SUCCESS,
-    UPDATE_LEAVETYPES_SUCCESS,
-    DELETE_LEAVETYPES_SUCCESS,
-    //-------Company Policies
-    GET_COMPANY_PLOICIES_SUCCESS,
-    ADD_COMPANY_PLOICIES_SUCCESS,
-    UPDATE_COMPANY_PLOICIES_SUCCESS,
-    DELETE_COMPANY_PLOICIES_SUCCESS,
-    //-----------Holiday Calendar
-    GET_HOLIDAY_CALENDAR_SUCCESS,
-    ADD_HOLIDAY_CALENDAR_SUCCESS,
-    UPDATE_HOLIDAY_CALENDAR_SUCCESS,
-    DELETE_HOLIDAY_CALENDAR_SUCCESS,
+  //-----leaves types
+  GET_LEAVETYPES_SUCCESS,
+  ADD_LEAVETYPES_SUCCESS,
+  UPDATE_LEAVETYPES_SUCCESS,
+  DELETE_LEAVETYPES_SUCCESS,
+  //-------Company Policies
+  GET_COMPANY_PLOICIES_SUCCESS,
+  ADD_COMPANY_PLOICIES_SUCCESS,
+  UPDATE_COMPANY_PLOICIES_SUCCESS,
+  DELETE_COMPANY_PLOICIES_SUCCESS,
+  //-----------Holiday Calendar
+  GET_HOLIDAY_CALENDAR_SUCCESS,
+  ADD_HOLIDAY_CALENDAR_SUCCESS,
+  UPDATE_HOLIDAY_CALENDAR_SUCCESS,
+  DELETE_HOLIDAY_CALENDAR_SUCCESS,
+  // -------- Skill
+  GET_SKILL_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -67,7 +69,8 @@ const initialState = {
   itemList: [],
   leavetypes: [],
   companypolicies: [],
-  holidayCalendar:[],
+  holidayCalendar: [],
+  skillList: [],
   // user list.
 };
 
@@ -114,8 +117,10 @@ export default function (state = initialState, action) {
     case UPDATE_DESIGNATION_SUCCESS:
       return {
         ...state,
-        designations: state.designations.filter((el, i) =>
-          i === action.payload.designationId ? action.payload.val : el
+        designations: state.designations.map((el) =>
+          el.designationId === action.payload.designationId
+            ? action.payload
+            : el
         ),
       };
     case DEL_DESIGNATION_SUCCESS:
@@ -137,10 +142,11 @@ export default function (state = initialState, action) {
         departments: [...state.departments, action.payload],
       };
     case UPDATE_DEPARTMENT_SUCCESS:
+      console.log(action.payload);
       return {
         ...state,
-        departments: state.departments.filter((el, i) =>
-          i === action.payload.departmentId ? action.payload.val : el
+        departments: state.departments.map((el) =>
+          el.departmentId === action.payload.departmentId ? action.payload : el
         ),
       };
     case DELETE_DEPARTMENT_SUCCESS:
@@ -222,8 +228,10 @@ export default function (state = initialState, action) {
     case UPDATE_EMPLOYEETYPE_SUCCESS:
       return {
         ...state,
-        employeetypes: state.employeetypes.filter((el, i) =>
-          i === action.payload.employeeTypeId ? action.payload.val : el
+        employeetypes: state.employeetypes.map((el, i) =>
+          el.employeeTypeId === action.payload.employeeTypeId
+            ? action.payload
+            : el
         ),
       };
     case DELETE_EMPLOYEETYPE_SUCCESS:
@@ -258,91 +266,102 @@ export default function (state = initialState, action) {
       };
     case UPDATE_ASSET_SUCCESS:
       return {
+        ...state,
         assetList: state.assetList.map((el) =>
           el.itemNo === action.payload.itemNo ? action.payload : el
         ),
       };
     case DEL_ASSET_SUCCESS:
       return {
+        ...state,
         assetList: state.assetList.filter((el) => el.itemNo !== action.payload),
       };
-//----Leave Types---// 
-case   GET_LEAVETYPES_SUCCESS:
-  return {
-    ...state,
-    leavetypes: action.payload,
-  };
-case ADD_LEAVETYPES_SUCCESS:
-  return {
-    ...state,
-    leavetypes: [...state.leavetypes, action.payload],
-  };
- case UPDATE_LEAVETYPES_SUCCESS:
-   return {
-     ...state,
-     leavetypes: state.leavetypes.filter((el, i) =>
-       i === action.payload.id ? action.payload.val : el
-     ),
-   };
- case DELETE_LEAVETYPES_SUCCESS:
-  return {
-     ...state,
-     leavetypes: state.leavetypes.filter(
-       (el) => el.leaveTypeId !== action.payload
-     ),
-   };    
-   
-//----Company Policies---// 
-case   GET_COMPANY_PLOICIES_SUCCESS:
-  return {
-    ...state,
-    companypolicies: action.payload,
-  };
-case ADD_COMPANY_PLOICIES_SUCCESS:
-  return {
-    ...state,
-    companypolicies: [...state.companypolicies, action.payload],
-  };
- case UPDATE_COMPANY_PLOICIES_SUCCESS:
-   return {
-     ...state,
-     companypolicies: state.companypolicies.filter((el, i) =>
-       i === action.payload.companyPolicyId ? action.payload.val : el
-     ),
-   };
- case DELETE_COMPANY_PLOICIES_SUCCESS:
-  return {
-     ...state,
-     companypolicies: state.companypolicies.filter(
-       (el) => el.companyPolicyId !== action.payload
-     ),
-   };   
+    //----Leave Types---//
+    case GET_LEAVETYPES_SUCCESS:
+      return {
+        ...state,
+        leavetypes: action.payload,
+      };
+    case ADD_LEAVETYPES_SUCCESS:
+      return {
+        ...state,
+        leavetypes: [...state.leavetypes, action.payload],
+      };
+    case UPDATE_LEAVETYPES_SUCCESS:
+      return {
+        ...state,
+        leavetypes: state.leavetypes.map((el, i) =>
+          el.leaveTypeId === action.payload.leaveTypeId ? action.payload : el
+        ),
+      };
+    case DELETE_LEAVETYPES_SUCCESS:
+      return {
+        ...state,
+        leavetypes: state.leavetypes.filter(
+          (el) => el.leaveTypeId !== action.payload
+        ),
+      };
 
-  //----Holiday Calendar---// 
-case   GET_HOLIDAY_CALENDAR_SUCCESS:
-  return {
-    ...state,
-    holidayCalendar: action.payload,
-  };
-case ADD_HOLIDAY_CALENDAR_SUCCESS:
-  return {
-    ...state,
-    holidayCalendar: [...state.holidayCalendar, action.payload],
-  };
- case UPDATE_HOLIDAY_CALENDAR_SUCCESS:
-   return {
-     ...state,
-     holidayCalendar: state.holidayCalendar.filter((el, i) =>
-       i === action.payload.holidayCalendarId ? action.payload.val : el
-     ),
-   };
- case DELETE_HOLIDAY_CALENDAR_SUCCESS:
-  return {
-     ...state,
-     holidayCalendar: state.holidayCalendar.filter(
-       (el) => el.year !== action.payload
-     ),
-   };    
+    //----Company Policies---//
+    case GET_COMPANY_PLOICIES_SUCCESS:
+      return {
+        ...state,
+        companypolicies: action.payload,
+      };
+    case ADD_COMPANY_PLOICIES_SUCCESS:
+      return {
+        ...state,
+        companypolicies: [...state.companypolicies, action.payload],
+      };
+    case UPDATE_COMPANY_PLOICIES_SUCCESS:
+      return {
+        ...state,
+        companypolicies: state.companypolicies.map((el, i) =>
+          el.companyPolicyId === action.payload.companyPolicyId
+            ? action.payload
+            : el
+        ),
+      };
+    case DELETE_COMPANY_PLOICIES_SUCCESS:
+      return {
+        ...state,
+        companypolicies: state.companypolicies.filter(
+          (el) => el.companyPolicyId !== action.payload
+        ),
+      };
+
+    //----Holiday Calendar---//
+    case GET_HOLIDAY_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        holidayCalendar: action.payload,
+      };
+    case ADD_HOLIDAY_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        holidayCalendar: [...state.holidayCalendar, action.payload],
+      };
+    case UPDATE_HOLIDAY_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        holidayCalendar: state.holidayCalendar.map((el, i) =>
+          el.holidayCalendarId === action.payload.holidayCalendarId
+            ? action.payload
+            : el
+        ),
+      };
+    case DELETE_HOLIDAY_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        holidayCalendar: state.holidayCalendar.filter(
+          (el) => el.year !== action.payload.year
+        ),
+      };
+    case GET_SKILL_SUCCESS:
+      return {
+        ...state,
+        skillList: action.payload,
+      };
     default:
       return state;
   }

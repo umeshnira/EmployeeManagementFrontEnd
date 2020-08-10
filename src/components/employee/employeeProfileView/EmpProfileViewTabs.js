@@ -25,14 +25,13 @@ const EmpProfileViewTabs = React.memo((props) => {
     empSkill,
     empeducationalInfo,
   } = props.selectEmp;
-  const { projectList } = props.projectList;
+  const { projectList, employeeProjectList } = props.projectList;
 
-  const [activeTab, setActiveTab] = useState("projects");
+  const [activeTab, setActiveTab] = useState("profile");
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-
   // Functions.
 
   const delCertificate = React.useCallback(
@@ -106,6 +105,7 @@ const EmpProfileViewTabs = React.memo((props) => {
       <TabContent activeTab={activeTab} className="mt-2">
         <TabPane tabId="profile">
           <TabProfile
+            {...props}
             selectEmp={selectEmp}
             educationalInfo={empeducationalInfo}
             employeeId={empId}
@@ -113,9 +113,8 @@ const EmpProfileViewTabs = React.memo((props) => {
         </TabPane>
         <TabPane tabId="projects">
           <TabProjects
-            projectList={projectList}
+            projectList={employeeProjectList}
             employeeId={empId}
-            {...props}
           ></TabProjects>
         </TabPane>
         <TabPane tabId="skills">

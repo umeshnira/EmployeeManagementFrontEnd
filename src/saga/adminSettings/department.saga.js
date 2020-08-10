@@ -1,21 +1,20 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
-    GET_DEPARTMENT,
-    GET_DEPARTMENT_SUCCESS,
-    ADD_DEPARTMENT,
-    ADD_DEPARTMENT_SUCCESS,
-    UPDATE_DEPARTMENT,
-    UPDATE_DEPARTMENT_SUCCESS,
-    DELETE_DEPARTMENT,
-    DELETE_DEPARTMENT_SUCCESS,
+  GET_DEPARTMENT,
+  GET_DEPARTMENT_SUCCESS,
+  ADD_DEPARTMENT,
+  ADD_DEPARTMENT_SUCCESS,
+  UPDATE_DEPARTMENT,
+  UPDATE_DEPARTMENT_SUCCESS,
+  DELETE_DEPARTMENT,
+  DELETE_DEPARTMENT_SUCCESS,
 } from "../../redux/actions/actionType";
 import api from "../../apis/api";
 
-
 // api function.
-function getDepartmentApi()  {
+function getDepartmentApi() {
   // api for get designation.
- const response = api.dbDepartment().GetAllDepartments();
+  const response = api.dbDepartment().GetAllDepartments();
   return response;
 }
 function addDepartmentApi(formData) {
@@ -52,6 +51,7 @@ export function* handleAddDepartment({ payload }) {
 export function* handleUpdateDepartment({ payload }) {
   try {
     let formData = payload;
+    console.log(formData);
     yield call(updateDepartmentApi, formData);
     yield put({ type: UPDATE_DEPARTMENT_SUCCESS, payload: formData });
   } catch (error) {

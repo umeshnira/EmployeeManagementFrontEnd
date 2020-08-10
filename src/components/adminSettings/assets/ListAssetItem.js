@@ -1,4 +1,3 @@
-// act as a parent to asset item, but this comp is the child of Asset.js
 import React, { Fragment, useState } from "react";
 import {
   TabContent,
@@ -84,8 +83,11 @@ const ListAssetItem = React.memo((props) => {
                               <td>{itemData.vendor}</td>
                               <td>
                                 {/* {itemData.employeeId} */}
-                                {props.userList.filter(
-                                  (el) => el.value.empId === itemData.employeeId
+
+                                {props.userList.map((el) =>
+                                  el.value.employeeId === itemData.employeeId
+                                    ? el.value.employeeName
+                                    : ""
                                 )}
                               </td>
                               <td>

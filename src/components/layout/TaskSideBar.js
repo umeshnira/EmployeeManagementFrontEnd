@@ -10,6 +10,8 @@ import {
   getTaskProjectId,
   addProjectFromTask,
 } from "../../redux/actions/task/task.action";
+import { getProjectsOfEmployee } from "../../redux/actions/projects/projects.action";
+
 import {
   Button,
   Modal,
@@ -21,8 +23,14 @@ import {
 } from "reactstrap";
 
 const TaskSideBar = (props) => {
-  const { getEmpTask, getTaskProjectId, addProjectFromTask } = props;
+  const {
+    getEmpTask,
+    getTaskProjectId,
+    getProjectsOfEmployee,
+    addProjectFromTask,
+  } = props;
   const { projectNames } = props.empTask;
+  const { employeeProjectList } = props.employeeProjectList;
   const [activeProject, setActiveProject] = useState(0);
   const [projectName, setProjectName] = useState("");
   const [modal, setModal] = useState(false);
@@ -33,9 +41,10 @@ const TaskSideBar = (props) => {
   );
 
   useEffect(() => {
-    let empId = 29;
+    let empId = 31;
+    getProjectsOfEmployee(empId);
     getEmpTask(empId);
-  }, [getEmpTask]);
+  }, [getEmpTask, getProjectsOfEmployee]);
 
   //   Function .
   // click projects.
@@ -73,62 +82,44 @@ const TaskSideBar = (props) => {
         </li>
         {/* <hr></hr> */}
 
-        <li className="">
+        {/* <li className="">
           <a href={"#project"} onClick={toggle}>
             <i className="fa fa-plus"></i>
             <span>
               Project
-              {/* <i className="fas fa-plus float-right "></i> */}
+              <i className="fas fa-plus float-right "></i>
             </span>
           </a>
-        </li>
-        {projectNames.map((projects, i) => (
-          <li
-            key={i}
-            style={{ padding: "-10px" }}
-            onClick={() =>
-              handleSelectProject(projects.projectId, projects.projectName, i)
-            }
-            className={classnames({ active: activeProject === i })}
-          >
-            <a href="#projectName">
-              <span>- {projects.projectName}</span>
-            </a>
-          </li>
-        ))}
+        </li> */}
+        {employeeProjectList.map((ListOfprojects, i) =>
+          ListOfprojects.projectList.map((projects) => (
+            <li
+              key={projects.projectId}
+              style={{ padding: "-10px" }}
+              onClick={() =>
+                handleSelectProject(projects.projectID, projects.projectName, i)
+              }
+              className={classnames({ active: activeProject === i })}
+            >
+              <a href="#projectName">
+                <span>- {projects.projectName}</span>
+              </a>
+            </li>
+          ))
+        )}
       </ul>
-      <div>
-        <Modal isOpen={modal} toggle={toggle} size="sm">
-          <ModalHeader toggle={toggle}>Add Project</ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup>
-                <Label for="exampleEmail">Project Name</Label>
-                <SelectBoxSearch
-                  onChange={handleGetProjectName}
-                  options={projectNamesOnly}
-                ></SelectBoxSearch>
-              </FormGroup>
-              <Button color="primary" onClick={handleSubmitProjectName}>
-                Add
-              </Button>{" "}
-              <Button color="secondary" onClick={toggle}>
-                Cancel
-              </Button>
-            </Form>
-          </ModalBody>
-        </Modal>
-      </div>
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
   empTask: state.taskReducer,
+  employeeProjectList: state.projectReducer,
 });
 
 export default connect(mapStateToProps, {
   getEmpTask,
+  getProjectsOfEmployee,
   getTaskProjectId,
   addProjectFromTask,
 })(TaskSideBar);

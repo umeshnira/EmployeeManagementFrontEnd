@@ -65,6 +65,7 @@ export function* handleAddOfficeLocation({ payload }) {
 export function* handleUpdateOfficeLocation({ payload }) {
   try {
     let formData = payload;
+    console.log(formData);
     yield call(updateUpdateApi, formData);
     yield put({ type: UPDATE_OFFICELOCATION_SUCCESS, payload: formData });
   } catch (error) {

@@ -1,8 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import { Row, Col, Button, Collapse } from "reactstrap";
-import { getSelectProject } from "../../redux/actions/projects/projects.action";
+import {
+  getSelectProject,
+  editProject,
+} from "../../redux/actions/projects/projects.action";
 import { getEmpList } from "../../redux/actions/employee/employee.action";
+import { getSkill } from "../../redux/actions/adminSettings/adminSettings.action";
+
 import {
   DescpProject,
   UploadedFilesProject,
@@ -17,7 +22,9 @@ import {
 const ViewProject = (props) => {
   let projectId = props.match.params.projectId;
 
-  const { getSelectProject, getEmpList } = props;
+  const { getSelectProject, getEmpList, getSkill, editProject } = props;
+  const { skillList } = props.skillList;
+
   const { selectProject } = props.selectProject;
   const { empList } = props.empList;
   const [isOpenEditForm, setIsOpenEditForm] = useState(false);
@@ -25,11 +32,23 @@ const ViewProject = (props) => {
   useEffect(() => {
     getSelectProject(projectId);
     getEmpList();
-  }, [getSelectProject, getEmpList, projectId]);
+    getSkill();
+  }, [getSelectProject, getEmpList, projectId, getSkill]);
 
   const toggleForm = React.useCallback(() => {
     setIsOpenEditForm((prevState) => !prevState);
   }, [setIsOpenEditForm]);
+
+  // handle click in AddEditFormProject.js 'update'.
+  const handleUpdateProject = React.useCallback(
+    (projectData) => {
+      console.log(projectData);
+
+      // will get the selected project id from the selectedProject.
+      editProject(projectData);
+    },
+    [editProject]
+  );
 
   return selectProject ? (
     <Fragment>
@@ -50,16 +69,18 @@ const ViewProject = (props) => {
 
       <Collapse isOpen={isOpenEditForm}>
         <AddEditFormProject
-          selectProject={selectProject}
           empList={empList}
-          toggleForm={toggleForm}
+          skillList={skillList}
+          selectedProject={selectProject}
+          handleUpdateProject={handleUpdateProject}
+          toogleFromProjectAddEditForm={toggleForm}
         ></AddEditFormProject>
       </Collapse>
       <Collapse isOpen={!isOpenEditForm}>
         <Row className="project-box">
           <Col xs={12} sm={9} md={9} lg={9}>
             <DescpProject
-              projectDescp={selectProject.projectDescp}
+              projectDescp={selectProject.projectDescription}
             ></DescpProject>
             <UploadedFilesProject></UploadedFilesProject>
             <TaskTabsProject></TaskTabsProject>
@@ -67,14 +88,18 @@ const ViewProject = (props) => {
           <Col xs={12} sm={3} md={3} lg={3}>
             <DetailsProject></DetailsProject>
             <TechnologiesProject
-              technologies={selectProject.technology}
+              technologies={selectProject.projectTechnologyList}
             ></TechnologiesProject>
             <LeadersPoject
-              leaders={selectProject.projectLeaders}
+              leaders={{
+                managerId: selectProject.managerID,
+                managerName: selectProject.managerName,
+                managerPicture: selectProject.managerPicture,
+              }}
               empList={empList}
             ></LeadersPoject>
             <TeamProject
-              team={selectProject.projectTeam}
+              team={selectProject.projectMembersList}
               empList={empList}
             ></TeamProject>
           </Col>
@@ -87,8 +112,12 @@ const ViewProject = (props) => {
 const mapStateToProps = (state) => ({
   selectProject: state.projectReducer,
   empList: state.empReducer,
+  skillList: state.adminSettingReducer,
 });
 
-export default connect(mapStateToProps, { getSelectProject, getEmpList })(
-  ViewProject
-);
+export default connect(mapStateToProps, {
+  getSelectProject,
+  editProject,
+  getEmpList,
+  getSkill,
+})(ViewProject);

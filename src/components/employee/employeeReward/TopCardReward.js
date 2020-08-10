@@ -29,17 +29,18 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                   <div className="row">
                     <div className="col-md-5">
                       <h3 className="user-name m-t-0 mb-0">
-                        {selectEmp.value.empName}
+                        {selectEmp.value.employeeName}
                       </h3>
                       <h6 className="text-muted">
                         {selectEmp.value.designation}
                       </h6>
                       <small className="text-muted">Web Designer</small>
                       <div className="staff-id">
-                        Employee ID : {selectEmp.value.empId}
+                        Employee ID : {selectEmp.value.employeeId}
                       </div>
                       <div className="small doj text-muted">
-                        Date of Join : {selectEmp.value.doj}
+                        Date of Join :{" "}
+                        {selectEmp.value.dateOfJoin.substring(0, 10)}
                       </div>
                       <div className="staff-msg">
                         <a className="btn btn-custom" href="chat.html">
@@ -75,7 +76,7 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                           className="text-muted"
                           // style={{ position: "aboslute" }}
                         >
-                          How to get reedm point, by just give your 80% on
+                          How to get redeem point, by just give your 80% on
                           planing and 20% on your work.
                         </span>
                       </Collapse>

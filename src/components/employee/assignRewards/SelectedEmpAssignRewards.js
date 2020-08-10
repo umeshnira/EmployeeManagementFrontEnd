@@ -32,7 +32,7 @@ const SelectedEmpAssignRewards = React.memo(
                   </div>
                 </div>
 
-                <span className="emp-name">{el.empName}</span>
+                <span className="emp-name">{el.employeeName}</span>
               </div>
             </Col>
           ))}

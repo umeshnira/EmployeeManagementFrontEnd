@@ -11,6 +11,7 @@ const EmployeeEditForm = React.memo((props) => {
     workPrimisesList,
     employeetypesList,
   } = props;
+  const [id, setId] = useState(0);
   const [employeeName, setEmployeeName] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [employeeType, setEmployeeType] = useState("");
@@ -53,7 +54,7 @@ const EmployeeEditForm = React.memo((props) => {
       employeeName: {
         required: true,
         isValid: true,
-        value: employeeName,
+        value: String(employeeName),
         errorMessage: "",
       },
       employeeId: {
@@ -95,19 +96,20 @@ const EmployeeEditForm = React.memo((props) => {
       workPremise: {
         required: true,
         isValid: true,
-        value: workPrimise,
+        value: "workPrimise",
         errorMessage: "",
       },
     };
     setEmployeeFormValidation(formValidationList); //this set call the custom hook useFormValidation.
   };
+
   const handleAddForm = () => {
     // check whether the form is valid.
     if (isFormValid) {
       let empFormData = new FormData();
-      empFormData.append("employeeId", 0);
+      empFormData.append("employeeId", id);
       empFormData.append("employeeCode", parseInt(employeeId));
-      empFormData.append("employeeType", 1);
+      empFormData.append("employeeType", parseInt(employeeType));
       empFormData.append("employeeName", employeeName);
       empFormData.append("dateOfJoin", dateOfJoin);
       empFormData.append("dateOFBirth", dateOFBirth);
@@ -166,8 +168,9 @@ const EmployeeEditForm = React.memo((props) => {
   useEffect(() => {
     if (selectedEmployee) {
       //if an employeee is clicked for edit , the assigns its value to state.
+      setId(selectedEmployee.employeeId);
       setEmployeeName(selectedEmployee.employeeName);
-      setEmployeeId(selectedEmployee.employeeId);
+      setEmployeeId(selectedEmployee.employeeCode);
       setEmployeeType(selectedEmployee.employeeType);
       setPrimaryMailId(selectedEmployee.primaryMailId);
       setAltMailId(selectedEmployee.secondaryMailId);
@@ -195,6 +198,8 @@ const EmployeeEditForm = React.memo((props) => {
     } else {
       //if add btn click then keep the state to null,
       //cuz when editClick and then addClicked then last value remains in state.
+      setId(0);
+
       setEmployeeName("");
       setEmployeeId("");
       setEmployeeType("");
@@ -206,7 +211,7 @@ const EmployeeEditForm = React.memo((props) => {
 
   return (
     <Form>
-      {console.log("in return", formValidation)}
+      {console.log("in employee add edit")}
       <Row form>
         <Col md={6}>
           <FormGroup>

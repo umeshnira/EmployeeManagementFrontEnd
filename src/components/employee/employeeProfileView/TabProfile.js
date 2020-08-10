@@ -35,10 +35,10 @@ const fontSize = {
 };
 const inputHeight = { height: "35px" };
 const TabProfile = React.memo((props) => {
-  const { selectEmp } = props;
   const [employeeDetails, setEmployeeDetails] = useState({});
 
   const {
+    selectEmp,
     addEmpEducationalInfo,
     getQualification,
     updateEmpEducationalInfo,
@@ -49,7 +49,7 @@ const TabProfile = React.memo((props) => {
     delPreviousCompanyInfo,
     getEmpEducationalInfo,
   } = props;
-  const { qualification, prevcompanyinfo, empeducationalInfo } = props.empeducationalInfo;
+  const { qualification, prevcompanyinfo } = props.empeducationalInfo;
 
   const [isClickEdit, setIsClickEdit] = useState("");
   const [
@@ -78,6 +78,7 @@ const TabProfile = React.memo((props) => {
 
   useEffect(() => {
     getQualification();
+    getEmpEducationalInfo(props.match.params.empId);
   }, [getQualification]);
 
   useEffect(() => {

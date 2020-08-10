@@ -11,7 +11,7 @@ const useForTableValues = (empList, projectList) => {
       projectList.map(
         (project) =>
           project.projectTeam.filter((el) =>
-            el.memberId === emp.value.empId
+            el.memberId === emp.value.employeeId
               ? //   console.log(project.projectName, emp.value.empName)
                 projectArr.push({
                   projectId: project.projectId,

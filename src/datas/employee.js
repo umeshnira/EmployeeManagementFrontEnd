@@ -27,6 +27,10 @@ const empList = [
       officeLocation: "thrisur",
       workPrimise: "home",
       profileImg: "avatar-01.jpg",
+      salary: 60000,
+      salaryDate: new Date("2-28-2019"),
+      totalPlAmountDebited: 1100,
+      totalPlAmountEncashed: 7100,
     },
     label: "Waston",
   },
@@ -57,6 +61,10 @@ const empList = [
       officeLocation: "kozhikode",
       workPrimise: "home",
       profileImg: "nible.png",
+      salary: 60000,
+      salaryDate: new Date("7-28-2019"),
+      totalPlAmountDebited: 2100,
+      totalPlAmountEncashed: 6100,
     },
     label: "Dutch",
   },
@@ -87,6 +95,10 @@ const empList = [
       officeLocation: "kochi",
       workPrimise: "home",
       profileImg: "avatar-06.png",
+      salary: 60000,
+      salaryDate: new Date("8-28-2019"),
+      totalPlAmountDebited: 3000,
+      totalPlAmountEncashed: 5600,
     },
     label: "Jerry",
   },
@@ -117,6 +129,10 @@ const empList = [
       officeLocation: "kannur",
       workPrimise: "home",
       profileImg: "avatar-07.jpg",
+      salary: 60000,
+      salaryDate: new Date("6-28-2019"),
+      totalPlAmountDebited: 2200,
+      totalPlAmountEncashed: 9000,
     },
     label: "Tom",
   },
@@ -147,13 +163,17 @@ const empList = [
       officeLocation: "kannur",
       workPrimise: "home",
       profileImg: "avatar-05.jpeg",
+      salary: 60000,
+      salaryDate: new Date("9-28-2019"),
+      totalPlAmountDebited: 1700,
+      totalPlAmountEncashed: 6100,
     },
     label: "Spike",
   },
 ];
 
 // ---------------Certificates ---------------------
-const empCertificates = [
+export const empCertificates = [
   {
     empId: "29",
     certificate: [
@@ -187,9 +207,9 @@ const empCertificates = [
 ];
 
 // ------------------ Skill ----------------------
-const empSkills = [
+export const empSkills = [
   {
-    empId: "29",
+    empId: "31",
     skill: [
       {
         skillId: 1,
@@ -209,4 +229,49 @@ const empSkills = [
     ],
   },
 ];
-export { empList, empCertificates, empSkills };
+
+export const employeeDashboard = {
+  employee: empList[0],
+  todoList: [
+    {
+      id: 1,
+      content: "design login for employee",
+    },
+    {
+      id: 2,
+      content: "check all API's",
+    },
+    {
+      id: 3,
+      content: "commite code",
+    },
+  ],
+  pendingTask: [
+    {
+      id: 1,
+      content: "performance appraisal",
+    },
+    {
+      id: 2,
+      content: "Daily status sheet API",
+    },
+  ],
+  tickets: [
+    {
+      referenceId: 1,
+      type: "employee",
+      assignedDesk: "HR",
+      summary: "please open daily status sheet of 20th may.",
+      status: "open",
+    },
+    {
+      referenceId: 2,
+      type: "offical",
+      assignedDesk: "maintenance",
+      summary: "need to change air filter of AC ventilation",
+      status: "closed",
+    },
+  ],
+};
+
+export { empList };

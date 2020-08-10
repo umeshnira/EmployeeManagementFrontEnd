@@ -2,16 +2,14 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Row } from "reactstrap";
 import { CardViewProjects } from "../../projects/index";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
-import  CardViewPreviousProjects  from "../previousProjects/CardViewPreviousProjects";
+import CardViewPreviousProjects from "../previousProjects/CardViewPreviousProjects";
 import classnames from "classnames";
 import { GET_EMPLOYEETYPES_BY_ID } from "../../../redux/actions/actionType";
 import { projectsList } from "../../../datas/projects";
 
-export const TabProjects = React.memo(({projectList, employeeId, ...props}) => {
-
-  let empId = props.employeeId;
-
+export const TabProjects = React.memo(({ projectList, employeeId }) => {
   const [activeTab, setActiveTab] = useState("currentproject");
+  console.log(projectList);
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -32,26 +30,30 @@ export const TabProjects = React.memo(({projectList, employeeId, ...props}) => {
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: activeTab === "previousprojects" })}
+            className={classnames({
+              active: activeTab === "previousprojects",
+            })}
             onClick={() => {
               toggle("previousprojects");
             }}
           >
-          Previous Company Projects
+            Previous Company Projects
           </NavLink>
         </NavItem>
       </Nav>
       <TabContent activeTab={activeTab} className="mt-2">
         <TabPane tabId="currentproject">
-        <Row className="project-box">
-            <CardViewProjects projectList={projectsList}></CardViewProjects>
-        </Row>
-      </TabPane>
-      <TabPane tabId="previousprojects">
-        <Row className="project-box">
-          <CardViewPreviousProjects {...props}> </CardViewPreviousProjects>
-        </Row>
-      </TabPane>
+          <Row className="project-box">
+            <CardViewProjects projectList={projectList}></CardViewProjects>
+          </Row>
+        </TabPane>
+        <TabPane tabId="previousprojects">
+          <Row className="project-box">
+            <CardViewPreviousProjects employeeId={employeeId}>
+              {" "}
+            </CardViewPreviousProjects>
+          </Row>
+        </TabPane>
       </TabContent>
     </Fragment>
   );

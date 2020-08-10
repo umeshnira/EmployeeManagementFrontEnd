@@ -9,7 +9,8 @@ const useFormValidation = (formValidationList) => {
       let isValid = true;
       // loop through the validation json, ie take each input values.
       if (updatedFormValidationList[el].required) {
-        isValid = updatedFormValidationList[el].value.trim() !== "" && isValid;
+        isValid =
+          String(updatedFormValidationList[el].value).trim() !== "" && isValid;
         updatedFormValidationList[el].isValid = isValid;
         updatedFormValidationList[el].errorMessage = "* Field Required";
       }

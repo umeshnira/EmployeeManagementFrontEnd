@@ -24,12 +24,23 @@ const adminSettingPaths = [
 const empSettingsPaths = ["/emplist", "/assignRewards", "/processRewards"];
 const projectsPaths = ["/listProjects", "/viewProject"];
 const taskPaths = ["/taskManagment"];
+const payRoll = [
+  "/employeeSalary",
+  "/payRollItems",
+  "/processSalary",
+  "/salaryReport",
+  "/plReport",
+];
+const finance = ["/pettyCash", "/giftVoucher", "/invoices"];
 
 export default function SideBar(props) {
   const [activeSideBar, setActiveSideBar] = useState(window.location.pathname); // take the path name then make that as then tab name.
   const [sideBar, setSideBar] = useState();
   const [isOpenEmpDropDown, setIsOpenEmpDropDown] = useState(false);
   const [isOpenProjectsDropDown, setIsOpenProjectsDropDown] = useState(false);
+  const [isOpenPayRroll, setIsOpenPayRoll] = useState(false);
+  const [isOpenFinance, setIsOpenFinance] = useState(false);
+
   // Function ---------------------------
   const toggle = React.useCallback(
     (tab, newTab) => {
@@ -48,6 +59,9 @@ export default function SideBar(props) {
     if (projectsPaths.includes(window.location.pathname)) {
       setIsOpenProjectsDropDown(true);
     }
+    if (payRoll.includes(window.location.pathname)) {
+      setIsOpenPayRoll(true);
+    }
 
     adminSettingPaths.includes(window.location.pathname) &&
       (sideBar = (
@@ -56,6 +70,7 @@ export default function SideBar(props) {
           activeTab={activeSideBar}
         />
       ));
+
     taskPaths.includes(window.location.pathname) &&
       (sideBar = <TaskSideBar></TaskSideBar>);
     setSideBar(sideBar);
@@ -221,6 +236,162 @@ export default function SideBar(props) {
                     >
                       <i className="fas fa-comment-alt"></i>
                       <span> Task</span>
+                    </a>
+                  </li>
+                </ul>
+              )}
+
+              {/* </Collapse> */}
+            </li>
+            <li>
+              <a
+                href="#null"
+                onClick={() => setIsOpenPayRoll(!isOpenPayRroll)}
+                data-toggle="collapse"
+                className="dropdown-toggle"
+              >
+                <i className="fab fa-product-hunt"></i>
+                <span>Pay Roll</span>
+              </a>
+              {/* <Collapse isOpen={isOpenProjectsDropDown} className="pl-4"> */}
+              {isOpenPayRroll && (
+                <ul className="list-unstyled components">
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/payRollItems",
+                    })}
+                  >
+                    <a
+                      href="/payRollItems"
+                      onClick={() => {
+                        toggle("/payRollItems");
+                      }}
+                    >
+                      <i className="fas fa-comment-alt"></i>
+                      <span> Payroll Items</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/employeeSalary",
+                    })}
+                  >
+                    <a
+                      href="/employeeSalary"
+                      onClick={() => {
+                        toggle("/employeeSalary");
+                      }}
+                    >
+                      <i className="fas fa-project-diagram"></i>
+                      <span> Employee Salary</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/processSalary",
+                    })}
+                  >
+                    <a
+                      href="/processSalary"
+                      onClick={() => {
+                        toggle("/processSalary");
+                      }}
+                    >
+                      <i className="fas fa-comment-alt"></i>
+                      <span> Process Salary</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/salaryReport",
+                    })}
+                  >
+                    <a
+                      href="/salaryReport"
+                      onClick={() => {
+                        toggle("/salaryReport");
+                      }}
+                    >
+                      <i className="fas fa-comment-alt"></i>
+                      <span> Salary Report</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/plReport",
+                    })}
+                  >
+                    <a
+                      href="/plReport"
+                      onClick={() => {
+                        toggle("/plReport");
+                      }}
+                    >
+                      <i className="fas fa-comment-alt"></i>
+                      <span> PL Report</span>
+                    </a>
+                  </li>
+                </ul>
+              )}
+
+              {/* </Collapse> */}
+            </li>
+            <li>
+              <a
+                href="#null"
+                onClick={() => setIsOpenFinance(!isOpenFinance)}
+                data-toggle="collapse"
+                className="dropdown-toggle"
+              >
+                <i className="fab fa-product-hunt"></i>
+                <span>Finance</span>
+              </a>
+              {/* <Collapse isOpen={isOpenProjectsDropDown} className="pl-4"> */}
+              {isOpenFinance && (
+                <ul className="list-unstyled components">
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/pettyCash",
+                    })}
+                  >
+                    <a
+                      href="/pettyCash"
+                      onClick={() => {
+                        toggle("/pettyCash");
+                      }}
+                    >
+                      <i className="fas fa-comment-alt"></i>
+                      <span> Petty Cash</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/giftVoucher",
+                    })}
+                  >
+                    <a
+                      href="/giftVoucher"
+                      onClick={() => {
+                        toggle("/giftVoucher");
+                      }}
+                    >
+                      <i className="fas fa-project-diagram"></i>
+                      <span> Gift Voucher</span>
+                    </a>
+                  </li>
+                  <li
+                    className={classnames({
+                      active: activeSideBar === "/invoices",
+                    })}
+                  >
+                    <a
+                      href="/invoices"
+                      onClick={() => {
+                        toggle("/invoices");
+                      }}
+                    >
+                      <i className="fas fa-comment-alt"></i>
+                      <span> Invoices</span>
                     </a>
                   </li>
                 </ul>

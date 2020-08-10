@@ -21,12 +21,16 @@ import {
   UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
   DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
 } from "../../actions/actionType";
+import { empSkills, empCertificates } from "../../../datas/employee";
 
 const initialState = {
   empList: [],
   selectEmp: [],
-  empCertificate: [],
-  empSkill: [],
+  // empCertificate: [],
+  empCertificate: empCertificates[0].certificate,
+
+  // empSkill: [],
+  empSkill: empSkills[0].skill,
   empeducationalInfo: [],
   qualification: [],
   empworkexp: [],
@@ -105,9 +109,10 @@ export default function (state = initialState, action) {
     case UPDATE_EMP_EUCATIONAL_INFO_SUCCESS:
       return {
         ...state,
-        empeducationalInfo: state.empeducationalInfo.filter((el, i) =>
-          i === action.payload.educationalQualificationId
-            ? action.payload.val
+        empeducationalInfo: state.empeducationalInfo.map((el, i) =>
+          el.educationalQualificationId ===
+          action.payload.educationalQualificationId
+            ? action.payload
             : el
         ),
       };
@@ -130,7 +135,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         // prevcompanyinfo: action.payload,
-        prevcompanyinfo: [],
+        prevcompanyinfo: action.payload,
       };
 
     case ADD_PREVIOUS_COMPANY_DETAILS_SUCCESS:
@@ -159,7 +164,7 @@ export default function (state = initialState, action) {
     case GET_EMP_WORKEXPERIENCE_SUCCESS:
       return {
         ...state,
-         empworkexp: action.payload,
+        empworkexp: action.payload,
       };
 
     //--------------Previous Project Details
@@ -169,18 +174,19 @@ export default function (state = initialState, action) {
         prevprojects: action.payload,
       };
     case ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
-        return {
-          ...state,
-          empworkexp: [...state.empworkexp, action.payload],
-        };
+      return {
+        ...state,
+        empworkexp: [...state.empworkexp, action.payload],
+      };
     case UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
-        return {
-          ...state,
-          empworkexp: state.empworkexp.map((el, i) =>
+      return {
+        ...state,
+        empworkexp: state.empworkexp.map((el, i) =>
           el.workExperienceId === action.payload.workExperienceId
             ? action.payload
-            : el),
-        };  
+            : el
+        ),
+      };
     case DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS:
       return {
         ...state,

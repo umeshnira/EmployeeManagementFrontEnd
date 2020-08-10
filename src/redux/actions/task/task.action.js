@@ -4,7 +4,6 @@ import {
   ADD_TASK,
   UPDATE_TASK,
   DEL_TASK,
-  ON_CHANGE_TASK_DATE,
   ADD_PROJECT_FROM_TASK,
 } from "../actionType";
 
@@ -46,11 +45,5 @@ export const getTaskProjectId = (projectId, projectName) => {
   return {
     type: GET_PROJECT_ID_TASK,
     payload: { projectId, projectName },
-  };
-};
-export const onchangeTaskDate = (date) => {
-  return {
-    type: ON_CHANGE_TASK_DATE,
-    payload: date,
   };
 };

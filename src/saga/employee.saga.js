@@ -42,7 +42,6 @@ import {
   UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
   DELETE_EMP_PREVIOUS_PROJECT_DETAILS,
   DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
-
 } from "../redux/actions/actionType";
 
 import { empList, empCertificates, empSkills } from "../datas/employee";
@@ -65,8 +64,9 @@ function* getEmpListApi() {
   return empArr;
   // return empList;
 }
-function addEditEmpApi(formDate) {
-  api.employee().addEdit(formDate);
+function* addEditEmpApi(formDate) {
+  const res = yield api.employee().addEdit(formDate);
+  console.log(res);
   return formDate;
 }
 function delEmpApi(delId) {
@@ -91,11 +91,13 @@ function delEmpCertificateApi(delId) {
 }
 function addEmpNewSkillApi(empNewSkill, skillId, empId) {
   // api call.
-  let newEmpSkillList = empSkill[0].skill; //to replace, take only skill key
+  let newEmpSkillList = empSkills[0].skill; //to replace, take only skill key
   newEmpSkillList.filter(
     (el) => (el.skillId === skillId ? el.skillName.push(empNewSkill) : null)
     // if (el.skillId === skillId) el.skillName.push(empNewSkill)
   );
+  console.log(empNewSkill);
+
   console.log(newEmpSkillList);
   return { newEmpSkillList };
 }
@@ -121,14 +123,16 @@ function deleteEmpEducationalInfoApi(delId) {
   return response;
 }
 
-function getQualificationApi()  {
+function getQualificationApi() {
   // api for get employeetype
- const response = api.dbqualification().GetQualifications(); 
+  const response = api.dbqualification().GetQualifications();
   return response;
 }
 
 function getEmpPreviousComapnyInfoApi(employeeId) {
-  const response = api.dbpreviouscompany().GetEmpPreviousCompanyInfo(employeeId);
+  const response = api
+    .dbpreviouscompany()
+    .GetEmpPreviousCompanyInfo(employeeId);
   return response;
 }
 
@@ -154,7 +158,9 @@ function getPreviousProjectApi(employeeId) {
 }
 
 function getPreviousProjectDetailsApi(workExperienceId) {
-  const response = api.dbworkexperience().GetPreviousProjectDetails(workExperienceId);
+  const response = api
+    .dbworkexperience()
+    .GetPreviousProjectDetails(workExperienceId);
   return response;
 }
 
@@ -266,15 +272,21 @@ export function* handleAddEmpNeSkill({ empNewSkill, skillId, empId }) {
 // get employee educational info.
 export function* handleGetEmpEducationalInfo(employeeId) {
   try {
-    const empeduinfoList = yield call(getEmpEducationalInfoApi, employeeId.payload);
-    yield put({ type: GET_EMP_EUCATIONAL_INFO_SUCCESS, payload: empeduinfoList.data }); // reducer call
+    const empeduinfoList = yield call(
+      getEmpEducationalInfoApi,
+      employeeId.payload
+    );
+    yield put({
+      type: GET_EMP_EUCATIONAL_INFO_SUCCESS,
+      payload: empeduinfoList.data,
+    }); // reducer call
   } catch (error) {
     console.log(error);
   }
 }
 
 // add employee educational info.
-export function* handleAddEducationalInfo({payload}) {
+export function* handleAddEducationalInfo({ payload }) {
   try {
     yield call(addEmpEducationalInfoApi, payload);
     yield put({ type: ADD_EMP_EUCATIONAL_INFO_SUCCESS, payload: payload });
@@ -283,7 +295,7 @@ export function* handleAddEducationalInfo({payload}) {
   }
 }
 
-export function* handleEditEducationalInfo({payload}) {
+export function* handleEditEducationalInfo({ payload }) {
   try {
     let formData = payload;
     yield call(updateEmpEducationalInfoApi, formData);
@@ -315,15 +327,21 @@ export function* handleGetQualification() {
 // get employee company details
 export function* handleGetEmpPreviousCompanyInfo(employeeId) {
   try {
-    const empworkexpList = yield call(getEmpPreviousComapnyInfoApi, employeeId.payload);
-    yield put({ type: GET_EMP_PREVIOUS_COMPANY_DETAILS_SUCCESS, payload: empworkexpList.data }); // reducer call
+    const empworkexpList = yield call(
+      getEmpPreviousComapnyInfoApi,
+      employeeId.payload
+    );
+    yield put({
+      type: GET_EMP_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+      payload: empworkexpList.data,
+    }); // reducer call
   } catch (error) {
     console.log(error);
   }
 }
 
 // add employee previous company info.
-export function* handleAddPreviousCompanyInfo({payload}) {
+export function* handleAddPreviousCompanyInfo({ payload }) {
   try {
     yield call(addEmpPreviousComapnyInfoApi, payload);
     yield put({ type: ADD_PREVIOUS_COMPANY_DETAILS_SUCCESS, payload: payload });
@@ -332,11 +350,14 @@ export function* handleAddPreviousCompanyInfo({payload}) {
   }
 }
 
-export function* handleEditPreviousComapnyInfo({payload}) {
+export function* handleEditPreviousComapnyInfo({ payload }) {
   try {
     let formData = payload;
     yield call(updateEmpPreviousComapnyInfoApi, formData);
-    yield put({ type: UPDATE_PREVIOUS_COMPANY_DETAILS_SUCCESS, payload: formData });
+    yield put({
+      type: UPDATE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+      payload: formData,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -345,7 +366,10 @@ export function* handleEditPreviousComapnyInfo({payload}) {
 export function* handleDelPreviousComapnyInfo({ payload }) {
   try {
     yield call(deleteEmpPreviousComapnyInfoApi, payload);
-    yield put({ type: DELETE_PREVIOUS_COMPANY_DETAILS_SUCCESS, payload: payload });
+    yield put({
+      type: DELETE_PREVIOUS_COMPANY_DETAILS_SUCCESS,
+      payload: payload,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -354,7 +378,7 @@ export function* handleDelPreviousComapnyInfo({ payload }) {
 //get qualification list
 export function* handleGetPreviousProject(employeeId) {
   try {
-    const response = yield call(getPreviousProjectApi,employeeId.payload);
+    const response = yield call(getPreviousProjectApi, employeeId.payload);
     yield put({ type: GET_EMP_WORKEXPERIENCE_SUCCESS, payload: response.data });
   } catch (error) {
     console.log(error);
@@ -364,27 +388,39 @@ export function* handleGetPreviousProject(employeeId) {
 //get Previous Project Details
 export function* handleGetPreviousProjectDetails(workExperienceId) {
   try {
-    const response = yield call(getPreviousProjectDetailsApi,workExperienceId.payload);
-    yield put({ type: GET_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: response.data[0] });
+    const response = yield call(
+      getPreviousProjectDetailsApi,
+      workExperienceId.payload
+    );
+    yield put({
+      type: GET_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+      payload: response.data[0],
+    });
   } catch (error) {
     console.log(error);
   }
 }
 
-export function* handleAddPreviousProjectDetails({payload}) {
+export function* handleAddPreviousProjectDetails({ payload }) {
   try {
     yield call(addEditPreviousProjectDetailsApi, payload);
-    yield put({ type: ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: payload });
+    yield put({
+      type: ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+      payload: payload,
+    });
   } catch (error) {
     console.log(error);
   }
 }
 
-export function* handleEditPreviousProjectDetails({payload}) {
+export function* handleEditPreviousProjectDetails({ payload }) {
   try {
     let formData = payload;
     yield call(updateEditPreviousProjectDetailsApi, formData);
-    yield put({ type: UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: formData });
+    yield put({
+      type: UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+      payload: formData,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -393,7 +429,10 @@ export function* handleEditPreviousProjectDetails({payload}) {
 export function* handleDeletePreviousProjectDetails({ payload }) {
   try {
     yield call(deletePreviousProjectDetailsApi, payload);
-    yield put({ type: DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS, payload: payload });
+    yield put({
+      type: DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+      payload: payload,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -413,13 +452,34 @@ export function* employeeWatchFun() {
   yield takeLatest(GET_EMP_QUALIFICATION, handleGetQualification);
   yield takeLatest(UPDATE_EMP_EUCATIONAL_INFO, handleEditEducationalInfo);
   yield takeLatest(DELETE_EMP_EUCATIONAL_INFO, handleDelEducationalInfo);
-  yield takeLatest(GET_EMP_PREVIOUS_COMPANY_DETAILS, handleGetEmpPreviousCompanyInfo);
+  yield takeLatest(
+    GET_EMP_PREVIOUS_COMPANY_DETAILS,
+    handleGetEmpPreviousCompanyInfo
+  );
   yield takeLatest(ADD_PREVIOUS_COMPANY_DETAILS, handleAddPreviousCompanyInfo);
-  yield takeLatest(UPDATE_PREVIOUS_COMPANY_DETAILS, handleEditPreviousComapnyInfo);
-  yield takeLatest(DELETE_PREVIOUS_COMPANY_DETAILS, handleDelPreviousComapnyInfo);
+  yield takeLatest(
+    UPDATE_PREVIOUS_COMPANY_DETAILS,
+    handleEditPreviousComapnyInfo
+  );
+  yield takeLatest(
+    DELETE_PREVIOUS_COMPANY_DETAILS,
+    handleDelPreviousComapnyInfo
+  );
   yield takeLatest(GET_EMP_WORKEXPERIENCE, handleGetPreviousProject);
-  yield takeLatest(GET_EMP_PREVIOUS_PROJECT_DETAILS, handleGetPreviousProjectDetails);
-  yield takeLatest(ADD_EMP_PREVIOUS_PROJECT_DETAILS, handleAddPreviousProjectDetails);
-  yield takeLatest(UPDATE_EMP_PREVIOUS_PROJECT_DETAILS, handleEditPreviousProjectDetails);
-  yield takeLatest(DELETE_EMP_PREVIOUS_PROJECT_DETAILS, handleDeletePreviousProjectDetails);
+  yield takeLatest(
+    GET_EMP_PREVIOUS_PROJECT_DETAILS,
+    handleGetPreviousProjectDetails
+  );
+  yield takeLatest(
+    ADD_EMP_PREVIOUS_PROJECT_DETAILS,
+    handleAddPreviousProjectDetails
+  );
+  yield takeLatest(
+    UPDATE_EMP_PREVIOUS_PROJECT_DETAILS,
+    handleEditPreviousProjectDetails
+  );
+  yield takeLatest(
+    DELETE_EMP_PREVIOUS_PROJECT_DETAILS,
+    handleDeletePreviousProjectDetails
+  );
 }

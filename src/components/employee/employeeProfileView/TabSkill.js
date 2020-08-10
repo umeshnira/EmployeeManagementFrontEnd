@@ -20,14 +20,14 @@ import { empSkills } from "../../../datas/employee";
 const btnClr = ["primary", "success", "warning", "info", "danger"];
 const skillCat = [
   "technologies",
-  "Web Based Languages",
-  "Desktop Based Languages",
-  "Mobile App Languages",
+  "Web Based Language",
+  "Desktop Based Language",
+  "Mobile App Language",
   "Networking Technologies",
   "CRM",
   "Cloud Solutions",
-  "SQL Database Languages",
-  "NoSQL Database Languages",
+  "SQL Database Language",
+  "NoSQL Database Language",
   "Design Patterns",
   "Development Tools",
 ];
@@ -45,7 +45,7 @@ export const TabSkill = React.memo((props) => {
     let tempArr = [];
     empSkill.map((el) => tempArr.push(el.skillCategory));
     console.log(tempArr);
-    //keep alrady in skills to a state, for checking to show/no add card.
+    //keep already in skills to a state, for checking to show/no add card.
     setCheckSkillCategory(tempArr);
   }, [empSkill]);
 
@@ -72,6 +72,7 @@ export const TabSkill = React.memo((props) => {
   // add new skill.
   const handleAddNewSkill = (skillId) => {
     addSkill(newSkill, skillId);
+    handleCloseAddFrom();
   };
 
   return (
@@ -97,7 +98,7 @@ export const TabSkill = React.memo((props) => {
                 </CardTitle>
                 <ul className="personal-info">
                   <li>
-                    {empSkill.skillName.map((skillName, i) => (
+                    {empSkill?.skillName?.map((skillName, i) => (
                       <Button key={i} color={btnClr[i]} className="mr-1 mb-1">
                         {skillName}
                         <i className="fas fa-times ml-2"></i>
@@ -106,51 +107,57 @@ export const TabSkill = React.memo((props) => {
                   </li>
                 </ul>
                 {isClickAdd === empSkill.skillCategory ? (
-                  <Row className="add-skill-form">
-                    <Col
-                      xs={12}
-                      sm={8}
-                      md={8}
-                      lg={8}
-                      className="add-skill-inptut "
-                    >
-                      <Input
-                        placeholder="Add Skill"
-                        onChange={(e) => setNewSkill(e.target.value)}
-                      />
-                    </Col>
-                    <Col xs={6} sm={2} md={2} lg={2}>
-                      <Button
-                        color=""
-                        className="btn-admin-settings"
-                        onClick={() => handleAddNewSkill(empSkill.skillId)}
-                        // style={{ width: "100%" }}
-                      >
-                        <i className="fas fa-check"></i>
-                      </Button>
-                    </Col>
-                    <Col
-                      xs={6}
-                      sm={2}
-                      md={2}
-                      lg={2}
-                      className="add-skill-closeBtn"
-                    >
-                      <Button
-                        color=""
-                        className="btn-admin-settings "
-                        onClick={handleCloseAddFrom}
-                      >
-                        <i className="fas fa-times"></i>
-                      </Button>
-                    </Col>
-                  </Row>
+                  <Form>
+                    <Row form>
+                      <Col md={8}>
+                        <FormGroup>
+                          <Label for="exampleEmail">Skill</Label>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            placeholder="Add Skill"
+                            onChange={(e) => setNewSkill(e.target.value)}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md={4}>
+                        <FormGroup>
+                          <Label>Strength</Label>
+                          <Input type="select" name="select">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="strong">Strong</option>
+                          </Input>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="text-center">
+                        <Button
+                          color=""
+                          className="btn-admin-settings border border-primary border-right-0  w-50"
+                          onClick={() => handleAddNewSkill(empSkill.skillId)}
+                        >
+                          <i className="fas fa-check"></i>
+                        </Button>
+                        <Button
+                          color=""
+                          className=" btn-admin-settings border border-primary  w-50 "
+                          onClick={handleCloseAddFrom}
+                        >
+                          <i className="fas fa-times"></i>
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
                 ) : null}
               </CardBody>
             </Card>
           </Col>
         ))}
+        {/* div for adding skill which is not alresy present in DOM */}
         <Col md="6">
+          {/* ref to scroll to down */}
           <div ref={inputEl}>
             <Collapse isOpen={isOpenAddSkillCard}>
               <Card className="flex-fill">

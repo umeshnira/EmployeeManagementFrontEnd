@@ -4,7 +4,7 @@ import SelectSearchBox from "../../common/SelectBoxSearch";
 import TableWithSortPagtn from "../../common/TableWithSortPagtn";
 
 const EmployeeAssets = (props) => {
-  const { empList } = props;
+  const { empList, assets } = props;
   // const [assetsArr, setAssetsArr] = useState(props.assets);
   const [selectedUserForAssets, setSelectedUserForAssets] = useState("");
   const [trow, setTrow] = useState([]);
@@ -27,27 +27,40 @@ const EmployeeAssets = (props) => {
   // from TableWithSorPagtn.js, ie clicked on the row of user view more.
   const handleTrowClick = React.useCallback(
     (emp) => {
+      console.log(emp);
+
+      console.log(assets);
       setSelectedUserForAssets(emp.label);
       let thead = ["#", "item name", "item no", "item model"];
       let arr = [];
-      props.assets.map((asset, i) => {
-        return asset.assetItems
-          .filter((ele) => {
-            return ele.user === emp.label;
-          })
-          .map((el, k) => {
-            return arr.push({
-              "#": i + 1,
-              "item name": el.itemDescription,
-              "item no": el.itemNo,
-              "item model": el.modelNo,
-            });
+      // props.assets.map((asset, i) => {
+      //   return asset.assetItems
+      //     .filter((ele) => {
+      //       return ele.user === emp.label;
+      //     })
+      //     .map((el, k) => {
+      //       return arr.push({
+      //         "#": i + 1,
+      //         "item name": el.itemDescription,
+      //         "item no": el.itemNo,
+      //         "item model": el.modelNo,
+      //       });
+      //     });
+      // });
+      assets
+        .filter((ele) => ele.employeeId === emp.value.employeeId)
+        .map((el, k) => {
+          return arr.push({
+            "#": k + 1,
+            "item name": el.itemModel,
+            "item no": el.itemNo,
+            "item model": el.modelNo,
           });
-      });
+        });
       setThead(thead);
       setTrow(arr);
     },
-    [props.assets]
+    [assets]
   );
 
   useEffect(() => {

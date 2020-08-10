@@ -311,6 +311,7 @@ export default function RolesNdPermissions() {
                 formData={selectedData}
                 button={"Update"}
                 toggle={() => setIsOpenForm(!isOpenForm)}
+                formValidation={{}}
               ></FromEditFields>
             ) : (
               <FromFields
@@ -318,6 +319,7 @@ export default function RolesNdPermissions() {
                 handleSubmit={handleDataAdd}
                 button={"Add"}
                 toggle={() => setIsOpenForm(!isOpenForm)}
+                formValidation={{}}
               ></FromFields>
             )}
           </Collapse>

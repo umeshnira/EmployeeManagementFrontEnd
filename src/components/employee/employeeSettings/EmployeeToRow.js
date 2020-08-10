@@ -14,7 +14,7 @@ const EmployeeToRow = React.memo((props) => {
   return (
     <Fragment>
       <Row>
-        {/* {console.log("Emp to row")} */}
+        {console.log("Emp to row")}
         <Col>
           <h3>Employee</h3>
         </Col>
@@ -55,7 +55,9 @@ const EmployeeToRow = React.memo((props) => {
               </InputGroupAddon>
               <Input
                 style={{ height: "60px" }}
-                onChange={(e) => props.serachEmpList("empName", e.target.value)}
+                onChange={(e) =>
+                  props.serachEmpList("employeeName", e.target.value)
+                }
               />
             </InputGroup>
           </Col>
@@ -67,7 +69,7 @@ const EmployeeToRow = React.memo((props) => {
               <Input
                 style={{ height: "60px" }}
                 onChange={(e) =>
-                  props.serachEmpList("designation", e.target.value)
+                  props.serachEmpList("designationName", e.target.value)
                 }
               />
             </InputGroup>

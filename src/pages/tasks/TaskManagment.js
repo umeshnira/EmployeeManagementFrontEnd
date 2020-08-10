@@ -12,12 +12,11 @@ import {
   addTask,
   updateTask,
   delTask,
-  onchangeTaskDate,
 } from "../../redux/actions/task/task.action";
 import { Row, Col, Collapse, Button } from "reactstrap";
 
 const TaskManagment = (props) => {
-  const { onchangeTaskDate, delTask, addTask, updateTask } = props;
+  const { delTask, addTask, updateTask } = props;
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 604px)" });
   //   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
@@ -25,6 +24,7 @@ const TaskManagment = (props) => {
   const [isOpenDetailsOfTask, setIsOpenDetailsOfTask] = useState(
     isTabletOrMobile ? false : true
   );
+  const [taskList, setTaskList] = useState([]);
   const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(false);
   const [isOpenListTask, setIsOpenListTask] = useState(true);
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
@@ -36,8 +36,18 @@ const TaskManagment = (props) => {
     let selectedTask = empTask.filter(
       (el) => el.projectId === taskProjectInfo.projectId
     );
+    // initial rendring select the 1st task.
     setSelectedTask(selectedTask[0]);
   }, [taskProjectInfo, empTask]);
+
+  useEffect(() => {
+    let taskList = empTask.filter(
+      (el) =>
+        el.projectId === taskProjectInfo.projectId &&
+        (el.status === "inProgress" || el.status === "new")
+    );
+    setTaskList(taskList);
+  }, [empTask, taskProjectInfo]);
 
   // handle selection of a task from ListTask.js
   const handleSelectedTask = React.useCallback(
@@ -57,6 +67,8 @@ const TaskManagment = (props) => {
   const handleAddEditTaskForm = React.useCallback(
     (whichAction) => {
       addOrEdit.current = whichAction;
+      console.log(addOrEdit.current);
+
       setIsOpenAddEditForm((prevstate) => !prevstate);
       setIsOpenDetailsOfTask((prevstate) =>
         isTabletOrMobile ? false : !prevstate
@@ -74,6 +86,8 @@ const TaskManagment = (props) => {
   // handle submite form ADD UPDATE.
   const handleAddUpdateTask = React.useCallback(
     (formData) => {
+      console.log("handleAddUpdateTask");
+
       if (addOrEdit.current === "add") {
         addTask(formData);
       } else {
@@ -94,10 +108,18 @@ const TaskManagment = (props) => {
   // onchange the date in calendar , take the date and pass to reducer.
   const handleOnChangeTaskDate = React.useCallback(
     (date) => {
-      onchangeTaskDate(date);
+      let filterTaskListByDate = empTask.filter(
+        (el) =>
+          new Date(el.createdDate).getTime() === date.getTime() &&
+          el.projectId === taskProjectInfo.projectId
+      );
+      console.log(filterTaskListByDate);
+      setSelectedTask(filterTaskListByDate[0]);
+      setTaskList(filterTaskListByDate);
+
       handleClsCalendar();
     },
-    [onchangeTaskDate]
+    [taskList]
   );
 
   // handle click calender icon. ie: open calender, close detailsOfTask.
@@ -130,7 +152,7 @@ const TaskManagment = (props) => {
                 handleDelTask={handleDelTask}
                 handleOpenCalendar={handleOpenCalendar}
                 handleToggleAllTaskCalendar={handleToggleAllTaskCalendar}
-                empTask={empTask}
+                empTask={taskList}
                 taskProjectInfo={taskProjectInfo}
               ></ListTask>
             </Collapse>
@@ -202,5 +224,4 @@ export default connect(mapStateToProps, {
   addTask,
   updateTask,
   delTask,
-  onchangeTaskDate,
 })(TaskManagment);

@@ -47,7 +47,8 @@ const AssignRewards = (props) => {
       if (searchVal !== "") {
         // employee name search..
         empArr.filter((el) =>
-          el.emp.empName.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
+          el.emp.employeeName.toLowerCase().indexOf(searchVal.toLowerCase()) !==
+          -1
             ? tempArr.includes(el)
               ? null
               : tempArr.push(el)
@@ -77,7 +78,8 @@ const AssignRewards = (props) => {
   const searchRewards = React.useCallback(
     (searchVal) => {
       let searchArr = rewards.filter(
-        (el) => el.reward.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
+        (el) =>
+          el.rewardType.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
       );
       setRewardData(searchArr);
     },

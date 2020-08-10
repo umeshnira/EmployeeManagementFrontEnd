@@ -18,7 +18,7 @@ const AddEditTask = React.memo(
     const [taskTitle, setTaskTitle] = useState("");
     const [hourSpent, setHourSpent] = useState("");
     const [hourBillable, setHourBillable] = useState("");
-    const [status, setStatus] = useState("");
+    const [status, setStatus] = useState("new");
     const [description, setDescription] = useState("");
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const AddEditTask = React.memo(
         setCreatedDate(new Date());
         setHourSpent("");
         setHourBillable("");
-        setStatus("");
+        setStatus("new");
         setDescription(" ");
       }
     }, [selectedTask, addOrEdit]);
@@ -53,9 +53,10 @@ const AddEditTask = React.memo(
         empName: "waston",
         projectId: taskProjectInfo.projectId,
         projectName: taskProjectInfo.projectName,
-        taskId: selectedTask
-          ? selectedTask.taskId
-          : Math.floor(Math.random() * 10) + 1,
+        taskId:
+          addOrEdit === "edit"
+            ? selectedTask.taskId
+            : Math.floor(Math.random() * 100) + 1,
         taskTitle: taskTitle,
         createdBy: "User",
         createdDate: `${
@@ -172,8 +173,6 @@ const AddEditTask = React.memo(
                           >
                             Completed
                           </option>
-                          <option>4</option>
-                          <option>5</option>
                         </Input>
                       </div>
                     </li>

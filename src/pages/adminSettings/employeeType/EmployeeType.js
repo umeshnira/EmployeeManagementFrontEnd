@@ -98,21 +98,6 @@ const EmployeeTypes = (props) => {
     // toggle();
   }, []);
 
-  const handleAddEmployeeType = (e) => {
-    e.preventDefault();
-    let formData = {
-      employeeTypeValue: employeeType,
-    };
-    addEmployeeType(formData);
-    toggle();
-  };
-
-  const handleUpdateEmployeeType = (e) => {
-    e.preventDefault();
-    updateEmployeeType(selectedEmptype.val);
-    setSelectedEmptype({ id: "", val: "" });
-    toggle();
-  };
   // delete
   const handleDelEmployeeType = React.useCallback(
     (employeeTypeId) => {
@@ -169,12 +154,17 @@ const EmployeeTypes = (props) => {
       // if form valid.
       if (selectedEmptype.id !== "") {
         // update
-        console.log("updated", employeeType);
+        console.log("updated", selectedEmptype.val);
+        updateEmployeeType(selectedEmptype.val);
         setSelectedEmptype({ id: "", val: "" });
         toggle();
       } else {
         // add
         console.log("add", employeeType);
+        let formData = {
+          employeeTypeValue: employeeType,
+        };
+        addEmployeeType(formData);
         toggle();
       }
     }

@@ -47,18 +47,17 @@ export default function (state = initialState, action) {
         new Date(),
         action.payload.empTask
       );
-      let projectNamesArr = getProjectNames(filterEmpByDate); // get the unique project nawem from that day.
-
+      let projectNamesArr = getProjectNames(filterEmpByDate); // get the unique project name from that day.
+      let empWorkingProjectList =
+        action.payload.empWorkingProjects[0].projectList;
       return {
         // ...state,
-        fullTaskArr: action.payload,
-        empTask: filterEmpByDate,
-        projectNames: action.payload.projectNames,
+        fullTaskArr: filterEmpByDate,
+        empTask: action.payload.empTask,
+        projectList: empWorkingProjectList,
         taskProjectInfo: {
-          projectId:
-            filterEmpByDate.length > 0 ? filterEmpByDate[0].projectId : "",
-          projectName:
-            filterEmpByDate.length > 0 ? filterEmpByDate[0].projectName : "",
+          projectId: empWorkingProjectList[0]?.projectID,
+          projectName: empWorkingProjectList[0]?.projectName,
         },
       };
     case GET_PROJECT_ID_TASK:
@@ -97,23 +96,6 @@ export default function (state = initialState, action) {
           (task) => task.taskId !== action.payload
         ),
         empTask: state.empTask.filter((task) => task.taskId !== action.payload),
-      };
-
-    case ON_CHANGE_TASK_DATE:
-      let filterEmpTask = filterEmpTaskByDate(
-        action.payload,
-        state.fullTaskArr
-      );
-
-      return {
-        ...state,
-        empTask: filterEmpTask,
-        taskProjectInfo: {
-          projectId: filterEmpTask.length > 0 ? filterEmpTask[0].projectId : "",
-          projectName:
-            filterEmpTask.length > 0 ? filterEmpTask[0].projectName : "",
-        },
-        projectNames: getProjectNames(filterEmpTask),
       };
 
     default:

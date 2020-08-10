@@ -17,7 +17,7 @@ const useEmpListAssignRewards = (empArr, handleSelectedEmp) => {
   useEffect(() => {
     let trow = empArr.map((employee, i) => {
       return {
-        id: <div>{employee.emp.empId}</div>,
+        id: <div>{employee.emp.employeeId}</div>,
 
         name: (
           <h2
@@ -31,17 +31,24 @@ const useEmpListAssignRewards = (empArr, handleSelectedEmp) => {
             />
             <span className="ml-2">
               <span style={{ fontWeight: "400", color: "black" }}>
-                {employee.emp.empName}
+                {employee.emp.employeeName}
               </span>
-              <span> {employee.emp.designation}</span>
+              <span> {employee.emp.designationName}</span>
             </span>
           </h2>
         ),
-        project: employee.project.map((project) => (
-          <span key={project.projectId}>
-            <small>{project.projectName},</small>
+        project: (
+          <span>
+            {/* <small>{project.projectName},</small> */}
+            <small>Robo Control, E-commerce, Personal App</small>
           </span>
-        )),
+        ),
+        // employee.project.map((project) => (
+        //   <span key={project.projectId}>
+        //     <small>{project.projectName},</small>
+
+        //   </span>
+        // )),
       };
     });
 

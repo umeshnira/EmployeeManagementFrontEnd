@@ -830,3 +830,146 @@ h2 span {
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 }
+
+/* ----------------------- Employee dashboard --------------------- */
+
+.employee-dashboard .card {
+  margin-bottom: 30px;
+}
+/* 
+.employee-dashboard .btn {
+  background-color: #0c3747;
+  border: 0;
+} */
+
+/* Top row */
+.welcome-box {
+  display: flex;
+  background-color: #fff;
+  border-bottom: 1px solid #ededed;
+  padding: 15px;
+  margin: -20px 0px 30px 0px;
+  position: relative;
+}
+.welcome-img img {
+  margin-right: 15px;
+  border-radius: 8px;
+  width: 60px;
+}
+.welcome-data h3 {
+  font-size: 1.5rem;
+}
+.welcome-data span {
+  color: #777;
+  font-size: 0.787rem;
+  font-weight: 600;
+}
+/* Todo List */
+.todo-list h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.todo-list .todo-list-card {
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  color: #575757;
+  display: flex;
+  height: auto;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.todo-list .todo-list-card-icon {
+  align-items: center;
+  display: flex;
+  /* flex-direction: row; */
+  font-size: 1.5rem;
+  padding-right: 15px;
+}
+.todo-list .todo-list-card-content {
+  align-items: center;
+  display: flex;
+  /* flex-direction: row; */
+}
+.todo-list .todo-list-card-checkBox {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  padding: 0 15px;
+}
+
+/* right side of emplyee dashboard */
+.employee-dash-time-list-title h5 {
+  color: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+.employee-dash-time-list {
+  display: flex;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+.employee-dash-content {
+  align-items: center;
+  display: flex;
+  flex-flow: column wrap;
+  flex-grow: 1;
+  padding: 0px 15px;
+}
+.employee-dash-content h4 {
+  color: #1f1f1f;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+.employee-dash-content p {
+  color: #777;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+.employee-dash-content + .employee-dash-content {
+  border-left: 1px solid #e7e7e7;
+}
+.employee-dash-content-bottom {
+  text-align: center;
+}
+
+.employee-dash-upcoming-holiday {
+  align-items: center;
+  display: flex;
+  /* flex-flow: column wrap;
+  flex-grow: 1; */
+  padding: 0px 15px;
+  /* padding: 20px; */
+}
+
+.employee-dash-upcoming-holiday h4 {
+  font-size: 0.987rem;
+  font-weight: 600;
+  /* align-items: center; */
+  /* padding: 20px; */
+}
+
+.image {
+  height: 45px;
+  width: 45px;
+  position: relative;
+  border: 3px solid #0c3747;
+  border-radius: 50%;
+}
+.image img {
+  width: 100%;
+  border-radius: 50%;
+}

@@ -221,11 +221,18 @@ const CompanyPolicies = (props) => {
     callValidation.current = true;
   };
   const callBackAfterValidation = () => {
-    console.log("formValidation:", isFormValid);
+    // console.log("formValidation:", selectedCompanyPolicies.val);
     if (isFormValid) {
       // if form valid.
       if (selectedCompanyPolicies.id !== "") {
-        updateCompanyPolicies(selectedCompanyPolicies.val);
+        let formData = {
+          companyPolicyId: selectedCompanyPolicies.val.companyPolicyId,
+          policyName: selectedCompanyPolicies.val.policyName,
+          description: selectedCompanyPolicies.val.policyDescription,
+          departmentId: selectedCompanyPolicies.val.departmentId,
+          uploadPolicy: "policyFile",
+        };
+        updateCompanyPolicies(formData);
         setselectedCompanyPolicies({ id: "", val: "" });
         toggle();
       } else {
@@ -233,7 +240,7 @@ const CompanyPolicies = (props) => {
           policyName: policyName,
           description: policyDescription,
           departmentId: parseInt(departmentId),
-          uploadPolicy: policyFile,
+          uploadPolicy: "policyFile",
         };
         addCompanyPolicies(formData);
         toggle();

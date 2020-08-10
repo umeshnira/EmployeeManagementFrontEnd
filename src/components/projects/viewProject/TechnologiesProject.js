@@ -30,7 +30,7 @@ const TechnologiesProject = React.memo(({ technologies }) => {
   const apendTechnology = React.useCallback(() => {
     let technologyData = {
       //   technologyId: technologiesArr.length + 1,
-      technologyName: technology,
+      skillName: technology,
     };
     setTechnologiesArr((prevState) => prevState.concat(technologyData));
   }, [setTechnologiesArr, technology]);
@@ -71,7 +71,7 @@ const TechnologiesProject = React.memo(({ technologies }) => {
                 {/* <div className="list-item">
                   <div className="list-left"> */}
                 <Button size="sm" color="warning" className="mt-2">
-                  <small> {technology.technologyName}</small>
+                  <small> {technology.skillName}</small>
                   <i
                     className=" ml-2 fas fa-times"
                     onClick={() => delTechnology(i)}

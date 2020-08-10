@@ -10,6 +10,7 @@ import {
   // ---------------
   GET_OFFICELOCATION,
   ADD_OFFICELOCATION,
+  UPDATE_OFFICELOCATION,
   DEL_OFFICELOCATION,
   // ----------------
   GET_WORKPRIMISE,
@@ -52,7 +53,8 @@ import {
   ADD_HOLIDAY_CALENDAR,
   UPDATE_HOLIDAY_CALENDAR,
   DELETE_HOLIDAY_CALENDAR,
-
+  // -------------------------
+  GET_SKILL,
 } from "../actionType";
 import { workPrimiseData } from "../../../datas/adminSettings";
 
@@ -70,7 +72,7 @@ export const addOfficeLocation = (formData) => {
 };
 export const updateOfficeLocation = (formData) => {
   return {
-    type: UPDATE_DESIGNATION,
+    type: UPDATE_OFFICELOCATION,
     payload: formData,
   };
 };
@@ -284,7 +286,7 @@ export const addLeaves = (formData) => {
 };
 export const updateLeaves = (formData) => {
   return {
-    type:   UPDATE_LEAVETYPES,
+    type: UPDATE_LEAVETYPES,
     payload: formData,
   };
 };
@@ -310,7 +312,7 @@ export const addCompanyPolicies = (formData) => {
 };
 export const updateCompanyPolicies = (formData) => {
   return {
-    type:   UPDATE_COMPANY_PLOICIES,
+    type: UPDATE_COMPANY_PLOICIES,
     payload: formData,
   };
 };
@@ -336,14 +338,21 @@ export const addCalendar = (formData) => {
 };
 export const updateCalendar = (formData) => {
   return {
-    type:   UPDATE_HOLIDAY_CALENDAR,
+    type: UPDATE_HOLIDAY_CALENDAR,
     payload: formData,
   };
 };
 
-export const delCalendar= (delId) => {
+export const delCalendar = (delId) => {
   return {
     type: DELETE_HOLIDAY_CALENDAR,
     payload: delId,
+  };
+};
+
+// ---------------- Skill --------------- //
+export const getSkill = () => {
+  return {
+    type: GET_SKILL,
   };
 };

@@ -52,9 +52,7 @@ class Basic extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps.fullTaskArr.fullTaskArr.length);
     const { fullTaskArr } = this.props.fullTaskArr;
-    console.log(fullTaskArr.length);
 
     if (prevProps.fullTaskArr.fullTaskArr.length !== fullTaskArr.length) {
       this.dataPopulationReactScheduler(fullTaskArr);
@@ -62,8 +60,9 @@ class Basic extends Component {
   }
 
   componentDidMount() {
-    const { fullTaskArr } = this.props.fullTaskArr;
-    this.dataPopulationReactScheduler(fullTaskArr);
+    const { fullTaskArr, empTask } = this.props.fullTaskArr;
+    // let taskList = empTask.filter((el) => el.status === "inProgress");
+    this.dataPopulationReactScheduler(empTask);
   }
 
   // func to handle data population in react-big-schedular, for componentDidMout & componentDidUpdate.
@@ -87,12 +86,15 @@ class Basic extends Component {
     let projectNameArr = Array.from(
       new Set(fullTaskArr.map((tasks) => tasks.projectId))
     ).map((id) => {
+      console.log(id);
       return {
         id: id,
         name: fullTaskArr.find((el) => el.projectId === id).projectName,
       };
     });
+    console.log(projectNameArr);
     return projectNameArr;
+    // return [];
   };
 
   //   to make the events for the calender.

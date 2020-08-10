@@ -193,6 +193,7 @@ const Reward = (props) => {
       } else {
         let formData = {
           rewardType: rewardDescription,
+          isActive: true,
           rewardPoints: parseFloat(rewardPoint),
         };
         addRewards(formData);

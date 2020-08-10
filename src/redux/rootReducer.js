@@ -4,6 +4,7 @@ import EmployeeReducer from "./reducers/employee/employee.reducer";
 import ProjectReducer from "./reducers/projects/projects.reducer";
 import TaskReducer from "./reducers/task/task.reducer";
 import ProcessRewards from "./reducers/processRewards/processRewards.reducer";
+import Payroll from "./reducers/payroll/payroll.reducer";
 
 export default combineReducers({
   adminSettingReducer: AdminSettingReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   projectReducer: ProjectReducer,
   taskReducer: TaskReducer,
   ProcessRewardsReducer: ProcessRewards,
+  payRollReducer: Payroll,
 });

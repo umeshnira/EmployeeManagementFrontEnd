@@ -8,19 +8,35 @@ import {
   useProjectsTableEle,
   AddEditFormProject,
 } from "../../components/projects/index";
-import { getProjectList } from "../../redux/actions/projects/projects.action";
+import {
+  getProjectList,
+  getProjectsOfEmployee,
+  addProject,
+  editProject,
+  delProject,
+} from "../../redux/actions/projects/projects.action";
 import { getEmpList } from "../../redux/actions/employee/employee.action";
+import { getSkill } from "../../redux/actions/adminSettings/adminSettings.action";
 import TableWithSortPagtn from "../../components/common/TableWithSortPagtn";
 import { projectsList } from "../../datas/projects";
 // require("bootstrap/less/bootstrap.less");
 
 const ListProjects = (props) => {
-  const { getProjectList, getEmpList } = props;
-  const { projectList } = props.projectList;
+  const {
+    getProjectList,
+    getProjectsOfEmployee,
+    getEmpList,
+    addProject,
+    editProject,
+    delProject,
+    getSkill,
+  } = props;
+  const { projectList, employeeProjectList } = props.projectList;
   const { empList } = props.empList;
+  const { skillList } = props.skillList;
 
   const searched = useRef(false);
-  const [searchArr, setSearchArr] = useState(projectList);
+  const [searchArr, setSearchArr] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isOpenAddEditForm, setIsOpenAddEditForm] = useState(false);
   const [isOpenProjectCardView, setIsOpenProjectCardView] = useState(true);
@@ -29,27 +45,51 @@ const ListProjects = (props) => {
 
   // customer hooks to gird view of employee,
   // if search arr is empty then map from list else map from searched arr.
-  const { thead, trow } = useProjectsTableEle(
-    searched.current ? searchArr : projectList
-  );
+  const { thead, trow } = useProjectsTableEle(searchArr);
 
   useEffect(() => {
     getProjectList();
+    getProjectsOfEmployee(31);
     getEmpList();
-  }, [getProjectList, getEmpList]);
+    getSkill();
+  }, [getProjectList, getEmpList, getSkill]);
+
+  useEffect(() => {
+    console.log(employeeProjectList);
+    // take not deleted projects, ie activeStatus === true.
+    let filterOnlyActiveProject = employeeProjectList.filter(
+      (el) => el.projectList[0].activeStatus === true
+    );
+    setSearchArr(filterOnlyActiveProject);
+  }, [employeeProjectList]);
 
   // -------------Functions
 
   // handle click in EmployeeAddForm.js 'add'.
-  const handleAddProject = React.useCallback((projectData) => {
-    console.log(projectData);
-  }, []);
+  const handleAddProject = React.useCallback(
+    (projectData) => {
+      addProject(projectData);
+    },
+    [addProject]
+  );
 
   // handle click in AddEditFormProject.js 'update'.
-  const handleUpdateProject = React.useCallback((projectData) => {
-    // will get the selected project id from the selectedProject.
-    console.log(projectData);
-  }, []);
+  const handleUpdateProject = React.useCallback(
+    (projectData) => {
+      console.log(projectData);
+      // will get the selected project id from the selectedProject.
+      editProject(projectData);
+    },
+    [editProject]
+  );
+
+  // handle project delete.
+  const handleDeleteProject = React.useCallback(
+    (delId) => {
+      delProject(delId);
+    },
+    [delProject]
+  );
 
   // handle click in EmployeeCard.js
   const handleProjectEdit = React.useCallback(
@@ -96,34 +136,32 @@ const ListProjects = (props) => {
   // search filter.
   const serachProjectList = React.useCallback(
     (whatSearch, searchVal) => {
-      let arr = [];
       searched.current = true;
       if (whatSearch === "projectName") {
-        let searchArr = projectList.filter((ele) => {
+        let searchArr = employeeProjectList.filter((ele) => {
           return (
-            ele.projectName.toLowerCase().indexOf(searchVal.toLowerCase()) !==
-            -1
+            // after map that data structure will give a single element [0] array, then compare in that array,
+            ele.projectList[0].projectName
+              .toLowerCase()
+              .indexOf(searchVal.toLowerCase()) !== -1 &&
+            ele.projectList[0].activeStatus === true
           );
         });
+
         setSearchArr(searchArr);
       } else if (whatSearch === "leader") {
-        if (searchVal !== "") {
-          projectsList.map((project) =>
-            project.projectLeaders.map((leader) => {
-              return leader.leaderName
-                .toLocaleLowerCase()
-                .indexOf(searchVal.toLocaleLowerCase()) !== -1
-                ? (arr = [project])
-                : null;
-            })
-          );
-          setSearchArr(arr);
-        } else {
-          setSearchArr(projectsList);
-        }
+        let managerSearchVal = employeeProjectList.filter(
+          (ele) =>
+            // after map that data structure will give a single element [0] array, then compare in that array,
+            ele.projectList[0].managerName
+              .toLowerCase()
+              .indexOf(searchVal.toLowerCase()) !== -1 &&
+            ele.projectList[0].activeStatus === true
+        );
+        setSearchArr(managerSearchVal);
       }
     },
-    [projectList]
+    [employeeProjectList]
   );
 
   console.log("rendering");
@@ -132,10 +170,10 @@ const ListProjects = (props) => {
       <Container>
         {/* Top Row.--------------------------------- */}
         <ProjectsTopRow
-          serachProjectList={serachProjectList}
           isOpenSerachBox={isOpenSerachBox}
           isOpenEmpGridView={isOpenProjectGridView}
           isOpenEmpListCard={isOpenProjectCardView}
+          serachProjectList={serachProjectList}
           handleOpenAddForm={handleOpenAddForm}
           showEmpCard={showProjectCard}
           showGridView={showGridView}
@@ -147,8 +185,9 @@ const ListProjects = (props) => {
           <Row className="project-box">
             {/* Project Card list comp.--------------------------- */}
             <CardViewProjects
-              projectList={searched.current ? searchArr : projectList}
+              projectList={searchArr}
               handleProjectEdit={handleProjectEdit}
+              handleDeleteProject={handleDeleteProject}
             ></CardViewProjects>
           </Row>
         </Collapse>
@@ -170,6 +209,7 @@ const ListProjects = (props) => {
         <Collapse isOpen={isOpenAddEditForm}>
           <AddEditFormProject
             empList={empList}
+            skillList={skillList}
             selectedProject={selectedProject}
             handleAddProject={handleAddProject}
             handleUpdateProject={handleUpdateProject}
@@ -184,8 +224,15 @@ const ListProjects = (props) => {
 const mapStateToProps = (state) => ({
   projectList: state.projectReducer,
   empList: state.empReducer,
+  skillList: state.adminSettingReducer,
 });
 
-export default connect(mapStateToProps, { getProjectList, getEmpList })(
-  ListProjects
-);
+export default connect(mapStateToProps, {
+  getProjectList,
+  getProjectsOfEmployee,
+  getEmpList,
+  getSkill,
+  addProject,
+  editProject,
+  delProject,
+})(ListProjects);

@@ -27,8 +27,8 @@ const TeamProject = React.memo(({ team, empList }) => {
   const apendMember = React.useCallback(
     (member) => {
       let memberData = {
-        memberName: member.label,
-        memberImg: member.value.profileImg,
+        employeeName: member.label,
+        profilePicture: member.value.profilePicture,
       };
       setMembers((prevState) => prevState.concat(memberData));
     },
@@ -84,7 +84,7 @@ const TeamProject = React.memo(({ team, empList }) => {
                       <span className="avatar">
                         <img
                           alt=""
-                          src={require(`../../../img/employee/${member.memberImg}`)}
+                          src={require(`../../../img/employee/${member.profilePicture}`)}
                         />
                         <div className="overlay">
                           <div className="text">
@@ -98,7 +98,9 @@ const TeamProject = React.memo(({ team, empList }) => {
                     </h4>
                   </div>
                   <div className="list-body">
-                    <span className="message-author">{member.memberName}</span>
+                    <span className="message-author">
+                      {member.employeeName}
+                    </span>
                     <div className="clearfix"></div>
                     <span className="message-content">Web Desinger</span>
                   </div>

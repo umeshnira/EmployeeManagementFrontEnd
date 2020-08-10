@@ -47,7 +47,7 @@ const EmployeeList = (props) => {
     workPrimisesList,
     employeetypes,
   } = props.designations;
-  const [searchArr, setSearchArr] = useState(empList);
+  const [searchArr, setSearchArr] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isOpenAddForm, setIsOpenAddForm] = useState(false);
   const [isOpenEmpListCard, setIsOpenEmpListCard] = useState(true);
@@ -56,9 +56,7 @@ const EmployeeList = (props) => {
 
   // customer hooks to gird view of employee,
   // if search arr is empty then map from list else map from searched arr.
-  const { thead, trow } = useEmpTableEle(
-    searchArr.length > 0 ? searchArr : empList
-  );
+  const { thead, trow } = useEmpTableEle(searchArr);
 
   useEffect(() => {
     getEmpList();
@@ -69,6 +67,10 @@ const EmployeeList = (props) => {
     getWorkPrimise();
     getEmployeeTypeList();
   }, []);
+
+  useEffect(() => {
+    setSearchArr(empList);
+  }, [empList]);
 
   // -------------Functions
   // handle click in EmployeeAddForm.js 'add'.
@@ -141,10 +143,10 @@ const EmployeeList = (props) => {
   const serachEmpList = React.useCallback(
     (whatSearch, searchVal) => {
       let search = "";
-      if (whatSearch === "empName") {
-        search = "empName";
-      } else if (whatSearch === "designation") {
-        search = "designation";
+      if (whatSearch === "employeeName") {
+        search = "employeeName";
+      } else if (whatSearch === "designationName") {
+        search = "designationName";
       }
       let searchArr = empList.filter((ele) => {
         console.log(ele.value);

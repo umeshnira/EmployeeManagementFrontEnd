@@ -60,8 +60,8 @@ export const TabRewards = (props) => {
                     className="text-muted"
                     // style={{ position: "aboslute" }}
                   >
-                    How to get reedm point, by just give your 80% on planing and
-                    20% on your work.
+                    How to get redeem point, by just give your 80% on planing
+                    and 20% on your work.
                   </span>
                 </Collapse>
                 <Row className="mt-4">

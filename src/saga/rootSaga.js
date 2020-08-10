@@ -15,6 +15,8 @@ import { itemsWatchFunc } from "./adminSettings/items.saga";
 import { holidaycalendarWatchFun } from "./adminSettings/holidaycalendar.saga";
 import { leavetypeWatchFun } from "./adminSettings/leavetype.saga";
 import { companypolicyWatchFun } from "./adminSettings/companypolicy.saga";
+import { skillWatchFun } from "./adminSettings/skill.saga";
+import { payRollWatchFunc } from "./payroll.saga";
 
 export default function* rootSaga() {
   yield all([
@@ -33,5 +35,7 @@ export default function* rootSaga() {
     holidaycalendarWatchFun(),
     leavetypeWatchFun(),
     companypolicyWatchFun(),
+    skillWatchFun(),
+    payRollWatchFunc(),
   ]);
 }

@@ -1,8 +1,10 @@
 @import "./sideBar.css";
+@import "./adminDashbord.css";
 @import "./adminSettings.css";
 @import "./employee.css";
 @import "./projects.css";
 @import "./tasks.css";
+@import "./payroll.css";
 
 body {
   /* font-family: "Saira", sans-serif; */
@@ -36,6 +38,17 @@ body {
 
 .ml-60 {
   margin-left: 60px;
+}
+
+.card {
+  border-radius: 5px;
+  /* box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2); */
+  margin-bottom: 10px;
+}
+
+.btn-color {
+  background-color: #0c3747 !important;
+  border: 0;
 }
 
 /* toggle btn */

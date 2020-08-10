@@ -215,6 +215,13 @@ const Assets = (props) => {
     }
   }, [itemCategoryId, assetName, addItem, assetAddFormValidation.isFormValid]);
 
+  // to go back.
+  const handleBackwardClick = React.useCallback(() => {
+    setIsOpenGridView(true);
+    setIsOpenAssetItems(false);
+    setSelectedItem("");
+  }, []);
+
   return (
     <div>
       {/* ------------------------ Top Row--------------------- */}
@@ -225,8 +232,7 @@ const Assets = (props) => {
           ) : (
             // <h3>Add Item to </h3>
             <h3>
-              Assets {selectedItem !== "" ? `-> ${selectedItem.itemName}` : ""}
-              Assets
+              Assets{selectedItem !== "" ? `/${selectedItem.itemName}` : ""}
             </h3>
           )}
         </Col>
@@ -237,10 +243,7 @@ const Assets = (props) => {
               <Button
                 color=""
                 className="btn-admin-settings float-right"
-                onClick={() => {
-                  setIsOpenGridView(true);
-                  setIsOpenAssetItems(false);
-                }}
+                onClick={handleBackwardClick}
               >
                 <i className="fas fa-arrow-left  "></i>
               </Button>
@@ -266,6 +269,7 @@ const Assets = (props) => {
           openAddForm={toggleFromGridViewsAddBtn}
           handleSelectedAsset={handleSelectedItem}
           userList={empList}
+          assets={assetList}
         ></AssetsTabs>
       ) : null}
       {/* show the items corresponding to an asset. */}

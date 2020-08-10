@@ -10,18 +10,18 @@ import {
   EmpProfileViewTopCard,
   EmpProfileViewTabs,
 } from "../../components/employee/index";
-import { getProjectList } from "../../redux/actions/projects/projects.action";
+import { getProjectsOfEmployee } from "../../redux/actions/projects/projects.action";
 
 const EmployeeProfileView = (props) => {
   let empId = props.match.params.empId;
 
-  const { getSelectedEmp, getProjectList } = props;
+  const { getSelectedEmp, getProjectsOfEmployee } = props;
   const { selectEmp } = props.selectEmp;
 
   useEffect(() => {
     getSelectedEmp(empId);
-    getProjectList();
-  }, [getSelectedEmp, getProjectList, empId]);
+    getProjectsOfEmployee(empId);
+  }, [getSelectedEmp, getProjectsOfEmployee, empId]);
 
   return (
     <Container>
@@ -31,7 +31,7 @@ const EmployeeProfileView = (props) => {
         </Col>
       </Row>
       <EmpProfileViewTopCard selectEmp={selectEmp}></EmpProfileViewTopCard>
-      <EmpProfileViewTabs {...props} ></EmpProfileViewTabs>
+      <EmpProfileViewTabs {...props}></EmpProfileViewTabs>
     </Container>
   );
 };
@@ -45,5 +45,5 @@ export default connect(mapStateToProps, {
   getSelectedEmp,
   delCertificateEmp,
   addEmpSkill,
-  getProjectList,
+  getProjectsOfEmployee,
 })(EmployeeProfileView);

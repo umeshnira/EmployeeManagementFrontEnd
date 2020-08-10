@@ -69,7 +69,7 @@ const FormAddEditAssetItem = React.memo((props) => {
   // function
   const handleFormSubmit = React.useCallback(() => {
     // e.preventDefault();
-
+    console.log(itemUser?.value?.employeeId ?? 0);
     let AssetFormData = new FormData();
     AssetFormData.set("itemNo", itemNo);
     AssetFormData.set("itemId", selectedItem.itemId);
@@ -78,11 +78,12 @@ const FormAddEditAssetItem = React.memo((props) => {
     AssetFormData.set("modelNo", itemModelNo);
     AssetFormData.set("purchaseDate", purchaseDate);
     AssetFormData.set("vendor", vendor);
-    AssetFormData.set(" warentyDetails", "");
+    AssetFormData.set("warentyDetails", "");
     AssetFormData.set("warrantyEndDate", warrantyEndDate);
     AssetFormData.set(
-      " employeeId",
-      itemUser !== 0 ? itemUser.value.employeeId : 0
+      "employeeId",
+      // itemUser !== 0 ? itemUser.value.employeeId : 0
+      itemUser?.value?.employeeId ?? 0
     );
     AssetFormData.append("WarrantyFileUpload", warrentyFile);
     // console.log(warrentyFile);
@@ -105,7 +106,6 @@ const FormAddEditAssetItem = React.memo((props) => {
     if (selectedAsset !== "") {
       handleUpdateAsset(AssetFormData);
     } else {
-      console.log(AssetFormData);
       handleAddAsset(AssetFormData);
     }
   }, [

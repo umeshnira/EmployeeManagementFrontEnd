@@ -10,6 +10,9 @@ import PageSpinner from "./components/common/PageSpinner";
 // import Test from "./pages/test/Test";
 // import Test2 from "./pages/test/Test2";
 
+// Admin dashboard.
+import { AdminDashboard } from "./pages/adminDashboard/index";
+
 // Admin settings
 import {
   CompanyLocation,
@@ -26,6 +29,7 @@ import {
 } from "./pages/adminSettings/index";
 // Employee .
 import {
+  EmployeeDashboard,
   EmployeeSettings,
   EmployeeProfileView,
   EmployeeRewards,
@@ -37,13 +41,24 @@ import { ListProjects, ViewProject } from "./pages/projects/index";
 // Tasks
 import { TaskManagment } from "./pages/tasks/index";
 
+// payroll.
+import {
+  EmployeeSalary,
+  PayRollItems,
+  SalaryProcess,
+  SalaryReport,
+  PLReport,
+} from "./pages/payroll/index";
+
 // const Designation = React.lazy(() =>
 //   import("./pages/adminSettings/designation/Designation")
 // );
 
 import Test3 from "./pages/test/Test3";
 
-const ViewPreviousProject = React.lazy(() => import("./components/employee/previousProjects/ViewPreviousProject.js"));
+const ViewPreviousProject = React.lazy(() =>
+  import("./components/employee/previousProjects/ViewPreviousProject.js")
+);
 
 function App() {
   return (
@@ -53,7 +68,8 @@ function App() {
         <MainLayout>
           <React.Suspense fallback={<PageSpinner />}>
             {/* home routes */}
-            <Route exact path="/" component={""}></Route>
+
+            <Route exact path="/" component={AdminDashboard}></Route>
             {/* ----------Admin Settings Routes----------------- */}
             <Route exact path="/department" component={Department}></Route>
             <Route exact path="/designation" component={Designation}></Route>
@@ -83,6 +99,11 @@ function App() {
               component={RolesNdPermissions}
             ></Route>
             {/* ----------Employee Settings Routes----------------- */}
+            <Route
+              exact
+              path="/employeeDashboard"
+              component={EmployeeDashboard}
+            ></Route>
             <Route exact path="/emplist" component={EmployeeSettings} />
             <Route
               exact
@@ -111,8 +132,18 @@ function App() {
               component={ViewProject}
             />
             <Route exact path="/taskManagment" component={TaskManagment} />
+            <Route
+              exact
+              path="/viewPreviousProject/:workExperienceId/:employeeId"
+              component={ViewPreviousProject}
+            ></Route>
+            {/* payroll -----------------------------------------------  */}
+            <Route exact path="/employeeSalary" component={EmployeeSalary} />
+            <Route exact path="/payRollItems" component={PayRollItems} />
+            <Route exact path="/processSalary" component={SalaryProcess} />
+            <Route exact path="/salaryReport" component={SalaryReport} />
+            <Route exact path="/plReport" component={PLReport} />
             <Route exact path="/test3" component={Test3} />
-            <Route exact path="/viewPreviousProject/:workExperienceId/:employeeId" component={ViewPreviousProject}></Route>
           </React.Suspense>
         </MainLayout>
       </Switch>

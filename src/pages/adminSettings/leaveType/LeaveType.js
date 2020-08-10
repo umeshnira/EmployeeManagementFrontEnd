@@ -241,7 +241,7 @@ const Leaves = (props) => {
     callValidation.current = true;
   };
   const callBackAfterValidation = () => {
-    console.log("formValidation:", isFormValid);
+    console.log("formValidation:", selectedLeaves.id);
     if (isFormValid) {
       // if form valid.
       if (selectedLeaves.id !== "") {

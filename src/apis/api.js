@@ -7,7 +7,7 @@ export default {
     return {
       GetAllDesignations: () => axios.get(url + "GetAllDesignations"),
       AddEditDesignation: (formData) =>
-      axios.post(url + "AddEditDesignation", formData),
+        axios.post(url + "AddEditDesignation", formData),
       DeleteDesignation: (id) =>
         axios.post(url + `DeleteDesignation?designationId=${id}`),
     };
@@ -17,8 +17,8 @@ export default {
     return {
       GetAllDepartments: () => axios.get(url + "GetAllDepartments"),
       AddEditDepartment: (formData) =>
-      axios.post(url + "AddEditDepartment", formData),
-      DeleteDesignation: (id) =>
+        axios.post(url + "AddEditDepartment", formData),
+      DeleteDepartment: (id) =>
         axios.post(url + `DeleteDepartment?departmentId=${id}`),
     };
   },
@@ -53,7 +53,8 @@ export default {
   dbEmployeeTypes(url = baseUrl + "Admin/") {
     return {
       GetEmployeeTypeList: () => axios.get(url + "GetEmployeeTypeList"),
-      GetEmployeeTypeById: (empTypeId) => axios.get(url + `GetEmployeeTypeById?employeeTypeId=${empTypeId}`),
+      GetEmployeeTypeById: (empTypeId) =>
+        axios.get(url + `GetEmployeeTypeById?employeeTypeId=${empTypeId}`),
       AddEditEmployeeType: (formData) =>
         axios.post(url + "AddEditEmployeeType", formData),
       DeleteEmployeeType: (delId) =>
@@ -95,30 +96,32 @@ export default {
       del: (delId) => axios.post(url + `DeleteAsset?itemNo=${delId}`),
     };
   },
-     //leave type api's
-    dbLeaveTypes(url = baseUrl + "Admin/") {
-      return {
-        GetLeaveTypes: () => axios.get(url + "GetLeaveTypes"),
-        AddEditLeaveTypes: (formData) =>
-          axios.post(url + "AddEditLeaveTypes", formData),
-        DeleteLeaveTypes: (leaveTypeId) =>
-          axios.post(url + `DeleteLeaveTypes?LeaveTypeId=${leaveTypeId}`),
-      };
-    },
-    
-   //company policy api's
-   dbcompanypolicies(url = baseUrl + "Admin/") {
+  //leave type api's
+  dbLeaveTypes(url = baseUrl + "Admin/") {
+    return {
+      GetLeaveTypes: () => axios.get(url + "GetLeaveTypes"),
+      AddEditLeaveTypes: (formData) =>
+        axios.post(url + "AddEditLeaveTypes", formData),
+      DeleteLeaveTypes: (leaveTypeId) =>
+        axios.post(url + `DeleteLeaveTypes?LeaveTypeId=${leaveTypeId}`),
+    };
+  },
+
+  //company policy api's
+  dbcompanypolicies(url = baseUrl + "Admin/") {
     return {
       GetCompanyPoliciesList: () => axios.get(url + "GetCompanyPoliciesList"),
       AddEditCompanyPolicies: (formData) =>
         axios.post(url + "AddEditCompanyPolicies", formData),
-        DeleteCompanyPolicies: (companyPolicyId) =>
-        axios.post(url + `DeleteCompanyPolicies?companyPolicyId=${companyPolicyId}`),
+      DeleteCompanyPolicies: (companyPolicyId) =>
+        axios.post(
+          url + `DeleteCompanyPolicies?companyPolicyId=${companyPolicyId}`
+        ),
     };
   },
-  
-   //holiday calendar api's
-   dbcalendar(url = baseUrl + "Admin/") {
+
+  //holiday calendar api's
+  dbcalendar(url = baseUrl + "Admin/") {
     return {
       GetHolidayCalendarList: () => axios.get(url + "GetHolidayCalendarList"),
       AddEditHolidayCalendar: (formData) =>
@@ -129,46 +132,96 @@ export default {
   },
 
   // employee educational info
-  dbempeducationalinfo(url = baseUrl + "Employee/"){
+  dbempeducationalinfo(url = baseUrl + "Employee/") {
     return {
-      GetEmpEducationalInfo: (employeeId) => axios.get(url + `GetEmployeeEducationalQualificationByEmployeeId?employeeId=${employeeId}`),
+      GetEmpEducationalInfo: (employeeId) =>
+        axios.get(
+          url +
+            `GetEmployeeEducationalQualificationByEmployeeId?employeeId=${employeeId}`
+        ),
       AddEditEmpEducationalInfo: (formData) => {
-                axios.post(url + "AddEditEmployeeEducationalQualification", formData)
+        axios.post(url + "AddEditEmployeeEducationalQualification", formData);
       },
       DeleteEmpEducationalInfo: (educationalQualificationId) =>
-      axios.post(url + `DeleteEmployeeEducationalQualificationDetails?educationalQualificationId=${educationalQualificationId}`),    
+        axios.post(
+          url +
+            `DeleteEmployeeEducationalQualificationDetails?educationalQualificationId=${educationalQualificationId}`
+        ),
     };
   },
 
   // Qualification api
   dbqualification(url = baseUrl + "Admin/") {
-      return {
-        GetQualifications: () => axios.get(url + "GetQualifications"),
-      }
+    return {
+      GetQualifications: () => axios.get(url + "GetQualifications"),
+    };
   },
 
   // Work Experience api
   dbworkexperience(url = baseUrl + "Employee/") {
     return {
-      GetPreviousProject: (employeeId) => axios.get(url + `GetEmployeeWorkExperienceByEmployeeId?employeeId=${employeeId}`),
-      GetPreviousProjectDetails:(workExperienceId) => axios.get(url + `GetEmployeeWorkExperienceById?workExperienceId=${workExperienceId}`),
-      AddEditPreviousProjectDetails: (formData) => 
-      axios.post(url + "AddEditEmployeeWorkExperience", formData),
+      GetPreviousProject: (employeeId) =>
+        axios.get(
+          url + `GetEmployeeWorkExperienceByEmployeeId?employeeId=${employeeId}`
+        ),
+      GetPreviousProjectDetails: (workExperienceId) =>
+        axios.get(
+          url +
+            `GetEmployeeWorkExperienceById?workExperienceId=${workExperienceId}`
+        ),
+      AddEditPreviousProjectDetails: (formData) =>
+        axios.post(url + "AddEditEmployeeWorkExperience", formData),
       DeletePreviousProject: (workExperienceId) =>
-      axios.post(url + `DeleteEmployeeWorkExperience?workExperienceId=${workExperienceId}`),    
-    }
+        axios.post(
+          url +
+            `DeleteEmployeeWorkExperience?workExperienceId=${workExperienceId}`
+        ),
+    };
   },
 
-// Previous Company Details api
-dbpreviouscompany(url = baseUrl + "Employee/") {
-  return {
-    GetEmpPreviousCompanyInfo: (employeeId) => axios.get(url + `GetAllEmployeePreviousCompanyDetailsByEmployeeId?employeeId=${employeeId}`),
-    AddEditPreviousCompanyInfo: (formData) => 
-      axios.post(url + "AddEditEmployeePreviousCompanyDetails", formData),
-    DeletePreviousCompanyInfo: (employeeCompanyDetailsId) =>
-      axios.post(url + `DeleteEmployeePreviousCompanyDetails?employeeCompanyDetailsId=${employeeCompanyDetailsId}`),    
-  }
-},
+  // Previous Company Details api
+  dbpreviouscompany(url = baseUrl + "Employee/") {
+    return {
+      GetEmpPreviousCompanyInfo: (employeeId) =>
+        axios.get(
+          url +
+            `GetAllEmployeePreviousCompanyDetailsByEmployeeId?employeeId=${employeeId}`
+        ),
+      AddEditPreviousCompanyInfo: (formData) =>
+        axios.post(url + "AddEditEmployeePreviousCompanyDetails", formData),
+      DeletePreviousCompanyInfo: (employeeCompanyDetailsId) =>
+        axios.post(
+          url +
+            `DeleteEmployeePreviousCompanyDetails?employeeCompanyDetailsId=${employeeCompanyDetailsId}`
+        ),
+    };
+  },
+
+  // skill api.
+  skill(url = baseUrl + "Admin/") {
+    return {
+      getAllSkills: () => axios.get(url + "GetAllSkills"),
+    };
+  },
+  // project api.
+  project(url = baseUrl + "Employee/") {
+    return {
+      getProjectsOfEmployee: (empId) =>
+        axios.get(url + `GetProjectDetailByEmployee?EmployeeId=${empId}`),
+      addProject: (formData) =>
+        axios.post(url + "AddEmployeeProjects", formData),
+      editProject: (formData) =>
+        axios.post(url + "EditEmployeeProjects", formData),
+      delProject: (delId) =>
+        axios.post(url + `DeleteProject?ProjectId=${delId}`),
+    };
+  },
+
+  // task api.
+  task(url = baseUrl + "Employee/") {
+    return {
+      getProjectDetailsOfEmp: (employeeId) =>
+        axios.get(url + `GetProjectDetailByEmployee?EmployeeId=35`),
+    };
+  },
 };
-
-

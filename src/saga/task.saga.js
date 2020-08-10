@@ -9,28 +9,33 @@ import {
   DEL_TASK,
   DEL_TASK_SUCCESS,
 } from "../redux/actions/actionType";
+import api from "../apis/api";
 import { tasks } from "../datas/tasks";
 import { projectsList } from "../datas/projects";
 
 // Api Functions.
-function getEmpTaskApi(empId) {
+function* getEmpTaskApi(employeeId) {
   // api call all task .
-  // api call all projects .
+  // api call all projects of corresponding employee.
+  console.log("task project", employeeId);
+  const empWorkingProjects = yield api
+    .project()
+    .getProjectsOfEmployee(employeeId);
 
-  let empTask = tasks.filter((el) => el.empId === empId);
+  let empTask = tasks.filter((el) => el.employeeId === employeeId);
   let projectNames = [];
-  projectsList.map((project) =>
-    project.projectTeam.map((member) =>
-      member.memberId === empId
-        ? projectNames.push({
-            projectId: project.projectId,
-            projectName: project.projectName,
-          })
-        : null
-    )
-  );
+  // projectsList.map((project) =>
+  //   project.projectTeam.map((member) =>
+  //     member.memberId === employeeId
+  //       ? projectNames.push({
+  //           projectId: project.projectId,
+  //           projectName: project.projectName,
+  //         })
+  //       : null
+  //   )
+  // );
 
-  return { empTask, projectNames };
+  return { empTask, projectNames, empWorkingProjects: empWorkingProjects.data };
 }
 
 function addTaskApi(formData, taskProjectId) {
@@ -48,10 +53,13 @@ function delTaskApi(delId) {
 // get all the task of a particular employee.
 export function* handleGetEmpTask(empId) {
   try {
-    const { empTask, projectNames } = yield call(getEmpTaskApi, empId.payload);
+    const { empTask, projectNames, empWorkingProjects } = yield call(
+      getEmpTaskApi,
+      empId.payload
+    );
     yield put({
       type: GET_EMP_TASK_SUCCESS,
-      payload: { empTask, projectNames },
+      payload: { empTask, projectNames, empWorkingProjects },
     });
   } catch (error) {
     console.log(error);

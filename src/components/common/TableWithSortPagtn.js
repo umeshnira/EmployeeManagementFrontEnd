@@ -47,22 +47,8 @@ function TableView({ columns, data }) {
   // Render the UI for your table
   return (
     <>
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
-      <Row id="showPageCountInTable">
+      {/* <div style={{ width: "100%", overflowY: "auto" }}> */}
+      <Row className="mb-2" id="showPageCountInTable">
         <Col sm={2}>
           <select
             className="form-control"
@@ -86,7 +72,7 @@ function TableView({ columns, data }) {
         cellspacing="0"
         cellpadding="0"
         border="0"
-        // width="325"
+        width="100%"
       >
         {/* <tr>
           <td> */}
@@ -103,19 +89,13 @@ function TableView({ columns, data }) {
                     <th
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                     >
-                      {column.render("Header")}
                       {/* Add a sort direction indicator */}
                       <span className="">
-                        <i className="fas fa-exchange-alt fa-rotate-90 ml-3"></i>
-                        {/* {column.isSorted ? (
-                              column.isSortedDesc ? (
-                                " 🔽"
-                              ) : (
-                                " 🔼"
-                              )
-                            ) : (
-                              <i className="fas fa-exchange-alt fa-rotate-90"></i>
-                            )} */}
+                        {column.render("Header")}
+
+                        <small>
+                          <i className="fas fa-exchange-alt fa-rotate-90 ml-3"></i>
+                        </small>
                       </span>
                     </th>
                   ))}
@@ -255,6 +235,7 @@ function TableView({ columns, data }) {
           </Row>
         </Col>
       </Row>
+      {/* </div> */}
     </>
   );
 }
@@ -288,7 +269,6 @@ const TableWithSorPagtn = React.memo((props) => {
   );
   const data = React.useMemo(() => props.trow, [props.trow]);
 
-  console.log("in table sort");
   return (
     // <Styles>
 
