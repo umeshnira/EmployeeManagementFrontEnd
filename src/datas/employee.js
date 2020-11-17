@@ -214,7 +214,7 @@ export const empSkills = [
       {
         skillId: 1,
         skillCategory: "technologies",
-        skillName: [".NET TECHNOLOGIES", "MEAR", "MEAN", "Odoo"],
+        skillName: [".NET TECHNOLOGIES", "MERN", "MEAN", "Odoo"],
       },
       {
         skillId: 2,

@@ -12,8 +12,6 @@ const AddEditTask = React.memo(
     taskProjectInfo,
     addOrEdit,
   }) => {
-    console.log("Add Edit Task");
-
     const [createdDate, setCreatedDate] = useState(new Date());
     const [taskTitle, setTaskTitle] = useState("");
     const [hourSpent, setHourSpent] = useState("");

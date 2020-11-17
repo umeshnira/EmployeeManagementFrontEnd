@@ -10,7 +10,9 @@ const tasks = [
     createdDate: "07-23-2020",
     hourSpent: "12",
     hourBillable: "8",
-    status: "inProgress",
+    status: "pending",
+    priorty: "High",
+    progress: 67,
     description:
       "User interface design or user interface engineering is the design of user interfaces for machines and software, such as computers, home appliances, mobile devices, and other electronic devices, with the focus on maximizing usability and the user experience. ",
   },
@@ -25,7 +27,10 @@ const tasks = [
     createdDate: "07-11-2020",
     hourSpent: "12",
     hourBillable: "8",
-    status: "inProgress",
+    status: "inprogress",
+    priorty: "High",
+    progress: 67,
+
     description:
       "User interface design or user interface engineering is the design of user interfaces for machines and software, such as computers, home appliances, mobile devices, and other electronic devices, with the focus on maximizing usability and the user experience. ",
   },
@@ -34,13 +39,32 @@ const tasks = [
     projectName: "Robo Control",
     employeeId: 31,
     employeeName: "Waston",
-    taskId: 2,
-    taskTitle: "Dev UI home view ",
+    taskId: 3,
+    taskTitle: "Dev UI home view Dev UI home view Dev UI home view  ",
     createdBy: "Waston",
     createdDate: "07-11-2020",
     hourSpent: "12",
     hourBillable: "8",
     status: "completed",
+    priorty: "High",
+    description:
+      "User interface design or user interface engineering is the design of user interfaces for machines and software, such as computers, home appliances, mobile devices, and other electronic devices, with the focus on maximizing usability and the user experience. ",
+  },
+  {
+    projectId: 54,
+    projectName: "Robo Control",
+    employeeId: 31,
+    employeeName: "Lily",
+    taskId: 4,
+    taskTitle: "DB Design ",
+    createdBy: "Waston",
+    createdDate: "07-11-2020",
+    hourSpent: "12",
+    hourBillable: "8",
+    status: "completed",
+    priorty: "High",
+    progress: 67,
+
     description:
       "User interface design or user interface engineering is the design of user interfaces for machines and software, such as computers, home appliances, mobile devices, and other electronic devices, with the focus on maximizing usability and the user experience. ",
   },
@@ -56,6 +80,9 @@ const tasks = [
     hourSpent: "12",
     hourBillable: "8",
     status: "inProgress",
+    priorty: "High",
+    progress: 67,
+
     description:
       "User interface design or user interface engineering is the design of user interfaces for machines and software, such as computers, home appliances, mobile devices, and other electronic devices, with the focus on maximizing usability and the user experience. ",
   },
@@ -64,13 +91,16 @@ const tasks = [
     projectName: "food Delivery App",
     empId: 31,
     empName: "Waston",
-    taskId: 3,
+    taskId: 6,
     taskTitle: "Dev side-bar and header",
     createdBy: "Waston",
     createdDate: "07-18-2020",
     hourSpent: "12",
     hourBillable: "8",
     status: "completed",
+    priorty: "High",
+    progress: 67,
+
     description:
       "Renowned for its dynamic handling, XE’s performance has been enhanced even further. With upgrades to the suspension and revised JaguarDrive Control, be prepared for a thrilling ride.",
   },
@@ -86,6 +116,9 @@ const tasks = [
     hourSpent: "12",
     hourBillable: "8",
     status: "completed",
+    priorty: "High",
+    progress: 67,
+
     description:
       "Renowned for its dynamic handling, XE’s performance has been enhanced even further. With upgrades to the suspension and revised JaguarDrive Control, be prepared for a thrilling ride.",
   },

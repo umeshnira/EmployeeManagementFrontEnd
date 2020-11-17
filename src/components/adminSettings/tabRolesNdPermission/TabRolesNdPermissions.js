@@ -109,11 +109,11 @@ export default function TabRolesNdPermissions(props) {
                                           <td className="text-center">
                                             <Input
                                               type="checkbox"
-                                              checked={
-                                                permissions[
-                                                  Object.keys(permissions)
-                                                ]
-                                              }
+                                              // checked={
+                                              //   permissions[
+                                              //     Object.keys(permissions)
+                                              //   ]
+                                              // }
                                             />
                                           </td>
                                         );

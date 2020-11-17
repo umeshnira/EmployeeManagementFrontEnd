@@ -42,6 +42,16 @@ import {
   UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
   DELETE_EMP_PREVIOUS_PROJECT_DETAILS,
   DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  GET_EMP_CERTIFICATE,
+  GET_EMP_CERTIFICATE_SUCCESS,
+  UPDATE_EMP_CERTIFICATE,
+  UPDATE_EMP_CERTIFICATE_SUCCESS,
+  ADD_EMP_CERTIFICATE,
+  ADD_EMP_CERTIFICATE_SUCCESS,
+  GET_EMP_SKILL,
+  GET_EMP_SKILL_SUCCESS,
+  DEL_EMP_SKILL,
+  DEL_EMP_SKILL_SUCCESS,
 } from "../redux/actions/actionType";
 
 import { empList, empCertificates, empSkills } from "../datas/employee";
@@ -86,20 +96,49 @@ function* getSelectEmpApi(empId) {
   };
   return { profileInfo };
 }
+
+// ------------------------------ Certification --------------------------------------------------
+function* getEmpCerticatesApi(empId) {
+  // api call.
+  const response = yield api.empCertificates().getEmpCertificates(empId);
+  return response.data;
+}
+
+function addEditEmpCertificate(formData) {
+  const response = api.empCertificates().addEditEmpCertification(formData);
+  return response;
+}
+
 function delEmpCertificateApi(delId) {
   // api call.
+  api.empCertificates().delEmpCertification(delId);
 }
-function addEmpNewSkillApi(empNewSkill, skillId, empId) {
-  // api call.
-  let newEmpSkillList = empSkills[0].skill; //to replace, take only skill key
-  newEmpSkillList.filter(
-    (el) => (el.skillId === skillId ? el.skillName.push(empNewSkill) : null)
-    // if (el.skillId === skillId) el.skillName.push(empNewSkill)
-  );
-  console.log(empNewSkill);
 
-  console.log(newEmpSkillList);
-  return { newEmpSkillList };
+// -------------------------Employee Skill Api call's------------------------------------------------------
+
+function* getEmpSkillApi(empId) {
+  // Api call here,
+  const response = yield api.empSkill().getEmpSkillById(empId);
+  return response.data;
+}
+
+function* addEmpNewSkillApi(formData) {
+  // api call here.
+  yield api.empSkill().addEditEmpSkill(formData);
+  // After adding to DB, then get all the data's.
+  const resposne = yield getEmpSkillApi(formData.employeeId);
+  return resposne;
+}
+
+function* delEmpSkillApi(incomingIds) {
+  let skillId = incomingIds.empSkillId;
+  let employeeId = incomingIds.empId;
+  console.log(skillId);
+  // api call here.
+  yield api.empSkill().deleteEmpSkillById(skillId);
+  // After deleting skill, then get all employee data's.
+  const resposne = yield getEmpSkillApi(employeeId);
+  return resposne;
 }
 
 function getEmpEducationalInfoApi(employeeId) {
@@ -238,32 +277,83 @@ export function* handleGetSelectEmp({ payload }) {
   }
 }
 
-// delete a employee certificate.
-export function* handleDelEmpCertificate(delId) {
+// ---------------------Certificates. ----------------------------------------------
+// Get.
+export function* handleEmpCertificate({ payload }) {
   try {
-    yield call(delEmpCertificateApi, delId.payload);
-    yield put({ type: DEL_EMP_CERTIFICATE_SUCCESS, delId: delId.payload });
+    let empId = payload;
+    const response = yield call(getEmpCerticatesApi, empId);
+    yield put({ type: GET_EMP_CERTIFICATE_SUCCESS, payload: response });
+  } catch (error) {
+    console.log(error);
+  }
+}
+// Create.
+export function* handleAddEmpCertificate({ payload }) {
+  try {
+    let formData = payload;
+    const response = yield call(addEditEmpCertificate, formData);
+    yield put({ type: ADD_EMP_CERTIFICATE_SUCCESS, payload: formData });
   } catch (error) {
     console.log(error);
   }
 }
 
-// add a employee skill.
-export function* handleAddEmpNeSkill({ empNewSkill, skillId, empId }) {
+//Update.
+export function* handleUpdateEmpCertificate({ payload }) {
   try {
-    const { newEmpSkillList } = yield call(
-      addEmpNewSkillApi,
-      empNewSkill,
-      skillId,
-      empId
-    );
+    let formData = payload;
+    const response = yield call(addEditEmpCertificate, formData);
+    yield put({ type: UPDATE_EMP_CERTIFICATE_SUCCESS, payload: response });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// delete a employee certificate.
+export function* handleDelEmpCertificate({ payload }) {
+  try {
+    let delId = payload;
+    console.log(delId);
+    yield call(delEmpCertificateApi, delId);
+    yield put({ type: DEL_EMP_CERTIFICATE_SUCCESS, payload: delId });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ---------------------Employee skill--------------------------------------------------------
+
+// Get employee skill list.
+export function* handleGetEmpSkill({ payload }) {
+  try {
+    let empId = payload;
+    const response = yield call(getEmpSkillApi, empId);
+    yield put({ type: GET_EMP_SKILL_SUCCESS, payload: response });
+  } catch (error) {
+    console.log(error);
+  }
+}
+// add a employee skill.
+export function* handleAddEmpNewSkill({ payload }) {
+  try {
+    let formData = payload;
+    const response = yield call(addEmpNewSkillApi, formData);
     yield put({
       type: ADD_EMP_SKILL_SUCCESS,
-      newEmpSkillList: newEmpSkillList,
-      // empNewSkill: empNewSkill,
-      // skillId: skillId,
-      // empId: empId,
+      payload: response,
     });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// delete employee skill.
+export function* handleDelEmpSkill({ payload }) {
+  try {
+    let incomingIds = payload;
+    const response = yield call(delEmpSkillApi, incomingIds);
+    yield put({ type: DEL_EMP_SKILL_SUCCESS, payload: response });
   } catch (error) {
     console.log(error);
   }
@@ -445,8 +535,17 @@ export function* employeeWatchFun() {
   yield takeLatest(UPDATE_EMP, handleUpdateEmp);
   yield takeLatest(DEL_EMP, handleDelEmp);
   yield takeLatest(GET_SELECT_EMP, handleGetSelectEmp);
+  // -------------------------Employee certification ------------------------------
+  yield takeLatest(GET_EMP_CERTIFICATE, handleEmpCertificate);
+  yield takeLatest(ADD_EMP_CERTIFICATE, handleAddEmpCertificate);
+  yield takeLatest(UPDATE_EMP_CERTIFICATE, handleUpdateEmpCertificate);
   yield takeLatest(DEL_EMP_CERTIFICATE, handleDelEmpCertificate);
-  yield takeLatest(ADD_EMP_SKILL, handleAddEmpNeSkill);
+
+  // ------------------------- Employee skill ------------------------------
+  yield takeLatest(GET_EMP_SKILL, handleGetEmpSkill);
+  yield takeLatest(ADD_EMP_SKILL, handleAddEmpNewSkill);
+  yield takeLatest(DEL_EMP_SKILL, handleDelEmpSkill);
+
   yield takeLatest(GET_EMP_EUCATIONAL_INFO, handleGetEmpEducationalInfo);
   yield takeLatest(ADD_EMP_EUCATIONAL_INFO, handleAddEducationalInfo);
   yield takeLatest(GET_EMP_QUALIFICATION, handleGetQualification);

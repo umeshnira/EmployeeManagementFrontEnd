@@ -14,7 +14,7 @@ const PayRollItems = (props) => {
   const { getEmpList, getAllPayRollItem } = props;
   const { empList } = props.empList;
   const { payRollItem } = props.payRollItem;
-  const [isOpenSalaryBreakUp, setIsOpenSalaryBreakUp] = useState(false);
+  const [isOpenSalaryBreakUp, setIsOpenSalaryBreakUp] = useState(!false);
   const [
     showBtnGenerateSalaryBreakUp,
     setShowGenerateBtnSalaryBreakUp,
@@ -42,6 +42,7 @@ const PayRollItems = (props) => {
       {isOpenSalaryBreakUp && (
         <Fragment>
           <SalaryBreakUpTemplate
+            empList={empList}
             toggleSalaryBreakUp={toggleSalaryBreakUp}
           ></SalaryBreakUpTemplate>
         </Fragment>

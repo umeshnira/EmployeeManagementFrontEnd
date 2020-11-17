@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 
 const EmpProfileViewToCard = React.memo(({ selectEmp }) => {
+  console.log("Employee Profile Top Row");
   return (
     <Card style={{ borderRadius: "5px" }}>
       <CardBody>

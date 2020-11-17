@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import SelectBoxSearch from "../../common/SelectBoxSearch";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,13 +16,16 @@ import {
   Input,
 } from "reactstrap";
 
-import {
-  updatePreviousProjectList,
-} from "../../../redux/actions/employee/employee.action";
+import { updatePreviousProjectList } from "../../../redux/actions/employee/employee.action";
 
 const AddEditFormPreviousProject = React.memo(
-  ({ prevprojects, toggleForm, updatePreviousProject, addPreviousProject, ...props }) => {
-
+  ({
+    prevprojects,
+    toggleForm,
+    updatePreviousProject,
+    addPreviousProject,
+    ...props
+  }) => {
     const [projectName, setProjectName] = useState("");
     const [technologiesArr, setTechnologiesArr] = useState([]);
     const [technology, setTechnology] = useState("");
@@ -33,23 +36,21 @@ const AddEditFormPreviousProject = React.memo(
     const [formValidationState, setFormValidationState] = useState({});
     const callValidation = useRef(false);
 
-
     // let technologyarray = [];
     // technologyarray.push(prevprojects.technologies);
 
     useEffect(() => {
-      console.log(props.match.params.empId);
+      // console.log(props.match.params.empId);
       if (Object.keys(prevprojects).length > 0) {
         let technologyarray = prevprojects.technologies;
-        technologyarray = technologyarray.split(',');       
+        technologyarray = technologyarray.split(",");
 
         setProjectName(prevprojects.projectName);
         setRole(prevprojects.role);
         setTechnologiesArr(technologyarray);
         setEnvironment(prevprojects.environment);
         setProjectDescp(prevprojects.description);
-      } 
-      else {
+      } else {
         console.log("add");
       }
     }, [prevprojects]);
@@ -61,14 +62,14 @@ const AddEditFormPreviousProject = React.memo(
       setTechnologiesArr((prevState) => prevState.concat(technology));
     }, [setTechnologiesArr, technology]);
 
-  // custom hook.
-  const { formValidation, isFormValid } = useFormValidation(
-    formValidationState
-  );
+    // custom hook.
+    const { formValidation, isFormValid } = useFormValidation(
+      formValidationState
+    );
 
-  useEffect(() => {
-    callValidation.current && callBackAfterValidation();
-  }, [formValidation]);
+    useEffect(() => {
+      callValidation.current && callBackAfterValidation();
+    }, [formValidation]);
 
     // on submite add form.
     const formValidationOnSubmitUpdate = (e) => {
@@ -85,35 +86,34 @@ const AddEditFormPreviousProject = React.memo(
       setFormValidationState(formValidationList); //this set call the custom hook useFormValidation.
       callValidation.current = true;
     };
-  
+
     const callBackAfterValidation = () => {
       if (isFormValid) {
         // if form valid.
         if (Object.keys(prevprojects).length > 0) {
-         let formData = {
-          workExperienceId: parseInt(prevprojects.workExperienceId), 
-          projectName: projectName,
-          description: projectDescp,
-          role: role, 
-          technologies: technologiesArr.toString(),
-          environment: environment,
-          employeeId: parseInt(props.match.params.empId),
-         }
-         updatePreviousProject(formData);         
+          let formData = {
+            workExperienceId: parseInt(prevprojects.workExperienceId),
+            projectName: projectName,
+            description: projectDescp,
+            role: role,
+            technologies: technologiesArr.toString(),
+            environment: environment,
+            employeeId: parseInt(props.match.params.empId),
+          };
+          updatePreviousProject(formData);
           toggleForm();
-        } 
-        else {
+        } else {
           // add department
           console.log("working");
           let formData = {
             projectName: projectName,
             description: projectDescp,
-            role: role, 
+            role: role,
             technologies: technologiesArr.toString(),
             environment: environment,
             employeeId: parseInt(props.match.params.empId),
-           }
-           addPreviousProject(formData);
+          };
+          addPreviousProject(formData);
           toggleForm();
         }
       }
@@ -131,11 +131,11 @@ const AddEditFormPreviousProject = React.memo(
                 value={projectName}
               />
               {Object.keys(formValidation).length !== 0 &&
-                    !formValidation?.projectName?.isValid && (
-                      <span className=" " style={{ color: "red" }}>
-                        {formValidation?.projectName?.errorMessage}
-                      </span>
-                    )}
+                !formValidation?.projectName?.isValid && (
+                  <span className=" " style={{ color: "red" }}>
+                    {formValidation?.projectName?.errorMessage}
+                  </span>
+                )}
             </FormGroup>
           </Col>
           <Col md={6}>
@@ -149,7 +149,7 @@ const AddEditFormPreviousProject = React.memo(
             </FormGroup>
           </Col>
         </Row>
-      <Row form>
+        <Row form>
           <Col md={4} xs={4}>
             <FormGroup className="padding-r-20 ">
               <Label>Technology</Label>
@@ -164,7 +164,8 @@ const AddEditFormPreviousProject = React.memo(
             md={1}
             xs={2}
             className="mt-4  "
-            style={{ paddingRight: "20px" }}>
+            style={{ paddingRight: "20px" }}
+          >
             <Button
               color=""
               className="btn-admin-settings mt-2 w-100 m-0  "
@@ -236,6 +237,5 @@ const AddEditFormPreviousProject = React.memo(
     );
   }
 );
-
 
 export default AddEditFormPreviousProject;

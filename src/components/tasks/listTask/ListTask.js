@@ -15,7 +15,6 @@ const ListTask = React.memo(
     taskProjectInfo,
     handleToggleAllTaskCalendar,
   }) => {
-    console.log("List Task");
     const [activeTask, setActiveTask] = useState(0);
 
     const handleOnclickSelectedTask = React.useCallback(
@@ -50,46 +49,35 @@ const ListTask = React.memo(
         </div>
         <div className="mt-3">
           <ListGroup className="task-list ">
-            {empTask
-              .filter(
-                (el) => el.projectId === taskProjectInfo.projectId
-                //  &&
-                // new Date(el.createdDate).getDate() -
-                //   new Date(el.createdDate).getMonth() -
-                //   new Date(el.createdDate).getFullYear() ===
-                //   new Date().getDate() -
-                //     new Date().getMonth() -
-                //     new Date().getFullYear()
-              )
-              .map((tasks, i) => (
-                <ListGroupItem
-                  key={i}
-                  onClick={() => handleOnclickSelectedTask(tasks, i)}
-                  style={i === activeTask ? active : null}
-                >
-                  <div className="task-container ">
-                    <span className="task-check">
-                      <i className="fas fa-check  project-task-icon"></i>
+            {empTask.map((tasks, i) => (
+              <ListGroupItem
+                key={i}
+                onClick={() => handleOnclickSelectedTask(tasks, i)}
+                style={i === activeTask ? active : null}
+              >
+                <div className="task-container ">
+                  <span className="task-check">
+                    <i className="fas fa-check  project-task-icon"></i>
+                  </span>
+                  <span className="task-label">{tasks.description}</span>
+                  <span className="task-action-btn task-btn-right">
+                    <span
+                      className="action-circle large task-assign"
+                      title="Assign"
+                    >
+                      <i className="fas fa-user  project-task-icon"></i>
                     </span>
-                    <span className="task-label">{tasks.taskTitle}</span>
-                    <span className="task-action-btn task-btn-right">
-                      <span
-                        className="action-circle large task-assign"
-                        title="Assign"
-                      >
-                        <i className="fas fa-user  project-task-icon"></i>
-                      </span>
-                      <span
-                        className="action-circle large delete-btn"
-                        title="Delete Task"
-                        onClick={() => handleDelTask(tasks.taskId)}
-                      >
-                        <i className="fas fa-trash project-task-icon"></i>
-                      </span>
+                    <span
+                      className="action-circle large delete-btn"
+                      title="Delete Task"
+                      onClick={() => handleDelTask(tasks.taskId)}
+                    >
+                      <i className="fas fa-trash project-task-icon"></i>
                     </span>
-                  </div>
-                </ListGroupItem>
-              ))}
+                  </span>
+                </div>
+              </ListGroupItem>
+            ))}
           </ListGroup>
         </div>
       </Fragment>

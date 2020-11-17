@@ -55,6 +55,8 @@ import {
   DELETE_HOLIDAY_CALENDAR_SUCCESS,
   // -------- Skill
   GET_SKILL_SUCCESS,
+  // --------- Certifations.
+  GET_CERTIFICATIONS_SUCCESS,
 } from "../../actions/actionType";
 
 const initialState = {
@@ -71,6 +73,7 @@ const initialState = {
   companypolicies: [],
   holidayCalendar: [],
   skillList: [],
+  certifications: [],
   // user list.
 };
 
@@ -361,6 +364,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         skillList: action.payload,
+      };
+    // ---------------------------Certification-------------------------------
+    case GET_CERTIFICATIONS_SUCCESS:
+      return {
+        ...state,
+        certifications: action.payload,
       };
     default:
       return state;

@@ -4,12 +4,10 @@ import { CardViewProjects } from "../../projects/index";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import CardViewPreviousProjects from "../previousProjects/CardViewPreviousProjects";
 import classnames from "classnames";
-import { GET_EMPLOYEETYPES_BY_ID } from "../../../redux/actions/actionType";
 import { projectsList } from "../../../datas/projects";
 
-export const TabProjects = React.memo(({ projectList, employeeId }) => {
+const TabProjects = React.memo(({ projectList, employeeId }) => {
   const [activeTab, setActiveTab] = useState("currentproject");
-  console.log(projectList);
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -58,3 +56,5 @@ export const TabProjects = React.memo(({ projectList, employeeId }) => {
     </Fragment>
   );
 });
+
+export default TabProjects;

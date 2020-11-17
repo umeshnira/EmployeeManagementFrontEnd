@@ -3,7 +3,6 @@ import { Row, Col, Container } from "reactstrap";
 import { connect } from "react-redux";
 import {
   getSelectedEmp,
-  delCertificateEmp,
   addEmpSkill,
 } from "../../redux/actions/employee/employee.action";
 import {
@@ -43,7 +42,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getSelectedEmp,
-  delCertificateEmp,
   addEmpSkill,
   getProjectsOfEmployee,
 })(EmployeeProfileView);

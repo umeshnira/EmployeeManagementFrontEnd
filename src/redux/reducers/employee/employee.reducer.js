@@ -1,11 +1,16 @@
 import {
+  GET_SELECT_EMP_SUCCESS,
   GET_EMP_LIST_SUCCESS,
   ADD_EMP_SUCCESS,
-  GET_SELECT_EMP_SUCCESS,
-  DEL_EMP_CERTIFICATE_SUCCESS,
-  ADD_EMP_SKILL_SUCCESS,
   DEL_EMP_SUCCESS,
   UPDATE_EMP_SUCCESS,
+  // -----------------Employee certificates.--------------------
+  GET_EMP_CERTIFICATE_SUCCESS,
+  DEL_EMP_CERTIFICATE_SUCCESS,
+  // -----------------Employee Skill's--------------------------
+  GET_EMP_SKILL_SUCCESS,
+  ADD_EMP_SKILL_SUCCESS,
+  // -----------------Employee Educational Info-----------------
   GET_EMP_EUCATIONAL_INFO_SUCCESS,
   ADD_EMP_EUCATIONAL_INFO_SUCCESS,
   GET_EMP_QUALIFICATION_SUCCESS,
@@ -20,22 +25,39 @@ import {
   ADD_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
   UPDATE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
   DELETE_EMP_PREVIOUS_PROJECT_DETAILS_SUCCESS,
+  UPDATE_EMP_CERTIFICATE_SUCCESS,
+  DEL_EMP_SKILL_SUCCESS,
 } from "../../actions/actionType";
 import { empSkills, empCertificates } from "../../../datas/employee";
 
 const initialState = {
   empList: [],
   selectEmp: [],
-  // empCertificate: [],
-  empCertificate: empCertificates[0].certificate,
+  empCertificate: [],
+  // empCertificate: empCertificates[0].certificate,
 
-  // empSkill: [],
-  empSkill: empSkills[0].skill,
+  empSkill: [],
+  // empSkill: empSkills[0].skill,
   empeducationalInfo: [],
   qualification: [],
   empworkexp: [],
   prevcompanyinfo: [],
   prevprojects: [],
+};
+
+const addEmpSkillFunc = (empSkill, payload, addedNewSkill) => {
+  empSkill.map((el) =>
+    el.skillId === payload.skillId
+      ? {
+          ...el,
+          skillName: el.skillName.contact(payload.empNewSkill),
+        }
+      : {
+          skillId: payload.skillId,
+          skillCategory: payload.whichCategorySkill,
+          skillName: [payload.empNewSkill],
+        }
+  );
 };
 
 export default function (state = initialState, action) {
@@ -77,22 +99,47 @@ export default function (state = initialState, action) {
         // empCertificate: action.empCertificate[0].certificate, //we get emp id and certificate take only certificate.  Ref data/employee
         // empSkill: action.empSkill[0].skill, // we get emp id and skill as key value pair so take only skill key.  Ref data/employee
       };
+
+    // ---------------------------------------- Certification ----------------------------
+    case GET_EMP_CERTIFICATE_SUCCESS:
+      return {
+        ...state,
+        empCertificate: action.payload,
+      };
+    case UPDATE_EMP_CERTIFICATE_SUCCESS:
+      return {
+        ...state,
+        empCertificate: state.empCertificate.map((el) =>
+          el.employeeCertificationId === action.payload.employeeCertificationId
+            ? action.payload
+            : el
+        ),
+      };
+
     case DEL_EMP_CERTIFICATE_SUCCESS:
       return {
         ...state,
         empCertificate: state.empCertificate.filter(
-          (ele) => ele.certificateName !== action.delId
+          (ele) => ele.employeeCertificationId !== action.payload
         ),
+      };
+
+    // ---------------------------------------Employee skill ------------------------------------
+    case GET_EMP_SKILL_SUCCESS:
+      return {
+        ...state,
+        empSkill: action.payload,
       };
     case ADD_EMP_SKILL_SUCCESS:
       return {
         ...state,
-        // key: state.empSkill.filter((el) => {
-        //   if (el.skillId === action.skillId) {
-        //     return el.skillName.push(action.empNewSkill);
-        //   }
-        // }),
-        empSkill: action.newEmpSkillList,
+        empSkill: action.payload,
+      };
+
+    case DEL_EMP_SKILL_SUCCESS:
+      return {
+        ...state,
+        empSkill: action.payload,
       };
 
     //------Employee educational Information

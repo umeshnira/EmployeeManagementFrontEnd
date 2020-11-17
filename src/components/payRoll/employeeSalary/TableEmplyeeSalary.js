@@ -4,75 +4,84 @@ import DropDownActions from "../../common/DropDownActions";
 import { Button, Card, CardBody } from "reactstrap";
 import { empList } from "../../../datas/employee";
 
-const TableEmplyeeSalary = React.memo(() => {
-  const [thead] = useState([
-    "employee name",
-    "employee id",
-    "email",
-    "join date",
-    "role",
-    "salary",
-    "pay slip",
-    "action",
-  ]);
-  const [trow, setTrow] = useState([]);
+const TableEmplyeeSalary = React.memo(
+  ({ employeeSalaryList, handleDeletePayroll, handleClickEdit }) => {
+    const [thead] = useState([
+      "employee name",
+      "employee id",
+      "email",
+      "join date",
+      "role",
+      "salary",
+      "pay slip",
+      "action",
+    ]);
+    const [trow, setTrow] = useState([]);
 
-  useEffect(() => {
-    let trow = empList.map((emp) => ({
-      "employee name": (
-        <h2 class="table-avatar">
-          <img
-            class="profile-img-table"
-            alt=""
-            src={require(`../../../img/employee/${emp.value.profileImg}`)}
-          />
-          <span className="ml-2">
-            <span style={{ fontWeight: "600", color: "black" }}>
-              {emp.value.empName}
+    useEffect(() => {
+      let trow = employeeSalaryList.map((emp) => ({
+        "employee name": (
+          <h2 className="table-avatar">
+            <img
+              className="profile-img-table"
+              alt=""
+              src={require(`../../../img/employee/${emp.profilePicture}`)}
+            />
+            <span className="ml-2">
+              <span style={{ fontWeight: "600", color: "black" }}>
+                {emp.employeeName}
+              </span>
+              <span> {emp.designation}</span>
             </span>
-            <span> {emp.value.designation}</span>
-          </span>
-        </h2>
-      ),
-      "employee id": (
-        <div className="text-center" style={{ width: "120px" }}>
-          {emp.value.empId}
-        </div>
-      ),
-      email: <div>{emp.value.niraMailId}</div>,
-      "join date": <div style={{ width: "100px" }}>{emp.value.doj}</div>,
-      role: <div>{emp.value.department}</div>,
-      salary: <div style={{ width: "80px" }}>{emp.value.salary}</div>,
-      "pay slip": (
-        <div style={{ width: "100px" }}>
-          <Button className="btn-color">
-            <small>Generate Slip</small>
-          </Button>
-        </div>
-      ),
-      action: (
-        <div style={{ width: "80px" }}>
-          <DropDownActions
-            dropDownOption={[
-              { action: "Edit", handleAction: "" },
-              { action: "Delete", handleAction: "" },
-            ]}
-          ></DropDownActions>
-        </div>
-      ),
-    }));
-    setTrow(trow);
-  }, []);
-  return (
-    // <Card>
-    //   <CardBody style={{ width: "70%", overflowY: "auto" }}>
-    //     <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
-    //   </CardBody>
-    // </Card>
-    <div className="" style={{ maxWidth: "80vw", overflowY: "auto" }}>
-      <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
-    </div>
-  );
-});
+          </h2>
+        ),
+        "employee id": (
+          <div className="text-center" style={{ width: "120px" }}>
+            {emp.employeeId}
+          </div>
+        ),
+        email: <div>{emp.primaryMailId}</div>,
+        "join date": (
+          <div style={{ width: "100px" }}>
+            {emp.dateOfJoin.substring(0, 10)}
+          </div>
+        ),
+        role: <div>{emp.designation}</div>,
+        salary: <div style={{ width: "80px" }}>{emp.ctc}</div>,
+        "pay slip": (
+          <div style={{ width: "100px" }}>
+            <Button className="btn-color">
+              <small>Generate Slip</small>
+            </Button>
+          </div>
+        ),
+        action: (
+          <div style={{ width: "80px" }}>
+            <DropDownActions
+              dropDownOption={[
+                { action: "Edit", handleAction: () => handleClickEdit(emp) },
+                {
+                  action: "Delete",
+                  handleAction: () => handleDeletePayroll(emp.payRollId),
+                },
+              ]}
+            ></DropDownActions>
+          </div>
+        ),
+      }));
+      setTrow(trow);
+    }, [employeeSalaryList]);
+    return (
+      // <Card>
+      //   <CardBody style={{ width: "70%", overflowY: "auto" }}>
+      //     <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
+      //   </CardBody>
+      // </Card>
+      <div className="" style={{ maxWidth: "80vw", overflowY: "auto" }}>
+        <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
+      </div>
+    );
+  }
+);
 
 export default TableEmplyeeSalary;

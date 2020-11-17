@@ -13,7 +13,6 @@ import Pagination from "../../common/Pagination";
 const EmployeeCard = React.memo((props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [postPerPage, setPerPage] = useState(10);
   const [postPerPage] = useState(10);
 
   const setDropdownOpt = useRef(0); // to not to open othe dropdown opt, when 3dots clicked
@@ -28,7 +27,6 @@ const EmployeeCard = React.memo((props) => {
 
   const handlePageClick = React.useCallback(
     (pageNumber) => {
-      console.log(pageNumber);
       setCurrentPage(pageNumber);
     },
     [setCurrentPage]

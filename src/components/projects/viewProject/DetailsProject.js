@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
 
-const DetailsProject = React.memo(() => {
+const DetailsProject = React.memo(({ projectDetails }) => {
   console.log("DetailsProject");
   return (
     <Fragment>
@@ -20,23 +20,25 @@ const DetailsProject = React.memo(() => {
             <tbody>
               <tr>
                 <td>Cost</td>
-                <td>$40,000</td>
+                <td>${projectDetails.projectBudget}</td>
               </tr>
               <tr>
                 <td>Total Hours</td>
-                <td>120 hours</td>
+                <td>{projectDetails.estimatedHours} hours</td>
               </tr>
               <tr>
                 <td>Created</td>
-                <td>25 Sept 2019</td>
+                <td>{projectDetails.createdOn?.substr(0, 10)}</td>
               </tr>
               <tr>
                 <td>Created by</td>
-                <td className="link-name">Waston</td>
+                <td className="link-name">{projectDetails.createdBy}</td>
               </tr>
               <tr>
                 <td>Status</td>
-                <td>Active</td>
+                <td>
+                  {projectDetails.projectStatus === 1 ? "Active" : "Block"}
+                </td>
               </tr>
             </tbody>
           </Table>

@@ -16,7 +16,6 @@ const PaginationLayOut = React.memo(
     }
 
     const nextBtnClick = () => {
-      console.log(fifth);
       let lastPageNo = fifth + 1;
       if (lastPageNo <= totalPageNum) {
         first = fifth + 1;

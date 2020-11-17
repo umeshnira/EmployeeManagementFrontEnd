@@ -25,9 +25,9 @@ function getProjectListApi() {
 function* getProjectListOfEmployeeApi(employeeId) {
   // api call.
   const response = yield api.project().getProjectsOfEmployee(employeeId);
-  console.log(response);
   return response;
 }
+
 function getSelectProject(projectId) {
   // api call.
   let projectDate = projectsList.filter(
@@ -35,6 +35,7 @@ function getSelectProject(projectId) {
   );
   return { projectDate };
 }
+
 function addProject(formData) {
   const response = api.project().addProject(formData);
   return response.data;
@@ -51,7 +52,6 @@ function delProjectApi(delId) {
 export function* handleGetProjectList() {
   try {
     const { projectsList } = yield call(getProjectListApi);
-    console.log(projectsList);
 
     yield put({ type: GET_PROJECT_LIST_SUCCES, payload: projectsList });
   } catch (error) {
@@ -98,7 +98,6 @@ export function* handleAddProject({ payload }) {
 export function* handleUpdateProject({ payload }) {
   try {
     let formData = payload;
-    console.log(formData);
 
     const response = yield call(updateProjectApi, formData);
     yield put({ type: UPDATE_PROJECT_SUCCESS, payload: formData });
@@ -111,7 +110,6 @@ export function* handleUpdateProject({ payload }) {
 export function* handleDelProject({ payload }) {
   try {
     let delId = payload;
-    console.log(delId);
 
     const response = yield call(delProjectApi, delId);
     yield put({ type: DEL_PROJECT_SUCCESS, payload: delId });

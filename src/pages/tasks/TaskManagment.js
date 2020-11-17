@@ -12,11 +12,12 @@ import {
   addTask,
   updateTask,
   delTask,
+  getAllTaskOfEmployee,
 } from "../../redux/actions/task/task.action";
 import { Row, Col, Collapse, Button } from "reactstrap";
 
 const TaskManagment = (props) => {
-  const { delTask, addTask, updateTask } = props;
+  const { delTask, addTask, updateTask, getAllTaskOfEmployee } = props;
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 604px)" });
   //   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
@@ -32,19 +33,25 @@ const TaskManagment = (props) => {
   const [selectedTask, setSelectedTask] = useState("");
   const addOrEdit = useRef("");
 
+  // api calls.
   useEffect(() => {
+    getAllTaskOfEmployee(31);
+  }, []);
+
+  useEffect(() => {
+    console.log(empTask);
+
     let selectedTask = empTask.filter(
-      (el) => el.projectId === taskProjectInfo.projectId
+      (el) => el.projectID === taskProjectInfo.projectId
     );
+    console.log(selectedTask[0]);
     // initial rendring select the 1st task.
     setSelectedTask(selectedTask[0]);
   }, [taskProjectInfo, empTask]);
 
   useEffect(() => {
     let taskList = empTask.filter(
-      (el) =>
-        el.projectId === taskProjectInfo.projectId &&
-        (el.status === "inProgress" || el.status === "new")
+      (el) => el.projectID === taskProjectInfo.projectId
     );
     setTaskList(taskList);
   }, [empTask, taskProjectInfo]);
@@ -224,4 +231,5 @@ export default connect(mapStateToProps, {
   addTask,
   updateTask,
   delTask,
+  getAllTaskOfEmployee,
 })(TaskManagment);

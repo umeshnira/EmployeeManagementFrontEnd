@@ -16,7 +16,11 @@ import { holidaycalendarWatchFun } from "./adminSettings/holidaycalendar.saga";
 import { leavetypeWatchFun } from "./adminSettings/leavetype.saga";
 import { companypolicyWatchFun } from "./adminSettings/companypolicy.saga";
 import { skillWatchFun } from "./adminSettings/skill.saga";
+import { certificationWatchFun } from "./adminSettings/certification.saga";
+
 import { payRollWatchFunc } from "./payroll.saga";
+import { ticketWahtchFunc } from "./ticket.saga";
+import { loginAuthWatchFunc } from "./LoginAuth";
 
 export default function* rootSaga() {
   yield all([
@@ -37,5 +41,8 @@ export default function* rootSaga() {
     companypolicyWatchFun(),
     skillWatchFun(),
     payRollWatchFunc(),
+    ticketWahtchFunc(),
+    loginAuthWatchFunc(),
+    certificationWatchFun(),
   ]);
 }

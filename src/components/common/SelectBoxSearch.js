@@ -11,6 +11,10 @@ class SelectBoxSearch extends React.Component {
     selectedOption: "",
   };
 
+  // componentDidMount() {
+  //   if()
+  // }
+
   componentDidUpdate(prevProps) {
     if (prevProps.selectedUser !== this.props.selectedUser) {
       this.setState({

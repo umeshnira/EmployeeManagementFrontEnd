@@ -1,12 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col, Collapse, Button } from "reactstrap";
+import { useApiCalls } from "../employeeProfileView/TabRewards/";
+import {
+  findSumOfRewardPoints,
+  findSumOfRewardPointsRedmeeded,
+  findBalPontsNeededToRedeem,
+} from "../employeeProfileView/TabRewards/useFunction";
 
-const pointsToRedeem = 4000;
+const TototalpointsNeedToRedeem = 4000;
 
-export const TopCardReward = React.memo(({ selectEmp }) => {
+export const TopCardReward = React.memo(({ selectEmp, ...props }) => {
+  console.log(selectEmp);
+  let employeeId = props.match.params.empId;
   const [isOpen, setIsOpen] = useState(false);
+  const [pointsAchived, pointsRedmeededDeatils] = useApiCalls(employeeId);
+  const [balPointsToRedeem, setBalPointsToRedeem] = useState(null);
+  const [totalPointsAchived, setTotalPointsAchived] = useState(null);
+  const [totalRedmeededPoints, setTotalRedmeededPoints] = useState(null);
+
+  // Function ------------------------------------------------------------------
 
   const toggleHowToGetRedeem = () => setIsOpen(!isOpen);
+
+  // To find the sum of points, to get total points achived....
+  useEffect(() => {
+    // Function call.....
+    let sumArrOfRewardPointsAchived = findSumOfRewardPoints(
+      pointsAchived,
+      employeeId
+    );
+    setTotalPointsAchived(sumArrOfRewardPointsAchived);
+  }, [pointsAchived]);
+
+  // To find the sum of  redeemed points, to get total points redeemed....
+  useEffect(() => {
+    // Function call.....
+    let sumArrOdPointsRedeemed = findSumOfRewardPointsRedmeeded(
+      pointsRedmeededDeatils,
+      employeeId
+    );
+    setTotalRedmeededPoints(sumArrOdPointsRedeemed);
+  }, [pointsRedmeededDeatils]);
+
+  // To find how many balance point's are needed to get redeem active.
+  useEffect(() => {
+    if (totalPointsAchived !== null && totalRedmeededPoints !== null) {
+      // Function call.....
+      let balPointsNeedToRedeem = findBalPontsNeededToRedeem(
+        TototalpointsNeedToRedeem,
+        totalPointsAchived,
+        totalRedmeededPoints
+      );
+      setBalPointsToRedeem(balPointsNeedToRedeem);
+    }
+  }, [totalPointsAchived, totalRedmeededPoints]);
+
   return (
     <Card style={{ borderRadius: "5px" }}>
       <CardBody>
@@ -52,19 +100,25 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                       <Row className="">
                         <Col sm={4} xs={4}>
                           <div className=" ">
-                            <div className="rounded-div one">4000</div>
+                            <div className="rounded-div one">
+                              {totalPointsAchived}
+                            </div>
                             <span className="text">Total Points Achieved</span>
                           </div>
                         </Col>
                         <Col sm={4} xs={4}>
                           <div className=" ">
-                            <div className="rounded-div two">12000</div>
+                            <div className="rounded-div two">
+                              {totalRedmeededPoints}
+                            </div>
                             <span className="text">Total Points Redeemed</span>
                           </div>
                         </Col>
                         <Col sm={4} xs={4}>
                           <div className=" ">
-                            <div className="rounded-div three">8000</div>
+                            <div className="rounded-div three">
+                              {balPointsToRedeem}
+                            </div>
                             <span className="text">Points Need to Redeem</span>
                           </div>
                         </Col>
@@ -85,7 +139,7 @@ export const TopCardReward = React.memo(({ selectEmp }) => {
                           <Button
                             outline
                             color="info"
-                            disabled={pointsToRedeem >= 8000 ? false : true}
+                            disabled={balPointsToRedeem === 0 ? false : true}
                             style={{ width: "100%", display: "block" }}
                           >
                             Redeem

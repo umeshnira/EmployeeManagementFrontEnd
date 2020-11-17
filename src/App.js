@@ -1,19 +1,16 @@
 import React from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "./style/index.css";
+
 import { Router, Route, Switch } from "react-router-dom";
 import history from "./history";
 
-// import GAListener from "./components/GAListener";
+import { PrivateRoute } from "./components/layout";
 import { MainLayout } from "./components/layout";
 import PageSpinner from "./components/common/PageSpinner";
 // import Test from "./pages/test/Test";
-// import Test2 from "./pages/test/Test2";
 
-// Admin dashboard.
+// Admin dashboard.=========================================
 import { AdminDashboard } from "./pages/adminDashboard/index";
-
-// Admin settings
+// Admin settings.=========================================
 import {
   CompanyLocation,
   Department,
@@ -27,7 +24,7 @@ import {
   RolesNdPermissions,
   Assets,
 } from "./pages/adminSettings/index";
-// Employee .
+// Employee.=========================================
 import {
   EmployeeDashboard,
   EmployeeSettings,
@@ -36,12 +33,11 @@ import {
   AssignRewards,
   ProcessRewards,
 } from "./pages/employee/index";
-// Projects
+// Projects.=========================================
 import { ListProjects, ViewProject } from "./pages/projects/index";
-// Tasks
-import { TaskManagment } from "./pages/tasks/index";
-
-// payroll.
+// Tasks.=========================================
+import { TaskManagment, TaskBoard } from "./pages/tasks/index";
+// payroll.=========================================
 import {
   EmployeeSalary,
   PayRollItems,
@@ -49,12 +45,19 @@ import {
   SalaryReport,
   PLReport,
 } from "./pages/payroll/index";
+// Finance.=========================================
+import { PettyCash } from "./pages/finance/index";
+//  Helpdesk Tickects.==============================
+import {
+  HelpDeskTickets,
+  TicketDetails,
+  ListAllTicktes,
+  AdminListAllTickets,
+} from "./pages/helpDeskTickets";
 
-// const Designation = React.lazy(() =>
-//   import("./pages/adminSettings/designation/Designation")
-// );
-
-import Test3 from "./pages/test/Test3";
+// Login.====================================
+import { Login } from "./pages/loginRegister";
+import Test from "./pages/test/Test";
 
 const ViewPreviousProject = React.lazy(() =>
   import("./components/employee/previousProjects/ViewPreviousProject.js")
@@ -65,11 +68,17 @@ function App() {
     <Router history={history}>
       {/* <GAListener> */}
       <Switch>
+        <Route exact path="/" component={Login} />
+
         <MainLayout>
           <React.Suspense fallback={<PageSpinner />}>
             {/* home routes */}
 
-            <Route exact path="/" component={AdminDashboard}></Route>
+            <Route
+              exact
+              path="/adminDashboard"
+              component={AdminDashboard}
+            ></Route>
             {/* ----------Admin Settings Routes----------------- */}
             <Route exact path="/department" component={Department}></Route>
             <Route exact path="/designation" component={Designation}></Route>
@@ -99,11 +108,11 @@ function App() {
               component={RolesNdPermissions}
             ></Route>
             {/* ----------Employee Settings Routes----------------- */}
-            <Route
+            <PrivateRoute
               exact
               path="/employeeDashboard"
               component={EmployeeDashboard}
-            ></Route>
+            ></PrivateRoute>
             <Route exact path="/emplist" component={EmployeeSettings} />
             <Route
               exact
@@ -131,7 +140,10 @@ function App() {
               path="/viewProject/:projectId"
               component={ViewProject}
             />
+            {/* Task ------------------------------------------------- */}
             <Route exact path="/taskManagment" component={TaskManagment} />
+            <Route exact path="/taskboard/:projectId" component={TaskBoard} />
+
             <Route
               exact
               path="/viewPreviousProject/:workExperienceId/:employeeId"
@@ -143,9 +155,27 @@ function App() {
             <Route exact path="/processSalary" component={SalaryProcess} />
             <Route exact path="/salaryReport" component={SalaryReport} />
             <Route exact path="/plReport" component={PLReport} />
-            <Route exact path="/test3" component={Test3} />
+            {/* finance -----------------------------------------------  */}
+            <Route exact path="/pettyCash" component={PettyCash} />
+            {/* helpdesk tickets -----------------------------------------------  */}
+            <Route exact path="/helpdesk" component={HelpDeskTickets} />
+            <Route
+              exact
+              path="/ticketDetails/:ticketId"
+              component={TicketDetails}
+            />
+            <Route exact path="/ListAllTicktes" component={ListAllTicktes} />
+
+            <Route
+              exact
+              path="/adminListAllTickets"
+              component={AdminListAllTickets}
+            />
+
+            <Route exact path="/test" component={Test} />
           </React.Suspense>
         </MainLayout>
+        {/* login -----------------------------------------------  */}
       </Switch>
       {/* </GAListener> */}
     </Router>

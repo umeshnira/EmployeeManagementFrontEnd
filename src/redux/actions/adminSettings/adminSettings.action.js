@@ -55,6 +55,8 @@ import {
   DELETE_HOLIDAY_CALENDAR,
   // -------------------------
   GET_SKILL,
+  // --------------------------
+  GET_CERTIFICATIONS,
 } from "../actionType";
 import { workPrimiseData } from "../../../datas/adminSettings";
 
@@ -354,5 +356,12 @@ export const delCalendar = (delId) => {
 export const getSkill = () => {
   return {
     type: GET_SKILL,
+  };
+};
+
+// --------------- Certification ----------- //
+export const getAllCertifications = () => {
+  return {
+    type: GET_CERTIFICATIONS,
   };
 };

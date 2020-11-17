@@ -1,17 +1,26 @@
 import {
+  GET_EMP_WORKING_PROJECTS,
   GET_EMP_TASK,
   GET_PROJECT_ID_TASK,
   ADD_TASK,
   UPDATE_TASK,
   DEL_TASK,
   ADD_PROJECT_FROM_TASK,
+  GET_ALL_TASK_OF_PROJECT,
 } from "../actionType";
 
 // saga call.
-export const getEmpTask = (empId) => {
+export const getEmployeeWorkingProjects = (empId) => {
+  return {
+    type: GET_EMP_WORKING_PROJECTS,
+    payload: empId,
+  };
+};
+
+export const getAllTaskOfEmployee = (employeeId) => {
   return {
     type: GET_EMP_TASK,
-    payload: empId,
+    payload: employeeId,
   };
 };
 
@@ -31,6 +40,12 @@ export const delTask = (delId) => {
   return {
     type: DEL_TASK,
     payload: delId,
+  };
+};
+export const getAllTaskOfProject = (projectId) => {
+  return {
+    type: GET_ALL_TASK_OF_PROJECT,
+    payload: projectId,
   };
 };
 

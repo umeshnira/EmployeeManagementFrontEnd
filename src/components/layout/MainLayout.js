@@ -6,7 +6,6 @@ import {
   Header,
   SideBar,
 } from "./index";
-// import Sidebar from "./SideBar";
 
 const MainLayout = (props) => {
   const [sideBar, setsideBar] = useState(false);
@@ -16,7 +15,7 @@ const MainLayout = (props) => {
     <main className="wrapper bg-light">
       <SideBar sideBar={sideBar} />
       <Content fluid>
-        <Header handleToggle={() => setsideBar(!sideBar)} />
+        <Header handleToggle={() => setsideBar(!sideBar)} {...props} />
         <div className="scroll-section">{children}</div>
         {/* <Footer /> */}
       </Content>

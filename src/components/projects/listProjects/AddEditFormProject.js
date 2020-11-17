@@ -42,7 +42,6 @@ const AddEditFormProject = React.memo(
 
     useEffect(() => {
       if (selectedProject) {
-        console.log(selectedProject);
         setProjectName(selectedProject.projectName);
         setClient(selectedProject.clientName);
         setDomain(selectedProject.domain);

@@ -1,7 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TableWithSortPagtn from "../../common/TableWithSortPagtn";
 import DropDownActions from "../../common/DropDownActions";
-import { Button, Label, Input } from "reactstrap";
+import { Button } from "reactstrap";
 
 const TableProcessSalary = React.memo(
   ({
@@ -9,6 +9,7 @@ const TableProcessSalary = React.memo(
     selectedEmployee,
     handleSelectAllEmployee,
     handleSelectEmployee,
+    handleProcessSalary,
   }) => {
     const [thead] = useState([
       "select",
@@ -49,7 +50,7 @@ const TableProcessSalary = React.memo(
             <input
               type="checkbox"
               onChange={(e) => handleSelectEmployee(e, emp)}
-              checked={checkAll.includes(emp.value.empId)}
+              checked={checkAll.includes(emp.employeeId)}
             />{" "}
           </div>
         ),
@@ -58,28 +59,33 @@ const TableProcessSalary = React.memo(
             <img
               class="profile-img-table"
               alt=""
-              src={require(`../../../img/employee/${emp.value.profileImg}`)}
+              src={require(`../../../img/employee/${emp.profilePicture}`)}
             />
             <span className="ml-2">
               <span style={{ fontWeight: "600", color: "black" }}>
-                {emp.value.empName}
+                {emp.employeeName}
               </span>
-              <span> {emp.value.designation}</span>
+              <span> {emp.designation}</span>
             </span>
           </h2>
         ),
         id: (
           <div className="text-center" style={{ width: "70px" }}>
-            {emp.value.empId}
+            {emp.employeeId}
           </div>
         ),
-        email: <div>{emp.value.niraMailId}</div>,
-        "join date": <div style={{ width: "100px" }}>{emp.value.doj}</div>,
-        role: <div>{emp.value.department}</div>,
-        salary: <div style={{ width: "80px" }}>{emp.value.salary}</div>,
+        email: <div>{emp.primaryMailId}</div>,
+        "join date": (
+          <div style={{ width: "100px" }}>{emp.dateOfJoin.substr(0, 10)}</div>
+        ),
+        role: <div>{"emp.value.department"}</div>,
+        salary: <div style={{ width: "80px" }}>{emp.ctc}</div>,
         "pay slip": (
           <div style={{ width: "100px" }}>
-            <Button className="btn-color">
+            <Button
+              className="btn-color"
+              onClick={() => handleProcessSalary(emp)}
+            >
               <small>Process Salary</small>
             </Button>
           </div>

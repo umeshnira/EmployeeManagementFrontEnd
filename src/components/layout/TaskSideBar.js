@@ -6,25 +6,15 @@ import { projectNamesOnly } from "../../datas/projects";
 import SelectBoxSearch from "../common/SelectBoxSearch";
 
 import {
-  getEmpTask,
+  getEmployeeWorkingProjects,
   getTaskProjectId,
   addProjectFromTask,
 } from "../../redux/actions/task/task.action";
 import { getProjectsOfEmployee } from "../../redux/actions/projects/projects.action";
 
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Form,
-  FormGroup,
-  Label,
-} from "reactstrap";
-
 const TaskSideBar = (props) => {
   const {
-    getEmpTask,
+    getEmployeeWorkingProjects,
     getTaskProjectId,
     getProjectsOfEmployee,
     addProjectFromTask,
@@ -43,8 +33,8 @@ const TaskSideBar = (props) => {
   useEffect(() => {
     let empId = 31;
     getProjectsOfEmployee(empId);
-    getEmpTask(empId);
-  }, [getEmpTask, getProjectsOfEmployee]);
+    getEmployeeWorkingProjects(empId);
+  }, [getEmployeeWorkingProjects, getProjectsOfEmployee]);
 
   //   Function .
   // click projects.
@@ -75,7 +65,7 @@ const TaskSideBar = (props) => {
     <Fragment>
       <ul className="list-unstyled components">
         <li className="">
-          <a href="/">
+          <a href="/adminDashboard">
             <i className="fas fa-home"></i>
             <span>Back Home</span>
           </a>
@@ -118,7 +108,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getEmpTask,
+  getEmployeeWorkingProjects,
   getProjectsOfEmployee,
   getTaskProjectId,
   addProjectFromTask,

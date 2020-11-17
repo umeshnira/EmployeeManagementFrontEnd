@@ -19,6 +19,8 @@ import {
   AddEditFormProject,
 } from "../../components/projects/index";
 
+import api from "../../apis/api";
+
 const ViewProject = (props) => {
   let projectId = props.match.params.projectId;
 
@@ -28,6 +30,17 @@ const ViewProject = (props) => {
   const { selectProject } = props.selectProject;
   const { empList } = props.empList;
   const [isOpenEditForm, setIsOpenEditForm] = useState(false);
+  const [projectDetails, setProjectDetails] = useState({});
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      let tempArr = await api.project().getProjectById(projectId);
+      console.log(tempArr.data);
+      let selectedProject = tempArr.data[0];
+      setProjectDetails(selectedProject);
+    };
+    fetchApi();
+  }, []);
 
   useEffect(() => {
     getSelectProject(projectId);
@@ -52,9 +65,10 @@ const ViewProject = (props) => {
 
   return selectProject ? (
     <Fragment>
+      {console.log(projectDetails)}
       <Row className="mb-4">
         <Col xs={12} sm={9} md={9} lg={9}>
-          <h4>Employee Managment</h4>
+          <h4>{projectDetails.projectName}</h4>
         </Col>
         <Col xs={12} sm={3} md={3} lg={3}>
           <Button
@@ -72,6 +86,8 @@ const ViewProject = (props) => {
           empList={empList}
           skillList={skillList}
           selectedProject={selectProject}
+          // selectedProject={projectDetails}
+
           handleUpdateProject={handleUpdateProject}
           toogleFromProjectAddEditForm={toggleForm}
         ></AddEditFormProject>
@@ -80,13 +96,15 @@ const ViewProject = (props) => {
         <Row className="project-box">
           <Col xs={12} sm={9} md={9} lg={9}>
             <DescpProject
-              projectDescp={selectProject.projectDescription}
+              projectName={projectDetails.projectName}
+              projectDescp={projectDetails.projectDescription}
+              // projectDescp={selectProject.projectDescription}
             ></DescpProject>
             <UploadedFilesProject></UploadedFilesProject>
             <TaskTabsProject></TaskTabsProject>
           </Col>
           <Col xs={12} sm={3} md={3} lg={3}>
-            <DetailsProject></DetailsProject>
+            <DetailsProject projectDetails={projectDetails}></DetailsProject>
             <TechnologiesProject
               technologies={selectProject.projectTechnologyList}
             ></TechnologiesProject>

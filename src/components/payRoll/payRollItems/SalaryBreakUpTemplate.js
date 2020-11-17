@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { Card, CardBody, Table, Input, Button } from "reactstrap";
+
+import SelectBoxSearch from "../../common/SelectBoxSearch";
+
 import Pdf from "react-to-pdf";
 
 const TdInputFields = ({
@@ -43,8 +46,10 @@ const TdInputFields = ({
   </Fragment>
 );
 
-const SalaryBreakUpTemplate = React.memo(({ toggleSalaryBreakUp }) => {
+const SalaryBreakUpTemplate = React.memo(({ empList, toggleSalaryBreakUp }) => {
   const [inputFieldsData, setInputFieldsData] = useState({});
+  const [selecetdEmployee, setSelecetdEmployee] = useState(null);
+
   const [gross, setGross] = useState(0);
   const [hideInputFileds, setHideInputFileds] = useState(false);
   const ref = useRef("");
@@ -74,7 +79,23 @@ const SalaryBreakUpTemplate = React.memo(({ toggleSalaryBreakUp }) => {
     // document.body.innerHTML = oldPage;
   };
 
-  console.log("salary break up");
+  // Function to set selected employee. --------------------------------------------
+  const handleSetSelectedEmployee = React.useCallback((val) => {
+    console.log(val);
+    setSelecetdEmployee(val);
+  }, []);
+
+  // Function to set selected employee null to re-select employee. --------------------------------------------
+  const handleSetSelectedEmployeeNull = React.useCallback((val) => {
+    setSelecetdEmployee(null);
+  }, []);
+
+  // Function to create PDf. -------------------------------------------------
+  const handleCreatePdf = React.useCallback(async (toPdf) => {
+    await setHideInputFileds(true);
+    toPdf();
+  }, []);
+
   return (
     <Fragment>
       {/* div to generate PDF. */}
@@ -107,11 +128,7 @@ const SalaryBreakUpTemplate = React.memo(({ toggleSalaryBreakUp }) => {
                           outline
                           color="info"
                           ref={clickBtn}
-                          onClick={async () => {
-                            await setHideInputFileds(true);
-                            // setHideInputFileds(true);
-                            toPdf();
-                          }}
+                          onClick={() => handleCreatePdf(toPdf)}
                         >
                           Generate Pdf
                         </Button>
@@ -125,13 +142,34 @@ const SalaryBreakUpTemplate = React.memo(({ toggleSalaryBreakUp }) => {
               <div className="text-center mt-4">
                 <h5>Salary Break Up</h5>
               </div>
-              <div className="d-flex">
-                <div className="flex-grow-1">
-                  {" "}
-                  <b>Name : </b> Vimal Malayil
+              <div className="d-flex justify-content-between">
+                <div className="" style={{ width: " 50%" }}>
+                  <div className="" style={{ display: "flex" }}>
+                    <div>
+                      {" "}
+                      <b>Name : </b> {selecetdEmployee?.label ?? ""}
+                    </div>
+                    {selecetdEmployee === null && (
+                      <div className="ml-2" style={{ width: "50%" }}>
+                        <SelectBoxSearch
+                          options={empList}
+                          onChange={handleSetSelectedEmployee}
+                        ></SelectBoxSearch>
+                      </div>
+                    )}
+                    {selecetdEmployee !== null && (
+                      <div
+                        className="ml-3"
+                        onClick={handleSetSelectedEmployeeNull}
+                      >
+                        <i className="fa fa-edit"></i>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <b>Designation :</b> software devloper
+                <div className="">
+                  <b>Designation :</b>{" "}
+                  {selecetdEmployee?.value?.designationName ?? ""}
                 </div>
               </div>
               <div className="mt-4 pl-4 pr-4 float-center">

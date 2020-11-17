@@ -5,6 +5,7 @@
 @import "./projects.css";
 @import "./tasks.css";
 @import "./payroll.css";
+@import "./helpdesk.css";
 
 body {
   /* font-family: "Saira", sans-serif; */
@@ -153,12 +154,19 @@ table tr {
   border-radius: 4px;
 }
 
+.show__inMobile {
+  display: none;
+}
+
 /* in mobile */
 @media screen and (min-device-width: 320px) and (max-device-width: 480px) {
   /* table with pagination. */
   .table-with-pagination .main-div {
     width: 280px;
     overflow: auto;
+  }
+  .show__inMobile {
+    display: block;
   }
 }
 

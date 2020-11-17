@@ -85,7 +85,7 @@ const EmployeeRewards = (props) => {
 
   return (
     <Fragment>
-      <TopCardReward selectEmp={selectEmp}></TopCardReward>
+      <TopCardReward {...props} selectEmp={selectEmp}></TopCardReward>
       <RewardAchieved
         rewardsAchived={rewardsAchived}
         pointsRedeemed={pointsRedeemed}

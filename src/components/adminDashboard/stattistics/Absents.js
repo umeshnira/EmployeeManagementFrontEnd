@@ -32,7 +32,7 @@ const Absents = React.memo(() => {
             <h5>
               Today Absent
               <Badge className="ml-2" color="danger">
-                5
+                3
               </Badge>
             </h5>
           </CardTitle>

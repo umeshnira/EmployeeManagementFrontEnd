@@ -1,31 +1,66 @@
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+
+import { getEmpList } from "../../redux/actions/employee/employee.action";
+import Notifications from "../../components/common/Notifications";
 import {
   TableProcessSalary,
   TopRowProcessSalary,
 } from "../../components/payRoll/index";
+
 import { empList } from "../../datas/employee";
+
+import api from "../../apis/api";
 
 const SalaryProccess = () => {
   const [searchArrEmployee, setSearchArrEmployee] = useState([]);
+  const [employeeSalaryList, setEmployeeSalaryList] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setSearchArrEmployee(empList);
+    getEmpList();
+    fetchPayroll();
   }, []);
 
-  // Function.
-  // search employee.
-  const handleSearchEmployee = React.useCallback((val) => {
-    let tempArr = empList.filter(
-      (el) =>
-        String(el.value.empId).toLowerCase().indexOf(val) !== -1 ||
-        String(el.value.empName).toLowerCase().indexOf(val) !== -1 ||
-        String(el.value.department).toLowerCase().indexOf(val) !== -1
-    );
-    setSearchArrEmployee(tempArr);
+  useEffect(() => {
+    // setSearchArrEmployee(empList);
   }, []);
 
-  // when select all employee is selected.
+  // Function to get all employee List-----------------------------------------------------
+  const fetchPayroll = async () => {
+    await api
+      .payroll()
+      .getPayrollById()
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          setSearchArrEmployee(res.data);
+          setEmployeeSalaryList(res.data);
+        } else {
+          setError({
+            ...error,
+            message: "Bad Connection",
+            status: 400,
+          });
+        }
+      });
+  };
+  // search employee --------------------------------------------------
+  const handleSearchEmployee = React.useCallback(
+    (val) => {
+      let tempArr = employeeSalaryList.filter(
+        (el) =>
+          String(el.employeeId).toLowerCase().indexOf(val) !== -1 ||
+          String(el.employeeName).toLowerCase().indexOf(val) !== -1 ||
+          String(el.designation).toLowerCase().indexOf(val) !== -1
+      );
+      setSearchArrEmployee(tempArr);
+    },
+    [employeeSalaryList]
+  );
+
+  // when select all employee is selected ------------------------------------
   const handleSelectAllEmployee = React.useCallback(
     (e) => {
       // ****when employee list coming from DB, give dependencies.
@@ -48,6 +83,11 @@ const SalaryProccess = () => {
     [setSelectedEmployee, selectedEmployee]
   );
 
+  // function to handle process salary -----------------------------------
+  const handleProcessSalary = (employee) => {
+    console.log(employee);
+  };
+
   return (
     <>
       <TopRowProcessSalary
@@ -58,9 +98,15 @@ const SalaryProccess = () => {
         selectedEmployee={selectedEmployee}
         handleSelectEmployee={handleSelectEmployee}
         handleSelectAllEmployee={handleSelectAllEmployee}
+        handleProcessSalary={handleProcessSalary}
       ></TableProcessSalary>
+      <Notifications notifications={error}></Notifications>
     </>
   );
 };
 
-export default SalaryProccess;
+const mapStateToProps = (state) => ({
+  empList: state.empReducer,
+});
+
+export default connect(mapStateToProps, { getEmpList })(SalaryProccess);

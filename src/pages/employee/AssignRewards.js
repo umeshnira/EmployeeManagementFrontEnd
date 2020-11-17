@@ -13,6 +13,7 @@ import TableWithSortPagtn from "../../components/common/TableWithSortPagtn";
 import { getEmpList } from "../../redux/actions/employee/employee.action";
 import { getRewards } from "../../redux/actions/adminSettings/adminSettings.action";
 import { getProjectList } from "../../redux/actions/projects/projects.action";
+import api from "../../apis/api";
 
 const AssignRewards = (props) => {
   const { getEmpList, getRewards, getProjectList } = props;
@@ -135,10 +136,33 @@ const AssignRewards = (props) => {
     [selectedReward]
   );
 
-  // handle submit.
+  // handle submit , api call to entry data--------------------------------------.
   const handleAssignRewardSubmit = React.useCallback(() => {
     console.log(selectedEmp);
     console.log(selectedReward);
+    let assignRewardsArr = [];
+    selectedReward.map((selReward) => {
+      selectedEmp.map((selEmp) =>
+        assignRewardsArr.push({
+          rewardDetailsId: 0,
+          employeeId: selEmp.employeeId,
+          rewardID: selReward.rewardId,
+          rewardedDate: new Date(),
+          rewardsDescription: selReward.rewardDescripition,
+          isRedeemed: 0,
+          createdDate: new Date(),
+          createdBy: 0,
+          modifiedDate: new Date(),
+          modifiedBy: 0,
+          rewardType: selReward.rewardType,
+          rewardPoints: selReward.rewardPoints,
+          employeeName: selEmp.employeeName,
+        })
+      );
+    });
+    console.log(assignRewardsArr);
+    assignRewardsArr.map((el) => api.rewards().addEditRewardDetails(el));
+    // api.rewards().addEditRewardDetails(assignRewardsArr[0]);
   }, [selectedEmp, selectedReward]);
 
   // handle select all employee.

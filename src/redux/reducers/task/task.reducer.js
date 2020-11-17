@@ -1,4 +1,5 @@
 import {
+  GET_EMP_WORKING_PROJECTS_SUCCESS,
   GET_EMP_TASK_SUCCESS,
   GET_PROJECT_ID_TASK,
   ADD_TASK_SUCCESS,
@@ -6,54 +7,30 @@ import {
   DEL_TASK_SUCCESS,
   ON_CHANGE_TASK_DATE,
   ADD_PROJECT_FROM_TASK,
+  GET_ALL_TASK_OF_PROJECT_SUCCESS,
 } from "../../actions/actionType";
-
-const filterEmpTaskByDate = (incomingDate, fullTaskArr) => {
-  let incoomDate = `${incomingDate.getMonth()}/${incomingDate.getDate()}/${incomingDate.getFullYear()}`;
-  let filterArr = fullTaskArr.filter((el) =>
-    `${new Date(el.createdDate).getMonth()}/${new Date(
-      el.createdDate
-    ).getDate()}/${new Date(el.createdDate).getFullYear()}` === incoomDate
-      ? el
-      : null
-  );
-  return filterArr;
-};
-
-// get project name, no repeatations.
-const getProjectNames = (fullTaskArr) => {
-  let projectNameArr = Array.from(
-    new Set(fullTaskArr.map((tasks) => tasks.projectId))
-  ).map((id) => {
-    return {
-      projectId: id,
-      projectName: fullTaskArr.find((el) => el.projectId === id).projectName,
-    };
-  });
-  return projectNameArr;
-};
 
 const initialState = {
   fullTaskArr: [],
   empTask: [],
   taskProjectId: "",
   projectNames: [],
+  tasksOfProject: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_EMP_TASK_SUCCESS:
-      let filterEmpByDate = filterEmpTaskByDate(
-        new Date(),
-        action.payload.empTask
-      );
-      let projectNamesArr = getProjectNames(filterEmpByDate); // get the unique project name from that day.
+      return {
+        ...state,
+
+        empTask: action.payload,
+      };
+    case GET_EMP_WORKING_PROJECTS_SUCCESS:
       let empWorkingProjectList =
         action.payload.empWorkingProjects[0].projectList;
       return {
-        // ...state,
-        fullTaskArr: filterEmpByDate,
-        empTask: action.payload.empTask,
+        ...state,
         projectList: empWorkingProjectList,
         taskProjectInfo: {
           projectId: empWorkingProjectList[0]?.projectID,
@@ -97,7 +74,12 @@ export default function (state = initialState, action) {
         ),
         empTask: state.empTask.filter((task) => task.taskId !== action.payload),
       };
-
+    case GET_ALL_TASK_OF_PROJECT_SUCCESS: {
+      return {
+        ...state,
+        tasksOfProject: action.payload,
+      };
+    }
     default:
       return state;
   }

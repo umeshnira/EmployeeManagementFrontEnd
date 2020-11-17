@@ -7,35 +7,60 @@ import { useTableProcessRewards } from "../../components/processRewards/index";
 import TableWithSortPagtn from "../../components/common/TableWithSortPagtn";
 import { Container, Row, Col, Input } from "reactstrap";
 
+import api from "../../apis/api";
+
 const ProcessRewards = (props) => {
   const { getProcessRewards } = props;
+  const [runApiFetch, setRunApiFetch] = useState(0);
   const { toProcessRewards } = props.toProcessRewards;
+  const [processRewardsInitialArr, setProcessRewardsInitialArr] = useState([]);
   const [toProcessRewardsData, setToProcessRewardsData] = useState([]);
+
+  // Api call. -------------------------------------------------------------
+
+  useEffect(() => {
+    apiFetch();
+  }, []);
+
+  const apiFetch = async () => {
+    console.log(runApiFetch);
+    let processRewards = await api.reward().getAllRedmeededDetails();
+    console.log(processRewards.data);
+
+    setProcessRewardsInitialArr(processRewards.data);
+    setToProcessRewardsData(processRewards.data);
+  };
 
   useEffect(() => {
     getProcessRewards();
   }, [getProcessRewards]);
 
-  useEffect(() => {
-    setToProcessRewardsData(toProcessRewards);
-  }, [toProcessRewards]);
-
-  //   Function ....
+  //   Function....
   // handle search employee.
-  const handleSearch = React.useCallback(
-    (searchVal) => {
-      let tempArr = toProcessRewards.filter(
-        (el) => el.empName.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
-      );
-      setToProcessRewardsData(tempArr);
-    },
-    [toProcessRewards]
-  );
+  const handleSearch = (searchVal) => {
+    let tempArr = processRewardsInitialArr.filter(
+      (el) =>
+        el.employeeName.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
+    );
+    setToProcessRewardsData(tempArr);
+  };
+
+  // handle process to make redeemed to true.
+  const handleProcessClick = async (el) => {
+    let formData = {
+      redeemId: el.redeemId,
+      employeeId: el.employeeId,
+      redeemStatus: true,
+    };
+    await api.reward().addEditRedeemDetail(formData);
+    apiFetch();
+    setRunApiFetch((prevState) => prevState + 1);
+  };
 
   //   custom hook.
   const { thead, trow } = useTableProcessRewards(
     toProcessRewardsData,
-    handleSearch
+    handleProcessClick
   );
 
   return (

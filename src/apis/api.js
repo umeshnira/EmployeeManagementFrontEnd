@@ -3,6 +3,8 @@ import axios from "axios";
 const baseUrl = "http://localhost:63306/api/";
 
 export default {
+  // -------------------------Admin setting api's-------------------------------------------------
+
   dbDesignation(url = baseUrl + "Designation/") {
     return {
       GetAllDesignations: () => axios.get(url + "GetAllDesignations"),
@@ -45,6 +47,8 @@ export default {
     return {
       getAll: () => axios.get(url + "GetAllRewards"),
       addEdit: (formData) => axios.post(url + "AddEditRewards", formData),
+      addEditRewardDetails: (formData) =>
+        axios.post(url + "AddEditRewardDetails", formData),
       del: (delId) => axios.post(url + `DeleteRewards?RewardId=${delId}`),
     };
   },
@@ -61,7 +65,16 @@ export default {
         axios.post(url + `DeleteEmployeeType?employeeTypeId=${delId}`),
     };
   },
-  // empoloyee api's.
+
+  // Skill api's -------------------------------------
+  skill(url = baseUrl + "Skills/") {
+    return {
+      // Get all skill.
+      getAllSkills: () => axios.get(url + "GetAllSkills"),
+    };
+  },
+
+  // empoloyee api's --------------------------------------------------------.
   employee(url = baseUrl + "Admin/") {
     return {
       getAll: () => axios.get(url + "GetAllEmployees"),
@@ -69,6 +82,62 @@ export default {
         axios.get(url + `GetAllEmployeeDetailsById?employeeID=${empId}`),
       addEdit: (formData) => axios.post(url + "AddEditEmployees", formData),
       del: (delId) => axios.post(url + `DeleteEmployees?employeeId=${delId}`),
+    };
+  },
+
+  // Employee Skill's api -------------------------------------------------------------.
+  empSkill(url = baseUrl + "Employee/") {
+    return {
+      // Get all skill of an employee.
+      getEmpSkillById: (empId) =>
+        axios.get(
+          url + `GetEmployeeSkillDetailsByEmployeeId?employeeId=${empId}`
+        ),
+      // Add skill to an employee.
+      addEditEmpSkill: (formData) =>
+        axios.post(url + "AddEditEmployeeSkillDetails", formData),
+      // Delete employee skill.
+      deleteEmpSkillById: (empSkillId) =>
+        axios.post(
+          url + `DeleteEmployeeSkillDetails?employeeSkillId=${empSkillId}`
+        ),
+    };
+  },
+
+  // Employee certifates api -------------------------------------------------------------.
+  empCertificates(url = baseUrl + "Employee/") {
+    return {
+      // Get employee certifcates API.
+      getEmpCertificates: (empId) =>
+        axios.get(
+          url + `EmployeeCertificationDetails?EmployeeCertificationId=${empId}`
+        ),
+      // AddEdit .
+      addEditEmpCertification: (formData) =>
+        axios.post(url + "AddEditEmployeeCertificate", formData),
+      // Delete.
+      delEmpCertification: (delId) =>
+        axios.post(url + `DeleteCertificate?EmployeeCertificationId=${delId}`),
+    };
+  },
+  // Employee rewards api ----------------------------------------------------------------.
+  empReward(url = baseUrl + "Employee/") {
+    return {
+      // Get all reward details of an employee.
+      getAllEmployeeRewardDetails: () =>
+        axios.get(url + "GetAllEmployeeRewardDetails"),
+    };
+  },
+
+  reward(url = baseUrl + "Rewards/") {
+    return {
+      // Get details of points redeemed by employee Id.
+      getEmployeeRedeemedDetailsById: (employeeId) =>
+        axios.get(url + `EmployeeRedeemedDetails?EmployeeId=${employeeId}`),
+      // Get proccess reward details with status = 0.
+      getAllRedmeededDetails: () => axios.get(url + `GetAllRedmeededDetails`),
+      addEditRedeemDetail: (formData) =>
+        axios.post(url + "AddEditRedeemDetails", formData),
     };
   },
 
@@ -130,6 +199,15 @@ export default {
         axios.post(url + `DeleteHolidayCalendar?year=${year}`),
     };
   },
+
+  // Certifications.
+  certifications(url = baseUrl + "Employee/") {
+    return {
+      getAllCertifications: () => axios.get(url + "GetAllCertificationDetails"),
+    };
+  },
+
+  // -------------------------Admin setting api's End-------------------------------------------------
 
   // employee educational info
   dbempeducationalinfo(url = baseUrl + "Employee/") {
@@ -214,6 +292,9 @@ export default {
         axios.post(url + "EditEmployeeProjects", formData),
       delProject: (delId) =>
         axios.post(url + `DeleteProject?ProjectId=${delId}`),
+      // Get project by project id.
+      getProjectById: (projectId) =>
+        axios.get(url + `GetEmployeeProjectsById?ProjectId=${projectId}`),
     };
   },
 
@@ -222,6 +303,75 @@ export default {
     return {
       getProjectDetailsOfEmp: (employeeId) =>
         axios.get(url + `GetProjectDetailByEmployee?EmployeeId=35`),
+      // get tasks of a particular employee.
+      getAllTaskOfEmployee: (employeeId) =>
+        axios.get(
+          url +
+            `GetAllTaskByEmployeeId?EmployeeId=${employeeId}
+        `
+        ),
+    };
+  },
+
+  projectIssue(url = baseUrl + "ProjectIssue/") {
+    return {
+      // get all issues.(task)
+      GetAllProjectIssueList: () => axios.get(url + "GetAllProjectIssueList"),
+    };
+  },
+
+  //  Helpdesk api's.
+  helpdesk(url = baseUrl + "HelpDesk/") {
+    return {
+      // get all category.
+      getAllCategory: () => axios.get(url + "GetAllTicketCategories"),
+      // get all sub catgory.
+      getallSubCategory: () => axios.get(url + "GetAllTicketSubCategories"),
+      // Add edit ticket.
+      addEditTicket: (formData) => axios.post(url + "AddEditTicket", formData),
+      // get all tickets.
+      getAllTickets: () => axios.get(url + "GetAllTicket"),
+      // get ticket ny ticketId.
+      getTicketById: (ticketId) =>
+        axios.get(url + `GetAllTicketById?ticketid=${ticketId}`),
+      // delete a ticket.
+      deleteTicket: (ticketId) =>
+        axios.post(url + `DeleteTicket?ticketid=${ticketId}`),
+      // get all comments.
+      getAllComments: () => axios.get(url + "GetAllTicketComments"),
+      // add edit comment.
+      addEditComment: (formData) =>
+        axios.post(url + "AddEditTicketComments", formData),
+      // delete comment.
+      deleteComment: (commentId) =>
+        axios.post(url + `DeleteTicketComments?CommentId=${commentId}`),
+    };
+  },
+  // Payroll api's,
+  payroll(url = baseUrl + "PayRoll/") {
+    return {
+      // Add payroll.
+      addEditPayroll: (formData) =>
+        axios.post(url + "SavePayRollSetup", formData),
+      // get payroll by employeeId.
+      getPayrollById: (employeeId = 0, year = "") =>
+        axios.get(url + `GetEmployeePayRollSetup?EmployeeId=${employeeId}`),
+      // delete payroll.
+      deletePayrollById: (payrollId) =>
+        axios.post(url + `DeletePayRoll?PayRollId=${payrollId}`),
+    };
+  },
+  // Pettycash api's
+  pettycash(url = baseUrl + "Finance/") {
+    return {
+      // get all petty cash.
+      getAllPettyCash: () => axios.get(url + "GetPettyCashDetailsList"),
+      // add edit petty cash.
+      addEditPettyCash: (formData) =>
+        axios.post(url + "AddEditPettyCashDetails", formData),
+      // deleted petty cash.
+      deletePettyCash: (delId) =>
+        axios.post(url + `DeletePettyCashDetails?PettyCashDetailsId=${delId}`),
     };
   },
 };

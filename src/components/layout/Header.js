@@ -9,11 +9,21 @@ import {
   NavbarText,
   Button,
 } from "reactstrap";
+import { withRouter } from "react-router-dom";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Function.
+
   const toggle = () => setIsOpen(!isOpen);
+
+  // handle logout.
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    props.history.push("/");
+  };
 
   return (
     <Fragment>
@@ -56,7 +66,7 @@ const Header = (props) => {
           </UncontrolledDropdown>
         </Nav>
         {/* </Collapse> */}
-        <NavbarText>
+        <NavbarText onClick={handleLogout}>
           <i className="fas fa-2x fa-user-circle "></i>
         </NavbarText>
       </Navbar>
@@ -64,4 +74,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Card, CardBody, CardTitle } from "reactstrap";
 
-const DescpProject = React.memo(({ projectDescp }) => {
+const DescpProject = React.memo(({ projectName, projectDescp }) => {
   console.log("DescpPRoject");
   return (
     <Fragment>
@@ -12,7 +12,7 @@ const DescpProject = React.memo(({ projectDescp }) => {
               {/* <a href={`/viewProject/${project.projectId}`}>
                     {project.projectName}
                   </a> */}
-              Employee Managment
+              {projectName}
             </h4>
           </CardTitle>
           <small className="block text-ellipsis m-b-15">

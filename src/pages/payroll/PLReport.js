@@ -33,7 +33,7 @@ const PLReport = () => {
 
   return (
     <>
-      <TopRowPLReport></TopRowPLReport>
+      <TopRowPLReport isShowSplitUpGrid={isShowSplitUpGrid}></TopRowPLReport>
       {!isShowSplitUpGrid && (
         <TablePLReport
           employeeList={employeeList}

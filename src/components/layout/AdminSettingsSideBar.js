@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import classnames from "classnames";
 
-export default function AdminSideBar(props) {
+export default function AdminSettingsSideBar(props) {
   const { activeTab, toggle } = props;
 
   return (

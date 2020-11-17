@@ -4,7 +4,6 @@ import DropDownActions from "../../common/DropDownActions";
 
 const CardViewProjects = React.memo((props) => {
   const { projectList, handleProjectEdit, handleDeleteProject } = props;
-  console.log(projectList);
   return (
     <Fragment>
       {projectList.length > 0 &&
