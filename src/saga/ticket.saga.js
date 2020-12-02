@@ -16,7 +16,7 @@ function getAllTicketApi() {
 
 function getTicketByIdApi(ticketId) {
   // api call here.
-
+  console.log(ticketId);
   let selectedTicket = tickets.filter((el) => el.ticketId === ticketId);
   return selectedTicket[0];
 }

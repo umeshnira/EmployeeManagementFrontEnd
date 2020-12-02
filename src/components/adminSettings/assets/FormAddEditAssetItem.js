@@ -69,6 +69,9 @@ const FormAddEditAssetItem = React.memo((props) => {
   // function
   const handleFormSubmit = React.useCallback(() => {
     // e.preventDefault();
+    console.log(typeof warrentyFile);
+    console.log(warrentyFile);
+
     console.log(itemUser?.value?.employeeId ?? 0);
     let AssetFormData = new FormData();
     AssetFormData.set("itemNo", itemNo);

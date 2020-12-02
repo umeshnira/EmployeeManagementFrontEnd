@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 // From index.
 import { LiElements, LiSingleTreeElement } from "../index";
 
-const user = localStorage.getItem("user")
+const user = JSON.parse(localStorage.getItem("user"))
   ? JSON.parse(localStorage.getItem("user"))
   : 0;
 
@@ -38,12 +38,12 @@ const sideBarDatas = {
   myRewards: {
     menuName: "My Rewards",
     menuIcon: "fab fa-product-hunt",
-    route: `/empRewards/${user.employeeId}`,
+    route: `/empRewards/${user.EmployeeId}`,
   },
   myProfile: {
     menuName: "My Profile",
     menuIcon: "fab fa-product-hunt",
-    route: `/empProfile/${user.employeeId}`,
+    route: `/empProfile/${user.EmployeeId}`,
   },
 
   helpdesk: {

@@ -1,20 +1,12 @@
 import React, { Fragment } from "react";
-import {
-  Row,
-  Col,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Button,
-} from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 
-const TopRowPEttyCash = React.memo(({ toggleAddEditForm }) => {
+const TopRowInvoice = React.memo(({ toggleAddEditForm }) => {
   return (
     <Fragment>
       <Row>
         <Col>
-          <h5>Petty Cash</h5>
+          <h5>Invoice</h5>
         </Col>
 
         <Col xs={6} className="text-right">
@@ -25,7 +17,7 @@ const TopRowPEttyCash = React.memo(({ toggleAddEditForm }) => {
             onClick={toggleAddEditForm}
           >
             <i className="fa fa-plus mt-1 "></i>
-            &nbsp;Expense
+            &nbsp;Create invoice
           </Button>
         </Col>
       </Row>
@@ -33,4 +25,4 @@ const TopRowPEttyCash = React.memo(({ toggleAddEditForm }) => {
   );
 });
 
-export default TopRowPEttyCash;
+export default TopRowInvoice;

@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TableWithSortPagtn from "../../common/TableWithSortPagtn";
-import { Button, Card, CardBody } from "reactstrap";
+import { Button } from "reactstrap";
 
 const month = [
   "Jan",
@@ -30,6 +30,8 @@ const TableSalaryReport = React.memo(({ empList }) => {
   ]);
   const [trow, setTrow] = useState([]);
 
+  console.log(empList);
+
   useEffect(() => {
     let trow = empList.map((emp) => ({
       "employee name": (
@@ -37,29 +39,29 @@ const TableSalaryReport = React.memo(({ empList }) => {
           <img
             class="profile-img-table"
             alt=""
-            src={require(`../../../img/employee/${emp.value.profileImg}`)}
+            src={require(`../../../img/employee/${emp.profilePicture}`)}
           />
           <span className="ml-2">
             <span style={{ fontWeight: "600", color: "black" }}>
-              {emp.value.empName}
+              {emp.employeeName}
             </span>
-            <span> {emp.value.designation}</span>
+            <span> {emp.designation}</span>
           </span>
         </h2>
       ),
       "employee id": (
         <div className="text-center" style={{ width: "120px" }}>
-          {emp.value.empId}
+          {emp.employeeId}
         </div>
       ),
-      email: <div>{emp.value.niraMailId}</div>,
-      "join date": <div style={{ width: "100px" }}>{emp.value.doj}</div>,
-      role: <div>{emp.value.department}</div>,
-      salary: <div style={{ width: "80px" }}>{emp.value.salary}</div>,
+      email: <div>{emp.primaryMailId}</div>,
+      "join date": <div style={{ width: "100px" }}>{emp.dateOfJoin}</div>,
+      role: <div>{"department"}</div>,
+      salary: <div style={{ width: "80px" }}>{emp.ctc}</div>,
       "month/year": (
         <div style={{ width: "120px" }}>
-          {`${month[emp.value.salaryDate.getMonth()]} -
-            ${emp.value.salaryDate.getFullYear()}`}
+          {`${month[new Date(emp.createdOn).getMonth()]} -
+            ${new Date(emp.createdOn).getFullYear()}`}
         </div>
       ),
       "pay slip": (
@@ -73,11 +75,6 @@ const TableSalaryReport = React.memo(({ empList }) => {
     setTrow(trow);
   }, [empList]);
   return (
-    // <Card>
-    //   <CardBody style={{ width: "70%", overflowY: "auto" }}>
-    //     <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
-    //   </CardBody>
-    // </Card>
     <div className="" style={{ maxWidth: "80vw", overflowY: "auto" }}>
       <TableWithSortPagtn thead={thead} trow={trow}></TableWithSortPagtn>
     </div>

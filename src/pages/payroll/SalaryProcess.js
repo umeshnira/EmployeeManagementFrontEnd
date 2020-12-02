@@ -23,15 +23,11 @@ const SalaryProccess = () => {
     fetchPayroll();
   }, []);
 
-  useEffect(() => {
-    // setSearchArrEmployee(empList);
-  }, []);
-
   // Function to get all employee List-----------------------------------------------------
   const fetchPayroll = async () => {
     await api
       .payroll()
-      .getPayrollById()
+      .getPayrollSetup()
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);

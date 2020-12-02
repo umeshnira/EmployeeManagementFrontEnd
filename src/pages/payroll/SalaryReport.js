@@ -4,23 +4,15 @@ import {
   TopRowSalaryReport,
 } from "../../components/payRoll/index";
 import { empList } from "../../datas/employee";
+import Notifications from "../../components/common/Notifications";
 
-const month = [
-  "Jan",
-  "Feb",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+import api from "../../apis/api";
+
 const SalaryReport = () => {
   const [employeeList, setEmployeeList] = useState([]);
+  const [searchArrEmployee, setSearchArrEmployee] = useState([]);
+  const [error, setError] = useState(null);
+
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date().setMonth(new Date().getMonth() + 1)
@@ -28,9 +20,27 @@ const SalaryReport = () => {
   const toKnowDateFilterChanged = useRef(false);
 
   useEffect(() => {
-    //   when data from DB, give dependencies.
-    setEmployeeList(empList);
+    fetchPayroll();
   }, []);
+
+  // Function to get all employee List-----------------------------------------------------
+  const fetchPayroll = async () => {
+    await api
+      .payroll()
+      .getPayroll()
+      .then((res) => {
+        if (res.status === 200) {
+          setEmployeeList(res.data);
+          setSearchArrEmployee(res.data);
+        } else {
+          setError({
+            ...error,
+            message: "Bad Connection",
+            status: 400,
+          });
+        }
+      });
+  };
 
   // Function.
   //   to set statrt date.
@@ -38,7 +48,7 @@ const SalaryReport = () => {
     (startMonth) => {
       setStartDate(startMonth);
       let tempArr = handleDateFilter(startMonth, endDate);
-      setEmployeeList(tempArr);
+      setSearchArrEmployee(tempArr);
     },
     [endDate]
   );
@@ -48,7 +58,7 @@ const SalaryReport = () => {
     (endMonth) => {
       setEndDate(endMonth);
       let tempArr = handleDateFilter(startDate, endMonth);
-      setEmployeeList(tempArr);
+      setSearchArrEmployee(tempArr);
     },
     [startDate]
   );
@@ -60,29 +70,35 @@ const SalaryReport = () => {
       if (toKnowDateFilterChanged.current) {
         tempArr = handleDateFilter(startDate, endDate);
       } else {
-        tempArr = empList;
+        tempArr = employeeList;
       }
 
+      console.log(tempArr);
       let temSearchArr = tempArr.filter(
         (el) =>
-          el.value.empName.toLowerCase().indexOf(val.toLowerCase()) !== -1 ||
-          String(el.value.empId).toLowerCase().indexOf(val.toLowerCase()) !== -1
+          el.employeeName.toLowerCase().indexOf(val.toLowerCase()) !== -1 ||
+          String(el.employeeId).toLowerCase().indexOf(val.toLowerCase()) !== -1
       );
-      setEmployeeList(temSearchArr);
+      setSearchArrEmployee(temSearchArr);
     },
-    [startDate, endDate]
+    [startDate, endDate, employeeList]
   );
 
   //   to filter search based on from and to date.
-  const handleDateFilter = React.useCallback((startDate, endDate) => {
-    let tempArr = empList.filter(
-      (el) =>
-        el.value.salaryDate.getMonth() >= startDate.getMonth() &&
-        el.value.salaryDate.getMonth() <= new Date(endDate).getMonth()
-    );
-    toKnowDateFilterChanged.current = true;
-    return tempArr;
-  }, []);
+  const handleDateFilter = React.useCallback(
+    (startDate, endDate) => {
+      console.log(employeeList);
+
+      let tempArr = employeeList.filter(
+        (el) =>
+          new Date(el.createdOn).getMonth() >= startDate.getMonth() &&
+          new Date(el.createdOn).getMonth() <= new Date(endDate).getMonth()
+      );
+      toKnowDateFilterChanged.current = true;
+      return tempArr;
+    },
+    [employeeList]
+  );
 
   return (
     <>
@@ -92,7 +108,8 @@ const SalaryReport = () => {
         handleChangeEndMonth={handleChangeEndMonth}
         handleEmployeeSearch={handleEmployeeSearch}
       ></TopRowSalaryReport>
-      <TableSalaryReport empList={employeeList}></TableSalaryReport>
+      <TableSalaryReport empList={searchArrEmployee}></TableSalaryReport>
+      <Notifications notifications={error}></Notifications>
     </>
   );
 };

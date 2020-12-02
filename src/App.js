@@ -46,7 +46,7 @@ import {
   PLReport,
 } from "./pages/payroll/index";
 // Finance.=========================================
-import { PettyCash } from "./pages/finance/index";
+import { PettyCash, Invoice, GiftVoucher } from "./pages/finance/index";
 //  Helpdesk Tickects.==============================
 import {
   HelpDeskTickets,
@@ -74,11 +74,11 @@ function App() {
           <React.Suspense fallback={<PageSpinner />}>
             {/* home routes */}
 
-            <Route
+            <PrivateRoute
               exact
               path="/adminDashboard"
               component={AdminDashboard}
-            ></Route>
+            ></PrivateRoute>
             {/* ----------Admin Settings Routes----------------- */}
             <Route exact path="/department" component={Department}></Route>
             <Route exact path="/designation" component={Designation}></Route>
@@ -157,6 +157,9 @@ function App() {
             <Route exact path="/plReport" component={PLReport} />
             {/* finance -----------------------------------------------  */}
             <Route exact path="/pettyCash" component={PettyCash} />
+            <Route exact path="/giftVoucher" component={GiftVoucher} />
+            <Route exact path="/invoice" component={Invoice} />
+
             {/* helpdesk tickets -----------------------------------------------  */}
             <Route exact path="/helpdesk" component={HelpDeskTickets} />
             <Route
@@ -165,13 +168,11 @@ function App() {
               component={TicketDetails}
             />
             <Route exact path="/ListAllTicktes" component={ListAllTicktes} />
-
             <Route
               exact
               path="/adminListAllTickets"
               component={AdminListAllTickets}
             />
-
             <Route exact path="/test" component={Test} />
           </React.Suspense>
         </MainLayout>

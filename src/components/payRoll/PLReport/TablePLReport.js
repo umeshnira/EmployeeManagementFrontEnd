@@ -36,35 +36,33 @@ const TablePLReport = React.memo(({ employeeList, handleOnClickSpliUpBtn }) => {
           <img
             class="profile-img-table"
             alt=""
-            src={require(`../../../img/employee/${emp.value.profileImg}`)}
+            src={require(`../../../img/employee/${emp.profilePicture}`)}
           />
           <span className="ml-2">
             <span style={{ fontWeight: "600", color: "black" }}>
-              {emp.value.empName}
+              {emp.employeeName}
             </span>
-            <span> {emp.value.designation}</span>
+            <span> {emp.designationName}</span>
           </span>
         </h2>
       ),
       "employee id": (
         <div className="text-center" style={{ width: "120px" }}>
-          {emp.value.empId}
+          {emp.employeeId}
         </div>
       ),
-      "join date": <div style={{ width: "100px" }}>{emp.value.doj}</div>,
-      "total PL AMT debited": <div>{emp.value.totalPlAmountDebited}</div>,
-      "total PL AMT encashed": <div>{emp.value.totalPlAmountEncashed}</div>,
-      "balance PL AMT": (
-        <div>
-          {emp.value.totalPlAmountEncashed - emp.value.totalPlAmountDebited}
-        </div>
+      "join date": (
+        <div style={{ width: "100px" }}>{emp.dateOfJoin.substr(0, 10)}</div>
       ),
+      "total PL AMT debited": <div></div>,
+      "total PL AMT encashed": <div>{emp.encashAmount}</div>,
+      "balance PL AMT": <div>{emp.totalPLAmount}</div>,
       action: (
         <div style={{ width: "100px" }}>
           <Button
             outline
             color="warning"
-            onClick={() => handleOnClickSpliUpBtn(emp.value.empId)}
+            onClick={() => handleOnClickSpliUpBtn(emp.employeeId)}
           >
             Split Up
           </Button>

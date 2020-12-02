@@ -3,6 +3,14 @@ import axios from "axios";
 const baseUrl = "http://localhost:63306/api/";
 
 export default {
+  // Accounts api's-----------------------------------------------------------------
+  account(url = baseUrl + "Account/") {
+    return {
+      // login
+      login: (username, password) =>
+        axios.get(url + `Login?username=${username}&password=${password}`),
+    };
+  },
   // -------------------------Admin setting api's-------------------------------------------------
 
   dbDesignation(url = baseUrl + "Designation/") {
@@ -78,7 +86,7 @@ export default {
   employee(url = baseUrl + "Admin/") {
     return {
       getAll: () => axios.get(url + "GetAllEmployees"),
-      getSleectedEmployee: (empId) =>
+      getSelectedEmployee: (empId) =>
         axios.get(url + `GetAllEmployeeDetailsById?employeeID=${empId}`),
       addEdit: (formData) => axios.post(url + "AddEditEmployees", formData),
       del: (delId) => axios.post(url + `DeleteEmployees?employeeId=${delId}`),
@@ -354,11 +362,19 @@ export default {
       addEditPayroll: (formData) =>
         axios.post(url + "SavePayRollSetup", formData),
       // get payroll by employeeId.
-      getPayrollById: (employeeId = 0, year = "") =>
+      getPayrollSetup: (employeeId = 0, year = "") =>
         axios.get(url + `GetEmployeePayRollSetup?EmployeeId=${employeeId}`),
       // delete payroll.
       deletePayrollById: (payrollId) =>
         axios.post(url + `DeletePayRoll?PayRollId=${payrollId}`),
+      getPayroll: (employeeId = 0, year = "", month = "") =>
+        axios.get(
+          url +
+            `GetEmployeePayRoll?EmployeeId=${employeeId}&year=${year}&month=${month}`
+        ),
+      // get all privilage details.
+      getAllPrivilageLeave: (employeeId = 0) =>
+        axios.get(url + `GetAllEmployeePL?EmployeeId=${employeeId}`),
     };
   },
   // Pettycash api's
@@ -372,6 +388,13 @@ export default {
       // deleted petty cash.
       deletePettyCash: (delId) =>
         axios.post(url + `DeletePettyCashDetails?PettyCashDetailsId=${delId}`),
+    };
+  },
+  // Gift voucher api's --------------------------------------------
+  giftVoucher(url = baseUrl + "Employee/") {
+    return {
+      // get all gift voucher's.
+      getAllGiftVoucher: () => axios.get(url + "GetGiftVouchersList"),
     };
   },
 };

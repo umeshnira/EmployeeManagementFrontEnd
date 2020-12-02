@@ -38,7 +38,7 @@ const EmployeeSalary = (props) => {
   const fetchPayroll = async () => {
     await api
       .payroll()
-      .getPayrollById()
+      .getPayrollSetup()
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data);

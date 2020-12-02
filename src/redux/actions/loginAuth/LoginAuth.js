@@ -1,8 +1,8 @@
 import { LOGIN_USER } from "../actionType";
 
-export const getLoginUser = (userName) => {
+export const getLoginUser = (userName, password) => {
   return {
     type: LOGIN_USER,
-    payload: userName,
+    payload: { userName, password },
   };
 };

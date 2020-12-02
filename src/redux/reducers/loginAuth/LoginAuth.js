@@ -2,6 +2,7 @@ import { LOGIN_USER_SUCCESS } from "../../actions/actionType";
 
 const initialState = {
   login: false,
+  loginUser: null,
 };
 
 export default function (state = initialState, action) {
@@ -10,6 +11,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         login: true,
+        loginUser: action.payload,
       };
 
     default:

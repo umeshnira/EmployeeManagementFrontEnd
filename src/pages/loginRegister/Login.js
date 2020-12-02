@@ -4,13 +4,14 @@ import { getLoginUser } from "../../redux/actions/loginAuth/LoginAuth";
 
 import "../../style/login.css";
 import { Redirect } from "react-router-dom";
+import { useEffect } from "react";
 
-// const role = "admin";
-const role = "developer";
+const role = "admin";
+// const role = "developer";
 
 const Login = (props) => {
   const { getLoginUser } = props;
-  const { login } = props.loginUser;
+  const { login, loginUser } = props.loginUser;
 
   const [userName, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
@@ -18,15 +19,25 @@ const Login = (props) => {
 
   // Function.
 
+  useEffect(() => {
+    if (loginUser !== null) {
+      if (loginUser.RoleName === "Admin") {
+        setRedirect(<Redirect to="/adminDashboard"></Redirect>);
+      } else {
+        setRedirect(<Redirect to="/employeeDashboard"></Redirect>);
+      }
+    }
+  }, [loginUser]);
+
   const handleClickSign = async (e) => {
     e.preventDefault();
-    await getLoginUser(userName);
+    await getLoginUser(userName, password);
 
-    if (role === "admin") {
-      setRedirect(<Redirect to="/adminDashboard"></Redirect>);
-    } else {
-      setRedirect(<Redirect to="/employeeDashboard"></Redirect>);
-    }
+    // if (loginUser.RoleName === "Admin") {
+    //   setRedirect(<Redirect to="/adminDashboard"></Redirect>);
+    // } else {
+    //   setRedirect(<Redirect to="/employeeDashboard"></Redirect>);
+    // }
   };
 
   return (

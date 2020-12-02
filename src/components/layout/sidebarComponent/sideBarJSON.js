@@ -94,12 +94,12 @@ export const adminSideBar = {
       {
         subMenuName: "Gift Voucher",
         icon: "fas fab fa-product-hunt",
-        route: "/employeeSalary",
+        route: "/giftVoucher",
       },
       {
         subMenuName: "Invoice",
         icon: "fas fab fa-product-hunt",
-        route: "/invoices",
+        route: "/invoice",
       },
     ],
   },

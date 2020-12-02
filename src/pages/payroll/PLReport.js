@@ -7,6 +7,8 @@ import {
 import { empList } from "../../datas/employee";
 import { employeePlList } from "../../datas/payroll";
 
+import api from "../../apis/api";
+
 const PLReport = () => {
   const [employeeList, setEmployeeList] = useState([]);
   const [isShowSplitUpGrid, setIsShowSlitUpGrid] = useState(false);
@@ -16,10 +18,22 @@ const PLReport = () => {
   ] = useState(0);
 
   useEffect(() => {
-    setEmployeeList(empList);
-  }, [empList]);
+    fetchPRivilageLeave();
+  }, []);
 
-  //   Function.
+  // Function --------------------------------------------------------------------------
+  // function to get all privilage leaves List-----------------------------------------------------
+  const fetchPRivilageLeave = async () => {
+    await api
+      .payroll()
+      .getAllPrivilageLeave()
+      .then((res) => {
+        if (res.status === 200) {
+          setEmployeeList(res.data);
+        } else {
+        }
+      });
+  };
   // when click on split up button in TablePLReport.
   const handleOnClickSpliUpBtn = React.useCallback((employeeId) => {
     setSelectedEmployeeToShowSplitUp(employeeId);

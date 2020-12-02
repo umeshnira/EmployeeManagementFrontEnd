@@ -25,7 +25,6 @@ const TableProcessSalary = React.memo(
     const [trow, setTrow] = useState([]);
 
     useEffect(() => {
-      console.log(selectedEmployee);
       let trow = [];
       let checkAll = [];
       // to make checkbox selected/un-selected when Select All checkbox clicked.

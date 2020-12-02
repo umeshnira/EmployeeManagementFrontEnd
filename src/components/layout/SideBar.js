@@ -8,7 +8,12 @@ import TaskSideBar from "./TaskSideBar";
 // From index.
 import { EmployeeSideBar, AdminSideBar } from "./index";
 
-const role = "admin";
+const user = JSON.parse(localStorage.getItem("user"))
+  ? JSON.parse(localStorage.getItem("user"))
+  : 0;
+
+const role = user.RoleName;
+// const role = "admin";
 // const role = "developer";
 
 const adminSettingPaths = [
@@ -34,7 +39,7 @@ const payRoll = [
   "/salaryReport",
   "/plReport",
 ];
-const finance = ["/pettyCash", "/giftVoucher", "/invoices"];
+const finance = ["/pettyCash", "/giftVoucher", "/invoice"];
 const helpdesk = [
   "/helpdesk",
   "/ticketDetails",
@@ -147,8 +152,7 @@ function SideBar(props) {
             ></img>
           </strong>
         </div>
-        {changedSideBar && changedSideBar}
-        {role === "admin" && changedSideBar === null && (
+        {role === "Admin" && changedSideBar === null && (
           <AdminSideBar
             loginUser={loginUser}
             activeSideBar={activeSideBar}
@@ -171,7 +175,7 @@ function SideBar(props) {
             }}
           ></AdminSideBar>
         )}
-        {role !== "admin" && changedSideBar === null && (
+        {role !== "Admin" && changedSideBar === null && (
           <EmployeeSideBar
             loginUser={loginUser}
             handleProject={{
