@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+import { checkLogin } from "../../redux/actions/loginAuth/LoginAuth";
+
 // admin sidebar to show on click of admin settings.
 import AdminSettingsSideBar from "./AdminSettingsSideBar";
 // task sidebar to show on click of tasks.
@@ -48,14 +50,19 @@ const helpdesk = [
 ];
 
 function SideBar(props) {
-  const { loginUser } = props.loginUser;
+  const { checkLogin } = props;
+  const { loginUser, login } = props.loginUser;
   const [activeSideBar, setActiveSideBar] = useState(window.location.pathname); // take the path name then make that as then tab name.
-  const [changedSideBar, setChangedSideBar] = useState();
+  const [changedSideBar, setChangedSideBar] = useState(null);
   const [isOpenEmpDropDown, setIsOpenEmpDropDown] = useState(false);
   const [isOpenProjectsDropDown, setIsOpenProjectsDropDown] = useState(false);
   const [isOpenPayRroll, setIsOpenPayRoll] = useState(false);
   const [isOpenFinance, setIsOpenFinance] = useState(false);
   const [isOpenHelpdesk, setIsOpenHelpdesk] = useState(false);
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
 
   // Function ---------------------------
   const toggle = React.useCallback(
@@ -123,7 +130,7 @@ function SideBar(props) {
   const handleOpenFinance = () => {
     setIsOpenFinance((prevState) => !prevState);
   };
-
+  console.log(role);
   return (
     <Fragment>
       <nav id="sidebar" className={props.sideBar ? "active" : ""}>
@@ -152,44 +159,48 @@ function SideBar(props) {
             ></img>
           </strong>
         </div>
-        {role === "Admin" && changedSideBar === null && (
-          <AdminSideBar
-            loginUser={loginUser}
-            activeSideBar={activeSideBar}
-            toggle={toggle}
-            handleProject={{
-              func: handleOpenProject,
-              state: isOpenProjectsDropDown,
-            }}
-            handleEmployeeSetting={{
-              func: handleOpenEmployeeSettings,
-              state: isOpenEmpDropDown,
-            }}
-            handlePayRoll={{
-              func: handleOpenPayRoll,
-              state: isOpenPayRroll,
-            }}
-            handleFinance={{
-              func: handleOpenFinance,
-              state: isOpenFinance,
-            }}
-          ></AdminSideBar>
-        )}
-        {role !== "Admin" && changedSideBar === null && (
-          <EmployeeSideBar
-            loginUser={loginUser}
-            handleProject={{
-              func: handleOpenProject,
-              state: isOpenProjectsDropDown,
-            }}
-            handleHelpDesk={{
-              func: handleOpenHelpDesk,
-              state: isOpenHelpdesk,
-            }}
-            activeSideBar={activeSideBar}
-            toggle={toggle}
-          ></EmployeeSideBar>
-        )}
+        {loginUser !== null &&
+          loginUser.RoleName === "Admin" &&
+          changedSideBar === null && (
+            <AdminSideBar
+              loginUser={loginUser}
+              activeSideBar={activeSideBar}
+              toggle={toggle}
+              handleProject={{
+                func: handleOpenProject,
+                state: isOpenProjectsDropDown,
+              }}
+              handleEmployeeSetting={{
+                func: handleOpenEmployeeSettings,
+                state: isOpenEmpDropDown,
+              }}
+              handlePayRoll={{
+                func: handleOpenPayRoll,
+                state: isOpenPayRroll,
+              }}
+              handleFinance={{
+                func: handleOpenFinance,
+                state: isOpenFinance,
+              }}
+            ></AdminSideBar>
+          )}
+        {loginUser !== null &&
+          loginUser.RoleName !== "Admin" &&
+          changedSideBar === null && (
+            <EmployeeSideBar
+              loginUser={loginUser}
+              handleProject={{
+                func: handleOpenProject,
+                state: isOpenProjectsDropDown,
+              }}
+              handleHelpDesk={{
+                func: handleOpenHelpDesk,
+                state: isOpenHelpdesk,
+              }}
+              activeSideBar={activeSideBar}
+              toggle={toggle}
+            ></EmployeeSideBar>
+          )}
       </nav>
     </Fragment>
   );
@@ -199,4 +210,4 @@ const mapStateToProps = (state) => ({
   loginUser: state.loginAuthReducer,
 });
 
-export default connect(mapStateToProps, {})(SideBar);
+export default connect(mapStateToProps, { checkLogin })(SideBar);

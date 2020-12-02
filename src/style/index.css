@@ -121,6 +121,18 @@ body {
   border-radius: 50%;
 }
 
+.rightNav {
+  /* display: none; */
+  text-align: right !important;
+}
+.rightNav ul {
+  text-align: right !important;
+}
+
+li {
+  list-style-type: none !important;
+}
+
 table thead {
   font-size: 12px;
 }

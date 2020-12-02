@@ -1,6 +1,7 @@
 // Login Auth action type.
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
+export const CHECK_LOGIN = "CHECK_LOGIN";
 
 // admin setting action type.
 // designation action type.

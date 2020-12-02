@@ -8,6 +8,9 @@ import {
   UncontrolledDropdown,
   NavbarText,
   Button,
+  DropdownToggle,
+  DropdownItem,
+  DropdownMenu,
 } from "reactstrap";
 import { withRouter } from "react-router-dom";
 
@@ -36,38 +39,21 @@ const Header = (props) => {
           >
             <i className="fas  fa-align-left"></i>
           </Button>
-          {/* <button
-            type="button"
-            id="sidebarCollapse"
-            className="btn btn-info"
-            onClick={props.handleToggle}
-          >
-            <i className="fas fa-align-left" ></i>
-          </button> */}
-          {/* <span className="text-white">
-            <h3>Nira Systems</h3>
-          </span> */}
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
-        {/* <Collapse isOpen={isOpen} navbar> */}
-        <Nav className="mr-auto" navbar>
-          <NavItem>
-            {/* <NavLink href="/components/">Components</NavLink> */}
-          </NavItem>
-
-          <UncontrolledDropdown nav inNavbar>
-            {/* <DropdownToggle nav>Options</DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu> */}
+        <Nav className="mr-auto" navbar></Nav>
+        <NavbarText>
+          <UncontrolledDropdown nav inNavbar className="">
+            <DropdownToggle nav>
+              {" "}
+              <i className="fas fa-2x fa-user-circle "></i>
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>Profile</DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem onClick={handleLogout}>Sign out</DropdownItem>
+            </DropdownMenu>
           </UncontrolledDropdown>
-        </Nav>
-        {/* </Collapse> */}
-        <NavbarText onClick={handleLogout}>
-          <i className="fas fa-2x fa-user-circle "></i>
         </NavbarText>
       </Navbar>
     </Fragment>
