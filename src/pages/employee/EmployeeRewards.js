@@ -83,6 +83,7 @@ const EmployeeRewards = (props) => {
     [setPointsRedeemed]
   );
 
+  console.log(selectEmp);
   return (
     <Fragment>
       <TopCardReward {...props} selectEmp={selectEmp}></TopCardReward>

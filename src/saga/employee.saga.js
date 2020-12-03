@@ -88,7 +88,7 @@ function* getSelectEmpApi(empId) {
   // empCertificate = empCertificates.filter((emp) => String(emp.empId) === empId);
   // empSkill = empSkills.filter((emp) => String(emp.empId) === empId);
 
-  const response = yield api.employee().getSleectedEmployee(empId);
+  const response = yield api.employee().getSelectedEmployee(empId);
   //  get the employee details in {value : "", lable : ""} formate.
   profileInfo = {
     value: response.data[0],

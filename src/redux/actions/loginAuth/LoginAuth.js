@@ -7,6 +7,7 @@ export const getLoginUser = (userName, password) => {
   };
 };
 
+// Reducer call ---------------------------------------
 export const checkLogin = () => {
   let token = JSON.parse(localStorage.getItem("user"));
   return {

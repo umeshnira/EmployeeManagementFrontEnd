@@ -49,7 +49,7 @@ const Header = (props) => {
               <i className="fas fa-2x fa-user-circle "></i>
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>Profile</DropdownItem>
+              {/* <DropdownItem>Profile</DropdownItem> */}
               <DropdownItem divider />
               <DropdownItem onClick={handleLogout}>Sign out</DropdownItem>
             </DropdownMenu>

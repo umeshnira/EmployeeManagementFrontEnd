@@ -5,13 +5,14 @@ import { getLoginUser } from "../../redux/actions/loginAuth/LoginAuth";
 import "../../style/login.css";
 import { Redirect } from "react-router-dom";
 import { useEffect } from "react";
+import { Alert } from "reactstrap";
 
 const role = "admin";
 // const role = "developer";
 
 const Login = (props) => {
   const { getLoginUser } = props;
-  const { login, loginUser } = props.loginUser;
+  const { login, loginUser, loginInput } = props.loginUser;
 
   const [userName, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
@@ -49,6 +50,10 @@ const Login = (props) => {
         <div className="login-div">
           <form>
             <div className=" ">
+              {loginInput === false && (
+                <Alert color="danger">User name or password incorrect</Alert>
+              )}
+
               <h2>Login</h2>
               <label>Username </label>
               <input

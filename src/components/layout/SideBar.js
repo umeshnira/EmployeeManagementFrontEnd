@@ -67,7 +67,6 @@ function SideBar(props) {
   // Function ---------------------------
   const toggle = React.useCallback(
     (tab) => {
-      console.log(tab);
       if (activeSideBar !== tab) {
         setActiveSideBar(tab);
       }
@@ -79,14 +78,19 @@ function SideBar(props) {
     let sideBar = null;
     if (empSettingsPaths.includes(window.location.pathname)) {
       setIsOpenEmpDropDown(true);
+      setChangedSideBar(null);
     } else if (projectsPaths.includes(window.location.pathname)) {
       setIsOpenProjectsDropDown(true);
+      setChangedSideBar(null);
     } else if (payRoll.includes(window.location.pathname)) {
       setIsOpenPayRoll(true);
+      setChangedSideBar(null);
     } else if (finance.includes(window.location.pathname)) {
       setIsOpenFinance(true);
+      setChangedSideBar(null);
     } else if (helpdesk.includes(window.location.pathname)) {
       setIsOpenHelpdesk(true);
+      setChangedSideBar(null);
     }
 
     adminSettingPaths.includes(window.location.pathname) &&
@@ -159,48 +163,54 @@ function SideBar(props) {
             ></img>
           </strong>
         </div>
-        {loginUser !== null &&
-          loginUser.RoleName === "Admin" &&
-          changedSideBar === null && (
-            <AdminSideBar
-              loginUser={loginUser}
-              activeSideBar={activeSideBar}
-              toggle={toggle}
-              handleProject={{
-                func: handleOpenProject,
-                state: isOpenProjectsDropDown,
-              }}
-              handleEmployeeSetting={{
-                func: handleOpenEmployeeSettings,
-                state: isOpenEmpDropDown,
-              }}
-              handlePayRoll={{
-                func: handleOpenPayRoll,
-                state: isOpenPayRroll,
-              }}
-              handleFinance={{
-                func: handleOpenFinance,
-                state: isOpenFinance,
-              }}
-            ></AdminSideBar>
-          )}
-        {loginUser !== null &&
-          loginUser.RoleName !== "Admin" &&
-          changedSideBar === null && (
-            <EmployeeSideBar
-              loginUser={loginUser}
-              handleProject={{
-                func: handleOpenProject,
-                state: isOpenProjectsDropDown,
-              }}
-              handleHelpDesk={{
-                func: handleOpenHelpDesk,
-                state: isOpenHelpdesk,
-              }}
-              activeSideBar={activeSideBar}
-              toggle={toggle}
-            ></EmployeeSideBar>
-          )}
+        {changedSideBar === null ? (
+          <Fragment>
+            {loginUser !== null &&
+              loginUser.RoleName === "Admin" &&
+              changedSideBar === null && (
+                <AdminSideBar
+                  loginUser={loginUser}
+                  activeSideBar={activeSideBar}
+                  toggle={toggle}
+                  handleProject={{
+                    func: handleOpenProject,
+                    state: isOpenProjectsDropDown,
+                  }}
+                  handleEmployeeSetting={{
+                    func: handleOpenEmployeeSettings,
+                    state: isOpenEmpDropDown,
+                  }}
+                  handlePayRoll={{
+                    func: handleOpenPayRoll,
+                    state: isOpenPayRroll,
+                  }}
+                  handleFinance={{
+                    func: handleOpenFinance,
+                    state: isOpenFinance,
+                  }}
+                ></AdminSideBar>
+              )}
+            {loginUser !== null &&
+              loginUser.RoleName !== "Admin" &&
+              changedSideBar === null && (
+                <EmployeeSideBar
+                  loginUser={loginUser}
+                  handleProject={{
+                    func: handleOpenProject,
+                    state: isOpenProjectsDropDown,
+                  }}
+                  handleHelpDesk={{
+                    func: handleOpenHelpDesk,
+                    state: isOpenHelpdesk,
+                  }}
+                  activeSideBar={activeSideBar}
+                  toggle={toggle}
+                ></EmployeeSideBar>
+              )}
+          </Fragment>
+        ) : (
+          changedSideBar
+        )}
       </nav>
     </Fragment>
   );

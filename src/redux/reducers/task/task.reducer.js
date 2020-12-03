@@ -16,6 +16,7 @@ const initialState = {
   taskProjectId: "",
   projectNames: [],
   tasksOfProject: [],
+  taskProjectInfo: {},
 };
 
 export default function (state = initialState, action) {

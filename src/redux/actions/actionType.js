@@ -2,6 +2,7 @@
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const CHECK_LOGIN = "CHECK_LOGIN";
+export const LOGIN_FAILD = "LOGIN_FAILD";
 
 // admin setting action type.
 // designation action type.
