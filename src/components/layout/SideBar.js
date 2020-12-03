@@ -98,13 +98,14 @@ function SideBar(props) {
         <AdminSettingsSideBar
           toggle={(toggleTab) => toggle(toggleTab)}
           activeTab={activeSideBar}
+          loginUser={loginUser}
         />
       ));
 
     taskPaths.includes(window.location.pathname) &&
       (sideBar = <TaskSideBar></TaskSideBar>);
     setChangedSideBar(sideBar);
-  }, [activeSideBar, toggle]);
+  }, [activeSideBar, toggle, loginUser]);
 
   const handleAdminSettingClick = () => {
     props.history.push("/adminsettings");
@@ -134,7 +135,6 @@ function SideBar(props) {
   const handleOpenFinance = () => {
     setIsOpenFinance((prevState) => !prevState);
   };
-  console.log(role);
   return (
     <Fragment>
       <nav id="sidebar" className={props.sideBar ? "active" : ""}>

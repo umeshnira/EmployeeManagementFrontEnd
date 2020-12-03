@@ -1,14 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
 import classnames from "classnames";
 
 export default function AdminSettingsSideBar(props) {
-  const { activeTab, toggle } = props;
+  const { activeTab, toggle, loginUser } = props;
+  const [backToHome, setBackToHome] = useState(null);
+
+  // console.log(loginUser);
+  // useEffect(() => {
+  //   if (loginUser !== null) {
+  //     if (loginUser.RoleName === "Admin") {
+  //       setBackToHome("/adminDashboard");
+  //     } else {
+  //       setBackToHome("/employeeDashboard");
+  //     }
+  //   }
+  // }, [loginUser]);
 
   return (
     <Fragment>
       <ul className="list-unstyled components">
         <li className={classnames({ active: activeTab === "1" })}>
-          <a href="/" aria-expanded="false" onClick={() => toggle("1")}>
+          <a
+            href={"/adminDashboard"}
+            aria-expanded="false"
+            onClick={() => toggle("1")}
+          >
             <i className="fas fa-home"></i>
             <span>Back to Home</span>
           </a>
