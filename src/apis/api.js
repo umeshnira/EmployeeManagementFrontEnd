@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:63306/api/";
+// const baseUrl = "http://localhost:63306/api/";
+const baseUrl = "http://20.51.211.208/EmployeeManagementAPI/api/";
 
 export default {
   // Accounts api's-----------------------------------------------------------------

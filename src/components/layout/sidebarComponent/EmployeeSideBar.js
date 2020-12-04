@@ -38,12 +38,15 @@ const sideBarDatas = {
   myRewards: {
     menuName: "My Rewards",
     menuIcon: "fab fa-product-hunt",
-    route: `/empRewards/${user.EmployeeId}`,
+    route: `/empRewards`,
+
+    // route: `/empRewards/${user.EmployeeId}`,
   },
   myProfile: {
     menuName: "My Profile",
     menuIcon: "fab fa-product-hunt",
-    route: `/empProfile/${user.EmployeeId}`,
+    route: `/empProfile`,
+    // route: `/empProfile/${user.EmployeeId}`,
   },
 
   helpdesk: {
@@ -100,7 +103,7 @@ const EmployeeSideBar = ({
         ></LiSingleTreeElement>
         {/* My Reward */}
         <LiSingleTreeElement
-          route={sideBarDatas.myRewards.route}
+          route={`${sideBarDatas.myRewards.route}/${loginUser.EmployeeId}`}
           menuIcon={sideBarDatas.myRewards.menuIcon}
           menuName={sideBarDatas.myRewards.menuName}
           activeSideBar={activeSideBar}
@@ -108,7 +111,7 @@ const EmployeeSideBar = ({
         ></LiSingleTreeElement>
         {/* My profile */}
         <LiSingleTreeElement
-          route={sideBarDatas.myProfile.route}
+          route={`${sideBarDatas.myProfile.route}/${loginUser.EmployeeId}`}
           menuIcon={sideBarDatas.myProfile.menuIcon}
           menuName={sideBarDatas.myProfile.menuName}
           activeSideBar={activeSideBar}

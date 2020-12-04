@@ -60,7 +60,9 @@ const TabRewards = ({ employeeId }) => {
         totalPointsAchived,
         totalRedmeededPoints
       );
-      setBalPointsToRedeem(balPointsNeedToRedeem);
+      setBalPointsToRedeem(
+        isNaN(balPointsNeedToRedeem) ? 0 : balPointsNeedToRedeem
+      );
     }
   }, [totalPointsAchived, totalRedmeededPoints]);
 
@@ -133,7 +135,8 @@ const TabRewards = ({ employeeId }) => {
                   <Col sm={4} xs={4}>
                     <div className=" ">
                       <div className="rounded-div three">
-                        {balPointsToRedeem}
+                        {console.log(balPointsToRedeem)}
+                        {balPointsToRedeem ?? 0}
                       </div>
                       <span className="text">Points need to Redeem</span>
                     </div>

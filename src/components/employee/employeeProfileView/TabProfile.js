@@ -720,7 +720,6 @@ const TabProfile = React.memo((props) => {
       </Form>
     </Fragment>
   );
-  console.log("Tab profile");
   //===================End of Form ====================
   return (
     <div className="profile-box">

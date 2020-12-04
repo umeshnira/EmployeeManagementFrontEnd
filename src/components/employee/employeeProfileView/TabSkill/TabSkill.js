@@ -132,7 +132,6 @@ const TabSkill = React.memo(({ employeeId, ...props }) => {
 
   return (
     <div className="skill-box ">
-      {console.log("tab skills")}
       {/* {empSkill.length > 0 ? ( */}
       <Row>
         {empSkill.map((empSkill, i) => (

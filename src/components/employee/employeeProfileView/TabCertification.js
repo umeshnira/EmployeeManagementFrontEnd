@@ -117,7 +117,6 @@ const TabCertification = React.memo(({ employeeId, ...props }) => {
 
   return (
     <Fragment>
-      {console.log("tab certificate")}
       <Row className="certication-box mt-2">
         <Col sm={4}>
           <Card

@@ -190,6 +190,7 @@ function SideBar(props) {
                   }}
                 ></AdminSideBar>
               )}
+
             {loginUser !== null &&
               loginUser.RoleName !== "Admin" &&
               changedSideBar === null && (

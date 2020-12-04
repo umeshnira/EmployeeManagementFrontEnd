@@ -25,7 +25,7 @@ const Header = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    props.history.push("/");
+    props.history.push("/em");
   };
 
   return (
