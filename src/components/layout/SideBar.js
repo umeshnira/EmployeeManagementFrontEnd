@@ -19,34 +19,38 @@ const role = user.RoleName;
 // const role = "developer";
 
 const adminSettingPaths = [
-  "/companylocation",
-  "/department",
-  "/designation",
-  "/workprimise",
-  "/employeetype",
-  "/reward",
-  "/leavetype",
-  "/holidaycalender",
-  "/companypolicy",
-  "/rolesndpermission",
-  "/assets",
+  "/em/companylocation",
+  "/em/department",
+  "/em/designation",
+  "/em/workprimise",
+  "/em/employeetype",
+  "/em/reward",
+  "/em/leavetype",
+  "/em/holidaycalender",
+  "/em/companypolicy",
+  "/em/rolesndpermission",
+  "/em/assets",
 ];
-const empSettingsPaths = ["/emplist", "/assignRewards", "/processRewards"];
-const projectsPaths = ["/listProjects", "/viewProject", "/taskboard"];
-const taskPaths = ["/taskManagment"];
+const empSettingsPaths = [
+  "/em/emplist",
+  "/em/assignRewards",
+  "/em/processRewards",
+];
+const projectsPaths = ["/em/listProjects", "/em/viewProject", "/em/taskboard"];
+const taskPaths = ["/em/taskManagment"];
 const payRoll = [
-  "/employeeSalary",
-  "/payRollItems",
-  "/processSalary",
-  "/salaryReport",
-  "/plReport",
+  "/em/employeeSalary",
+  "/em/payRollItems",
+  "/em/processSalary",
+  "/em/salaryReport",
+  "/em/plReport",
 ];
-const finance = ["/pettyCash", "/giftVoucher", "/invoice"];
+const finance = ["/em/pettyCash", "/em/giftVoucher", "/em/invoice"];
 const helpdesk = [
-  "/helpdesk",
-  "/ticketDetails",
-  "/ListAllTicktes",
-  "/adminListAllTickets",
+  "/em/helpdesk",
+  "/em/ticketDetails",
+  "/em/ListAllTicktes",
+  "/em/adminListAllTickets",
 ];
 
 function SideBar(props) {
@@ -108,7 +112,7 @@ function SideBar(props) {
   }, [activeSideBar, toggle, loginUser]);
 
   const handleAdminSettingClick = () => {
-    props.history.push("/adminsettings");
+    props.history.push("/em/adminsettings");
   };
 
   // handle open project dropdown.

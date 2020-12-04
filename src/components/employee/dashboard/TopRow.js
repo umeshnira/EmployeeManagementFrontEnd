@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Card, CardBody, CardTitle } from "reactstrap";
 
-const TopRow = () => {
+const TopRow = ({ loginUser }) => {
   return (
     <Fragment>
       {/* <Card className="project-view-crad mb-4">
@@ -11,7 +11,7 @@ const TopRow = () => {
           <img alt="" src={require(`../../../img/employee/avatar-01.jpg`)} />
         </div>
         <div className="welcome-data">
-          <h3>Jerry malikakal</h3>
+          <h3>{loginUser?.aud ?? ""}</h3>
           <span>Monday, 20 May 2020</span>
         </div>
       </div>

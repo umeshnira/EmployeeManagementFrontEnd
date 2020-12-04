@@ -23,12 +23,16 @@ const Login = (props) => {
   useEffect(() => {
     if (loginUser !== null) {
       if (loginUser.RoleName === "Admin") {
-        setRedirect(<Redirect to="/adminDashboard"></Redirect>);
+        setRedirect(<Redirect to="/em/adminDashboard"></Redirect>);
       } else {
-        setRedirect(<Redirect to="/employeeDashboard"></Redirect>);
+        setRedirect(<Redirect to="/em/employeeDashboard"></Redirect>);
       }
     }
   }, [loginUser]);
+
+  useEffect(() => {
+    console.log(window.location.pathname);
+  }, []);
 
   const handleClickSign = async (e) => {
     e.preventDefault();

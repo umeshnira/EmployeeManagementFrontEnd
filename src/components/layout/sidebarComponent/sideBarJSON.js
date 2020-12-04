@@ -2,12 +2,12 @@ export const adminSideBar = {
   dashboard: {
     menuName: "Dashboard",
     menuIcon: "fab fa-product-hunt",
-    route: "/adminDashboard",
+    route: "/em/adminDashboard",
   },
   adminSettings: {
     menuName: "Admin Settings",
     menuIcon: "fas fa-briefcase",
-    route: "/companylocation",
+    route: "/em/companylocation",
   },
   project: {
     menuName: "Project Board",
@@ -16,17 +16,17 @@ export const adminSideBar = {
       {
         subMenuName: "Project List",
         icon: "fas fab fa-product-hunt",
-        route: "/listProjects",
+        route: "/em/listProjects",
       },
       {
         subMenuName: "Back Logs",
         icon: "fas fab fa-product-hunt",
-        route: "/taskManagment",
+        route: "/em/taskManagment",
       },
       {
         subMenuName: "Task Board",
         icon: "fas fab fa-product-hunt",
-        route: "/taskBoard/54",
+        route: "/em/taskBoard/54",
       },
     ],
   },
@@ -37,17 +37,17 @@ export const adminSideBar = {
       {
         subMenuName: "All Employee",
         icon: "fas fab fa-product-hunt",
-        route: "/emplist",
+        route: "/em/emplist",
       },
       {
         subMenuName: "Assign Rewards",
         icon: "fas fab fa-product-hunt",
-        route: "/assignRewards",
+        route: "/em/assignRewards",
       },
       {
         subMenuName: "Process Rewards",
         icon: "fas fab fa-product-hunt",
-        route: "/processRewards",
+        route: "/em/processRewards",
       },
     ],
   },
@@ -58,27 +58,27 @@ export const adminSideBar = {
       {
         subMenuName: "Pay Roll Items",
         icon: "fas fab fa-product-hunt",
-        route: "/payRollItems",
+        route: "/em/payRollItems",
       },
       {
         subMenuName: "Employee salary",
         icon: "fas fab fa-product-hunt",
-        route: "/employeeSalary",
+        route: "/em/employeeSalary",
       },
       {
         subMenuName: "Process Salary",
         icon: "fas fab fa-product-hunt",
-        route: "/processSalary",
+        route: "/em/processSalary",
       },
       {
         subMenuName: "Salary Report",
         icon: "fas fab fa-product-hunt",
-        route: "/salaryReport",
+        route: "/em/salaryReport",
       },
       {
         subMenuName: "Privlage Leave",
         icon: "fas fab fa-product-hunt",
-        route: "/plReport",
+        route: "/em/plReport",
       },
     ],
   },
@@ -89,17 +89,17 @@ export const adminSideBar = {
       {
         subMenuName: "Petty Cash",
         icon: "fas fab fa-product-hunt",
-        route: "/pettyCash",
+        route: "/em/pettyCash",
       },
       {
         subMenuName: "Gift Voucher",
         icon: "fas fab fa-product-hunt",
-        route: "/giftVoucher",
+        route: "/em/giftVoucher",
       },
       {
         subMenuName: "Invoice",
         icon: "fas fab fa-product-hunt",
-        route: "/invoice",
+        route: "/em/invoice",
       },
     ],
   },

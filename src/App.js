@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import history from "./history";
 
 import { PrivateRoute } from "./components/layout";
@@ -64,11 +64,17 @@ const ViewPreviousProject = React.lazy(() =>
 );
 
 function App() {
+  useEffect(() => {
+    if (window.location.pathname === "/") {
+      window.location.href = "/em";
+      // return <Redirect to="/em"></Redirect>;
+    }
+  }, []);
   return (
     <Router history={history}>
       {/* <GAListener> */}
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route exact path="/em" component={Login} />
 
         <MainLayout>
           <React.Suspense fallback={<PageSpinner />}>
@@ -117,10 +123,10 @@ function App() {
               path="/em/employeeDashboard"
               component={EmployeeDashboard}
             ></PrivateRoute>
-            <Route exact path="/emplist" component={EmployeeSettings} />
+            <Route exact path="/em/emplist" component={EmployeeSettings} />
             <Route
               exact
-              path="/empProfile/:empId"
+              path="/em/empProfile/:empId"
               component={EmployeeProfileView}
             />
             <Route

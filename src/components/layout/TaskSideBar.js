@@ -10,6 +10,8 @@ import {
   getTaskProjectId,
   addProjectFromTask,
 } from "../../redux/actions/task/task.action";
+import { getLoginUser } from "../../redux/actions/loginAuth/LoginAuth";
+
 import { getProjectsOfEmployee } from "../../redux/actions/projects/projects.action";
 
 const TaskSideBar = (props) => {
@@ -18,11 +20,16 @@ const TaskSideBar = (props) => {
     getTaskProjectId,
     getProjectsOfEmployee,
     addProjectFromTask,
+    getLoginUser,
   } = props;
   const { projectNames } = props.empTask;
+  const { login, loginUser, loginInput } = props.loginUser;
+
   const { employeeProjectList } = props.employeeProjectList;
   const [activeProject, setActiveProject] = useState(0);
   const [projectName, setProjectName] = useState("");
+  const [backToHome, setBackToHome] = useState("");
+
   const [modal, setModal] = useState(false);
 
   const toggle = React.useCallback(
@@ -35,6 +42,20 @@ const TaskSideBar = (props) => {
     getProjectsOfEmployee(empId);
     getEmployeeWorkingProjects(empId);
   }, [getEmployeeWorkingProjects, getProjectsOfEmployee]);
+
+  useEffect(() => {
+    getLoginUser();
+  }, []);
+
+  useEffect(() => {
+    if (loginUser !== null) {
+      if (loginUser.RoleName === "Admin") {
+        setBackToHome("/em/adminDashBoard");
+      } else {
+        setBackToHome("/em/employeeDashBoard");
+      }
+    }
+  }, [loginUser]);
 
   //   Function .
   // click projects.
@@ -65,7 +86,7 @@ const TaskSideBar = (props) => {
     <Fragment>
       <ul className="list-unstyled components">
         <li className="">
-          <a href="/adminDashboard">
+          <a href={backToHome}>
             <i className="fas fa-home"></i>
             <span>Back Home</span>
           </a>
@@ -105,6 +126,7 @@ const TaskSideBar = (props) => {
 const mapStateToProps = (state) => ({
   empTask: state.taskReducer,
   employeeProjectList: state.projectReducer,
+  loginUser: state.loginAuthReducer,
 });
 
 export default connect(mapStateToProps, {
@@ -112,4 +134,5 @@ export default connect(mapStateToProps, {
   getProjectsOfEmployee,
   getTaskProjectId,
   addProjectFromTask,
+  getLoginUser,
 })(TaskSideBar);

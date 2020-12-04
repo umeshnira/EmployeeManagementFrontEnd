@@ -24,8 +24,10 @@ const Header = (props) => {
   // handle logout.
 
   const handleLogout = () => {
+    // props.history.push("/em");
+
     localStorage.removeItem("user");
-    props.history.push("/em");
+    window.location.href = "/em";
   };
 
   return (

@@ -10,12 +10,12 @@ const sideBarDatas = {
   dashboard: {
     menuName: "Dashboard",
     menuIcon: "fab fa-product-hunt",
-    route: "/employeeDashboard",
+    route: "/em/employeeDashboard",
   },
   dailyWorkStatus: {
     menuName: "Daily Work Status",
     menuIcon: "fab fa-product-hunt",
-    route: "/dailyWorkStatus",
+    route: "/em/dailyWorkStatus",
   },
 
   "project board": {
@@ -25,12 +25,12 @@ const sideBarDatas = {
       {
         icon: "fas fab fa-product-hunt",
         subMenuName: "Back Logs",
-        route: "/taskManagment",
+        route: "/em/taskManagment",
       },
       {
         icon: "fas fab fa-product-hunt",
         subMenuName: "Task Board",
-        route: "/taskBoard/54",
+        route: "/em/taskBoard/54",
       },
     ],
   },
@@ -38,14 +38,14 @@ const sideBarDatas = {
   myRewards: {
     menuName: "My Rewards",
     menuIcon: "fab fa-product-hunt",
-    route: `/empRewards`,
+    route: `/em/empRewards`,
 
     // route: `/empRewards/${user.EmployeeId}`,
   },
   myProfile: {
     menuName: "My Profile",
     menuIcon: "fab fa-product-hunt",
-    route: `/empProfile`,
+    route: `/em/empProfile`,
     // route: `/empProfile/${user.EmployeeId}`,
   },
 
@@ -56,22 +56,22 @@ const sideBarDatas = {
       {
         icon: "fas fab fa-product-hunt",
         subMenuName: "HelpDesk",
-        route: "/helpdesk",
+        route: "/em/helpdesk",
       },
       {
         icon: "fas fab fa-product-hunt",
         subMenuName: "Ticket Details",
-        route: "/ticketDetails",
+        route: "/em/ticketDetails",
       },
       {
         icon: "fas fab fa-product-hunt",
         subMenuName: "My Tickets",
-        route: "/ListAllTicktes",
+        route: "/em/ListAllTicktes",
       },
       {
         icon: "fas fab fa-product-hunt",
         subMenuName: "All Tickets",
-        route: "/adminListAllTickets",
+        route: "/em/adminListAllTickets",
       },
     ],
   },

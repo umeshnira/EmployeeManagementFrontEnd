@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Row, Col, Button } from "reactstrap";
 import {
   TopRow,
@@ -7,14 +7,23 @@ import {
   UpcomingHoliday,
   InfoCard,
 } from "../../components/employee/index";
+import { connect } from "react-redux";
+import { getLoginUser } from "../../redux/actions/loginAuth/LoginAuth";
 import { employeeDashboard } from "../../datas/employee";
 
-const EmployeeDashboard = () => {
+const EmployeeDashboard = (props) => {
+  const { getLoginUser } = props;
+  const { loginUser } = props.loginUser;
+
+  useEffect(() => {
+    getLoginUser();
+  }, []);
+
   return (
     <Fragment>
       <Row className=" ">
         <Col xs={12} sm={12} md={12} lg={12}>
-          <TopRow></TopRow>
+          <TopRow loginUser={loginUser}></TopRow>
         </Col>
       </Row>
       <Row className="employee-dashboard">
@@ -82,4 +91,10 @@ const EmployeeDashboard = () => {
   );
 };
 
-export default EmployeeDashboard;
+const mapStateToProps = (state) => ({
+  loginUser: state.loginAuthReducer,
+});
+
+export default connect(mapStateToProps, {
+  getLoginUser,
+})(EmployeeDashboard);
